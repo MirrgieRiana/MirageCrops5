@@ -17,3 +17,4 @@ build/natives/
 build/resources/
 build/sources/
 build/classes/
+bin/
