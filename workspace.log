@@ -1,0 +1,12 @@
+gradlew --daemon setupDecompWorkspace
+gradlew --daemon eclipse
+
+eclipse→設定→java→コンパイラー→コンパイラー準拠レベル = 1.8
+eclipse→設定→java→コンパイラー→デフォルトの準拠設定の使用 = true
+eclipse→設定→java→コードスタイル→クリーンアップ
+	hym_formatterから読み込み
+eclipse→設定→java→コードスタイル→フォーマッター
+	hym_cleanupから読み込み
+eclipse→設定→java→エディタ→保管アクション
+	クリーンアップと同じ設定
+
