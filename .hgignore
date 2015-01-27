@@ -1,0 +1,11 @@
+syntax: glob
+eclipse/
+gradle/
+MinecraftForge-*.txt
+*-fml.txt
+README.txt
+gradlew
+gradlew.bat
+forge-*-changelog.txt
+.gradle/
+build/.gitignore
