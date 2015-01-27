@@ -1,0 +1,94 @@
+use strict;
+use warnings;
+
+sub files_of_dir( $ )
+{
+	my $dirname = shift;
+	
+	opendir(my $d, $ARGV{mlib});
+	
+	my @files;
+	foreach(readdir($d)){
+		next if /^\.{1,2}$/;
+		push @files, $_;
+	}
+	
+	closedir($d);
+	
+	return @files;
+}
+
+sub command_to_filename( $ )
+{
+	my $filename = shift;
+	
+	return $ARGV{mlib}."/".$filename.".pl"
+}
+
+sub commands()
+{
+	return map {
+		if ($_ =~ /\.pl\Z/) {
+			$`;
+		} else {
+			();
+		}
+	} grep {
+		-f $ARGV{mlib}."/".$_
+	} files_of_dir $ARGV{mlib};
+}
+
+use App::Options(
+	values => \%ARGV,
+	option => {
+		option_file => {
+			default => "mirrgw.conf"
+		},
+		mlib => {
+			type => 'string',
+			default => '../mirrg.mirrgw20'
+		},
+		returncode => {
+			type => 'boolean',
+			default => 0,
+		},
+	},
+	print_usage => sub {
+		App::Options->print_usage(@_);
+		print << 'END';
+args:
+        <command> [command_args]
+END
+		print "command:\n";
+		print join("\n", map {
+			(" " x 8 . $_) . " " x (34 - length $_) . command_to_filename($_)
+		} commands()), "\n";
+	},
+);
+
+# start
+
+my $command = shift @ARGV;
+unless (defined $command) {
+	print "command is undefined!", "\n";
+	print "--help to print help", "\n";
+	die;
+}
+unless (-f command_to_filename($command)) {
+	print "[".command_to_filename($command)."] is not a perl sourcecode!", "\n";
+	die;
+}
+
+# valid
+
+no warnings;
+my $res = do(command_to_filename($command));
+use warnings;
+
+if ($@) {
+	die $@;
+}
+
+if ($ARGV{returncode}) {
+	print "Return Code: ".$res, "\n";
+}
