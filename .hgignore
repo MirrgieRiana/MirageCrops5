@@ -9,3 +9,11 @@ gradlew.bat
 forge-*-changelog.txt
 .gradle/
 build/.gitignore
+build/tmp/
+build/natives/
+.project
+.classpath
+.settings/
+build/resources/
+build/sources/
+build/classes/
