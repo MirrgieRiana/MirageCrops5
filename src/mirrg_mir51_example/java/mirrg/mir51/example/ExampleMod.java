@@ -27,6 +27,8 @@ public class ExampleMod extends ModAbstract
 	@Instance(ExampleMod.MODID)
 	public static ExampleMod instance;
 
+	//
+
 	public static ExampleModuleCore exampleModuleCore = new ExampleModuleCore();
 
 	public ExampleMod()
