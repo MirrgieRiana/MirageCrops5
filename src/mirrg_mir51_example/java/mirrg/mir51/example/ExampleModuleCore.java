@@ -4,10 +4,8 @@ import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir51.item.AdaptorItemIconAutonomy;
 import mirrg.mir51.item.AdaptorItemNameAutonomy;
 import mirrg.mir51.item.ItemMir50;
-import mirrg.mir51.item.multi.AdaptorItemIconMulti;
-import mirrg.mir51.item.multi.AdaptorItemNameMulti;
-import mirrg.mir51.item.multi.AdaptorItemSubItemsMulti;
 import mirrg.mir51.item.multi.ContainerMetaItem;
+import mirrg.mir51.item.multi.HelpersItemMulti;
 import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderCreativeTab;
@@ -37,8 +35,13 @@ public class ExampleModuleCore extends ModuleAbstract
 		loaderItemSample.init(() -> {
 			ItemMir50 itemSample = new ItemMir50();
 
+			itemSample.setUnlocalizedName("sample");
+			itemSample.setTextureName("minecraft:apple");
+
 			{
 				ContainerMetaItem metaItemContainer = new ContainerMetaItem(100);
+
+				HelpersItemMulti.makeItemMulti(itemSample, metaItemContainer);
 
 				{
 					int metaId = 1;
@@ -60,14 +63,7 @@ public class ExampleModuleCore extends ModuleAbstract
 					metaItemContainer.set(metaId, metaItem);
 				}
 
-				itemSample.adaptorItemSubItems = new AdaptorItemSubItemsMulti(itemSample, metaItemContainer);
-				itemSample.adaptorItemIcon = new AdaptorItemIconMulti(itemSample, metaItemContainer);
-				itemSample.adaptorItemName = new AdaptorItemNameMulti(itemSample, metaItemContainer);
 			}
-
-			itemSample.setUnlocalizedName("sample");
-			itemSample.setTextureName("minecraft:apple");
-			itemSample.setHasSubtypes(true);
 
 			return itemSample;
 		}, "sampleItem", ExampleMod.MODID);
