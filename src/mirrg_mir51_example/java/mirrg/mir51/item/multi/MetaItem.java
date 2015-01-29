@@ -1,9 +1,9 @@
 package mirrg.mir51.item.multi;
 
-import mirrg.mir51.item.AdaptorItemIcon;
-import mirrg.mir51.item.AdaptorItemName;
-import mirrg.mir51.item.AdaptorItemSubItems;
-import mirrg.mir51.item.ItemMir50;
+import mirrg.mir50.item.AdaptorItemIcon;
+import mirrg.mir50.item.AdaptorItemName;
+import mirrg.mir50.item.AdaptorItemSubItems;
+import mirrg.mir50.item.ItemMir50;
 
 public class MetaItem
 {

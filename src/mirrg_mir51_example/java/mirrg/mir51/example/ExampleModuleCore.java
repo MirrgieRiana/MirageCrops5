@@ -1,9 +1,9 @@
 package mirrg.mir51.example;
 
+import mirrg.mir50.item.AdaptorItemIconAutonomy;
+import mirrg.mir50.item.AdaptorItemNameAutonomy;
+import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.modding.ModuleAbstract;
-import mirrg.mir51.item.AdaptorItemIconAutonomy;
-import mirrg.mir51.item.AdaptorItemNameAutonomy;
-import mirrg.mir51.item.ItemMir50;
 import mirrg.mir51.item.multi.ContainerMetaItem;
 import mirrg.mir51.item.multi.HelpersItemMulti;
 import mirrg.mir51.item.multi.MetaItem;

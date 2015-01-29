@@ -2,8 +2,8 @@ package mirrg.mir51.item.multi;
 
 import java.util.List;
 
-import mirrg.mir51.item.AdaptorItemSubItems;
-import mirrg.mir51.item.ItemMir50;
+import mirrg.mir50.item.AdaptorItemSubItems;
+import mirrg.mir50.item.ItemMir50;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package mirrg.mir51.item.multi;
 
-import mirrg.mir51.item.AdaptorItemIcon;
-import mirrg.mir51.item.ItemMir50;
+import mirrg.mir50.item.AdaptorItemIcon;
+import mirrg.mir50.item.ItemMir50;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

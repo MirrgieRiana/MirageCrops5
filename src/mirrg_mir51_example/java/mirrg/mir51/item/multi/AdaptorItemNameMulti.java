@@ -1,7 +1,7 @@
 package mirrg.mir51.item.multi;
 
-import mirrg.mir51.item.AdaptorItemName;
-import mirrg.mir51.item.ItemMir50;
+import mirrg.mir50.item.AdaptorItemName;
+import mirrg.mir50.item.ItemMir50;
 import net.minecraft.item.ItemStack;
 
 public class AdaptorItemNameMulti extends AdaptorItemName

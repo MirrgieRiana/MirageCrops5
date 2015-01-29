@@ -1,4 +1,4 @@
-package mirrg.mir51.item;
+package mirrg.mir50.item;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
