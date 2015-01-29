@@ -13,19 +13,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class AdaptorItemSubItemsMulti extends AdaptorItemSubItems
 {
 
-	protected MetaItemContainer metaItemContainer;
+	protected ContainerMetaItem containerMetaItem;
 
-	public AdaptorItemSubItemsMulti(ItemMir50 itemMir50, MetaItemContainer metaItemContainer)
+	public AdaptorItemSubItemsMulti(ItemMir50 itemMir50, ContainerMetaItem containerMetaItem)
 	{
 		super(itemMir50);
-		this.metaItemContainer = metaItemContainer;
+		this.containerMetaItem = containerMetaItem;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List itemStacks)
 	{
-		metaItemContainer.forEach(metaItem -> {
+		containerMetaItem.forEach(metaItem -> {
 			if (metaItem != null) {
 				if (metaItem.adaptorItemSubItems != null) {
 					metaItem.adaptorItemSubItems.getSubItems(item, creativeTab, itemStacks);

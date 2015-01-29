@@ -6,7 +6,7 @@ import mirrg.mir51.item.ItemMir50;
 import mirrg.mir51.item.multi.AdaptorItemIconMulti;
 import mirrg.mir51.item.multi.AdaptorItemSubItemsMulti;
 import mirrg.mir51.item.multi.MetaItem;
-import mirrg.mir51.item.multi.MetaItemContainer;
+import mirrg.mir51.item.multi.ContainerMetaItem;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
@@ -39,7 +39,7 @@ public class ExampleModuleCore extends ModuleAbstract
 			itemSample.setHasSubtypes(true);
 
 			{
-				MetaItemContainer metaItemContainer = new MetaItemContainer(100);
+				ContainerMetaItem metaItemContainer = new ContainerMetaItem(100);
 
 				{
 					int metaId = 1;

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
 
-public class MetaItemContainer extends ArrayList<MetaItem>
+public class ContainerMetaItem extends ArrayList<MetaItem>
 {
 
-	public MetaItemContainer(int initialCapacity)
+	public ContainerMetaItem(int initialCapacity)
 	{
 		super(initialCapacity);
 

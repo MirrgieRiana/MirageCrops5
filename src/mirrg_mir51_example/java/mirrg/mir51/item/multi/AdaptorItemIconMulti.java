@@ -12,18 +12,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class AdaptorItemIconMulti extends AdaptorItemIcon
 {
 
-	protected MetaItemContainer metaItemContainer;
+	protected ContainerMetaItem containerMetaItem;
 
-	public AdaptorItemIconMulti(ItemMir50 itemSample, MetaItemContainer metaItemContainer)
+	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem)
 	{
 		super(itemSample);
-		this.metaItemContainer = metaItemContainer;
+		this.containerMetaItem = containerMetaItem;
 	}
 
 	@Override
 	public IIcon getIcon(ItemStack itemStack, int pass, EntityPlayer player, ItemStack usingItem, int useRemaining)
 	{
-		MetaItem metaItem = metaItemContainer.get(itemStack);
+		MetaItem metaItem = containerMetaItem.get(itemStack);
 		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIcon(itemStack, pass, player, usingItem, useRemaining);
 		return metaItem.adaptorItemIcon.getIcon(itemStack, pass, player, usingItem, useRemaining);
 	}
@@ -31,7 +31,7 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	@Override
 	public IIcon getIcon(ItemStack itemStack, int pass)
 	{
-		MetaItem metaItem = metaItemContainer.get(itemStack);
+		MetaItem metaItem = containerMetaItem.get(itemStack);
 		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIcon(itemStack, pass);
 		return metaItem.adaptorItemIcon.getIcon(itemStack, pass);
 	}
@@ -40,7 +40,7 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamageForRenderPass(int meta, int pass)
 	{
-		MetaItem metaItem = metaItemContainer.get(meta);
+		MetaItem metaItem = containerMetaItem.get(meta);
 		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIconFromDamageForRenderPass(meta, pass);
 		return metaItem.adaptorItemIcon.getIconFromDamageForRenderPass(meta, pass);
 	}
@@ -49,7 +49,7 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta)
 	{
-		MetaItem metaItem = metaItemContainer.get(meta);
+		MetaItem metaItem = containerMetaItem.get(meta);
 		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIconFromDamage(meta);
 		return metaItem.adaptorItemIcon.getIconFromDamage(meta);
 	}
@@ -60,7 +60,7 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	{
 		super.registerIcons(iconRegister);
 
-		metaItemContainer.forEach(metaItem -> {
+		containerMetaItem.forEach(metaItem -> {
 			if (metaItem != null && metaItem.adaptorItemIcon != null) metaItem.adaptorItemIcon.registerIcons(iconRegister);
 		});
 
