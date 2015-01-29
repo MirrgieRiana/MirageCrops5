@@ -30,10 +30,12 @@ public class ExampleMod extends ModAbstract
 	//
 
 	public static ExampleModuleCore exampleModuleCore = new ExampleModuleCore();
+	public static ExampleModuleDumper exampleModuleDumper = new ExampleModuleDumper();
 
 	public ExampleMod()
 	{
 		add(exampleModuleCore);
+		add(exampleModuleDumper);
 
 		handleCreated();
 	}
