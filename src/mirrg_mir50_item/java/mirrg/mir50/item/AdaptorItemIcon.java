@@ -52,4 +52,21 @@ public class AdaptorItemIcon extends AdaptorItem
 			: itemMir50.getField_iconString();
 	}
 
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses()
+	{
+		return false;
+	}
+
+	public int getRenderPasses(int meta)
+	{
+		return requiresMultipleRenderPasses() ? 2 : 1;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack itemStack, int pass)
+	{
+		return 16777215;
+	}
+
 }

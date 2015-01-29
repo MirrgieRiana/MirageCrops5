@@ -89,6 +89,26 @@ public class ItemMir50 extends Item
 		return adaptorItemIcon.getIconString();
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses()
+	{
+		return adaptorItemIcon.requiresMultipleRenderPasses();
+	}
+
+	@Override
+	public int getRenderPasses(int meta)
+	{
+		return adaptorItemIcon.getRenderPasses(meta);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack itemStack, int pass)
+	{
+		return adaptorItemIcon.getColorFromItemStack(itemStack, pass);
+	}
+
 	//
 
 	public AdaptorItemName adaptorItemName = new AdaptorItemName(this);
