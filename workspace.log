@@ -10,3 +10,9 @@ eclipse→設定→java→コードスタイル→フォーマッター
 eclipse→設定→java→エディタ→保管アクション
 	クリーンアップと同じ設定
 
+install
+	Gradle IDE Pack 3.6.x, 0.17
+	FindBugs Eclipse Plugin 3.0.0
+	eclipse-pmd 1.4
+
+プロジェクト「Minecraft」→プロパティ→Java コンパイラー→プロジェクト固有の設定を可能にする = false
