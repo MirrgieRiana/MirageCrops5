@@ -28,17 +28,17 @@ public class ProxyClient implements IProxy
 	@Override
 	public void handle(FMLInitializationEvent event, LoaderMod loader)
 	{
-		loader.load(EnumLoadEventTiming.ClientBeforePreInit);
-		loader.load(EnumLoadEventTiming.PreInit);
-		loader.load(EnumLoadEventTiming.ClientAfterPreInit);
+		loader.load(EnumLoadEventTiming.ClientBeforeInit);
+		loader.load(EnumLoadEventTiming.Init);
+		loader.load(EnumLoadEventTiming.ClientAfterInit);
 	}
 
 	@Override
 	public void handle(FMLPostInitializationEvent event, LoaderMod loader)
 	{
-		loader.load(EnumLoadEventTiming.ClientBeforePreInit);
-		loader.load(EnumLoadEventTiming.PreInit);
-		loader.load(EnumLoadEventTiming.ClientAfterPreInit);
+		loader.load(EnumLoadEventTiming.ClientBeforePostInit);
+		loader.load(EnumLoadEventTiming.PostInit);
+		loader.load(EnumLoadEventTiming.ClientAfterPostInit);
 	}
 
 }
