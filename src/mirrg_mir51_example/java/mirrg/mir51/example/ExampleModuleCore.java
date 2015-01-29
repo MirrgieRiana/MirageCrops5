@@ -44,6 +44,14 @@ public class ExampleModuleCore extends ModuleAbstract
 				HelpersItemMulti.makeItemMulti(itemSample, metaItemContainer);
 
 				{
+					int metaId = 0;
+
+					MetaItem metaItem = new MetaItem(itemSample, metaId);
+
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
 					int metaId = 1;
 
 					MetaItem metaItem = new MetaItem(itemSample, metaId);
@@ -59,6 +67,21 @@ public class ExampleModuleCore extends ModuleAbstract
 					MetaItem metaItem = new MetaItem(itemSample, metaId);
 
 					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample2");
+
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 3;
+				}
+
+				{
+					int metaId = 4;
+
+					MetaItem metaItem = new MetaItem(itemSample, metaId);
+
+					metaItem.adaptorItemIcon = new AdaptorItemIconAutonomy(itemSample, "minecraft:fish_cod_raw");
+					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample4");
 
 					metaItemContainer.set(metaId, metaItem);
 				}
