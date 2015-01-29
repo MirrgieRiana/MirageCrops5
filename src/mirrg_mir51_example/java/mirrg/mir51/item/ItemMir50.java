@@ -95,12 +95,12 @@ public class ItemMir50 extends Item
 
 	public final void setField_unlocalizedName(String unlocalizedName)
 	{
-		setUnlocalizedName(unlocalizedName);
+		super.setUnlocalizedName(unlocalizedName);
 	}
 
 	public final String getField_unlocalizedName()
 	{
-		return getUnlocalizedName().substring(5);
+		return super.getUnlocalizedName().substring(5);
 	}
 
 	@Override
