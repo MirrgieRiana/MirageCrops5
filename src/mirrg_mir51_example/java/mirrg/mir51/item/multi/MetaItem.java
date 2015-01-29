@@ -1,6 +1,7 @@
 package mirrg.mir51.item.multi;
 
 import mirrg.mir51.item.AdaptorItemIcon;
+import mirrg.mir51.item.AdaptorItemName;
 import mirrg.mir51.item.AdaptorItemSubItems;
 import mirrg.mir51.item.ItemMir50;
 
@@ -19,5 +20,7 @@ public class MetaItem
 	public AdaptorItemSubItems adaptorItemSubItems;
 
 	public AdaptorItemIcon adaptorItemIcon;
+
+	public AdaptorItemName adaptorItemName;
 
 }
