@@ -35,21 +35,21 @@ public class AdaptorItemIcon extends AdaptorItem
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta)
 	{
-		return itemMir50.getItemIcon();
+		return itemMir50.getField_itemIcon();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister)
 	{
-		itemMir50.setItemIcon(iconRegister.registerIcon(getIconString()));
+		itemMir50.setField_itemIcon(iconRegister.registerIcon(getIconString()));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public String getIconString()
 	{
-		return itemMir50.getField_IconString() == null
+		return itemMir50.getField_iconString() == null
 			? "MISSING_ICON_ITEM_" + Item.itemRegistry.getIDForObject(itemMir50) + "_" + itemMir50.getUnlocalizedName()
-			: itemMir50.getField_IconString();
+			: itemMir50.getField_iconString();
 	}
 
 }

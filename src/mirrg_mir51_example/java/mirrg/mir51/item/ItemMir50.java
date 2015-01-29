@@ -27,6 +27,28 @@ public class ItemMir50 extends Item
 
 	public AdaptorItemIcon adaptorItemIcon = new AdaptorItemIcon(this);
 
+	@SideOnly(Side.CLIENT)
+	public final IIcon getField_itemIcon()
+	{
+		return itemIcon;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public final void setField_itemIcon(IIcon itemIcon)
+	{
+		this.itemIcon = itemIcon;
+	}
+
+	public final String getField_iconString()
+	{
+		return iconString;
+	}
+
+	public final void setField_iconString(String iconString)
+	{
+		this.iconString = iconString;
+	}
+
 	@Override
 	public IIcon getIcon(ItemStack itemStack, int pass, EntityPlayer player, ItemStack usingItem, int useRemaining)
 	{
@@ -53,18 +75,6 @@ public class ItemMir50 extends Item
 		return adaptorItemIcon.getIconFromDamage(meta);
 	}
 
-	@SideOnly(Side.CLIENT)
-	public IIcon getItemIcon()
-	{
-		return itemIcon;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void setItemIcon(IIcon itemIcon)
-	{
-		this.itemIcon = itemIcon;
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister)
@@ -79,14 +89,42 @@ public class ItemMir50 extends Item
 		return adaptorItemIcon.getIconString();
 	}
 
-	public String getField_IconString()
+	//
+
+	public AdaptorItemName adaptorItemName = new AdaptorItemName(this);
+
+	public final void setField_unlocalizedName(String unlocalizedName)
 	{
-		return iconString;
+		setUnlocalizedName(unlocalizedName);
 	}
 
-	public void setField_IconString(String iconString)
+	public final String getField_unlocalizedName()
 	{
-		this.iconString = iconString;
+		return getUnlocalizedName().substring(5);
+	}
+
+	@Override
+	public Item setUnlocalizedName(String unlocalizedName)
+	{
+		return adaptorItemName.setUnlocalizedName(unlocalizedName);
+	}
+
+	@Override
+	public String getUnlocalizedNameInefficiently(ItemStack itemStack)
+	{
+		return adaptorItemName.getUnlocalizedNameInefficiently(itemStack);
+	}
+
+	@Override
+	public String getUnlocalizedName()
+	{
+		return adaptorItemName.getUnlocalizedName();
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack)
+	{
+		return adaptorItemName.getUnlocalizedName(itemStack);
 	}
 
 }
