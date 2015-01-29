@@ -2,8 +2,10 @@ package mirrg.mir51.example;
 
 import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir51.item.AdaptorItemIconAutonomy;
+import mirrg.mir51.item.AdaptorItemNameAutonomy;
 import mirrg.mir51.item.ItemMir50;
 import mirrg.mir51.item.multi.AdaptorItemIconMulti;
+import mirrg.mir51.item.multi.AdaptorItemNameMulti;
 import mirrg.mir51.item.multi.AdaptorItemSubItemsMulti;
 import mirrg.mir51.item.multi.ContainerMetaItem;
 import mirrg.mir51.item.multi.MetaItem;
@@ -53,11 +55,14 @@ public class ExampleModuleCore extends ModuleAbstract
 
 					MetaItem metaItem = new MetaItem(itemSample, metaId);
 
+					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample2");
+
 					metaItemContainer.set(metaId, metaItem);
 				}
 
 				itemSample.adaptorItemSubItems = new AdaptorItemSubItemsMulti(itemSample, metaItemContainer);
 				itemSample.adaptorItemIcon = new AdaptorItemIconMulti(itemSample, metaItemContainer);
+				itemSample.adaptorItemName = new AdaptorItemNameMulti(itemSample, metaItemContainer);
 			}
 
 			itemSample.setUnlocalizedName("sample");
