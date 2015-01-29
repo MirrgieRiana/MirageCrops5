@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.0"
+version = "0.0.1"
 group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "modid"
 
@@ -31,7 +31,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -51,13 +51,127 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// パッケージと依存関係の定義
+// 依存関係は再帰する
+@groovy.transform.Field
+def packageDependancy = [
+    "api_mirrg_mir50": [
+    ],
+    "mirrg_mir50_loader": [
+        "api_mirrg_mir50",
+    ],
+    "mirrg_mir50_modding": [
+        "mirrg_mir50_loader",
+    ],
+    "mirrg_mir51_example": [
+        "mirrg_mir51_loaders",
+        "mirrg_mir50_modding",
+    ],
+    "mirrg_mir51_loaders": [
+        "mirrg_mir50_loader",
+    ],
+    "mirrglib": [
+        "mirrg_mir51_loaders",
+        "mirrg_mir50_modding",
+    ],
+]
+
+
+
+
+
+
+
+
+
+// パッケージ一覧
+def packages = packageDependancy.keySet()
+
+// ソースセット製造
+packages.each {
+    sourceSets.create it
+}
+
+// エンコーディング指定
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+tasks["compile" + "api".capitalize() + "Java"].options.encoding = 'UTF-8'
+packages.each {
+    tasks["compile" + it.capitalize() + "Java"].options.encoding = 'UTF-8'
+}
+
+// 準拠指定
+sourceCompatibility = targetCompatibility = '1.8'
+
+// 依存の継承
+packages.each {
+    configurations[it + "Compile"].extendsFrom configurations.compile
+}
+
+// compileJavaコマンドのタスクに指定
+compileJava.dependsOn tasks["api" + "Classes"]
+packages.each {
+    compileJava.dependsOn tasks[it+ "Classes"]
+}
+
+// 梱包に指定
+jar.from sourceSets["api"].output.classesDir
+jar.from sourceSets["api"].output.resourcesDir
+packages.each {
+	jar.from sourceSets[it].output.classesDir
+	jar.from sourceSets[it].output.resourcesDir
+}
+
+def getDependancy(packageName) {
+    def res = []
+
+    def add
+    add = {
+        def list = packageDependancy[it]
+	    list.each {
+	        if (!res.contains(it)) {
+	            res.add it
+	            add it
+	        }
+	    }
+    }
+
+    add packageName
+
+    return res
+}
+
+// パッケージ依存関係の定義
+packages.each { key ->
+    getDependancy(key).each {
+
+        println key + "  depends on  " + it
+
+        tasks["compile" + key.capitalize() + "Java"].dependsOn tasks[it + "Classes"]
+
+        dependencies.add key + "Compile", files(
+            sourceSets[it].output.classesDir,
+            sourceSets[it].output.resourcesDir)
+
     }
 }
