@@ -6,6 +6,7 @@ import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
+import mirrg.mir51.loaders.LoaderRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +15,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -40,6 +43,17 @@ public class ExampleModuleCore extends ModuleAbstract
 		loaderBlockSample.setCreativeTab(loaderCreativeTab);
 		ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
 		add(loaderBlockSample);
+
+		LoaderRecipe loaderRecipe = new LoaderRecipe();
+		loaderRecipe.init(() -> {
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+				new ItemStack(loaderItemSample.get()),
+				"X X",
+				"XXX",
+				'X', "ingotGold"));
+		});
+		loaderRecipe.dependsOn(loaderItemSample);
+		add(loaderRecipe);
 
 	}
 
