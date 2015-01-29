@@ -25,6 +25,10 @@ public abstract class Loader<T> implements ILoader<T>
 
 		loadDependancies(loadEvent);
 		loadThisLoader(loadEvent);
+
+		if (loadEvent == EnumLoadEventTiming.Completed) {
+			if (!loadCompleted) throw new LoadingException(this);
+		}
 	}
 
 	protected void loadDependancies(EnumLoadEventTiming loadEvent)
@@ -36,16 +40,20 @@ public abstract class Loader<T> implements ILoader<T>
 
 	protected void set(T object)
 	{
-		if (loadCompleted) throw new LoadingException();
-		loadCompleted = true;
-
 		this.object = object;
+		loadCompleted();
+	}
+
+	protected void loadCompleted()
+	{
+		if (loadCompleted) throw new LoadingException(this);
+		loadCompleted = true;
 	}
 
 	@Override
 	public T get()
 	{
-		if (!loadCompleted) throw new LoadingException();
+		if (!loadCompleted) throw new LoadingException(this);
 		return object;
 	}
 

@@ -22,7 +22,7 @@ public enum EnumLoadEventTiming
 	ClientAfterPostInit,
 	ServerAfterPostInit,
 
-	Compile, ;
+	Completed, ;
 
 	public static final int count = values().length;
 }

@@ -6,7 +6,7 @@ public class LoaderRoot extends Loader<Void>
 	@Override
 	protected void loadThisLoader(EnumLoadEventTiming loadEvent)
 	{
-
+		if (loadEvent == EnumLoadEventTiming.Created) loadCompleted();
 	}
 
 }

@@ -6,7 +6,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-
 public abstract class ModAbstract
 {
 
@@ -114,7 +113,7 @@ public abstract class ModAbstract
 	{
 		proxy.handle(event, loader);
 
-		loader.load(EnumLoadEventTiming.Compile);
+		loader.load(EnumLoadEventTiming.Completed);
 	}
 
 }
