@@ -1,5 +1,6 @@
 package mirrg.mir51.example;
 
+import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.item.AdaptorItemIconAutonomy;
 import mirrg.mir50.item.AdaptorItemNameAutonomy;
 import mirrg.mir50.item.ItemMir50;

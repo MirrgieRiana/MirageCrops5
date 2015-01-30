@@ -1,4 +1,4 @@
-package mirrg.mir51.example;
+package mirrg.mir50.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -7,10 +7,10 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-class BlockMir50 extends Block
+public class BlockMir50 extends Block
 {
 
-	BlockMir50()
+	public BlockMir50()
 	{
 		super(Material.rock);
 		setBlockTextureName("minecraft:grass_top");
