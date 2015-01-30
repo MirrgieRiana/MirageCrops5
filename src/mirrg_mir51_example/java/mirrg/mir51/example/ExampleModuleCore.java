@@ -41,7 +41,7 @@ public class ExampleModuleCore extends ModuleAbstract
 			{
 				ContainerMetaItem metaItemContainer = new ContainerMetaItem(100);
 
-				HelpersItemMulti.makeItemMulti(itemSample, metaItemContainer);
+				HelpersItemMulti.makeItemMulti(itemSample, metaItemContainer, true);
 
 				{
 					int metaId = 0;
@@ -80,7 +80,26 @@ public class ExampleModuleCore extends ModuleAbstract
 
 					MetaItem metaItem = new MetaItem(itemSample, metaId);
 
-					metaItem.adaptorItemIcon = new AdaptorItemIconAutonomy(itemSample, "minecraft:fish_cod_raw");
+					{
+						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemSample, "minecraft:gold_ingot");
+						adaptorItemIconAutonomy.appendIcon("minecraft:fish_cod_raw");
+						metaItem.adaptorItemIcon = adaptorItemIconAutonomy;
+					}
+					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample4");
+
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 4;
+
+					MetaItem metaItem = new MetaItem(itemSample, metaId);
+
+					{
+						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemSample);
+						adaptorItemIconAutonomy.appendIcon("minecraft:iron_ingot", 0x22cc00);
+						metaItem.adaptorItemIcon = adaptorItemIconAutonomy;
+					}
 					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample4");
 
 					metaItemContainer.set(metaId, metaItem);

@@ -14,10 +14,19 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 
 	protected ContainerMetaItem containerMetaItem;
 
-	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem)
+	@SideOnly(Side.CLIENT)
+	protected boolean requiresMultipleRenderPasses;
+
+	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem, boolean requiresMultipleRenderPasses)
 	{
 		super(itemSample);
 		this.containerMetaItem = containerMetaItem;
+		this.requiresMultipleRenderPasses = requiresMultipleRenderPasses;
+	}
+
+	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem)
+	{
+		this(itemSample, containerMetaItem, false);
 	}
 
 	@Override
@@ -64,6 +73,32 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 			if (metaItem != null && metaItem.adaptorItemIcon != null) metaItem.adaptorItemIcon.registerIcons(iconRegister);
 		});
 
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses()
+	{
+		return requiresMultipleRenderPasses;
+	}
+
+	@Override
+	public int getRenderPasses(int meta)
+	{
+		if (!requiresMultipleRenderPasses()) return 1;
+
+		MetaItem metaItem = containerMetaItem.get(meta);
+		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getRenderPasses(meta);
+		return metaItem.adaptorItemIcon.getRenderPasses(meta);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack itemStack, int pass)
+	{
+		MetaItem metaItem = containerMetaItem.get(itemStack);
+		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getColorFromItemStack(itemStack, pass);
+		return metaItem.adaptorItemIcon.getColorFromItemStack(itemStack, pass);
 	}
 
 }
