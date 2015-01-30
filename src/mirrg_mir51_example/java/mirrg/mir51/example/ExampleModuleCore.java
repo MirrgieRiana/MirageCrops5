@@ -91,7 +91,7 @@ public class ExampleModuleCore extends ModuleAbstract
 				}
 
 				{
-					int metaId = 4;
+					int metaId = 5;
 
 					MetaItem metaItem = new MetaItem(itemSample, metaId);
 
