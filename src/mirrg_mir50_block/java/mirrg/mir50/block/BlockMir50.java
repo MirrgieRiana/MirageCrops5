@@ -1,8 +1,13 @@
 package mirrg.mir50.block;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.world.ColorizerGrass;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,6 +21,7 @@ public class BlockMir50 extends Block
 		setBlockTextureName("minecraft:grass_top");
 	}
 
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor()
@@ -25,33 +31,165 @@ public class BlockMir50 extends Block
 		return ColorizerGrass.getGrassColor(d0, d1);
 	}
 
+		@Override
+		@SideOnly(Side.CLIENT)
+		public int getRenderColor(int p_149741_1_)
+		{
+			return this.getBlockColor();
+		}
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
+		{
+			int l = 0;
+			int i1 = 0;
+			int j1 = 0;
+
+			for (int k1 = -1; k1 <= 1; ++k1)
+			{
+				for (int l1 = -1; l1 <= 1; ++l1)
+				{
+					int i2 = p_149720_1_.getBiomeGenForCoords(p_149720_2_ + l1, p_149720_4_ + k1).getBiomeGrassColor(p_149720_2_ + l1, p_149720_3_, p_149720_4_ + k1);
+					l += (i2 & 16711680) >> 16;
+					i1 += (i2 & 65280) >> 8;
+					j1 += i2 & 255;
+				}
+			}
+
+			return 0xffffff - ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+		}
+	*/
+
+	/*
+	@Override
+	public int damageDropped(int damage)
+	{
+		return adaptorBlockSubBlocks.damageDropped(damage);
+	}
+	*/
+
+	//
+
+	public AdaptorBlockSubBlocks adaptorBlockSubBlocks = new AdaptorBlockSubBlocks(this);
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs creativeTabs, List itemStacks)
+	{
+		adaptorBlockSubBlocks.getSubBlocks(item, creativeTabs, itemStacks);
+	}
+
+	//
+
+	public AdaptorBlockIcon adaptorBlockIcon = new AdaptorBlockIcon(this);
+
+	@SideOnly(Side.CLIENT)
+	public void setField_blockIcon(IIcon blockIcon)
+	{
+		this.blockIcon = blockIcon;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IIcon getField_blockIcon()
+	{
+		return blockIcon;
+	}
+
+	public void setField_textureName(String textureName)
+	{
+		this.textureName = textureName;
+	}
+
+	public String getField_textureName()
+	{
+		return textureName;
+	}
+
+	public void setField_unlocalizedName(String unlocalizedName)
+	{
+		super.setBlockName(unlocalizedName);
+	}
+
+	public String getField_unlocalizedName()
+	{
+		return super.getUnlocalizedName().substring(5);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
+	{
+		return adaptorBlockIcon.getIcon(blockAccess, x, y, z, side);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta)
+	{
+		return adaptorBlockIcon.getIcon(side, meta);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon func_149735_b(int side, int meta)
+	{
+		return adaptorBlockIcon.func_149735_b(side, meta);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister)
+	{
+		adaptorBlockIcon.registerBlockIcons(iconRegister);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected String getTextureName()
+	{
+		return adaptorBlockIcon.getTextureName();
+	}
+
+	@Override
+	public Block setBlockTextureName(String textureName)
+	{
+		return adaptorBlockIcon.setBlockTextureName(textureName);
+	}
+
+	/*
+	@SideOnly(Side.CLIENT)
+	public int getBlockColor()
+	{
+		return 16777215;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int p_149741_1_)
 	{
-		return this.getBlockColor();
+		return 16777215;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
 	{
-		int l = 0;
-		int i1 = 0;
-		int j1 = 0;
-
-		for (int k1 = -1; k1 <= 1; ++k1)
-		{
-			for (int l1 = -1; l1 <= 1; ++l1)
-			{
-				int i2 = p_149720_1_.getBiomeGenForCoords(p_149720_2_ + l1, p_149720_4_ + k1).getBiomeGrassColor(p_149720_2_ + l1, p_149720_3_, p_149720_4_ + k1);
-				l += (i2 & 16711680) >> 16;
-				i1 += (i2 & 65280) >> 8;
-				j1 += i2 & 255;
-			}
-		}
-
-		return 0xffffff - ((l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255);
+		return 16777215;
 	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass()
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean canRenderInPass(int pass)
+	{
+		return pass == getRenderBlockPass();
+	}
+	*/
 
 }
