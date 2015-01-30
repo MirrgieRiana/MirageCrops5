@@ -7,10 +7,10 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-class BlockSample extends Block
+class BlockMir50 extends Block
 {
 
-	BlockSample()
+	BlockMir50()
 	{
 		super(Material.rock);
 		setBlockTextureName("minecraft:grass_top");

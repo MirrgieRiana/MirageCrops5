@@ -121,7 +121,7 @@ public class ExampleModuleCore extends ModuleAbstract
 		ExampleApiModuleCore.loaderItemSample = loaderItemSample;
 		add(loaderItemSample);
 
-		loaderBlockSample.init(() -> new BlockSample(), ItemBlock.class, "sampleBlock");
+		loaderBlockSample.init(() -> new BlockMir50(), ItemBlock.class, "sampleBlock");
 		loaderBlockSample.setCreativeTab(loaderCreativeTab);
 		ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
 		add(loaderBlockSample);
