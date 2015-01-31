@@ -1,6 +1,8 @@
 package mirrg.mir51.example;
 
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.render.multiple.BlockMultipleRendering;
+import mirrg.mir50.block.render.multiple.RenderBlockMultipleRendering;
 import mirrg.mir50.item.AdaptorItemIconAutonomy;
 import mirrg.mir50.item.AdaptorItemNameAutonomy;
 import mirrg.mir50.item.ItemMir50;
@@ -26,6 +28,7 @@ public class ExampleModuleCore extends ModuleAbstract
 	public static LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
 	public static LoaderItem loaderItemSample = new LoaderItem();
 	public static LoaderBlock loaderBlockSample = new LoaderBlock();
+	public static LoaderBlock loaderBlockSample2 = new LoaderBlock();
 
 	public ExampleModuleCore()
 	{
@@ -135,6 +138,23 @@ public class ExampleModuleCore extends ModuleAbstract
 		loaderBlockSample.setCreativeTab(loaderCreativeTab);
 		ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
 		add(loaderBlockSample);
+
+		loaderBlockSample2.init(() -> {
+			BlockMultipleRendering blockMir50 = new BlockMultipleRendering(Material.rock);
+
+			blockMir50.adaptorBlockMultipleRendering.appendIcon("minecraft:grass_top", 0x739627);
+			blockMir50.adaptorBlockMultipleRendering.appendIcon("minecraft:double_plant_sunflower_front", 0x893472);
+
+			//setBlockTextureName("minecraft:grass_top");
+			//blockMir50.setBlockTextureName("minecraft:double_plant_sunflower_front");
+
+			return blockMir50;
+		}, ItemBlock.class, "sampleBlock2");
+		loaderBlockSample2.setCreativeTab(loaderCreativeTab);
+		//ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
+		add(loaderBlockSample2);
+
+		add(RenderBlockMultipleRendering.loader);
 
 		{
 			LoaderRecipe loaderRecipe = new LoaderRecipe();
