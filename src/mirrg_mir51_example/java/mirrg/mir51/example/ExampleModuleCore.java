@@ -112,6 +112,9 @@ public class ExampleModuleCore extends ModuleAbstract
 			return itemSample;
 		}, "sampleItem", ExampleMod.MODID);
 		loaderItemSample.setCreativeTab(loaderCreativeTab);
+		ExampleApiModuleCore.loaderItemSample = loaderItemSample;
+		add(loaderItemSample);
+
 		{
 			LoaderOreDictionary loaderOreDictionary = new LoaderOreDictionary();
 			loaderOreDictionary.init(() -> {
@@ -120,8 +123,6 @@ public class ExampleModuleCore extends ModuleAbstract
 			loaderOreDictionary.dependsOn(loaderItemSample);
 			add(loaderOreDictionary);
 		}
-		ExampleApiModuleCore.loaderItemSample = loaderItemSample;
-		add(loaderItemSample);
 
 		loaderBlockSample.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
