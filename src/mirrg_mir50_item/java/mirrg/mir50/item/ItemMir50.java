@@ -147,4 +147,36 @@ public class ItemMir50 extends Item
 		return adaptorItemName.getUnlocalizedName(itemStack);
 	}
 
+	//
+
+	public AdaptorItemContainerItem adaptorItemContainerItem = new AdaptorItemContainerItem(this);
+
+	public Item getField_containerItem()
+	{
+		return getContainerItem();
+	}
+
+	public void setField_containerItem(Item containerItem)
+	{
+		setContainerItem(containerItem);
+	}
+
+	@Override
+	public boolean hasContainerItem(ItemStack itemStack)
+	{
+		return adaptorItemContainerItem.hasContainerItem(itemStack);
+	}
+
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemStack)
+	{
+		return adaptorItemContainerItem.doesContainerItemLeaveCraftingGrid(itemStack);
+	}
+
+	@Override
+	public ItemStack getContainerItem(ItemStack itemStack)
+	{
+		return adaptorItemContainerItem.getContainerItem(itemStack);
+	}
+
 }
