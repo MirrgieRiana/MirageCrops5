@@ -12,6 +12,16 @@ public class LoaderSimpleBlockRenderingHandler extends Loader<ISimpleBlockRender
 
 	protected IntFunction<ISimpleBlockRenderingHandler> function;
 
+	public LoaderSimpleBlockRenderingHandler()
+	{
+
+	}
+
+	public LoaderSimpleBlockRenderingHandler(IntFunction<ISimpleBlockRenderingHandler> function)
+	{
+		init(function);
+	}
+
 	public void init(IntFunction<ISimpleBlockRenderingHandler> function)
 	{
 		this.function = function;

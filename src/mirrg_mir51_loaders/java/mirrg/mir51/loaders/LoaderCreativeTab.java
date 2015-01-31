@@ -13,6 +13,16 @@ public class LoaderCreativeTab extends Loader<CreativeTabs>
 	protected Supplier<Item> tabIconItem;
 	protected String label;
 
+	public LoaderCreativeTab()
+	{
+
+	}
+
+	public LoaderCreativeTab(Supplier<Item> tabIconItem, String label)
+	{
+		init(tabIconItem, label);
+	}
+
 	public void init(Supplier<Item> tabIconItem, String label)
 	{
 		this.tabIconItem = tabIconItem;
