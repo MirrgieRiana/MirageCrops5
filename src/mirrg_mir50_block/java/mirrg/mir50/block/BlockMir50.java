@@ -133,6 +133,18 @@ public class BlockMir50 extends Block
 		return adaptorBlockIcon.func_149735_b(side, meta);
 	}
 
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
+	{
+		return adaptorBlockIcon.colorMultiplier(blockAccess, x, y, z);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int metaId)
+	{
+		return adaptorBlockIcon.getRenderColor(metaId);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)

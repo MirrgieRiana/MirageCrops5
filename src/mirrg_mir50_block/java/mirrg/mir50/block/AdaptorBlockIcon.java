@@ -36,6 +36,18 @@ public class AdaptorBlockIcon extends AdaptorBlock
 	}
 
 	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
+	{
+		return 0xffffff;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int metaId)
+	{
+		return 0xffffff;
+	}
+
+	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
 		blockMir50.setField_blockIcon(iconRegister.registerIcon(getTextureName()));
