@@ -96,10 +96,16 @@ def packageDependancy = [
 	"mirrg_mir51_item_multi": [
 	    "mirrg_mir50_item",
 	],
+    "mirrg_mir50_block": [
+    ],
+    "mirrg_mir51_block_multi": [
+        "mirrg_mir50_block",
+    ],
     "mirrg_mir51_example": [
         "mirrg_mir51_loaders",
         "mirrg_mir50_modding",
         "mirrg_mir51_item_multi",
+        "mirrg_mir51_block_multi",
     ],
 ]
 
