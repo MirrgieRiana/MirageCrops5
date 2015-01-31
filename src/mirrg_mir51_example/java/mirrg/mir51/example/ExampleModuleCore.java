@@ -13,6 +13,7 @@ import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
 import mirrg.mir51.loaders.LoaderOreDictionary;
 import mirrg.mir51.loaders.LoaderRecipe;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -122,7 +123,14 @@ public class ExampleModuleCore extends ModuleAbstract
 		ExampleApiModuleCore.loaderItemSample = loaderItemSample;
 		add(loaderItemSample);
 
-		loaderBlockSample.init(() -> new BlockMir50(), ItemBlock.class, "sampleBlock");
+		loaderBlockSample.init(() -> {
+			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
+
+			//setBlockTextureName("minecraft:grass_top");
+			blockMir50.setBlockTextureName("minecraft:double_plant_sunflower_front");
+
+			return blockMir50;
+		}, ItemBlock.class, "sampleBlock");
 		loaderBlockSample.setCreativeTab(loaderCreativeTab);
 		ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
 		add(loaderBlockSample);

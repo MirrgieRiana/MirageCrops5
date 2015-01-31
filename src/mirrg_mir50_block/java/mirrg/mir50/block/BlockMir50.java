@@ -20,10 +20,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockMir50 extends Block
 {
 
-	public BlockMir50()
+	public BlockMir50(Material material)
 	{
-		super(Material.rock);
-		setBlockTextureName("minecraft:grass_top");
+		super(material);
 	}
 
 	/*
