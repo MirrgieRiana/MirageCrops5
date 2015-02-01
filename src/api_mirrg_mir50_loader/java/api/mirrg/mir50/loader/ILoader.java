@@ -1,8 +1,9 @@
 package api.mirrg.mir50.loader;
 
-public interface ILoader<T>
-{
+import java.util.function.Supplier;
 
-	public T get();
+@FunctionalInterface
+public interface ILoader<T> extends Supplier<T>
+{
 
 }
