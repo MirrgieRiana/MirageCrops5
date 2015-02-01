@@ -77,54 +77,72 @@ processResources
 @groovy.transform.Field
 def packageDependancy = [
 
-    "api_mirrg_mir50": [
+    /////////////////////////////////////////////////////
+
+    "api_mirrg_mir50_loader": [
     ],
 
     "mirrg_mir50_loader": [
-        "api_mirrg_mir50",
+        "api_mirrg_mir50_loader",
     ],
+
+    //
 
     "mirrg_mir50_modding": [
         "mirrg_mir50_loader",
     ],
-    "mirrg_mir51_loaders": [
+    "mirrg_mir50_loaders": [
         "mirrg_mir50_loader",
     ],
 
-    "mirrglib": [
-        "mirrg_mir51_loaders",
-        "mirrg_mir50_modding",
-    ],
+    /////////////////////////////////////////////////////
 
 	"mirrg_mir50_item": [
 	],
-	"mirrg_mir51_item_multi": [
+
+    //
+
+	"mirrg_mir50_item_multi": [
 	    "mirrg_mir50_item",
 	],
 
+    /////////////////////////////////////////////////////
+
     "mirrg_mir50_block": [
     ],
-    "mirrg_mir51_block_multi": [
+
+    //
+
+    "mirrg_mir50_block_multi": [
         "mirrg_mir50_block",
     ],
 
-    "mirrg_mir50_block_render": [
-        "mirrg_mir50_loader",
-    ],
-    "mirrg_mir50_block_render_multiple": [
-        "mirrg_mir50_block",
-        "mirrg_mir50_block_render",
+    /////////////////////////////////////////////////////
+
+    "mirrg_mir50_render_block": [
     ],
 
-    "mirrg_mir51_example": [
-        "mirrg_mir51_loaders",
+    //
+
+    //###################################################
+
+    "mirrg_mir51_render_block_multiple": [
+        "mirrg_mir50_loaders",
+        "mirrg_mir50_block",
+        "mirrg_mir50_render_block",
+    ],
+
+    //###################################################
+
+    "mirrg_mir52_example": [
+        "mirrg_mir50_loaders",
         "mirrg_mir50_modding",
-        "mirrg_mir51_item_multi",
-        "mirrg_mir51_block_multi",
-        "mirrg_mir50_block_render_multiple",
+        "mirrg_mir50_item_multi",
+        "mirrg_mir50_block_multi",
+        "mirrg_mir51_render_block_multiple",
     ],
     "mirrg_miragecrops5": [
-        "mirrg_mir51_example",
+        "mirrg_mir52_example",
     ],
 
 ]
