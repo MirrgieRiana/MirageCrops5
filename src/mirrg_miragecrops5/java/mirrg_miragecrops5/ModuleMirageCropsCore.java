@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package mirrg_miragecrops5;
 
 import mirrg.mir50.block.render.multiple.BlockMultipleRendering;
 import mirrg.mir50.item.AdaptorItemContainerItemCraftingTool;
@@ -35,7 +35,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
 
 			block.adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
-			block.adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite");
+			block.adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite", color(255, 205, 59));
 
 			return block;
 		}, ItemBlock.class, "oreCalciteGroup");
@@ -71,6 +71,11 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			}
 		});
 
+	}
+
+	private int color(int r, int g, int b)
+	{
+		return (r << 16) | (g << 8) | b;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package mirrg_miragecrops5;
 
 import mirrg.mir50.modding.ModAbstract;
 import cpw.mods.fml.common.Mod;
