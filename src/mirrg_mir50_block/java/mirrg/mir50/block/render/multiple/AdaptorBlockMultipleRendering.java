@@ -121,7 +121,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
 	{
-		if (!isInMultipleRendering) return 0xFFFFFF;
+		if (!isInMultipleRendering) return iconColors.get(0);
 		return iconColors.get(pass);
 	}
 
@@ -129,7 +129,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int metaId)
 	{
-		if (!isInMultipleRendering) return 0xFFFFFF;
+		if (!isInMultipleRendering) return iconColors.get(0);
 		return iconColors.get(pass);
 	}
 
@@ -137,6 +137,8 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
+		if (iconStrings.size() == 0) appendIcon("MISSING_ICON_BLOCK_" + this);
+
 		while (blockIcons.size() < iconStrings.size()) {
 			blockIcons.add(null);
 		}
