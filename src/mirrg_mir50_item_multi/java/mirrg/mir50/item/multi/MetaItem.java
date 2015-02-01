@@ -1,4 +1,4 @@
-package mirrg.mir51.item.multi;
+package mirrg.mir50.item.multi;
 
 import mirrg.mir50.item.AdaptorItemIcon;
 import mirrg.mir50.item.AdaptorItemName;
