@@ -106,6 +106,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 			block.setMultipleRenderPass(i);
 
 			int color = block.getMultipleRenderColor(metadata, i);
+			renderCubeInInventory(block, metadata, renderer, color);
 
 			//GL11.glColor4f(1, 1, 1, 1);
 			/*
@@ -118,7 +119,6 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 
 			//Tessellator.instance.setColorOpaque_F(((color >> 16) & 0xff) / 255.0f, ((color >> 8) & 0xff) / 255.0f, (color & 0xff) / 255.0f);
 
-			renderCubeInInventory(block, metadata, renderer, color);
 		}
 		block.setMultipleRendering(false);
 
@@ -134,7 +134,9 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		block.setMultipleRendering(true);
 		for (int i = 0; i < block.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
 			block.setMultipleRenderPass(i);
+
 			renderer.renderStandardBlock(block, x, y, z);
+
 		}
 		block.setMultipleRendering(false);
 	}
