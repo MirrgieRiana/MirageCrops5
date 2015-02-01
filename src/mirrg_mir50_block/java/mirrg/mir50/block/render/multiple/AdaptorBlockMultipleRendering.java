@@ -74,41 +74,29 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
 	{
-		setMultipleRendering(true);
 		setMultipleRenderPass(pass);
-		IIcon icon = blockMir50.getIcon(blockAccess, x, y, z, side);
-		setMultipleRendering(true);
-		return icon;
+		return blockMir50.getIcon(blockAccess, x, y, z, side);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getMultipleRenderIcon(int side, int metadata, int pass)
 	{
-		setMultipleRendering(true);
 		setMultipleRenderPass(pass);
-		IIcon icon = blockMir50.getIcon(side, metadata);
-		setMultipleRendering(true);
-		return icon;
+		return blockMir50.getIcon(side, metadata);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)
 	{
-		setMultipleRendering(true);
 		setMultipleRenderPass(pass);
-		int color = blockMir50.colorMultiplier(blockAccess, x, y, z);
-		setMultipleRendering(true);
-		return color;
+		return blockMir50.colorMultiplier(blockAccess, x, y, z);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(int metadata, int pass)
 	{
-		setMultipleRendering(true);
 		setMultipleRenderPass(pass);
-		int color = blockMir50.getRenderColor(metadata);
-		setMultipleRendering(true);
-		return color;
+		return blockMir50.getRenderColor(metadata);
 	}
 
 	///////////////////////////////////////////////////////////

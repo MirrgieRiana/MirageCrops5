@@ -101,7 +101,9 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		GL_SRC_ALPHA_SATURATE	(i,i,i,1)
 		 */
 
+		block.setMultipleRendering(true);
 		for (int i = 0; i < block.getMultipleRenderPasses(metadata); i++) {
+			block.setMultipleRenderPass(i);
 
 			int color = block.getMultipleRenderColor(metadata, i);
 
@@ -118,6 +120,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 
 			renderCubeInInventory(block, metadata, renderer, color);
 		}
+		block.setMultipleRendering(false);
 
 		GL11.glColor4f(r, g, b, a);
 
@@ -128,10 +131,12 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
 			T block, RenderBlocks renderer)
 	{
+		block.setMultipleRendering(true);
 		for (int i = 0; i < block.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
 			block.setMultipleRenderPass(i);
 			renderer.renderStandardBlock(block, x, y, z);
 		}
+		block.setMultipleRendering(false);
 	}
 
 }
