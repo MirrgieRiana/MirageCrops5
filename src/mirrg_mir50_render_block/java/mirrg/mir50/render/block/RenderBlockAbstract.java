@@ -1,4 +1,4 @@
-package mirrg.mir50.block.render;
+package mirrg.mir50.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
