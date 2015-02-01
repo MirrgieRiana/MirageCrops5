@@ -109,11 +109,11 @@ def packageDependancy = [
     ],
 
     "mirrg_mir50_block_render": [
+        "mirrg_mir50_loader",
     ],
     "mirrg_mir50_block_render_multiple": [
         "mirrg_mir50_block",
         "mirrg_mir50_block_render",
-        "mirrg_mir51_loaders",
     ],
 
     "mirrg_mir51_example": [
