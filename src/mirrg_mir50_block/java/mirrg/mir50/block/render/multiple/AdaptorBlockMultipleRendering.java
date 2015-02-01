@@ -111,7 +111,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metaId)
+	public IIcon getIcon(int side, int meta)
 	{
 		if (!isInMultipleRendering) return blockIcons.get(0);
 		return blockIcons.get(pass);
@@ -127,7 +127,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getRenderColor(int metaId)
+	public int getRenderColor(int meta)
 	{
 		if (!isInMultipleRendering) return iconColors.get(0);
 		return iconColors.get(pass);
