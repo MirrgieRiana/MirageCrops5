@@ -1,4 +1,4 @@
-package mirrg.mir50.block.render;
+package mirrg.mir50.loaders;
 
 import java.util.function.IntFunction;
 

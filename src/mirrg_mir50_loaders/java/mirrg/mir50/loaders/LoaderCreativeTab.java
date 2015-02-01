@@ -1,4 +1,4 @@
-package mirrg.mir51.loaders;
+package mirrg.mir50.loaders;
 
 import java.util.function.Supplier;
 
