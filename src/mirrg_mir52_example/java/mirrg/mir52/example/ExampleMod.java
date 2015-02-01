@@ -1,4 +1,4 @@
-package mirrg.mir51.example;
+package mirrg.mir52.example;
 
 import mirrg.mir50.modding.ModAbstract;
 import cpw.mods.fml.common.Mod;

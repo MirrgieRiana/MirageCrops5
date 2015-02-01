@@ -1,4 +1,4 @@
-package mirrg.mir51.example;
+package mirrg.mir52.example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
