@@ -1,11 +1,11 @@
-package mirrg.mir50.block.render.multiple;
+package mirrg.mir51.render.block.multiple;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import mirrg.mir50.block.render.LoaderSimpleBlockRenderingHandler;
-import mirrg.mir50.block.render.RenderBlockAbstract;
+import mirrg.mir50.loaders.LoaderSimpleBlockRenderingHandler;
+import mirrg.mir50.render.block.RenderBlockAbstract;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;

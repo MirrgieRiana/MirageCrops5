@@ -1,4 +1,4 @@
-package mirrg.mir50.block.render.multiple;
+package mirrg.mir51.render.block.multiple;
 
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
