@@ -5,8 +5,10 @@ import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.loaders.LoaderBlock;
 import mirrg.mir50.loaders.LoaderCreativeTab;
 import mirrg.mir50.loaders.LoaderItem;
+import mirrg.mir50.loaders.LoaderOreGen;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
+import mirrg.mir50.worldgen.ore.GeneratorOreXZWrapperWorldGenerator;
 import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -14,6 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -70,6 +73,9 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				dependsOn(loaderItem);
 			}
 		});
+
+		add(new LoaderOreGen(loader, () -> GeneratorOreXZWrapperWorldGenerator.createFromMinMax(
+			20, new WorldGenMinable(loaderBlock.get(), 16), 0, 128)));
 
 	}
 
