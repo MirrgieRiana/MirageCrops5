@@ -13,9 +13,12 @@ public abstract class Loader<T> implements ILoader<T>
 	protected boolean[] loaded = new boolean[EnumLoadEventTiming.count];
 	protected boolean loadCompleted = false;
 
-	public void dependsOn(Loader<?> loader)
+	public Loader<T> dependsOn(Loader<?>... loaders)
 	{
-		dependancies.add(loader);
+		for (Loader<?> loader : loaders) {
+			dependancies.add(loader);
+		}
+		return this;
 	}
 
 	public void load(EnumLoadEventTiming loadEvent)

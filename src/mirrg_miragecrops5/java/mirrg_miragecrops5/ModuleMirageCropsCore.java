@@ -68,11 +68,8 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				'X', new ItemStack(loaderItem.get(), 1, OreDictionary.WILDCARD_VALUE),
 				'Y', Blocks.iron_ore));
 
-		}) {
-			{
-				dependsOn(loaderItem);
-			}
-		});
+		})
+			.dependsOn(loaderItem));
 
 		add(new LoaderOreGen(loader, () -> GeneratorOreXZWrapperWorldGenerator.createFromMinMax(
 			20, new WorldGenMinable(loaderBlock.get(), 16), 0, 128)));
