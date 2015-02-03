@@ -25,6 +25,7 @@ public class BlockMir50 extends Block
 		super(material);
 	}
 
+	//TODO
 	/*
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -140,9 +141,9 @@ public class BlockMir50 extends Block
 	}
 
 	@SideOnly(Side.CLIENT)
-	public int getRenderColor(int metaId)
+	public int getRenderColor(int meta)
 	{
-		return adaptorBlockIcon.getRenderColor(metaId);
+		return adaptorBlockIcon.getRenderColor(meta);
 	}
 
 	@Override
@@ -248,6 +249,7 @@ public class BlockMir50 extends Block
 		return adaptorBlockHarvest.getExpDrop(world, meta, fortune);
 	}
 
+	//TODO
 	/*
 	@SideOnly(Side.CLIENT)
 	public int getBlockColor()

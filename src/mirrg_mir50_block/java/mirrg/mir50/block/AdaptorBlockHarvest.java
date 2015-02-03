@@ -30,7 +30,6 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta)
 	{
 		silk_check_meta.set(meta);
-		;
 		boolean ret = this.canSilkHarvest();
 		silk_check_meta.set(null);
 		return ret;
@@ -67,10 +66,6 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
-		/**
-		 * Returns the usual quantity dropped by the block plus a bonus of 1 to
-		 * 'i' (inclusive).
-		 */
 		return quantityDroppedWithBonus(fortune, random);
 	}
 

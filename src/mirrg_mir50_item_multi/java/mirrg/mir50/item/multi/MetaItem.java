@@ -8,12 +8,12 @@ import mirrg.mir50.item.ItemMir50;
 public class MetaItem
 {
 
-	protected ItemMir50 itemSample;
+	protected ItemMir50 itemMir50;
 	protected int meta;
 
-	public MetaItem(ItemMir50 itemSample, int meta)
+	public MetaItem(ItemMir50 itemMir50, int meta)
 	{
-		this.itemSample = itemSample;
+		this.itemMir50 = itemMir50;
 		this.meta = meta;
 	}
 
