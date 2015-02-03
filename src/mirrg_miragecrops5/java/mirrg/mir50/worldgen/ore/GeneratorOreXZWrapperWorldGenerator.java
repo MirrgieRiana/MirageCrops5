@@ -6,9 +6,9 @@ import java.util.function.ToIntFunction;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.OreGenEvent.Post;
-import api.mirrg.mir50.worldgen.ore.IGeneratorOreXZ;
+import api.mirrg.mir50.worldgen.ore.IGeneratorOreInChunk;
 
-public class GeneratorOreXZWrapperWorldGenerator implements IGeneratorOreXZ
+public class GeneratorOreXZWrapperWorldGenerator implements IGeneratorOreInChunk
 {
 
 	public static GeneratorOreXZWrapperWorldGenerator createFromMinMax(
