@@ -2,6 +2,7 @@ package mirrg_miragecrops5;
 
 import mirrg.mir40.math.HelpersString;
 import mirrg.mir50.block.AdaptorBlockName;
+import mirrg.mir50.block.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.multi.AdaptorBlockHarvestMulti;
 import mirrg.mir50.block.multi.AdaptorBlockNameMulti;
 import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMulti;
@@ -98,11 +99,11 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 					}
 
 					{
-						AdaptorBlockNameMulti adaptorBlockNameMulti = new AdaptorBlockNameMulti(block, container);
+						AdaptorBlockName adaptorBlockName = new AdaptorBlockNameAutonomy(block);
 
-						adaptorBlockNameMulti.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
+						adaptorBlockName.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
 
-						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockNameMulti;
+						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockName;
 					}
 
 					container.set(metaId, metaBlockMultipleRendering);
@@ -143,7 +144,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 					}
 
 					{
-						AdaptorBlockName adaptorBlockName = new AdaptorBlockName(block);
+						AdaptorBlockName adaptorBlockName = new AdaptorBlockNameAutonomy(block);
 
 						adaptorBlockName.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
 
