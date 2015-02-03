@@ -11,6 +11,39 @@ import api.mirrg.mir50.worldgen.ore.IGeneratorOreInChunk;
 public class GeneratorOreInChunkBridge implements IGeneratorOreInChunk
 {
 
+	public static enum EnumMinableSample
+	{
+		DIRT(32, 20, 0, 256, 1),
+		GRAVEL(32, 10, 0, 256, 1),
+		COAL(16, 20, 0, 128, 1),
+		IRON(8, 20, 0, 64, 1),
+		GOLD(8, 2, 0, 32, 1),
+		REDSTONE(7, 8, 0, 16, 1),
+		DIAMOND(7, 1, 0, 16, 1),
+		LAPIS(6, 1, 16, 16, 2),
+		SILVERFISH(8, 7, 0, 64, 1),
+		NETHER_QUARTZ(13, 16, 10, 118, 1), ;
+
+		public final int numberOfBlocks;
+		public final int density;
+		public final int argument1;
+		public final int argument2;
+		public final int type;
+
+		public static final int TYPE_MIN_MAX = 1;
+		public static final int TYPE_CONE = 2;
+
+		private EnumMinableSample(int numberOfBlocks, int density, int argument1, int argument2, int type)
+		{
+			this.numberOfBlocks = numberOfBlocks;
+			this.density = density;
+			this.argument1 = argument1;
+			this.argument2 = argument2;
+			this.type = type;
+		}
+
+	}
+
 	public static GeneratorOreInChunkBridge createFromMinMax(
 		int density, IGeneratorOreAtPoint generatorOreAtPoint, int yMin, int yMax)
 	{
