@@ -30,9 +30,9 @@ public class AdaptorBlockIcon extends AdaptorBlock
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon func_149735_b(int side, int p_149735_2_)
+	public IIcon func_149735_b(int side, int meta)
 	{
-		return getIcon(side, p_149735_2_);
+		return getIcon(side, meta);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -42,7 +42,7 @@ public class AdaptorBlockIcon extends AdaptorBlock
 	}
 
 	@SideOnly(Side.CLIENT)
-	public int getRenderColor(int metaId)
+	public int getRenderColor(int meta)
 	{
 		return 0xffffff;
 	}

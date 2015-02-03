@@ -17,7 +17,7 @@ public class AdaptorBlockSubBlocks extends AdaptorBlock
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs creativeTabs, List itemStacks)
+	public void getSubBlocks(Item item, CreativeTabs creativeTab, List itemStacks)
 	{
 		itemStacks.add(new ItemStack(item, 1, 0));
 	}
