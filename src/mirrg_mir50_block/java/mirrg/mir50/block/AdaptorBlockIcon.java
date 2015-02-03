@@ -18,7 +18,6 @@ public class AdaptorBlockIcon extends AdaptorBlock
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		//return getMeta(blockAccess, x, y, z).getIcon(blockAccess, x, y, z, side);
 		return getIcon(side, blockAccess.getBlockMetadata(x, y, z));
 	}
 
@@ -26,7 +25,6 @@ public class AdaptorBlockIcon extends AdaptorBlock
 	public IIcon getIcon(int side, int meta)
 	{
 		return blockMir50.getField_blockIcon();
-		//return getMeta(metaId).getIcon(side, meta);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -53,14 +51,6 @@ public class AdaptorBlockIcon extends AdaptorBlock
 		blockMir50.setField_blockIcon(iconRegister.registerIcon(getTextureName()));
 	}
 
-	/*
-	for (META meta : multi) {
-		if (meta != null) {
-			meta.registerBlockIcons(iconRegister);
-		}
-	}
-	*/
-
 	@SideOnly(Side.CLIENT)
 	protected String getTextureName()
 	{
@@ -74,18 +64,5 @@ public class AdaptorBlockIcon extends AdaptorBlock
 		blockMir50.setField_textureName(textureName);
 		return blockMir50;
 	}
-
-	/*
-	@SideOnly(Side.CLIENT)
-	public int getRenderBlockPass()
-	{
-		return 0;
-	}
-
-	public boolean canRenderInPass(int pass)
-	{
-		return pass == getRenderBlockPass();
-	}
-	*/
 
 }

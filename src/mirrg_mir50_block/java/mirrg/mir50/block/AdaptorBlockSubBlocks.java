@@ -22,12 +22,4 @@ public class AdaptorBlockSubBlocks extends AdaptorBlock
 		itemStacks.add(new ItemStack(item, 1, 0));
 	}
 
-	/*
-		for (META meta : multi) {
-			if (meta != null) {
-				meta.getSubBlocks(item, creativeTabs, list);
-			}
-		}
-	 */
-
 }
