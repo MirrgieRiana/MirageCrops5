@@ -7,26 +7,26 @@ import mirrg.mir50.loader.Loader;
 import mirrg.mir50.loader.LoaderRoot;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
-import api.mirrg.mir50.worldgen.ore.IGeneratorOreXZ;
+import api.mirrg.mir50.worldgen.ore.IGeneratorOreInChunk;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class LoaderOreGen extends Loader<IGeneratorOreXZ>
+public class LoaderOreGenerator extends Loader<IGeneratorOreInChunk>
 {
 
-	protected Supplier<IGeneratorOreXZ> supplier;
+	protected Supplier<IGeneratorOreInChunk> supplier;
 
-	public LoaderOreGen(LoaderRoot loaderRoot)
+	public LoaderOreGenerator(LoaderRoot loaderRoot)
 	{
 		subscribeEvent(loaderRoot);
 	}
 
-	public LoaderOreGen(LoaderRoot loaderRoot, Supplier<IGeneratorOreXZ> supplier)
+	public LoaderOreGenerator(LoaderRoot loaderRoot, Supplier<IGeneratorOreInChunk> supplier)
 	{
 		this(loaderRoot);
 		init(supplier);
 	}
 
-	public void init(Supplier<IGeneratorOreXZ> supplier)
+	public void init(Supplier<IGeneratorOreInChunk> supplier)
 	{
 		this.supplier = supplier;
 	}
@@ -65,8 +65,8 @@ public class LoaderOreGen extends Loader<IGeneratorOreXZ>
 		public void handle(OreGenEvent.Post event)
 		{
 			loaderRoot.forEach(loader -> {
-				if (loader instanceof LoaderOreGen) {
-					((LoaderOreGen) loader).get().generate(
+				if (loader instanceof LoaderOreGenerator) {
+					((LoaderOreGenerator) loader).get().generate(
 						event.world, event.rand, event.worldX, event.worldZ, event);
 				}
 			});

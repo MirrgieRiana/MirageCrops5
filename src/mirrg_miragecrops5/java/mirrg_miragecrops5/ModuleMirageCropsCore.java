@@ -8,7 +8,7 @@ import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.loaders.LoaderBlock;
 import mirrg.mir50.loaders.LoaderCreativeTab;
 import mirrg.mir50.loaders.LoaderItem;
-import mirrg.mir50.loaders.LoaderOreGen;
+import mirrg.mir50.loaders.LoaderOreGenerator;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir50.worldgen.ore.GeneratorOreXZWrapperWorldGenerator;
@@ -139,7 +139,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		})
 			.dependsOn(loaderItem));
 
-		add(new LoaderOreGen(loader, () -> GeneratorOreXZWrapperWorldGenerator.createFromMinMax(
+		add(new LoaderOreGenerator(loader, () -> GeneratorOreXZWrapperWorldGenerator.createFromMinMax(
 			20, new WorldGenMinable(loaderBlock.get(), 16), 0, 128)));
 
 	}
