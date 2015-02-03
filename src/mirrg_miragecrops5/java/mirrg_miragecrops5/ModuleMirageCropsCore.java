@@ -206,7 +206,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 	}
 
-	public void aLOG(Supplier<IGeneratorOreInChunk> supplier)
+	private void aLOG(Supplier<IGeneratorOreInChunk> supplier)
 	{
 		add(new LoaderOreGenerator(loaderModule, supplier));
 	}
