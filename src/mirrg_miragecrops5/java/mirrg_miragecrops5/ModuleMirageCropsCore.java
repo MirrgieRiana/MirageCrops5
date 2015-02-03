@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import api.mirrg.mir50.worldgen.ore.IGeneratorOreAtPoint;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModuleMirageCropsCore extends ModuleAbstract
@@ -140,7 +141,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			.dependsOn(loaderItem));
 
 		add(new LoaderOreGenerator(loader, () -> GeneratorOreInChunkBridge.createFromMinMax(
-			20, new WorldGenMinable(loaderBlock.get(), 16), 0, 128)));
+			20, IGeneratorOreAtPoint.fromWorldGenerator(new WorldGenMinable(loaderBlock.get(), 16)), 0, 128)));
 
 	}
 
