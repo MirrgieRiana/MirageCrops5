@@ -9,13 +9,11 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public interface IGeneratorOreAtPoint
 {
 
-	public void generate(World world, Random random, int x, int y, int z);
+	public boolean generate(World world, Random random, int x, int y, int z);
 
 	public static IGeneratorOreAtPoint fromWorldGenerator(WorldGenerator worldGenerator)
 	{
-		return (world, random, x, y, z) -> {
-			worldGenerator.generate(world, random, x, y, z);
-		};
+		return (world, random, x, y, z) -> worldGenerator.generate(world, random, x, y, z);
 	}
 
 }
