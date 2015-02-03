@@ -46,13 +46,25 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	public boolean isInMultipleRendering;
 
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(boolean isInMultipleRendering)
+	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering)
 	{
 		this.isInMultipleRendering = isInMultipleRendering;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(int pass)
+	public void setMultipleRendering(int metadata, boolean isInMultipleRendering)
+	{
+		this.isInMultipleRendering = isInMultipleRendering;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass)
+	{
+		this.pass = pass;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void setMultipleRenderPass(int metadata, int pass)
 	{
 		this.pass = pass;
 	}
@@ -74,7 +86,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
 	{
-		setMultipleRenderPass(pass);
+		setMultipleRenderPass(blockAccess, x, y, z, pass);
 		return blockMir50.getIcon(blockAccess, x, y, z, side);
 	}
 
@@ -88,14 +100,14 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)
 	{
-		setMultipleRenderPass(pass);
+		setMultipleRenderPass(blockAccess, x, y, z, pass);
 		return blockMir50.colorMultiplier(blockAccess, x, y, z);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(int metadata, int pass)
 	{
-		setMultipleRenderPass(pass);
+		setMultipleRenderPass(metadata, pass);
 		return blockMir50.getRenderColor(metadata);
 	}
 

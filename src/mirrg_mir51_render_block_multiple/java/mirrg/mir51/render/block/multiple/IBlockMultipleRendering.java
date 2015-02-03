@@ -9,10 +9,16 @@ public interface IBlockMultipleRendering
 {
 
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(boolean isInMultipleRendering);
+	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering);
 
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(int pass);
+	public void setMultipleRendering(int metadata, boolean isInMultipleRendering);
+
+	@SideOnly(Side.CLIENT)
+	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass);
+
+	@SideOnly(Side.CLIENT)
+	public void setMultipleRenderPass(int metadata, int pass);
 
 	//
 

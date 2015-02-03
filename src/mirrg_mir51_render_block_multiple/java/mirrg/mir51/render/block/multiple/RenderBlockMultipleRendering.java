@@ -101,9 +101,9 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		GL_SRC_ALPHA_SATURATE	(i,i,i,1)
 		 */
 
-		block.setMultipleRendering(true);
+		block.setMultipleRendering(metadata, true);
 		for (int i = 0; i < block.getMultipleRenderPasses(metadata); i++) {
-			block.setMultipleRenderPass(i);
+			block.setMultipleRenderPass(metadata, i);
 
 			int color = block.getMultipleRenderColor(metadata, i);
 			renderCubeInInventory(block, metadata, renderer, color);
@@ -120,7 +120,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 			//Tessellator.instance.setColorOpaque_F(((color >> 16) & 0xff) / 255.0f, ((color >> 8) & 0xff) / 255.0f, (color & 0xff) / 255.0f);
 
 		}
-		block.setMultipleRendering(false);
+		block.setMultipleRendering(metadata, false);
 
 		GL11.glColor4f(r, g, b, a);
 
@@ -131,14 +131,14 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
 			T block, RenderBlocks renderer)
 	{
-		block.setMultipleRendering(true);
+		block.setMultipleRendering(blockAccess, x, y, z, true);
 		for (int i = 0; i < block.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
-			block.setMultipleRenderPass(i);
+			block.setMultipleRenderPass(blockAccess, x, y, z, i);
 
 			renderer.renderStandardBlock(block, x, y, z);
 
 		}
-		block.setMultipleRendering(false);
+		block.setMultipleRendering(blockAccess, x, y, z, false);
 	}
 
 }

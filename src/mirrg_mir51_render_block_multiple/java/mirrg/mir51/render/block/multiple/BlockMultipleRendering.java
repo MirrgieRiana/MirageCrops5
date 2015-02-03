@@ -27,14 +27,30 @@ public class BlockMultipleRendering extends BlockMir50 implements IBlockMultiple
 
 	public AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(this);
 
-	public void setMultipleRendering(boolean isInMultipleRendering)
+	public void setAdaptorBlockMultipleRendering(AdaptorBlockMultipleRendering adaptorBlockMultipleRendering)
 	{
-		adaptorBlockMultipleRendering.setMultipleRendering(isInMultipleRendering);
+		this.adaptorBlockMultipleRendering = adaptorBlockMultipleRendering;
+		adaptorBlockIcon = adaptorBlockMultipleRendering;
 	}
 
-	public void setMultipleRenderPass(int pass)
+	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering)
 	{
-		adaptorBlockMultipleRendering.setMultipleRenderPass(pass);
+		adaptorBlockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
+	}
+
+	public void setMultipleRendering(int metadata, boolean isInMultipleRendering)
+	{
+		adaptorBlockMultipleRendering.setMultipleRendering(metadata, isInMultipleRendering);
+	}
+
+	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass)
+	{
+		adaptorBlockMultipleRendering.setMultipleRenderPass(blockAccess, x, y, z, pass);
+	}
+
+	public void setMultipleRenderPass(int metadata, int pass)
+	{
+		adaptorBlockMultipleRendering.setMultipleRenderPass(metadata, pass);
 	}
 
 	public int getMultipleRenderPasses(IBlockAccess blockAccess, int x, int y, int z)
