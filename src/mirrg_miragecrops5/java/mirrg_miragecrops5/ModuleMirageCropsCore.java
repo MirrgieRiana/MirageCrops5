@@ -39,10 +39,10 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 {
 
 	public LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
-	public LoaderBlock loaderBlock = new LoaderBlock();
-	public LoaderBlock loaderBlock2 = new LoaderBlock();
-	public LoaderBlock loaderBlock3 = new LoaderBlock();
-	public LoaderItem loaderItem = new LoaderItem();
+	public LoaderBlock loaderBlock_blockTest = new LoaderBlock();
+	public LoaderBlock loaderBlock_oreCalciteGroup = new LoaderBlock();
+	public LoaderBlock loaderBlock_blockCalciteGroup = new LoaderBlock();
+	public LoaderItem loaderItem_craftingToolHammerIron = new LoaderItem();
 
 	public ContainerMetaBlockMultipleRendering container1;
 	public ContainerMetaBlockMultipleRendering container2;
@@ -62,10 +62,10 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 	public ModuleMirageCropsCore()
 	{
 
-		loaderCreativeTab.init(() -> Item.getItemFromBlock(loaderBlock.get()), "MirageCrops 5");
+		loaderCreativeTab.init(() -> Item.getItemFromBlock(loaderBlock_blockTest.get()), "MirageCrops 5");
 		add(loaderCreativeTab);
 
-		loaderBlock.init(() -> {
+		loaderBlock_blockTest.init(() -> {
 			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
 
 			block.adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
@@ -73,10 +73,10 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 			return block;
 		}, ItemBlock.class, "blockTest");
-		loaderBlock.setCreativeTab(loaderCreativeTab);
-		add(loaderBlock);
+		loaderBlock_blockTest.setCreativeTab(loaderCreativeTab);
+		add(loaderBlock_blockTest);
 
-		loaderBlock2.init(() -> {
+		loaderBlock_oreCalciteGroup.init(() -> {
 			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
 
 			{
@@ -116,13 +116,13 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 			return block;
 		}, ItemBlockMulti.class, "oreCalciteGroup");
-		loaderBlock2.setItemBlockIniter(item -> {
+		loaderBlock_oreCalciteGroup.setItemBlockIniter(item -> {
 			((ItemBlockMulti) item).init(container1);
 		});
-		loaderBlock2.setCreativeTab(loaderCreativeTab);
-		add(loaderBlock2);
+		loaderBlock_oreCalciteGroup.setCreativeTab(loaderCreativeTab);
+		add(loaderBlock_oreCalciteGroup);
 
-		loaderBlock3.init(() -> {
+		loaderBlock_blockCalciteGroup.init(() -> {
 			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
 
 			{
@@ -161,13 +161,13 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 			return block;
 		}, ItemBlockMulti.class, "blockCalciteGroup");
-		loaderBlock3.setItemBlockIniter(item -> {
+		loaderBlock_blockCalciteGroup.setItemBlockIniter(item -> {
 			((ItemBlockMulti) item).init(container2);
 		});
-		loaderBlock3.setCreativeTab(loaderCreativeTab);
-		add(loaderBlock3);
+		loaderBlock_blockCalciteGroup.setCreativeTab(loaderCreativeTab);
+		add(loaderBlock_blockCalciteGroup);
 
-		loaderItem.init(() -> {
+		loaderItem_craftingToolHammerIron.init(() -> {
 			ItemMir50 itemMir50 = new ItemMir50();
 
 			itemMir50.setMaxStackSize(1);
@@ -178,8 +178,8 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 			return itemMir50;
 		}, "craftingToolHammerIron", ModMirageCrops.MODID);
-		loaderItem.setCreativeTab(loaderCreativeTab);
-		add(loaderItem);
+		loaderItem_craftingToolHammerIron.setCreativeTab(loaderCreativeTab);
+		add(loaderItem_craftingToolHammerIron);
 
 		add(new LoaderRecipe(() -> {
 
@@ -187,20 +187,20 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				new ItemStack(Items.iron_ingot, 1, 0),
 				"X",
 				"Y",
-				'X', new ItemStack(loaderItem.get(), 1, OreDictionary.WILDCARD_VALUE),
+				'X', new ItemStack(loaderItem_craftingToolHammerIron.get(), 1, OreDictionary.WILDCARD_VALUE),
 				'Y', Blocks.iron_ore));
 
 		})
-			.dependsOn(loaderItem));
+			.dependsOn(loaderItem_craftingToolHammerIron));
 
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(15, 16, 0, 128, loaderBlock2.get(), 0)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 64, loaderBlock2.get(), 1)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 56, loaderBlock2.get(), 2)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 48, loaderBlock2.get(), 3)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 32, loaderBlock2.get(), 4)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 28, loaderBlock2.get(), 5)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 24, loaderBlock2.get(), 6)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(1, 1, 0, 16, loaderBlock2.get(), 7)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(15, 16, 0, 128, loaderBlock_oreCalciteGroup.get(), 0)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 64, loaderBlock_oreCalciteGroup.get(), 1)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 56, loaderBlock_oreCalciteGroup.get(), 2)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 48, loaderBlock_oreCalciteGroup.get(), 3)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 32, loaderBlock_oreCalciteGroup.get(), 4)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 28, loaderBlock_oreCalciteGroup.get(), 5)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 24, loaderBlock_oreCalciteGroup.get(), 6)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(1, 1, 0, 16, loaderBlock_oreCalciteGroup.get(), 7)));
 
 	}
 
