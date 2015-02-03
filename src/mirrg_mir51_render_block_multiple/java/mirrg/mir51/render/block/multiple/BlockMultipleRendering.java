@@ -68,9 +68,9 @@ public class BlockMultipleRendering extends BlockMir50 implements IBlockMultiple
 		return adaptorBlockMultipleRendering.getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
 	}
 
-	public IIcon getMultipleRenderIcon(int side, int metadata, int pass)
+	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
 	{
-		return adaptorBlockMultipleRendering.getMultipleRenderIcon(side, metadata, pass);
+		return adaptorBlockMultipleRendering.getMultipleRenderIcon(metadata, side, pass);
 	}
 
 	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)

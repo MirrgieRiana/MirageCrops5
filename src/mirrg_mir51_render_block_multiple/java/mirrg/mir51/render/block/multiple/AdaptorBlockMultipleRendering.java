@@ -91,7 +91,7 @@ public class AdaptorBlockMultipleRendering extends AdaptorBlockIcon implements I
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(int side, int metadata, int pass)
+	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
 	{
 		setMultipleRenderPass(metadata, pass);
 		return blockMir50.getIcon(side, metadata);

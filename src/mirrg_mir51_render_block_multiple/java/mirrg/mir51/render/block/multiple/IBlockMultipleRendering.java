@@ -32,7 +32,7 @@ public interface IBlockMultipleRendering
 	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass);
 
 	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(int side, int metadata, int pass);
+	public IIcon getMultipleRenderIcon(int metadata, int side, int pass);
 
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass);
