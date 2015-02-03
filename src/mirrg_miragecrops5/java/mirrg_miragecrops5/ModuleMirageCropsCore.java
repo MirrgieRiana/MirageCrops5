@@ -16,21 +16,23 @@ import mirrg.mir50.loaders.LoaderOreGenerator;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir50.worldgen.ore.GeneratorOreInChunkBridge;
+import mirrg.mir50.worldgen.ore.WorldGeneratorMinableExtra;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.multi.AdaptorBlockMultipleRenderingMulti;
 import mirrg.mir51.render.block.multiple.multi.ContainerMetaBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.multi.MetaBlockMultipleRendering;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import api.mirrg.mir50.worldgen.ore.IGeneratorOreAtPoint;
+import api.mirrg.mir50.worldgen.ore.IGeneratorOreInChunk;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModuleMirageCropsCore extends ModuleAbstract
@@ -191,9 +193,23 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		})
 			.dependsOn(loaderItem));
 
-		add(new LoaderOreGenerator(loader, () -> GeneratorOreInChunkBridge.createFromMinMax(
-			20, IGeneratorOreAtPoint.Helpers.fromWorldGenerator(new WorldGenMinable(loaderBlock.get(), 16)), 0, 128)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(15, 16, 0, 128, loaderBlock2.get(), 0)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 64, loaderBlock2.get(), 1)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 56, loaderBlock2.get(), 2)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 48, loaderBlock2.get(), 3)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 32, loaderBlock2.get(), 4)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 28, loaderBlock2.get(), 5)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 24, loaderBlock2.get(), 6)));
+		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(1, 1, 0, 16, loaderBlock2.get(), 7)));
 
+	}
+
+	private IGeneratorOreInChunk createGeneratorOreInChunk(
+		int density, int numberOfBlocks, int heightMin, int heightMax, Block block, int meta)
+	{
+		return GeneratorOreInChunkBridge.createFromMinMax(
+			density, IGeneratorOreAtPoint.Helpers.fromWorldGenerator(
+				new WorldGeneratorMinableExtra(block, meta, numberOfBlocks, Blocks.stone)), heightMin, heightMax);
 	}
 
 	private int color(int r, int g, int b)
