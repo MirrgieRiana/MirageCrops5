@@ -11,7 +11,7 @@ import mirrg.mir50.loaders.LoaderItem;
 import mirrg.mir50.loaders.LoaderOreGenerator;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
-import mirrg.mir50.worldgen.ore.GeneratorOreXZWrapperWorldGenerator;
+import mirrg.mir50.worldgen.ore.GeneratorOreInChunkBridge;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.multi.AdaptorBlockMultipleRenderingMulti;
@@ -139,7 +139,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		})
 			.dependsOn(loaderItem));
 
-		add(new LoaderOreGenerator(loader, () -> GeneratorOreXZWrapperWorldGenerator.createFromMinMax(
+		add(new LoaderOreGenerator(loader, () -> GeneratorOreInChunkBridge.createFromMinMax(
 			20, new WorldGenMinable(loaderBlock.get(), 16), 0, 128)));
 
 	}
