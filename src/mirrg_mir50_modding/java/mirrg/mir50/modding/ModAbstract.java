@@ -56,11 +56,11 @@ public abstract class ModAbstract
 
 	//
 
-	public LoaderMod loader = new LoaderMod();
+	public LoaderMod loaderMod = new LoaderMod();
 
 	public void add(ModuleAbstract module)
 	{
-		loader.addModule(module);
+		loaderMod.addModule(module);
 	}
 
 	//
@@ -84,7 +84,7 @@ public abstract class ModAbstract
 
 	protected void handleCreated()
 	{
-		loader.load(EnumLoadEventTiming.Created);
+		loaderMod.load(EnumLoadEventTiming.Created);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public abstract class ModAbstract
 	 */
 	public void handle(FMLPreInitializationEvent event)
 	{
-		proxy.handle(event, loader);
+		proxy.handle(event, loaderMod);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public abstract class ModAbstract
 	 */
 	public void handle(FMLInitializationEvent event)
 	{
-		proxy.handle(event, loader);
+		proxy.handle(event, loaderMod);
 	}
 
 	/**
@@ -111,9 +111,9 @@ public abstract class ModAbstract
 	 */
 	public void handle(FMLPostInitializationEvent event)
 	{
-		proxy.handle(event, loader);
+		proxy.handle(event, loaderMod);
 
-		loader.load(EnumLoadEventTiming.Completed);
+		loaderMod.load(EnumLoadEventTiming.Completed);
 	}
 
 }

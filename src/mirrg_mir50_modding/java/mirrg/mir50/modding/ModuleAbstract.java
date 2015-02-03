@@ -5,11 +5,11 @@ import mirrg.mir50.loader.Loader;
 public class ModuleAbstract
 {
 
-	public LoaderModule loader = new LoaderModule();
+	public LoaderModule loaderModule = new LoaderModule();
 
 	protected void add(Loader<?> loader)
 	{
-		this.loader.dependsOn(loader);
+		this.loaderModule.dependsOn(loader);
 	}
 
 }

@@ -1,5 +1,7 @@
 package mirrg_miragecrops5;
 
+import java.util.function.Supplier;
+
 import mirrg.mir40.math.HelpersString;
 import mirrg.mir50.block.AdaptorBlockName;
 import mirrg.mir50.block.AdaptorBlockNameAutonomy;
@@ -193,18 +195,23 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		})
 			.dependsOn(loaderItem_craftingToolHammerIron));
 
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(15, 16, 0, 128, loaderBlock_oreCalciteGroup.get(), 0)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 64, loaderBlock_oreCalciteGroup.get(), 1)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 56, loaderBlock_oreCalciteGroup.get(), 2)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(10, 8, 0, 48, loaderBlock_oreCalciteGroup.get(), 3)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 32, loaderBlock_oreCalciteGroup.get(), 4)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 28, loaderBlock_oreCalciteGroup.get(), 5)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(2, 4, 0, 24, loaderBlock_oreCalciteGroup.get(), 6)));
-		add(new LoaderOreGenerator(loader, () -> createGeneratorOreInChunk(1, 1, 0, 16, loaderBlock_oreCalciteGroup.get(), 7)));
+		aLOG(() -> cGOIC(15, 16, 0, 128, loaderBlock_oreCalciteGroup.get(), 0));
+		aLOG(() -> cGOIC(10, 8, 0, 64, loaderBlock_oreCalciteGroup.get(), 1));
+		aLOG(() -> cGOIC(10, 8, 0, 56, loaderBlock_oreCalciteGroup.get(), 2));
+		aLOG(() -> cGOIC(10, 8, 0, 48, loaderBlock_oreCalciteGroup.get(), 3));
+		aLOG(() -> cGOIC(2, 4, 0, 32, loaderBlock_oreCalciteGroup.get(), 4));
+		aLOG(() -> cGOIC(2, 4, 0, 28, loaderBlock_oreCalciteGroup.get(), 5));
+		aLOG(() -> cGOIC(2, 4, 0, 24, loaderBlock_oreCalciteGroup.get(), 6));
+		aLOG(() -> cGOIC(1, 1, 0, 16, loaderBlock_oreCalciteGroup.get(), 7));
 
 	}
 
-	private IGeneratorOreInChunk createGeneratorOreInChunk(
+	public void aLOG(Supplier<IGeneratorOreInChunk> supplier)
+	{
+		add(new LoaderOreGenerator(loaderModule, supplier));
+	}
+
+	private IGeneratorOreInChunk cGOIC(
 		int density, int numberOfBlocks, int heightMin, int heightMax, Block block, int meta)
 	{
 		return GeneratorOreInChunkBridge.createFromMinMax(

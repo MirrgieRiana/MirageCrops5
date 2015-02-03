@@ -7,7 +7,7 @@ public class LoaderMod extends LoaderRoot
 
 	public void addModule(ModuleAbstract module)
 	{
-		dependsOn(module.loader);
+		dependsOn(module.loaderModule);
 	}
 
 }
