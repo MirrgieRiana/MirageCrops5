@@ -1,5 +1,6 @@
 package mirrg_miragecrops5;
 
+import mirrg.mir40.math.HelpersString;
 import mirrg.mir50.block.multi.AdaptorBlockHarvestMulti;
 import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMulti;
 import mirrg.mir50.block.multi.ItemBlockMulti;
@@ -35,9 +36,23 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 	public LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
 	public LoaderBlock loaderBlock = new LoaderBlock();
 	public LoaderBlock loaderBlock2 = new LoaderBlock();
+	public LoaderBlock loaderBlock3 = new LoaderBlock();
 	public LoaderItem loaderItem = new LoaderItem();
 
 	public ContainerMetaBlockMultipleRendering container1;
+	public ContainerMetaBlockMultipleRendering container2;
+
+	public static enum EnumCalciteGroup
+	{
+		calcite,
+		magnesite,
+		siderite,
+		rhodochrosite,
+		smithsonite,
+		sphaerocobaltite,
+		gaspeite,
+		otavite,
+	}
 
 	public ModuleMirageCropsCore()
 	{
@@ -52,7 +67,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			block.adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite", color(255, 205, 59));
 
 			return block;
-		}, ItemBlock.class, "oreCalciteGroup");
+		}, ItemBlock.class, "blockTest");
 		loaderBlock.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock);
 
@@ -66,33 +81,15 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
 				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
 
-				{
-					int metaId = 0;
-
+				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
+					int metaId = value.ordinal();
 					MetaBlockMultipleRendering metaBlockMultipleRendering = new MetaBlockMultipleRendering(block, metaId);
 
 					{
 						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
 
 						adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
-						adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite", color(255, 205, 59));
-
-						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
-					}
-
-					container.set(metaId, metaBlockMultipleRendering);
-				}
-
-				{
-					int metaId = 1;
-
-					MetaBlockMultipleRendering metaBlockMultipleRendering = new MetaBlockMultipleRendering(block, metaId);
-
-					{
-						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
-
-						adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
-						adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreOtavite");
+						adaptorBlockMultipleRendering.appendIcon("miragecrops5:ore" + HelpersString.toUpperCaseHead(value.name()));
 
 						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
 					}
@@ -103,16 +100,50 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				container1 = container;
 			}
 
-			block.adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
-			block.adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite", color(255, 205, 59));
-
 			return block;
-		}, ItemBlockMulti.class, "blockCalciteGroup");
+		}, ItemBlockMulti.class, "oreCalciteGroup");
 		loaderBlock2.setItemBlockIniter(item -> {
 			((ItemBlockMulti) item).init(container1);
 		});
 		loaderBlock2.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock2);
+
+		loaderBlock3.init(() -> {
+			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
+
+			{
+				ContainerMetaBlockMultipleRendering container = new ContainerMetaBlockMultipleRendering(16);
+
+				block.setAdaptorBlockMultipleRendering(new AdaptorBlockMultipleRenderingMulti(block, container));
+				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
+				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
+
+				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
+					int metaId = value.ordinal();
+					MetaBlockMultipleRendering metaBlockMultipleRendering = new MetaBlockMultipleRendering(block, metaId);
+
+					{
+						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
+
+						adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
+						adaptorBlockMultipleRendering.appendIcon("miragecrops5:block" + HelpersString.toUpperCaseHead(value.name()));
+
+						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
+					}
+
+					container.set(metaId, metaBlockMultipleRendering);
+				}
+
+				container2 = container;
+			}
+
+			return block;
+		}, ItemBlockMulti.class, "blockCalciteGroup");
+		loaderBlock3.setItemBlockIniter(item -> {
+			((ItemBlockMulti) item).init(container2);
+		});
+		loaderBlock3.setCreativeTab(loaderCreativeTab);
+		add(loaderBlock3);
 
 		loaderItem.init(() -> {
 			ItemMir50 itemMir50 = new ItemMir50();
@@ -141,7 +172,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			.dependsOn(loaderItem));
 
 		add(new LoaderOreGenerator(loader, () -> GeneratorOreInChunkBridge.createFromMinMax(
-			20, IGeneratorOreAtPoint.fromWorldGenerator(new WorldGenMinable(loaderBlock.get(), 16)), 0, 128)));
+			20, IGeneratorOreAtPoint.Helpers.fromWorldGenerator(new WorldGenMinable(loaderBlock.get(), 16)), 0, 128)));
 
 	}
 

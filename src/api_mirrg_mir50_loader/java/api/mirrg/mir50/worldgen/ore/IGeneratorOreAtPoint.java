@@ -11,9 +11,14 @@ public interface IGeneratorOreAtPoint
 
 	public boolean generate(World world, Random random, int x, int y, int z);
 
-	public static IGeneratorOreAtPoint fromWorldGenerator(WorldGenerator worldGenerator)
+	public static class Helpers
 	{
-		return (world, random, x, y, z) -> worldGenerator.generate(world, random, x, y, z);
+
+		public static IGeneratorOreAtPoint fromWorldGenerator(WorldGenerator worldGenerator)
+		{
+			return (world, random, x, y, z) -> worldGenerator.generate(world, random, x, y, z);
+		}
+
 	}
 
 }
