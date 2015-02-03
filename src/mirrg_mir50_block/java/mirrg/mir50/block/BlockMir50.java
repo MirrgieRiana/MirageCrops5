@@ -155,7 +155,7 @@ public class BlockMir50 extends Block
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected String getTextureName()
+	public String getTextureName()
 	{
 		return adaptorBlockIcon.getTextureName();
 	}
@@ -284,5 +284,24 @@ public class BlockMir50 extends Block
 		return pass == getRenderBlockPass();
 	}
 	*/
+
+	////////////////////////
+
+	public AdaptorBlockName adaptorBlockName = new AdaptorBlockName(this);
+
+	public Block setBlockName(String unlocalizedName)
+	{
+		return adaptorBlockName.setBlockName(unlocalizedName);
+	}
+
+	public String getLocalizedName()
+	{
+		return adaptorBlockName.getLocalizedName();
+	}
+
+	public String getUnlocalizedName()
+	{
+		return adaptorBlockName.getUnlocalizedName();
+	}
 
 }

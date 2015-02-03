@@ -26,7 +26,11 @@ public class ItemBlockMulti extends ItemBlock
 	{
 		MetaBlock metaBlock = containerMetaBlock.get(itemStack);
 		if (metaBlock == null || metaBlock.adaptorBlockName == null) return super.getUnlocalizedName(itemStack);
-		return metaBlock.adaptorBlockName.getUnlocalizedName(itemStack);
+		if (metaBlock.adaptorBlockName instanceof AdaptorBlockNameMulti) {
+			return ((AdaptorBlockNameMulti) metaBlock.adaptorBlockName).getUnlocalizedName(itemStack);
+		} else {
+			return metaBlock.adaptorBlockName.getUnlocalizedName();
+		}
 	}
 
 	@Override

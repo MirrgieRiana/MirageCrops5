@@ -1,7 +1,9 @@
 package mirrg_miragecrops5;
 
 import mirrg.mir40.math.HelpersString;
+import mirrg.mir50.block.AdaptorBlockName;
 import mirrg.mir50.block.multi.AdaptorBlockHarvestMulti;
+import mirrg.mir50.block.multi.AdaptorBlockNameMulti;
 import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMulti;
 import mirrg.mir50.block.multi.ItemBlockMulti;
 import mirrg.mir50.item.AdaptorItemContainerItemCraftingTool;
@@ -80,6 +82,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				block.setAdaptorBlockMultipleRendering(new AdaptorBlockMultipleRenderingMulti(block, container));
 				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
 				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
+				block.adaptorBlockName = new AdaptorBlockNameMulti(block, container);
 
 				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
 					int metaId = value.ordinal();
@@ -92,6 +95,14 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 						adaptorBlockMultipleRendering.appendIcon("miragecrops5:ore" + HelpersString.toUpperCaseHead(value.name()));
 
 						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
+					}
+
+					{
+						AdaptorBlockNameMulti adaptorBlockNameMulti = new AdaptorBlockNameMulti(block, container);
+
+						adaptorBlockNameMulti.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
+
+						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockNameMulti;
 					}
 
 					container.set(metaId, metaBlockMultipleRendering);
@@ -117,6 +128,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 				block.setAdaptorBlockMultipleRendering(new AdaptorBlockMultipleRenderingMulti(block, container));
 				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
 				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
+				block.adaptorBlockName = new AdaptorBlockNameMulti(block, container);
 
 				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
 					int metaId = value.ordinal();
@@ -125,10 +137,17 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 					{
 						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
 
-						adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
 						adaptorBlockMultipleRendering.appendIcon("miragecrops5:block" + HelpersString.toUpperCaseHead(value.name()));
 
 						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
+					}
+
+					{
+						AdaptorBlockName adaptorBlockName = new AdaptorBlockName(block);
+
+						adaptorBlockName.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
+
+						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockName;
 					}
 
 					container.set(metaId, metaBlockMultipleRendering);
