@@ -162,7 +162,7 @@ public class TestVirtualClass
 		public B()
 		{
 			virtualClass.register(IGetName.class, new GetName(this));
-			token_IGetName = virtualClass.cast(IGetName.class);
+			accessor_IGetName = virtualClass.cast(IGetName.class);
 		}
 
 		public VirtualClass getVirtualClass()
@@ -172,11 +172,11 @@ public class TestVirtualClass
 
 		//
 
-		public final IVirtualImplementationAccessor<IGetName> token_IGetName;
+		public final IVirtualImplementationAccessor<IGetName> accessor_IGetName;
 
 		public String getName()
 		{
-			return token_IGetName.get().getName();
+			return accessor_IGetName.get().getName();
 		}
 
 	}
