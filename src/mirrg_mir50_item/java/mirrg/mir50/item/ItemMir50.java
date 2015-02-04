@@ -151,12 +151,12 @@ public class ItemMir50 extends Item
 
 	public AdaptorItemContainerItem adaptorItemContainerItem = new AdaptorItemContainerItem(this);
 
-	public Item getField_containerItem()
+	public final Item getField_containerItem()
 	{
 		return getContainerItem();
 	}
 
-	public void setField_containerItem(Item containerItem)
+	public final void setField_containerItem(Item containerItem)
 	{
 		setContainerItem(containerItem);
 	}

@@ -82,33 +82,33 @@ public class BlockMir50 extends Block
 	public AdaptorBlockIcon adaptorBlockIcon = new AdaptorBlockIcon(this);
 
 	@SideOnly(Side.CLIENT)
-	public void setField_blockIcon(IIcon blockIcon)
+	public final void setField_blockIcon(IIcon blockIcon)
 	{
 		this.blockIcon = blockIcon;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon getField_blockIcon()
+	public final IIcon getField_blockIcon()
 	{
 		return blockIcon;
 	}
 
-	public void setField_textureName(String textureName)
+	public final void setField_textureName(String textureName)
 	{
 		this.textureName = textureName;
 	}
 
-	public String getField_textureName()
+	public final String getField_textureName()
 	{
 		return textureName;
 	}
 
-	public void setField_unlocalizedName(String unlocalizedName)
+	public final void setField_unlocalizedName(String unlocalizedName)
 	{
 		super.setBlockName(unlocalizedName);
 	}
 
-	public String getField_unlocalizedName()
+	public final String getField_unlocalizedName()
 	{
 		return super.getUnlocalizedName().substring(5);
 	}
