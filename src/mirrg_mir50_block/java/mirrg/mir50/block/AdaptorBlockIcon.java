@@ -52,7 +52,7 @@ public class AdaptorBlockIcon extends AdaptorBlock implements IAdaptorBlockIcon
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected String getTextureName()
+	public String getTextureName()
 	{
 		return blockMir50.getField_textureName() == null
 			? "MISSING_ICON_BLOCK_" + Block.getIdFromBlock(blockMir50) + "_" + blockMir50.getField_unlocalizedName()

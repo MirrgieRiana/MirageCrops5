@@ -72,7 +72,7 @@ public class AdaptorBlockIconMulti extends AdaptorBlockIcon
 
 	@Deprecated
 	@SideOnly(Side.CLIENT)
-	protected String getTextureName()
+	public String getTextureName()
 	{
 		return super.getTextureName();
 	}
