@@ -20,21 +20,21 @@ public class AdaptorBlockIcon extends Adaptor<BlockMir50> implements IAdaptorBlo
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		return getIcon(side, blockAccess.getBlockMetadata(x, y, z));
+		return owner.accessor_IAdaptorBlockIcon.get().getIcon(side, blockAccess.getBlockMetadata(x, y, z));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		return owner.getField_blockIcon();
+		return this.owner.getField_blockIcon();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon func_149735_b(int side, int meta)
 	{
-		return getIcon(side, meta);
+		return owner.accessor_IAdaptorBlockIcon.get().getIcon(side, meta);
 	}
 
 	@Override
@@ -55,23 +55,23 @@ public class AdaptorBlockIcon extends Adaptor<BlockMir50> implements IAdaptorBlo
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
-		owner.setField_blockIcon(iconRegister.registerIcon(getTextureName()));
+		this.owner.setField_blockIcon(iconRegister.registerIcon(owner.accessor_IAdaptorBlockIcon.get().getTextureName()));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getTextureName()
 	{
-		return owner.getField_textureName() == null
-			? "MISSING_ICON_BLOCK_" + Block.getIdFromBlock(owner) + "_" + owner.getField_unlocalizedName()
-			: owner.getField_textureName();
+		return this.owner.getField_textureName() == null
+			? "MISSING_ICON_BLOCK_" + Block.getIdFromBlock(this.owner) + "_" + this.owner.getField_unlocalizedName()
+			: this.owner.getField_textureName();
 	}
 
 	@Override
 	public Block setBlockTextureName(String textureName)
 	{
-		owner.setField_textureName(textureName);
-		return owner;
+		this.owner.setField_textureName(textureName);
+		return this.owner;
 	}
 
 }

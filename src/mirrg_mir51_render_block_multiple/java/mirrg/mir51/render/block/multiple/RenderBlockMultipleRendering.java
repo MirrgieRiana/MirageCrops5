@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 
 import mirrg.mir50.loaders.LoaderSimpleBlockRenderingHandler;
 import mirrg.mir50.render.block.RenderBlockAbstract;
+import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
@@ -28,7 +29,18 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	{
 		if (modelId != this.getRenderId()) return;
 
-		if (!(block instanceof IBlockMultipleRendering)) return;
+		IBlockMultipleRendering blockMultipleRendering = null;
+		if (block instanceof IBlockMultipleRendering) {
+			blockMultipleRendering = (IBlockMultipleRendering) block;
+		}
+		if (block instanceof IVirtualClass) {
+			if (((IVirtualClass) block).getVirtualClass().instanceOf(IBlockMultipleRendering.class)) {
+				blockMultipleRendering = ((IVirtualClass) block).getVirtualClass().cast(IBlockMultipleRendering.class).get();
+			}
+		}
+		if (blockMultipleRendering == null) {
+			return;
+		}
 
 		GL11.glPushMatrix();
 		{
@@ -36,7 +48,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 
 			{
 				renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-				renderCubeInInventoryMultiply((Block & IBlockMultipleRendering) block, metadata, renderer);
+				renderCubeInInventoryMultiply(block, blockMultipleRendering, metadata, renderer);
 			}
 
 		}
@@ -49,18 +61,29 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	{
 		if (modelId != this.getRenderId()) return false;
 
-		if (!(block instanceof IBlockMultipleRendering)) return false;
+		IBlockMultipleRendering blockMultipleRendering = null;
+		if (block instanceof IBlockMultipleRendering) {
+			blockMultipleRendering = (IBlockMultipleRendering) block;
+		}
+		if (block instanceof IVirtualClass) {
+			if (((IVirtualClass) block).getVirtualClass().instanceOf(IBlockMultipleRendering.class)) {
+				blockMultipleRendering = ((IVirtualClass) block).getVirtualClass().cast(IBlockMultipleRendering.class).get();
+			}
+		}
+		if (blockMultipleRendering == null) {
+			return false;
+		}
 
 		{
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-			renderStandardBlockMultiply(blockAccess, x, y, z, (Block & IBlockMultipleRendering) block, renderer);
+			renderStandardBlockMultiply(blockAccess, x, y, z, block, blockMultipleRendering, renderer);
 		}
 
 		return true;
 	}
 
-	public static <T extends Block & IBlockMultipleRendering>
-		void renderCubeInInventoryMultiply(T block, int metadata, RenderBlocks renderer)
+	public static void renderCubeInInventoryMultiply(
+		Block block, IBlockMultipleRendering blockMultipleRendering, int metadata, RenderBlocks renderer)
 	{
 		float r;
 		float g;
@@ -101,11 +124,11 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		GL_SRC_ALPHA_SATURATE	(i,i,i,1)
 		 */
 
-		block.setMultipleRendering(metadata, true);
-		for (int i = 0; i < block.getMultipleRenderPasses(metadata); i++) {
-			block.setMultipleRenderPass(metadata, i);
+		blockMultipleRendering.setMultipleRendering(metadata, true);
+		for (int i = 0; i < blockMultipleRendering.getMultipleRenderPasses(metadata); i++) {
+			blockMultipleRendering.setMultipleRenderPass(metadata, i);
 
-			int color = block.getMultipleRenderColor(metadata, i);
+			int color = blockMultipleRendering.getMultipleRenderColor(metadata, i);
 			renderCubeInInventory(block, metadata, renderer, color);
 
 			//GL11.glColor4f(1, 1, 1, 1);
@@ -120,25 +143,24 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 			//Tessellator.instance.setColorOpaque_F(((color >> 16) & 0xff) / 255.0f, ((color >> 8) & 0xff) / 255.0f, (color & 0xff) / 255.0f);
 
 		}
-		block.setMultipleRendering(metadata, false);
+		blockMultipleRendering.setMultipleRendering(metadata, false);
 
 		GL11.glColor4f(r, g, b, a);
 
 		GL11.glPopAttrib();
 	}
 
-	public static <T extends Block & IBlockMultipleRendering>
-		void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
-			T block, RenderBlocks renderer)
+	public static void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
+		Block block, IBlockMultipleRendering blockMultipleRendering, RenderBlocks renderer)
 	{
-		block.setMultipleRendering(blockAccess, x, y, z, true);
-		for (int i = 0; i < block.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
-			block.setMultipleRenderPass(blockAccess, x, y, z, i);
+		blockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, true);
+		for (int i = 0; i < blockMultipleRendering.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
+			blockMultipleRendering.setMultipleRenderPass(blockAccess, x, y, z, i);
 
 			renderer.renderStandardBlock(block, x, y, z);
 
 		}
-		block.setMultipleRendering(blockAccess, x, y, z, false);
+		blockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, false);
 	}
 
 }

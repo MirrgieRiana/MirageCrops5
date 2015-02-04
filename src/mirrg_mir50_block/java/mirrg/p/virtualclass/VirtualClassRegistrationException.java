@@ -15,7 +15,7 @@ public class VirtualClassRegistrationException extends RuntimeException
 	@Override
 	public String getMessage()
 	{
-		return String.format("%s, %s", owner, classInterface);
+		return String.format("multiple interface registration: %s, %s", owner, classInterface);
 	}
 
 }

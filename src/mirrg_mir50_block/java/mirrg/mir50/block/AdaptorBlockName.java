@@ -15,20 +15,20 @@ public class AdaptorBlockName extends Adaptor<BlockMir50> implements IAdaptorBlo
 	@Override
 	public Block setBlockName(String unlocalizedName)
 	{
-		owner.setField_unlocalizedName(unlocalizedName);
-		return owner;
+		this.owner.setField_unlocalizedName(unlocalizedName);
+		return this.owner;
 	}
 
 	@Override
 	public String getLocalizedName()
 	{
-		return StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
+		return StatCollector.translateToLocal(owner.accessor_IAdaptorBlockName.get().getUnlocalizedName() + ".name");
 	}
 
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile." + owner.getField_unlocalizedName();
+		return "tile." + this.owner.getField_unlocalizedName();
 	}
 
 }

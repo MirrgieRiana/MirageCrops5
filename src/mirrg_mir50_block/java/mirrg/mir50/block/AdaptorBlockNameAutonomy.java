@@ -1,5 +1,6 @@
 package mirrg.mir50.block;
 
+import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;
 
 public class AdaptorBlockNameAutonomy extends AdaptorBlockNameOverriding
@@ -7,14 +8,14 @@ public class AdaptorBlockNameAutonomy extends AdaptorBlockNameOverriding
 
 	public String unlocalizedName;
 
-	public AdaptorBlockNameAutonomy(BlockMir50 owner)
+	public AdaptorBlockNameAutonomy(BlockMir50 owner, IVirtualClass superObject)
 	{
-		super(owner);
+		super(owner, superObject);
 	}
 
-	public AdaptorBlockNameAutonomy(BlockMir50 owner, String unlocalizedName)
+	public AdaptorBlockNameAutonomy(BlockMir50 owner, IVirtualClass superObject, String unlocalizedName)
 	{
-		super(owner);
+		super(owner, superObject);
 		this.unlocalizedName = unlocalizedName;
 	}
 
@@ -22,13 +23,13 @@ public class AdaptorBlockNameAutonomy extends AdaptorBlockNameOverriding
 	public Block setBlockName(String unlocalizedName)
 	{
 		this.unlocalizedName = unlocalizedName;
-		return owner;
+		return this.owner;
 	}
 
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile." + unlocalizedName;
+		return "tile." + this.unlocalizedName;
 	}
 
 }

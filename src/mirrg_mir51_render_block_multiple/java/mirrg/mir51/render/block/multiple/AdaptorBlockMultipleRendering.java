@@ -14,7 +14,7 @@ public class AdaptorBlockMultipleRendering extends Adaptor<BlockMir50> implement
 	public AdaptorBlockMultipleRendering(BlockMir50 owner)
 	{
 		super(owner);
-		_super_IAdaptorBlockIcon = owner.virtualClass.getCurrentImplementation(IAdaptorBlockIcon.class);
+		this._super_IAdaptorBlockIcon = owner.virtualClass.getCurrentImplementation(IAdaptorBlockIcon.class);
 	}
 
 	@Override
@@ -56,13 +56,13 @@ public class AdaptorBlockMultipleRendering extends Adaptor<BlockMir50> implement
 	@Override
 	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
 	{
-		return _super_IAdaptorBlockIcon.getIcon(blockAccess, x, y, z, side);
+		return this._super_IAdaptorBlockIcon.getIcon(blockAccess, x, y, z, side);
 	}
 
 	@Override
 	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
 	{
-		return _super_IAdaptorBlockIcon.getIcon(side, metadata);
+		return this._super_IAdaptorBlockIcon.getIcon(side, metadata);
 	}
 
 	@Override

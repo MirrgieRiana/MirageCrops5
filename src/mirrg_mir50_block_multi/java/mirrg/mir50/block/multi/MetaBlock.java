@@ -3,11 +3,13 @@ package mirrg.mir50.block.multi;
 import mirrg.mir50.block.AdaptorBlockHarvest;
 import mirrg.mir50.block.AdaptorBlockIcon;
 import mirrg.mir50.block.AdaptorBlockName;
+import mirrg.mir50.block.AdaptorBlockRender;
 import mirrg.mir50.block.AdaptorBlockSubBlocks;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.IAdaptorBlockHarvest;
 import mirrg.mir50.block.IAdaptorBlockIcon;
 import mirrg.mir50.block.IAdaptorBlockName;
+import mirrg.mir50.block.IAdaptorBlockRender;
 import mirrg.mir50.block.IAdaptorBlockSubBlocks;
 import mirrg.p.virtualclass.IVirtualClass;
 import mirrg.p.virtualclass.IVirtualImplementationAccessor;
@@ -40,6 +42,8 @@ public class MetaBlock implements IVirtualClass
 		accessor_IAdaptorBlockHarvest = virtualClass.cast(IAdaptorBlockHarvest.class);
 		virtualClass.register(IAdaptorBlockName.class, new AdaptorBlockName(blockMir50));
 		accessor_IAdaptorBlockName = virtualClass.cast(IAdaptorBlockName.class);
+		virtualClass.register(IAdaptorBlockRender.class, new AdaptorBlockRender(blockMir50));
+		accessor_IAdaptorBlockRender = virtualClass.cast(IAdaptorBlockRender.class);
 
 	}
 
@@ -50,5 +54,7 @@ public class MetaBlock implements IVirtualClass
 	public final IVirtualImplementationAccessor<IAdaptorBlockHarvest> accessor_IAdaptorBlockHarvest;
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockName> accessor_IAdaptorBlockName;
+
+	public final IVirtualImplementationAccessor<IAdaptorBlockRender> accessor_IAdaptorBlockRender;
 
 }

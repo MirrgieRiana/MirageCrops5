@@ -25,16 +25,16 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	@Override
 	public boolean canSilkHarvest()
 	{
-		Integer meta = silk_check_meta.get();
-		return owner.renderAsNormalBlock() && !owner.hasTileEntity(meta == null ? 0 : meta);
+		Integer meta = this.silk_check_meta.get();
+		return this.owner.renderAsNormalBlock() && !this.owner.hasTileEntity(meta == null ? 0 : meta);
 	}
 
 	@Override
 	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta)
 	{
-		silk_check_meta.set(meta);
-		boolean ret = this.canSilkHarvest();
-		silk_check_meta.set(null);
+		this.silk_check_meta.set(meta);
+		boolean ret = owner.accessor_IAdaptorBlockHarvest.get().canSilkHarvest();
+		this.silk_check_meta.set(null);
 		return ret;
 	}
 
@@ -42,7 +42,7 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	public ItemStack createStackedBlock(int meta)
 	{
 		int j = 0;
-		Item item = Item.getItemFromBlock(owner);
+		Item item = Item.getItemFromBlock(this.owner);
 
 		if (item != null && item.getHasSubtypes())
 		{
@@ -57,13 +57,13 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	{
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
-		int count = quantityDropped(meta, fortune, world.rand);
+		int count = owner.accessor_IAdaptorBlockHarvest.get().quantityDropped(meta, fortune, world.rand);
 		for (int i = 0; i < count; i++)
 		{
-			Item item = getItemDropped(meta, world.rand, fortune);
+			Item item = owner.accessor_IAdaptorBlockHarvest.get().getItemDropped(meta, world.rand, fortune);
 			if (item != null)
 			{
-				ret.add(new ItemStack(item, 1, damageDropped(meta)));
+				ret.add(new ItemStack(item, 1, owner.accessor_IAdaptorBlockHarvest.get().damageDropped(meta)));
 			}
 		}
 		return ret;
@@ -72,13 +72,13 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	@Override
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
-		return quantityDroppedWithBonus(fortune, random);
+		return owner.accessor_IAdaptorBlockHarvest.get().quantityDroppedWithBonus(fortune, random);
 	}
 
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
-		return this.quantityDropped(random);
+		return owner.accessor_IAdaptorBlockHarvest.get().quantityDropped(random);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	@Override
 	public Item getItemDropped(int meta, Random random, int fortune)
 	{
-		return Item.getItemFromBlock(owner);
+		return Item.getItemFromBlock(this.owner);
 	}
 
 	@Override
@@ -102,14 +102,14 @@ public class AdaptorBlockHarvest extends Adaptor<BlockMir50> implements IAdaptor
 	@Override
 	public int getDamageValue(World world, int x, int y, int z)
 	{
-		return this.damageDropped(world.getBlockMetadata(x, y, z));
+		return owner.accessor_IAdaptorBlockHarvest.get().damageDropped(world.getBlockMetadata(x, y, z));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return Item.getItemFromBlock(owner);
+		return Item.getItemFromBlock(this.owner);
 	}
 
 	@Override

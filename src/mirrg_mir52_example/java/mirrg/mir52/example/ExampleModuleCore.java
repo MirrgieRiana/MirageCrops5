@@ -143,7 +143,7 @@ public class ExampleModuleCore extends ModuleAbstract
 		loaderBlockSample2.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
-			AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+			AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.makeAutonomy(blockMir50, blockMir50);
 
 			a.appendIcon("minecraft:grass_top", 0x739627);
 			a.appendIcon("minecraft:double_plant_sunflower_front", 0x893472);

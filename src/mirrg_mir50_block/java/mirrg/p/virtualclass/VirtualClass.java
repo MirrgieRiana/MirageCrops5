@@ -43,16 +43,30 @@ public class VirtualClass
 		slots.put(classInterface, new VirtualImplementationSlot<T>(this, classInterface, defaultImplementation));
 	}
 
-	public void override(Object object)
+	public int override(Object object)
 	{
+		return override(object, true);
+	}
+
+	public int override(Object object, boolean raiseException)
+	{
+		int count = 0;
+
 		Enumeration<Class<?>> keys = slots.keys();
 		while (keys.hasMoreElements()) {
 			Class<?> classInterface = keys.nextElement();
 
 			if (classInterface.isInstance(object)) {
 				setSlot(slots.get(classInterface), object);
+				count++;
 			}
 		}
+
+		if (raiseException && count == 0) {
+			throw new VirtualClassOverrideException(owner, object);
+		}
+
+		return count;
 	}
 
 	protected <T> void setSlot(VirtualImplementationSlot<T> slot, Object object)

@@ -5,8 +5,12 @@ import java.util.function.Supplier;
 import mirrg.mir40.math.HelpersString;
 import mirrg.mir50.block.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.multi.AdaptorBlockHarvestMetaBlock;
+import mirrg.mir50.block.multi.AdaptorBlockNameExtra;
+import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMetaBlock;
 import mirrg.mir50.block.multi.ContainerMetaBlock;
 import mirrg.mir50.block.multi.HelpersBlockMulti;
+import mirrg.mir50.block.multi.IAdaptorBlockNameExtra;
 import mirrg.mir50.block.multi.ItemBlockMulti;
 import mirrg.mir50.block.multi.MetaBlock;
 import mirrg.mir50.item.AdaptorItemContainerItemCraftingTool;
@@ -98,20 +102,26 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 					int metaId = value.ordinal();
 					MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
 
+					metaBlock.virtualClass.override(new AdaptorBlockSubBlocksMetaBlock(blockMir50, metaBlock, metaBlock));
+
+					metaBlock.virtualClass.override(new AdaptorBlockHarvestMetaBlock(blockMir50, metaBlock));
+
 					{
-						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
+						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.makeAutonomy(metaBlock, blockMir50);
 
 						a.appendIcon("minecraft:stone");
 						a.appendIcon("miragecrops5:ore" + HelpersString.toUpperCaseHead(value.name()));
 					}
 
 					{
-						AdaptorBlockNameAutonomy adaptorBlockNameAutonomy = new AdaptorBlockNameAutonomy(blockMir50);
+						AdaptorBlockNameAutonomy a = new AdaptorBlockNameAutonomy(blockMir50, metaBlock);
 
-						adaptorBlockNameAutonomy.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
+						a.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
 
-						metaBlock.virtualClass.override(adaptorBlockNameAutonomy);
+						metaBlock.virtualClass.override(a);
 					}
+
+					metaBlock.virtualClass.register(IAdaptorBlockNameExtra.class, new AdaptorBlockNameExtra(blockMir50, metaBlock));
 
 					containerMetaBlock.set(metaId, metaBlock);
 				}
@@ -137,21 +147,25 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 					int metaId = value.ordinal();
 					MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
 
-					HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
+					metaBlock.virtualClass.override(new AdaptorBlockSubBlocksMetaBlock(blockMir50, metaBlock, metaBlock));
+
+					metaBlock.virtualClass.override(new AdaptorBlockHarvestMetaBlock(blockMir50, metaBlock));
 
 					{
-						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
+						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.makeAutonomy(metaBlock, blockMir50);
 
 						a.appendIcon("miragecrops5:block" + HelpersString.toUpperCaseHead(value.name()));
 					}
 
 					{
-						AdaptorBlockNameAutonomy adaptorBlockNameAutonomy = new AdaptorBlockNameAutonomy(blockMir50);
+						AdaptorBlockNameAutonomy a = new AdaptorBlockNameAutonomy(blockMir50, metaBlock);
 
-						adaptorBlockNameAutonomy.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
+						a.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
 
-						metaBlock.virtualClass.override(adaptorBlockNameAutonomy);
+						metaBlock.virtualClass.override(a);
 					}
+
+					metaBlock.virtualClass.register(IAdaptorBlockNameExtra.class, new AdaptorBlockNameExtra(blockMir50, metaBlock));
 
 					containerMetaBlock.set(metaId, metaBlock);
 				}

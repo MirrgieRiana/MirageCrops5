@@ -7,29 +7,26 @@ import mirrg.mir50.block.BlockMir50;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorBlockSubBlocksMulti extends AdaptorBlockSubBlocksOverriding
+public class AdaptorBlockSubBlocksMetaBlock extends AdaptorBlockSubBlocksOverriding
 {
 
-	protected ContainerMetaBlock containerMetaBlock;
+	protected final MetaBlock metaBlock;
 
-	public AdaptorBlockSubBlocksMulti(BlockMir50 owner, IVirtualClass superObject, ContainerMetaBlock containerMetaBlock)
+	public AdaptorBlockSubBlocksMetaBlock(BlockMir50 owner, IVirtualClass superObject, MetaBlock metaBlock)
 	{
 		super(owner, superObject);
-		this.containerMetaBlock = containerMetaBlock;
+		this.metaBlock = metaBlock;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List itemStacks)
 	{
-		this.containerMetaBlock.forEach(metaBlock -> {
-			if (metaBlock != null) {
-				metaBlock.accessor_IAdaptorBlockSubBlocks.get().getSubBlocks(item, creativeTab, itemStacks);
-			}
-		});
+		itemStacks.add(new ItemStack(this.metaBlock.blockMir50, 1, this.metaBlock.meta));
 	}
 
 }
