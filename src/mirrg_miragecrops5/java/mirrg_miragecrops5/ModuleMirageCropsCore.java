@@ -17,6 +17,7 @@ import mirrg.mir50.loaders.LoaderItem;
 import mirrg.mir50.loaders.LoaderOreGenerator;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
+import mirrg.mir50.worldgen.ore.FilterBiome;
 import mirrg.mir50.worldgen.ore.GeneratorOreInChunkBridge;
 import mirrg.mir50.worldgen.ore.WorldGeneratorMinableExtra;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRendering;
@@ -59,6 +60,13 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		sphaerocobaltite,
 		gaspeite,
 		otavite,
+
+		apatite,
+		fluorite,
+
+		spinachium,
+		miragium,
+
 	}
 
 	public ModuleMirageCropsCore()
@@ -195,14 +203,20 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		})
 			.dependsOn(loaderItem_craftingToolHammerIron));
 
-		aLOG(() -> cGOIC(15, 16, 0, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.calcite.ordinal()));
-		aLOG(() -> cGOIC(10, 8, 0, 64, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.magnesite.ordinal()));
-		aLOG(() -> cGOIC(10, 8, 0, 56, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.siderite.ordinal()));
-		aLOG(() -> cGOIC(10, 8, 0, 48, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.smithsonite.ordinal()));
-		aLOG(() -> cGOIC(2, 4, 0, 32, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.rhodochrosite.ordinal(), "ocean"));
-		aLOG(() -> cGOIC(2, 4, 0, 28, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.sphaerocobaltite.ordinal(), "forest"));
-		aLOG(() -> cGOIC(2, 4, 0, 24, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.gaspeite.ordinal(), "desert"));
-		aLOG(() -> cGOIC(1, 1, 0, 16, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.otavite.ordinal(), "extreme"));
+		aLOG(() -> cGOIC(16, 16, 0, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.calcite.ordinal()));
+		aLOG(() -> cGOIC(8, 4, 0, 64, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.magnesite.ordinal()));
+		aLOG(() -> cGOIC(8, 4, 0, 56, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.siderite.ordinal()));
+		aLOG(() -> cGOIC(8, 4, 0, 48, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.smithsonite.ordinal()));
+		aLOG(() -> cGOIC(2, 2, 0, 32, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.rhodochrosite.ordinal(), "ocean"));
+		aLOG(() -> cGOIC(2, 2, 0, 28, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.sphaerocobaltite.ordinal(), "forest"));
+		aLOG(() -> cGOIC(2, 2, 0, 24, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.gaspeite.ordinal(), "desert"));
+		aLOG(() -> cGOIC(1, 0.5, 0, 16, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.otavite.ordinal(), "extreme"));
+
+		aLOG(() -> cGOIC(1, 20, 64, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.apatite.ordinal(), "extreme"));
+		aLOG(() -> cGOIC(5, 4, 64, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.fluorite.ordinal(), "extreme"));
+
+		aLOG(() -> cGOIC(2, 8, 0, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.spinachium.ordinal()));
+		aLOG(() -> cGOIC(2, 8, 0, 128, loaderBlock_oreCalciteGroup.get(), EnumCalciteGroup.miragium.ordinal()));
 
 	}
 
@@ -212,7 +226,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 	}
 
 	private IGeneratorOreInChunk cGOIC(
-		int density, int numberOfBlocks, int heightMin, int heightMax, Block block, int meta, String... filterBiomeNames)
+		int density, double numberOfBlocks, int heightMin, int heightMax, Block block, int meta, String... filterBiomeNames)
 	{
 		WorldGeneratorMinableExtra worldGenerator = new WorldGeneratorMinableExtra(block, meta, numberOfBlocks, Blocks.stone);
 
