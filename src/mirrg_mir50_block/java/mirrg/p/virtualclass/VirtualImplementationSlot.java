@@ -3,8 +3,17 @@ package mirrg.p.virtualclass;
 public class VirtualImplementationSlot<T> implements IVirtualImplementationAccessor<T>
 {
 
-	public VirtualImplementationSlot(Class<T> implementationClass, T defaultImplementation)
+	protected final VirtualClass virtualClass;
+
+	public VirtualImplementationSlot(VirtualClass virtualClass, Class<T> implementationClass)
 	{
+		this.virtualClass = virtualClass;
+		this.implementationClass = implementationClass;
+	}
+
+	public VirtualImplementationSlot(VirtualClass virtualClass, Class<T> implementationClass, T defaultImplementation)
+	{
+		this.virtualClass = virtualClass;
 		this.implementationClass = implementationClass;
 		slot = defaultImplementation;
 	}
@@ -13,8 +22,10 @@ public class VirtualImplementationSlot<T> implements IVirtualImplementationAcces
 
 	protected T slot;
 
+	@Override
 	public final T get()
 	{
+		if (slot == null) throw new VirtualClassAbstractMethodException(virtualClass.owner, implementationClass);
 		return slot;
 	}
 
@@ -23,6 +34,7 @@ public class VirtualImplementationSlot<T> implements IVirtualImplementationAcces
 		slot = t;
 	}
 
+	@Override
 	public final Class<T> getImplementationClass()
 	{
 		return implementationClass;

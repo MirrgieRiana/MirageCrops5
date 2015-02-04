@@ -1,172 +1,130 @@
 package mirrg.mir51.render.block.multiple.multi;
 
-import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.multi.ContainerMetaBlock;
+import mirrg.mir50.block.multi.MetaBlock;
+import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingOverriding;
+import mirrg.mir51.render.block.multiple.IBlockMultipleRendering;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorBlockMultipleRenderingMulti extends AdaptorBlockMultipleRendering
+public class AdaptorBlockMultipleRenderingMulti extends AdaptorBlockMultipleRenderingOverriding
 {
 
-	protected BlockMultipleRendering blockMultipleRendering;
+	protected ContainerMetaBlock containerMetaBlock;
 
-	protected ContainerMetaBlockMultipleRendering containerMetaBlockMultipleRendering;
-
-	public AdaptorBlockMultipleRenderingMulti(BlockMultipleRendering blockMultipleRendering, ContainerMetaBlockMultipleRendering containerMetaBlockMultipleRendering)
+	public AdaptorBlockMultipleRenderingMulti(BlockMir50 owner, ContainerMetaBlock containerMetaBlock)
 	{
-		super(blockMultipleRendering);
-		this.blockMultipleRendering = blockMultipleRendering;
-		this.containerMetaBlockMultipleRendering = containerMetaBlockMultipleRendering;
+		super(owner);
+		this.containerMetaBlock = containerMetaBlock;
 	}
 
 	///////////////////////////////////////////////////////////
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) {
+		MetaBlock metaBlock = containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) {
 			super.setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
 			return;
 		}
-		metaBlockMultipleRendering.adaptorBlockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
+		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void setMultipleRendering(int metadata, boolean isInMultipleRendering)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(metadata);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) {
+		MetaBlock metaBlock = containerMetaBlock.get(metadata);
+		if (metaBlock == null) {
 			super.setMultipleRendering(metadata, isInMultipleRendering);
 			return;
 		}
-		metaBlockMultipleRendering.adaptorBlockMultipleRendering.setMultipleRendering(metadata, isInMultipleRendering);
+		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRendering(metadata, isInMultipleRendering);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) {
+		MetaBlock metaBlock = containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) {
 			super.setMultipleRenderPass(blockAccess, x, y, z, pass);
-			;
 			return;
 		}
-		metaBlockMultipleRendering.adaptorBlockMultipleRendering.setMultipleRenderPass(blockAccess, x, y, z, pass);
+		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRenderPass(blockAccess, x, y, z, pass);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void setMultipleRenderPass(int metadata, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(metadata);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) {
+		MetaBlock metaBlock = containerMetaBlock.get(metadata);
+		if (metaBlock == null) {
 			super.setMultipleRenderPass(metadata, pass);
 			return;
 		}
-		metaBlockMultipleRendering.adaptorBlockMultipleRendering.setMultipleRenderPass(metadata, pass);
+		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRenderPass(metadata, pass);
 	}
 
 	///////////////////////////////////////////////////////////
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderPasses(IBlockAccess blockAccess, int x, int y, int z)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderPasses(blockAccess, x, y, z);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderPasses(blockAccess, x, y, z);
+		MetaBlock metaBlock = containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) return super.getMultipleRenderPasses(blockAccess, x, y, z);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderPasses(blockAccess, x, y, z);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderPasses(int metadata)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(metadata);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderPasses(metadata);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderPasses(metadata);
+		MetaBlock metaBlock = containerMetaBlock.get(metadata);
+		if (metaBlock == null) return super.getMultipleRenderPasses(metadata);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderPasses(metadata);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
+		MetaBlock metaBlock = containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) return super.getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(metadata);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderIcon(metadata, side, pass);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderIcon(metadata, side, pass);
+		MetaBlock metaBlock = containerMetaBlock.get(metadata);
+		if (metaBlock == null) return super.getMultipleRenderIcon(metadata, side, pass);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderIcon(metadata, side, pass);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderColor(blockAccess, x, y, z, pass);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderColor(blockAccess, x, y, z, pass);
+		MetaBlock metaBlock = containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) return super.getMultipleRenderColor(blockAccess, x, y, z, pass);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderColor(blockAccess, x, y, z, pass);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getMultipleRenderColor(int metadata, int pass)
 	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(metadata);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getMultipleRenderColor(metadata, pass);
-		return metaBlockMultipleRendering.adaptorBlockMultipleRendering.getMultipleRenderColor(metadata, pass);
-	}
-
-	///////////////////////////////////////////////////////////
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
-	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getIcon(blockAccess, x, y, z, side);
-		return metaBlockMultipleRendering.adaptorBlockIcon.getIcon(blockAccess, x, y, z, side);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(meta);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getIcon(side, meta);
-		return metaBlockMultipleRendering.adaptorBlockIcon.getIcon(side, meta);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
-	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(blockAccess, x, y, z);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.colorMultiplier(blockAccess, x, y, z);
-		return metaBlockMultipleRendering.adaptorBlockIcon.colorMultiplier(blockAccess, x, y, z);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getRenderColor(int meta)
-	{
-		MetaBlockMultipleRendering metaBlockMultipleRendering = containerMetaBlockMultipleRendering.get(meta);
-		if (metaBlockMultipleRendering == null || metaBlockMultipleRendering.adaptorBlockIcon == null) return super.getRenderColor(meta);
-		return metaBlockMultipleRendering.adaptorBlockIcon.getRenderColor(meta);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister)
-	{
-		super.registerBlockIcons(iconRegister);
-
-		containerMetaBlockMultipleRendering.forEach(metaBlockMultipleRendering -> {
-			if (metaBlockMultipleRendering != null && metaBlockMultipleRendering.adaptorBlockIcon != null) metaBlockMultipleRendering.adaptorBlockIcon.registerBlockIcons(iconRegister);
-		});
-
+		MetaBlock metaBlock = containerMetaBlock.get(metadata);
+		if (metaBlock == null) return super.getMultipleRenderColor(metadata, pass);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderColor(metadata, pass);
 	}
 
 }

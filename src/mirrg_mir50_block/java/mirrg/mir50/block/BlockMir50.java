@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import mirrg.p.virtualclass.IVirtualClass;
+import mirrg.p.virtualclass.IVirtualImplementationAccessor;
+import mirrg.p.virtualclass.VirtualClass;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,17 +20,35 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMir50 extends Block implements
-	IAdaptorBlockHarvest,
-	IAdaptorBlockIcon,
-	IAdaptorBlockName,
-	IAdaptorBlockSubBlocks
+public class BlockMir50 extends Block implements IVirtualClass
 {
+
+	public final VirtualClass virtualClass = new VirtualClass(this);
 
 	public BlockMir50(Material material)
 	{
 		super(material);
+
+		virtualClass.register(IAdaptorBlockSubBlocks.class, new AdaptorBlockSubBlocks(this));
+		accessor_IAdaptorBlockSubBlocks = virtualClass.cast(IAdaptorBlockSubBlocks.class);
+		virtualClass.register(IAdaptorBlockIcon.class, new AdaptorBlockIcon(this));
+		accessor_IAdaptorBlockIcon = virtualClass.cast(IAdaptorBlockIcon.class);
+		virtualClass.register(IAdaptorBlockHarvest.class, new AdaptorBlockHarvest(this));
+		accessor_IAdaptorBlockHarvest = virtualClass.cast(IAdaptorBlockHarvest.class);
+		virtualClass.register(IAdaptorBlockName.class, new AdaptorBlockName(this));
+		accessor_IAdaptorBlockName = virtualClass.cast(IAdaptorBlockName.class);
+		virtualClass.register(IAdaptorBlockRender.class, new AdaptorBlockRender(this));
+		accessor_IAdaptorBlockRender = virtualClass.cast(IAdaptorBlockRender.class);
+
 	}
+
+	@Override
+	public final VirtualClass getVirtualClass()
+	{
+		return virtualClass;
+	}
+
+	/////////////////////////////////////////////////////////////////////
 
 	//TODO
 	/*
@@ -70,20 +91,20 @@ public class BlockMir50 extends Block implements
 		}
 	*/
 
-	//
+	/////////////////////////////////////////////////////////////////////
 
-	public IAdaptorBlockSubBlocks adaptorBlockSubBlocks = new AdaptorBlockSubBlocks(this);
+	public final IVirtualImplementationAccessor<IAdaptorBlockSubBlocks> accessor_IAdaptorBlockSubBlocks;
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTabs, List itemStacks)
 	{
-		adaptorBlockSubBlocks.getSubBlocks(item, creativeTabs, itemStacks);
+		accessor_IAdaptorBlockSubBlocks.get().getSubBlocks(item, creativeTabs, itemStacks);
 	}
 
-	//
+	/////////////////////////////////////////////////////////////////////
 
-	public IAdaptorBlockIcon adaptorBlockIcon = new AdaptorBlockIcon(this);
+	public final IVirtualImplementationAccessor<IAdaptorBlockIcon> accessor_IAdaptorBlockIcon;
 
 	@SideOnly(Side.CLIENT)
 	public final void setField_blockIcon(IIcon blockIcon)
@@ -121,63 +142,65 @@ public class BlockMir50 extends Block implements
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		return adaptorBlockIcon.getIcon(blockAccess, x, y, z, side);
+		return accessor_IAdaptorBlockIcon.get().getIcon(blockAccess, x, y, z, side);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		return adaptorBlockIcon.getIcon(side, meta);
+		return accessor_IAdaptorBlockIcon.get().getIcon(side, meta);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon func_149735_b(int side, int meta)
 	{
-		return adaptorBlockIcon.func_149735_b(side, meta);
+		return accessor_IAdaptorBlockIcon.get().func_149735_b(side, meta);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
 	{
-		return adaptorBlockIcon.colorMultiplier(blockAccess, x, y, z);
+		return accessor_IAdaptorBlockIcon.get().colorMultiplier(blockAccess, x, y, z);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int meta)
 	{
-		return adaptorBlockIcon.getRenderColor(meta);
+		return accessor_IAdaptorBlockIcon.get().getRenderColor(meta);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
-		adaptorBlockIcon.registerBlockIcons(iconRegister);
+		accessor_IAdaptorBlockIcon.get().registerBlockIcons(iconRegister);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getTextureName()
 	{
-		return adaptorBlockIcon.getTextureName();
+		return accessor_IAdaptorBlockIcon.get().getTextureName();
 	}
 
 	@Override
 	public Block setBlockTextureName(String textureName)
 	{
-		return adaptorBlockIcon.setBlockTextureName(textureName);
+		return accessor_IAdaptorBlockIcon.get().setBlockTextureName(textureName);
 	}
 
-	//
+	/////////////////////////////////////////////////////////////////////
 
-	public IAdaptorBlockHarvest adaptorBlockHarvest = new AdaptorBlockHarvest(this);
+	public final IVirtualImplementationAccessor<IAdaptorBlockHarvest> accessor_IAdaptorBlockHarvest;
 
 	@Override
 	public boolean canSilkHarvest()
 	{
-		return adaptorBlockHarvest.canSilkHarvest();
+		return accessor_IAdaptorBlockHarvest.get().canSilkHarvest();
 	}
 
 	/**
@@ -186,7 +209,7 @@ public class BlockMir50 extends Block implements
 	@Override
 	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta)
 	{
-		return adaptorBlockHarvest.canSilkHarvest(world, player, x, y, z, meta);
+		return accessor_IAdaptorBlockHarvest.get().canSilkHarvest(world, player, x, y, z, meta);
 	}
 
 	/**
@@ -195,62 +218,62 @@ public class BlockMir50 extends Block implements
 	@Override
 	public ItemStack createStackedBlock(int meta)
 	{
-		return adaptorBlockHarvest.createStackedBlock(meta);
+		return accessor_IAdaptorBlockHarvest.get().createStackedBlock(meta);
 	}
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune)
 	{
-		return adaptorBlockHarvest.getDrops(world, x, y, z, meta, fortune);
+		return accessor_IAdaptorBlockHarvest.get().getDrops(world, x, y, z, meta, fortune);
 	}
 
 	@Override
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
-		return adaptorBlockHarvest.quantityDropped(meta, fortune, random);
+		return accessor_IAdaptorBlockHarvest.get().quantityDropped(meta, fortune, random);
 	}
 
 	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
-		return adaptorBlockHarvest.quantityDroppedWithBonus(fortune, random);
+		return accessor_IAdaptorBlockHarvest.get().quantityDroppedWithBonus(fortune, random);
 	}
 
 	@Override
 	public int quantityDropped(Random random)
 	{
-		return adaptorBlockHarvest.quantityDropped(random);
+		return accessor_IAdaptorBlockHarvest.get().quantityDropped(random);
 	}
 
 	@Override
 	public Item getItemDropped(int meta, Random random, int fortune)
 	{
-		return adaptorBlockHarvest.getItemDropped(meta, random, fortune);
+		return accessor_IAdaptorBlockHarvest.get().getItemDropped(meta, random, fortune);
 	}
 
 	@Override
 	public int damageDropped(int damage)
 	{
-		return adaptorBlockHarvest.damageDropped(damage);
+		return accessor_IAdaptorBlockHarvest.get().damageDropped(damage);
 	}
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z)
 	{
-		return adaptorBlockHarvest.getDamageValue(world, x, y, z);
+		return accessor_IAdaptorBlockHarvest.get().getDamageValue(world, x, y, z);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z)
 	{
-		return adaptorBlockHarvest.getItem(world, x, y, z);
+		return accessor_IAdaptorBlockHarvest.get().getItem(world, x, y, z);
 	}
 
 	@Override
 	public int getExpDrop(IBlockAccess world, int meta, int fortune)
 	{
-		return adaptorBlockHarvest.getExpDrop(world, meta, fortune);
+		return accessor_IAdaptorBlockHarvest.get().getExpDrop(world, meta, fortune);
 	}
 
 	//TODO
@@ -289,23 +312,37 @@ public class BlockMir50 extends Block implements
 	}
 	*/
 
-	////////////////////////
+	/////////////////////////////////////////////////////////////////////
 
-	public IAdaptorBlockName adaptorBlockName = new AdaptorBlockName(this);
+	public final IVirtualImplementationAccessor<IAdaptorBlockName> accessor_IAdaptorBlockName;
 
+	@Override
 	public Block setBlockName(String unlocalizedName)
 	{
-		return adaptorBlockName.setBlockName(unlocalizedName);
+		return accessor_IAdaptorBlockName.get().setBlockName(unlocalizedName);
 	}
 
+	@Override
 	public String getLocalizedName()
 	{
-		return adaptorBlockName.getLocalizedName();
+		return accessor_IAdaptorBlockName.get().getLocalizedName();
 	}
 
+	@Override
 	public String getUnlocalizedName()
 	{
-		return adaptorBlockName.getUnlocalizedName();
+		return accessor_IAdaptorBlockName.get().getUnlocalizedName();
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	public final IVirtualImplementationAccessor<IAdaptorBlockRender> accessor_IAdaptorBlockRender;
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderType()
+	{
+		return accessor_IAdaptorBlockRender.get().getRenderType();
 	}
 
 }

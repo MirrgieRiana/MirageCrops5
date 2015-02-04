@@ -1,30 +1,34 @@
 package mirrg.mir50.block;
 
+import mirrg.p.adaptor.Adaptor;
 import net.minecraft.block.Block;
 import net.minecraft.util.StatCollector;
 
-public class AdaptorBlockName extends AdaptorBlock implements IAdaptorBlockName
+public class AdaptorBlockName extends Adaptor<BlockMir50> implements IAdaptorBlockName
 {
 
-	public AdaptorBlockName(BlockMir50 blockMir50)
+	public AdaptorBlockName(BlockMir50 owner)
 	{
-		super(blockMir50);
+		super(owner);
 	}
 
+	@Override
 	public Block setBlockName(String unlocalizedName)
 	{
-		blockMir50.setField_unlocalizedName(unlocalizedName);
-		return blockMir50;
+		owner.setField_unlocalizedName(unlocalizedName);
+		return owner;
 	}
 
+	@Override
 	public String getLocalizedName()
 	{
 		return StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
+	@Override
 	public String getUnlocalizedName()
 	{
-		return "tile." + blockMir50.getField_unlocalizedName();
+		return "tile." + owner.getField_unlocalizedName();
 	}
 
 }

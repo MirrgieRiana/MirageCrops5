@@ -31,9 +31,16 @@ public class VirtualClass
 		return slots.containsKey(classInterface);
 	}
 
+	public <T> void register(Class<T> classInterface)
+	{
+		if (slots.containsKey(classInterface)) throw new VirtualClassRegistrationException(owner, classInterface);
+		slots.put(classInterface, new VirtualImplementationSlot<T>(this, classInterface));
+	}
+
 	public <T> void register(Class<T> classInterface, T defaultImplementation)
 	{
-		slots.put(classInterface, new VirtualImplementationSlot<T>(classInterface, defaultImplementation));
+		if (slots.containsKey(classInterface)) throw new VirtualClassRegistrationException(owner, classInterface);
+		slots.put(classInterface, new VirtualImplementationSlot<T>(this, classInterface, defaultImplementation));
 	}
 
 	public void override(Object object)

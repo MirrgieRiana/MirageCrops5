@@ -13,7 +13,8 @@ import mirrg.mir50.loaders.LoaderItem;
 import mirrg.mir50.loaders.LoaderOreDictionary;
 import mirrg.mir50.loaders.LoaderRecipe;
 import mirrg.mir50.modding.ModuleAbstract;
-import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
+import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
+import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.RenderBlockMultipleRendering;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
@@ -140,10 +141,12 @@ public class ExampleModuleCore extends ModuleAbstract
 		add(loaderBlockSample);
 
 		loaderBlockSample2.init(() -> {
-			BlockMultipleRendering blockMir50 = new BlockMultipleRendering(Material.rock);
+			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
-			blockMir50.adaptorBlockMultipleRendering.appendIcon("minecraft:grass_top", 0x739627);
-			blockMir50.adaptorBlockMultipleRendering.appendIcon("minecraft:double_plant_sunflower_front", 0x893472);
+			AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+
+			a.appendIcon("minecraft:grass_top", 0x739627);
+			a.appendIcon("minecraft:double_plant_sunflower_front", 0x893472);
 
 			//setBlockTextureName("minecraft:grass_top");
 			//blockMir50.setBlockTextureName("minecraft:double_plant_sunflower_front");

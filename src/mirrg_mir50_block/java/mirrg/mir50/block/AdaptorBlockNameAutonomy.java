@@ -1,35 +1,31 @@
 package mirrg.mir50.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.StatCollector;
 
-public class AdaptorBlockNameAutonomy extends AdaptorBlockName
+public class AdaptorBlockNameAutonomy extends AdaptorBlockNameOverriding
 {
 
 	public String unlocalizedName;
 
-	public AdaptorBlockNameAutonomy(BlockMir50 blockMir50)
+	public AdaptorBlockNameAutonomy(BlockMir50 owner)
 	{
-		super(blockMir50);
+		super(owner);
 	}
 
-	public AdaptorBlockNameAutonomy(BlockMir50 blockMir50, String unlocalizedName)
+	public AdaptorBlockNameAutonomy(BlockMir50 owner, String unlocalizedName)
 	{
-		super(blockMir50);
+		super(owner);
 		this.unlocalizedName = unlocalizedName;
 	}
 
+	@Override
 	public Block setBlockName(String unlocalizedName)
 	{
 		this.unlocalizedName = unlocalizedName;
-		return blockMir50;
+		return owner;
 	}
 
-	public String getLocalizedName()
-	{
-		return StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
-	}
-
+	@Override
 	public String getUnlocalizedName()
 	{
 		return "tile." + unlocalizedName;

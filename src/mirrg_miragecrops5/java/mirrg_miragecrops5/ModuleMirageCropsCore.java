@@ -3,12 +3,12 @@ package mirrg_miragecrops5;
 import java.util.function.Supplier;
 
 import mirrg.mir40.math.HelpersString;
-import mirrg.mir50.block.AdaptorBlockName;
 import mirrg.mir50.block.AdaptorBlockNameAutonomy;
-import mirrg.mir50.block.multi.AdaptorBlockHarvestMulti;
-import mirrg.mir50.block.multi.AdaptorBlockNameMulti;
-import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMulti;
+import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.multi.ContainerMetaBlock;
+import mirrg.mir50.block.multi.HelpersBlockMulti;
 import mirrg.mir50.block.multi.ItemBlockMulti;
+import mirrg.mir50.block.multi.MetaBlock;
 import mirrg.mir50.item.AdaptorItemContainerItemCraftingTool;
 import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.loaders.LoaderBlock;
@@ -20,17 +20,14 @@ import mirrg.mir50.modding.ModuleAbstract;
 import mirrg.mir50.worldgen.ore.FilterBiome;
 import mirrg.mir50.worldgen.ore.GeneratorOreInChunkBridge;
 import mirrg.mir50.worldgen.ore.WorldGeneratorMinableExtra;
-import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.BlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.multi.AdaptorBlockMultipleRenderingMulti;
-import mirrg.mir51.render.block.multiple.multi.ContainerMetaBlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.multi.MetaBlockMultipleRendering;
+import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
+import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
+import mirrg.mir51.render.block.multiple.multi.HelpersBlockMultipleRenderingMulti;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -42,13 +39,13 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 {
 
 	public LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
-	public LoaderBlock loaderBlock_blockTest = new LoaderBlock();
+	//public LoaderBlock loaderBlock_blockTest = new LoaderBlock();
 	public LoaderBlock loaderBlock_oreCalciteGroup = new LoaderBlock();
 	public LoaderBlock loaderBlock_blockCalciteGroup = new LoaderBlock();
 	public LoaderItem loaderItem_craftingToolHammerIron = new LoaderItem();
 
-	public ContainerMetaBlockMultipleRendering container1;
-	public ContainerMetaBlockMultipleRendering container2;
+	public ContainerMetaBlock container1;
+	public ContainerMetaBlock container2;
 
 	public static enum EnumCalciteGroup
 	{
@@ -72,11 +69,12 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 	public ModuleMirageCropsCore()
 	{
 
-		loaderCreativeTab.init(() -> Item.getItemFromBlock(loaderBlock_blockTest.get()), "MirageCrops 5");
+		loaderCreativeTab.init(() -> Item.getItemFromBlock(loaderBlock_oreCalciteGroup.get()), "miragecrops5_core");
 		add(loaderCreativeTab);
 
+		/*
 		loaderBlock_blockTest.init(() -> {
-			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
+			BlockMir50 block = new BlockMir50(Material.rock);
 
 			block.adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
 			block.adaptorBlockMultipleRendering.appendIcon("miragecrops5:oreCalcite", color(255, 205, 59));
@@ -85,95 +83,84 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		}, ItemBlock.class, "blockTest");
 		loaderBlock_blockTest.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock_blockTest);
+		*/
 
 		loaderBlock_oreCalciteGroup.init(() -> {
-			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
+			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
 			{
-				ContainerMetaBlockMultipleRendering container = new ContainerMetaBlockMultipleRendering(16);
-
-				block.setAdaptorBlockMultipleRendering(new AdaptorBlockMultipleRenderingMulti(block, container));
-				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
-				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
-				block.adaptorBlockName = new AdaptorBlockNameMulti(block, container);
+				ContainerMetaBlock containerMetaBlock = new ContainerMetaBlock(16);
+				HelpersBlockMulti.make(blockMir50, blockMir50, containerMetaBlock);
+				HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+				HelpersBlockMultipleRenderingMulti.make(blockMir50, blockMir50, containerMetaBlock);
 
 				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
 					int metaId = value.ordinal();
-					MetaBlockMultipleRendering metaBlockMultipleRendering = new MetaBlockMultipleRendering(block, metaId);
+					MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
 
 					{
-						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
+						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
 
-						adaptorBlockMultipleRendering.appendIcon("minecraft:stone");
-						adaptorBlockMultipleRendering.appendIcon("miragecrops5:ore" + HelpersString.toUpperCaseHead(value.name()));
-
-						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
+						a.appendIcon("minecraft:stone");
+						a.appendIcon("miragecrops5:ore" + HelpersString.toUpperCaseHead(value.name()));
 					}
 
 					{
-						AdaptorBlockName adaptorBlockName = new AdaptorBlockNameAutonomy(block);
+						AdaptorBlockNameAutonomy adaptorBlockNameAutonomy = new AdaptorBlockNameAutonomy(blockMir50);
 
-						adaptorBlockName.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
+						adaptorBlockNameAutonomy.setBlockName("ore" + HelpersString.toUpperCaseHead(value.name()));
 
-						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockName;
+						metaBlock.virtualClass.override(adaptorBlockNameAutonomy);
 					}
 
-					container.set(metaId, metaBlockMultipleRendering);
+					containerMetaBlock.set(metaId, metaBlock);
 				}
 
-				container1 = container;
+				container1 = containerMetaBlock;
 			}
 
-			return block;
+			return blockMir50;
 		}, ItemBlockMulti.class, "oreCalciteGroup");
-		loaderBlock_oreCalciteGroup.setItemBlockIniter(item -> {
-			((ItemBlockMulti) item).init(container1);
-		});
 		loaderBlock_oreCalciteGroup.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock_oreCalciteGroup);
 
 		loaderBlock_blockCalciteGroup.init(() -> {
-			BlockMultipleRendering block = new BlockMultipleRendering(Material.rock);
+			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
 			{
-				ContainerMetaBlockMultipleRendering container = new ContainerMetaBlockMultipleRendering(16);
-
-				block.setAdaptorBlockMultipleRendering(new AdaptorBlockMultipleRenderingMulti(block, container));
-				block.adaptorBlockHarvest = new AdaptorBlockHarvestMulti(block, container);
-				block.adaptorBlockSubBlocks = new AdaptorBlockSubBlocksMulti(block, container);
-				block.adaptorBlockName = new AdaptorBlockNameMulti(block, container);
+				ContainerMetaBlock containerMetaBlock = new ContainerMetaBlock(16);
+				HelpersBlockMulti.make(blockMir50, blockMir50, containerMetaBlock);
+				HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+				HelpersBlockMultipleRenderingMulti.make(blockMir50, blockMir50, containerMetaBlock);
 
 				for (EnumCalciteGroup value : EnumCalciteGroup.values()) {
 					int metaId = value.ordinal();
-					MetaBlockMultipleRendering metaBlockMultipleRendering = new MetaBlockMultipleRendering(block, metaId);
+					MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
+
+					HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
 
 					{
-						AdaptorBlockMultipleRendering adaptorBlockMultipleRendering = new AdaptorBlockMultipleRendering(block);
+						AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.make(metaBlock, blockMir50);
 
-						adaptorBlockMultipleRendering.appendIcon("miragecrops5:block" + HelpersString.toUpperCaseHead(value.name()));
-
-						metaBlockMultipleRendering.setAdaptorBlockMultipleRendering(adaptorBlockMultipleRendering);
+						a.appendIcon("miragecrops5:block" + HelpersString.toUpperCaseHead(value.name()));
 					}
 
 					{
-						AdaptorBlockName adaptorBlockName = new AdaptorBlockNameAutonomy(block);
+						AdaptorBlockNameAutonomy adaptorBlockNameAutonomy = new AdaptorBlockNameAutonomy(blockMir50);
 
-						adaptorBlockName.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
+						adaptorBlockNameAutonomy.setBlockName("block" + HelpersString.toUpperCaseHead(value.name()));
 
-						metaBlockMultipleRendering.adaptorBlockName = adaptorBlockName;
+						metaBlock.virtualClass.override(adaptorBlockNameAutonomy);
 					}
 
-					container.set(metaId, metaBlockMultipleRendering);
+					containerMetaBlock.set(metaId, metaBlock);
 				}
 
-				container2 = container;
+				container2 = containerMetaBlock;
 			}
 
-			return block;
+			return blockMir50;
 		}, ItemBlockMulti.class, "blockCalciteGroup");
-		loaderBlock_blockCalciteGroup.setItemBlockIniter(item -> {
-			((ItemBlockMulti) item).init(container2);
-		});
 		loaderBlock_blockCalciteGroup.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock_blockCalciteGroup);
 
