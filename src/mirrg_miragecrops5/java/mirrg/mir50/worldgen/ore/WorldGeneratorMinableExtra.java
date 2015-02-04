@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import api.mirrg.mir50.worldgen.ore.IGeneratorOreAtPoint;
 import api.mirrg.mir50.worldgen.ore.XYZConsumer;
+import cpw.mods.fml.common.FMLLog;
 
 public class WorldGeneratorMinableExtra extends WorldGenerator implements IGeneratorOreAtPoint
 {
@@ -78,11 +79,17 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 
 	protected void tryPutBlockAtCoord(World world, int x, int y, int z)
 	{
-		Block block = world.getBlock(x, y, z);
-		if (block != null) {
-			if (block.isReplaceableOreGen(world, x, y, z, target)) {
-				setBlock(world, x, y, z);
+		try {
+			Block block = world.getBlock(x, y, z);
+
+			if (block != null) {
+				if (block.isReplaceableOreGen(world, x, y, z, target)) {
+					setBlock(world, x, y, z);
+				}
 			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			FMLLog.warning("runtime exception in ore generation (%s, %s, %s)", x, y, z);
 		}
 	}
 
