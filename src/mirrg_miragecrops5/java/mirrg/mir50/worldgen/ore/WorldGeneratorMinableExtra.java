@@ -1,5 +1,6 @@
 package mirrg.mir50.worldgen.ore;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import mirrg.mir40.math.HelpersMath;
@@ -18,6 +19,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 	protected int meta;
 	protected double numberOfBlocks;
 	protected Block target;
+	private ArrayList<IFilterAtPoint> filterAtPoints = new ArrayList<>();
 
 	public WorldGeneratorMinableExtra(Block block, double numberOfBlocks)
 	{
@@ -39,6 +41,12 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
+		for (IFilterAtPoint filterAtPoint : filterAtPoints) {
+			if (!filterAtPoint.isSpawnableAtCoord(world, random, x, y, z)) {
+				return false;
+			}
+		}
+
 		int numberOfBlocks = HelpersMath.floorRandom(this.numberOfBlocks, random);
 
 		if (numberOfBlocks >= 4) {
@@ -171,6 +179,11 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 			}
 		}
 
+	}
+
+	public void addFilter(IFilterAtPoint filterAtPoint)
+	{
+		filterAtPoints.add(filterAtPoint);
 	}
 
 }
