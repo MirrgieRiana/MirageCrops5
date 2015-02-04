@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorBlockSubBlocks extends AdaptorBlock
+public class AdaptorBlockSubBlocks extends AdaptorBlock implements IAdaptorBlockSubBlocks
 {
 
 	public AdaptorBlockSubBlocks(BlockMir50 blockMir50)

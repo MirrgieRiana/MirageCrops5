@@ -7,7 +7,7 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorBlockIcon extends AdaptorBlock
+public class AdaptorBlockIcon extends AdaptorBlock implements IAdaptorBlockIcon
 {
 
 	public AdaptorBlockIcon(BlockMir50 blockMir50)

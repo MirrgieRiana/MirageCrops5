@@ -1,10 +1,10 @@
 package mirrg.mir50.block.multi;
 
-import mirrg.mir50.block.AdaptorBlockHarvest;
 import mirrg.mir50.block.AdaptorBlockIcon;
 import mirrg.mir50.block.AdaptorBlockName;
 import mirrg.mir50.block.AdaptorBlockSubBlocks;
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.IAdaptorBlockHarvest;
 
 public class MetaBlock
 {
@@ -22,7 +22,7 @@ public class MetaBlock
 
 	public AdaptorBlockIcon adaptorBlockIcon;
 
-	public AdaptorBlockHarvest adaptorBlockHarvest;
+	public IAdaptorBlockHarvest adaptorBlockHarvest;
 
 	public AdaptorBlockName adaptorBlockName;
 

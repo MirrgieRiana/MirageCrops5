@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorBlockHarvest extends AdaptorBlock
+public class AdaptorBlockHarvest extends AdaptorBlock implements IAdaptorBlockHarvest
 {
 
 	public AdaptorBlockHarvest(BlockMir50 blockMir50)
@@ -21,12 +21,14 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 
 	public ThreadLocal<Integer> silk_check_meta = new ThreadLocal();
 
+	@Override
 	public boolean canSilkHarvest()
 	{
 		Integer meta = silk_check_meta.get();
 		return blockMir50.renderAsNormalBlock() && !blockMir50.hasTileEntity(meta == null ? 0 : meta);
 	}
 
+	@Override
 	public boolean canSilkHarvest(World world, EntityPlayer player, int x, int y, int z, int meta)
 	{
 		silk_check_meta.set(meta);
@@ -35,6 +37,7 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 		return ret;
 	}
 
+	@Override
 	public ItemStack createStackedBlock(int meta)
 	{
 		int j = 0;
@@ -48,6 +51,7 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 		return new ItemStack(item, 1, j);
 	}
 
+	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune)
 	{
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
@@ -64,42 +68,50 @@ public class AdaptorBlockHarvest extends AdaptorBlock
 		return ret;
 	}
 
+	@Override
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
 		return quantityDroppedWithBonus(fortune, random);
 	}
 
+	@Override
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
 		return this.quantityDropped(random);
 	}
 
+	@Override
 	public int quantityDropped(Random random)
 	{
 		return 1;
 	}
 
+	@Override
 	public Item getItemDropped(int meta, Random random, int fortune)
 	{
 		return Item.getItemFromBlock(blockMir50);
 	}
 
+	@Override
 	public int damageDropped(int damage)
 	{
 		return 0;
 	}
 
+	@Override
 	public int getDamageValue(World world, int x, int y, int z)
 	{
 		return this.damageDropped(world.getBlockMetadata(x, y, z));
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z)
 	{
 		return Item.getItemFromBlock(blockMir50);
 	}
 
+	@Override
 	public int getExpDrop(IBlockAccess world, int meta, int fortune)
 	{
 		return 0;

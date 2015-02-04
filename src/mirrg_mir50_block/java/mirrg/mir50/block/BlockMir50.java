@@ -17,7 +17,11 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMir50 extends Block
+public class BlockMir50 extends Block implements
+	IAdaptorBlockHarvest,
+	IAdaptorBlockIcon,
+	IAdaptorBlockName,
+	IAdaptorBlockSubBlocks
 {
 
 	public BlockMir50(Material material)
@@ -68,7 +72,7 @@ public class BlockMir50 extends Block
 
 	//
 
-	public AdaptorBlockSubBlocks adaptorBlockSubBlocks = new AdaptorBlockSubBlocks(this);
+	public IAdaptorBlockSubBlocks adaptorBlockSubBlocks = new AdaptorBlockSubBlocks(this);
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -79,7 +83,7 @@ public class BlockMir50 extends Block
 
 	//
 
-	public AdaptorBlockIcon adaptorBlockIcon = new AdaptorBlockIcon(this);
+	public IAdaptorBlockIcon adaptorBlockIcon = new AdaptorBlockIcon(this);
 
 	@SideOnly(Side.CLIENT)
 	public final void setField_blockIcon(IIcon blockIcon)
@@ -168,7 +172,7 @@ public class BlockMir50 extends Block
 
 	//
 
-	public AdaptorBlockHarvest adaptorBlockHarvest = new AdaptorBlockHarvest(this);
+	public IAdaptorBlockHarvest adaptorBlockHarvest = new AdaptorBlockHarvest(this);
 
 	@Override
 	public boolean canSilkHarvest()
@@ -287,7 +291,7 @@ public class BlockMir50 extends Block
 
 	////////////////////////
 
-	public AdaptorBlockName adaptorBlockName = new AdaptorBlockName(this);
+	public IAdaptorBlockName adaptorBlockName = new AdaptorBlockName(this);
 
 	public Block setBlockName(String unlocalizedName)
 	{

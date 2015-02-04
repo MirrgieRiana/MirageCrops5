@@ -3,7 +3,7 @@ package mirrg.mir50.block;
 import net.minecraft.block.Block;
 import net.minecraft.util.StatCollector;
 
-public class AdaptorBlockName extends AdaptorBlock
+public class AdaptorBlockName extends AdaptorBlock implements IAdaptorBlockName
 {
 
 	public AdaptorBlockName(BlockMir50 blockMir50)
