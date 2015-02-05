@@ -14,6 +14,7 @@ public class FilterBiome implements IFilterAtPoint
 		this.biomeNameRequired = biomeNameRequired;
 	}
 
+	@Override
 	public boolean isSpawnableAtCoord(World world, Random random, int x, int y, int z)
 	{
 		String currentBiomeName = world.getBiomeGenForCoords(x, z).biomeName.toLowerCase();

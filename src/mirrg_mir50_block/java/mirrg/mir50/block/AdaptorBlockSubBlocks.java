@@ -19,7 +19,7 @@ public class AdaptorBlockSubBlocks extends Adaptor<BlockMir50> implements IAdapt
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs creativeTab, List itemStacks)
+	public void getSubBlocks(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
 		itemStacks.add(new ItemStack(item, 1, 0));
 	}

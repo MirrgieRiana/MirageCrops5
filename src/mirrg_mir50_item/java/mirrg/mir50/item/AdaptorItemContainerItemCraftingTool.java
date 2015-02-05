@@ -10,16 +10,19 @@ public class AdaptorItemContainerItemCraftingTool extends AdaptorItemContainerIt
 		super(itemMir50);
 	}
 
+	@Override
 	public boolean hasContainerItem(ItemStack itemStack)
 	{
 		return true;
 	}
 
+	@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemStack)
 	{
 		return false;
 	}
 
+	@Override
 	public ItemStack getContainerItem(ItemStack itemStack)
 	{
 		ItemStack itemStack2 = itemStack.copy();

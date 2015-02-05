@@ -24,7 +24,7 @@ public class AdaptorBlockSubBlocksMetaBlock extends AdaptorBlockSubBlocksOverrid
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs creativeTab, List itemStacks)
+	public void getSubBlocks(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
 		itemStacks.add(new ItemStack(this.metaBlock.blockMir50, 1, this.metaBlock.meta));
 	}

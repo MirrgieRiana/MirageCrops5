@@ -1,14 +1,13 @@
 package mirrg.p.virtualclass;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 
 public class VirtualClass
 {
 
 	public final Object owner;
 
-	protected Hashtable<Class<?>, VirtualImplementationSlot<?>> slots = new Hashtable<>();
+	protected VirtualClassSlots slots = new VirtualClassSlots();
 
 	public VirtualClass(Object owner)
 	{
@@ -23,7 +22,7 @@ public class VirtualClass
 	public <T> IVirtualImplementationAccessor<T> cast(Class<T> classInterface)
 	{
 		if (!slots.containsKey(classInterface)) throw new VirtualClassCastException(owner, classInterface);
-		return (IVirtualImplementationAccessor<T>) slots.get(classInterface);
+		return slots.get(classInterface);
 	}
 
 	public boolean instanceOf(Class<?> classInterface)
@@ -57,7 +56,9 @@ public class VirtualClass
 			Class<?> classInterface = keys.nextElement();
 
 			if (classInterface.isInstance(object)) {
-				setSlot(slots.get(classInterface), object);
+
+				setSlot(object, classInterface);
+
 				count++;
 			}
 		}
@@ -69,9 +70,10 @@ public class VirtualClass
 		return count;
 	}
 
-	protected <T> void setSlot(VirtualImplementationSlot<T> slot, Object object)
+	@SuppressWarnings("unchecked")
+	protected <T> void setSlot(Object object, Class<T> classInterface)
 	{
-		slot.setSlot((T) object);
+		slots.get(classInterface).setSlot((T) object);
 	}
 
 }

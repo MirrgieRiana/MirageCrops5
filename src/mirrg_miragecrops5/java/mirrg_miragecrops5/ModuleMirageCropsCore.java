@@ -239,9 +239,4 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			density, IGeneratorOreAtPoint.Helpers.fromWorldGenerator(worldGenerator), heightMin, heightMax);
 	}
 
-	private int color(int r, int g, int b)
-	{
-		return (r << 16) | (g << 8) | b;
-	}
-
 }

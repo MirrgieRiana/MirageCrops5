@@ -16,7 +16,7 @@ public class ExampleModuleDumper extends ModuleAbstract
 
 	public ExampleModuleDumper()
 	{
-		add(new Loader() {
+		add(new Loader<Void>() {
 
 			@Override
 			protected void loadThisLoader(EnumLoadEventTiming loadEvent)

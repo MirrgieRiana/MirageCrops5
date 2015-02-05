@@ -17,7 +17,7 @@ public class AdaptorItemSubItems extends AdaptorItem
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs creativeTab, List itemStacks)
+	public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
 		itemStacks.add(new ItemStack(item, 1, 0));
 	}

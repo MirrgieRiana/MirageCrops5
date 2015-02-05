@@ -40,6 +40,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 		this.target = target;
 	}
 
+	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
 		for (IFilterAtPoint filterAtPoint : filterAtPoints) {

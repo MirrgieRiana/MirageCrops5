@@ -27,6 +27,7 @@ public class TestVirtualClass
 			Assert.assertEquals("iron", b.getName());
 
 			b.virtualClass.override(new IGetName() {
+				@Override
 				public String getName()
 				{
 					return "gold";
@@ -54,6 +55,7 @@ public class TestVirtualClass
 			}
 
 			b.virtualClass.register(C.class, new C() {
+				@Override
 				public int getStrength()
 				{
 					return 400;
@@ -86,11 +88,13 @@ public class TestVirtualClass
 			b.virtualClass.register(D.class, new D() {
 				private final C superC = b.virtualClass.getCurrentImplementation(C.class);
 
+				@Override
 				public int getStrength()
 				{
 					return superC.getStrength();
 				}
 
+				@Override
 				public int getDurability()
 				{
 					return getStrength() * 2;
@@ -101,6 +105,7 @@ public class TestVirtualClass
 			Assert.assertEquals(800, b.virtualClass.getCurrentImplementation(D.class).getDurability());
 
 			b.virtualClass.override(new C() {
+				@Override
 				public int getStrength()
 				{
 					return 789;
@@ -113,11 +118,13 @@ public class TestVirtualClass
 			b.virtualClass.override(new D() {
 				private final D superD = b.virtualClass.getCurrentImplementation(D.class);
 
+				@Override
 				public int getStrength()
 				{
 					return superD.getDurability() * 2;
 				}
 
+				@Override
 				public int getDurability()
 				{
 					return b.virtualClass.getCurrentImplementation(D.class).getStrength() * 2;
@@ -128,6 +135,7 @@ public class TestVirtualClass
 			Assert.assertEquals(3200, b.virtualClass.getCurrentImplementation(D.class).getDurability());
 
 			b.virtualClass.override(new IGetName() {
+				@Override
 				public String getName()
 				{
 					return "" + b.virtualClass.getCurrentImplementation(D.class).getDurability();
@@ -174,6 +182,7 @@ public class TestVirtualClass
 
 		public final IVirtualImplementationAccessor<IGetName> accessor_IGetName;
 
+		@Override
 		public String getName()
 		{
 			return accessor_IGetName.get().getName();
@@ -198,6 +207,7 @@ public class TestVirtualClass
 			this.b = b;
 		}
 
+		@Override
 		public String getName()
 		{
 			return "iron";

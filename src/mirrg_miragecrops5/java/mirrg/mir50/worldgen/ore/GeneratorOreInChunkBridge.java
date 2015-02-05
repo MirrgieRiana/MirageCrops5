@@ -72,6 +72,7 @@ public class GeneratorOreInChunkBridge implements IGeneratorOreInChunk
 		this.yProvider = yProvider;
 	}
 
+	@Override
 	public void generate(World world, Random random, int chunkX, int chunkZ, Post event)
 	{
 		for (int l = 0; l < density; ++l)

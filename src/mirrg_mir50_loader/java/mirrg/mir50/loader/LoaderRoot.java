@@ -11,6 +11,7 @@ public class LoaderRoot extends Loader<Void> implements Iterable<Loader<?>>
 		if (loadEvent == EnumLoadEventTiming.Created) loadCompleted();
 	}
 
+	@Override
 	public Iterator<Loader<?>> iterator()
 	{
 		return dependancies.iterator();

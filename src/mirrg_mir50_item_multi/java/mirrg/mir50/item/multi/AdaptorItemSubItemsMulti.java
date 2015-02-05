@@ -23,7 +23,7 @@ public class AdaptorItemSubItemsMulti extends AdaptorItemSubItems
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs creativeTab, List itemStacks)
+	public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
 		containerMetaItem.forEach(metaItem -> {
 			if (metaItem != null) {

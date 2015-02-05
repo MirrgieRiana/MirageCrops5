@@ -5,6 +5,7 @@ import java.util.List;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -21,7 +22,7 @@ public class AdaptorBlockSubBlocksOverriding extends AdaptorBlockSubBlocks
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs creativeTab, List itemStacks)
+	public void getSubBlocks(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
 		this._super_IAdaptorBlockSubBlocks.getSubBlocks(item, creativeTab, itemStacks);
 	}
