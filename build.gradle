@@ -148,6 +148,17 @@ def packageDependancy = [
 
     /////////////////////////////////////////////////////
 
+    "mirrg_mir50_item": [
+        fromForge(true),
+        fromSourceSet("mirrg_p", true),
+    ],
+
+    "mirrg_mir50_item_multi": [
+        fromSourceSet("mirrg_mir50_item", true),
+    ],
+
+    /////////////////////////////////////////////////////
+
     "api_mirrg_mir50_loader": [
     ],
 
@@ -176,16 +187,6 @@ def packageDependancy = [
     "mirrg_mir50_worldgen_ore": [
         fromSourceSet("mirrg_mir40_math"),
         fromSourceSet("api_mirrg_mir50_worldgen", true),
-    ],
-
-    /////////////////////////////////////////////////////
-
-    "mirrg_mir50_item": [
-        fromForge(true),
-    ],
-
-    "mirrg_mir50_item_multi": [
-        fromSourceSet("mirrg_mir50_item", true),
     ],
 
     /////////////////////////////////////////////////////
