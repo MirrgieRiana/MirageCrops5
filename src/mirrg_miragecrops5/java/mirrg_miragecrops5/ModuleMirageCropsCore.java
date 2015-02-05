@@ -13,8 +13,8 @@ import mirrg.mir50.block.multi.HelpersBlockMulti;
 import mirrg.mir50.block.multi.IAdaptorBlockNameExtra;
 import mirrg.mir50.block.multi.ItemBlockMulti;
 import mirrg.mir50.block.multi.MetaBlock;
-import mirrg.mir50.item.AdaptorItemContainerItemCraftingTool;
 import mirrg.mir50.item.ItemMir50;
+import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingTool;
 import mirrg.mir50.loaders.LoaderBlock;
 import mirrg.mir50.loaders.LoaderCreativeTab;
 import mirrg.mir50.loaders.LoaderItem;
@@ -92,6 +92,9 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		loaderBlock_oreCalciteGroup.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
+			blockMir50.setBlockName("oreCalciteGroup");
+			blockMir50.setBlockTextureName("minecraft:stone");
+
 			{
 				ContainerMetaBlock containerMetaBlock = new ContainerMetaBlock(16);
 				HelpersBlockMulti.make(blockMir50, blockMir50, containerMetaBlock);
@@ -136,6 +139,9 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 
 		loaderBlock_blockCalciteGroup.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
+
+			blockMir50.setBlockName("blockCalciteGroup");
+			blockMir50.setBlockTextureName("minecraft:stone");
 
 			{
 				ContainerMetaBlock containerMetaBlock = new ContainerMetaBlock(16);
@@ -185,7 +191,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			itemMir50.setTextureName("minecraft:iron_pickaxe");
 
 			itemMir50.setMaxDamage(20 - 1);
-			itemMir50.adaptorItemContainerItem = new AdaptorItemContainerItemCraftingTool(itemMir50);
+			itemMir50.virtualClass.override(new AdaptorItemContainerItemCraftingTool(itemMir50, itemMir50));
 
 			return itemMir50;
 		}, "craftingToolHammerIron", ModMirageCrops.MODID);

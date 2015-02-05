@@ -1,7 +1,8 @@
 package mirrg.mir50.item.multi;
 
-import mirrg.mir50.item.AdaptorItemIcon;
+import mirrg.mir50.item.AdaptorItemIconOverriding;
 import mirrg.mir50.item.ItemMir50;
+import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,40 +10,40 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorItemIconMulti extends AdaptorItemIcon
+public class AdaptorItemIconMulti extends AdaptorItemIconOverriding
 {
 
 	protected ContainerMetaItem containerMetaItem;
 
 	@SideOnly(Side.CLIENT)
-	protected boolean requiresMultipleRenderPasses;
+	public boolean requiresMultipleRenderPasses;
 
-	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem, boolean requiresMultipleRenderPasses)
+	public AdaptorItemIconMulti(ItemMir50 itemSample, IVirtualClass virtualClass, ContainerMetaItem containerMetaItem, boolean requiresMultipleRenderPasses)
 	{
-		super(itemSample);
+		super(itemSample, virtualClass);
 		this.containerMetaItem = containerMetaItem;
 		this.requiresMultipleRenderPasses = requiresMultipleRenderPasses;
 	}
 
-	public AdaptorItemIconMulti(ItemMir50 itemSample, ContainerMetaItem containerMetaItem)
+	public AdaptorItemIconMulti(ItemMir50 itemSample, IVirtualClass virtualClass, ContainerMetaItem containerMetaItem)
 	{
-		this(itemSample, containerMetaItem, false);
+		this(itemSample, virtualClass, containerMetaItem, false);
 	}
 
 	@Override
 	public IIcon getIcon(ItemStack itemStack, int pass, EntityPlayer player, ItemStack usingItem, int useRemaining)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIcon(itemStack, pass, player, usingItem, useRemaining);
-		return metaItem.adaptorItemIcon.getIcon(itemStack, pass, player, usingItem, useRemaining);
+		if (metaItem == null) return super.getIcon(itemStack, pass, player, usingItem, useRemaining);
+		return metaItem.accessor_IAdaptorItemIcon.get().getIcon(itemStack, pass, player, usingItem, useRemaining);
 	}
 
 	@Override
 	public IIcon getIcon(ItemStack itemStack, int pass)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIcon(itemStack, pass);
-		return metaItem.adaptorItemIcon.getIcon(itemStack, pass);
+		if (metaItem == null) return super.getIcon(itemStack, pass);
+		return metaItem.accessor_IAdaptorItemIcon.get().getIcon(itemStack, pass);
 	}
 
 	@Override
@@ -50,8 +51,8 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	public IIcon getIconFromDamageForRenderPass(int meta, int pass)
 	{
 		MetaItem metaItem = containerMetaItem.get(meta);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIconFromDamageForRenderPass(meta, pass);
-		return metaItem.adaptorItemIcon.getIconFromDamageForRenderPass(meta, pass);
+		if (metaItem == null) return super.getIconFromDamageForRenderPass(meta, pass);
+		return metaItem.accessor_IAdaptorItemIcon.get().getIconFromDamageForRenderPass(meta, pass);
 	}
 
 	@Override
@@ -59,8 +60,8 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	public IIcon getIconFromDamage(int meta)
 	{
 		MetaItem metaItem = containerMetaItem.get(meta);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getIconFromDamage(meta);
-		return metaItem.adaptorItemIcon.getIconFromDamage(meta);
+		if (metaItem == null) return super.getIconFromDamage(meta);
+		return metaItem.accessor_IAdaptorItemIcon.get().getIconFromDamage(meta);
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 		super.registerIcons(iconRegister);
 
 		containerMetaItem.forEach(metaItem -> {
-			if (metaItem != null && metaItem.adaptorItemIcon != null) metaItem.adaptorItemIcon.registerIcons(iconRegister);
+			if (metaItem != null) metaItem.accessor_IAdaptorItemIcon.get().registerIcons(iconRegister);
 		});
 
 	}
@@ -88,8 +89,8 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 		if (!requiresMultipleRenderPasses()) return 1;
 
 		MetaItem metaItem = containerMetaItem.get(meta);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getRenderPasses(meta);
-		return metaItem.adaptorItemIcon.getRenderPasses(meta);
+		if (metaItem == null) return super.getRenderPasses(meta);
+		return metaItem.accessor_IAdaptorItemIcon.get().getRenderPasses(meta);
 	}
 
 	@Override
@@ -97,8 +98,8 @@ public class AdaptorItemIconMulti extends AdaptorItemIcon
 	public int getColorFromItemStack(ItemStack itemStack, int pass)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
-		if (metaItem == null || metaItem.adaptorItemIcon == null) return super.getColorFromItemStack(itemStack, pass);
-		return metaItem.adaptorItemIcon.getColorFromItemStack(itemStack, pass);
+		if (metaItem == null) return super.getColorFromItemStack(itemStack, pass);
+		return metaItem.accessor_IAdaptorItemIcon.get().getColorFromItemStack(itemStack, pass);
 	}
 
 }

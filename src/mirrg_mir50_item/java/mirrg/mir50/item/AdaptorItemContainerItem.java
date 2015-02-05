@@ -1,31 +1,36 @@
 package mirrg.mir50.item;
 
+import mirrg.p.adaptor.Adaptor;
 import net.minecraft.item.ItemStack;
 
-public class AdaptorItemContainerItem extends AdaptorItem
+public class AdaptorItemContainerItem extends Adaptor<ItemMir50> implements IAdaptorItemContainerItem
 {
 
-	public AdaptorItemContainerItem(ItemMir50 itemMir50)
+	public AdaptorItemContainerItem(ItemMir50 owner)
 	{
-		super(itemMir50);
+		super(owner);
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
 	public boolean hasContainerItem(ItemStack itemStack)
 	{
-		return itemMir50.hasContainerItem();
+		return this.owner.hasContainerItem();
 	}
 
+	@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemStack)
 	{
 		return true;
 	}
 
+	@Override
 	public ItemStack getContainerItem(ItemStack itemStack)
 	{
-		if (!hasContainerItem(itemStack)) {
+		if (!owner.accessor_IAdaptorItemContainerItem.get().hasContainerItem(itemStack)) {
 			return null;
 		}
-		return new ItemStack(itemMir50.getContainerItem());
+		return new ItemStack(this.owner.getContainerItem());
 	}
 
 }

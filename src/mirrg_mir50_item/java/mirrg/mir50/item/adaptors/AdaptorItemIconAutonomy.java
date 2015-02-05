@@ -1,7 +1,10 @@
-package mirrg.mir50.item;
+package mirrg.mir50.item.adaptors;
 
 import java.util.ArrayList;
 
+import mirrg.mir50.item.AdaptorItemIconOverriding;
+import mirrg.mir50.item.ItemMir50;
+import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * {@link Item}クラスと独立したアイコンを持つアイコンプロバイダー。色付きマルチプルレンダー対応。
  */
-public class AdaptorItemIconAutonomy extends AdaptorItemIcon
+public class AdaptorItemIconAutonomy extends AdaptorItemIconOverriding
 {
 
 	@SideOnly(Side.CLIENT)
@@ -23,33 +26,33 @@ public class AdaptorItemIconAutonomy extends AdaptorItemIcon
 	@SideOnly(Side.CLIENT)
 	public ArrayList<Integer> iconColors = new ArrayList<>();
 
-	public AdaptorItemIconAutonomy(ItemMir50 itemSample)
+	public AdaptorItemIconAutonomy(ItemMir50 owner, IVirtualClass superObject)
 	{
-		super(itemSample);
+		super(owner, superObject);
 	}
 
-	public AdaptorItemIconAutonomy(ItemMir50 itemSample, String iconString)
+	public AdaptorItemIconAutonomy(ItemMir50 owner, IVirtualClass superObject, String iconString)
 	{
-		super(itemSample);
-		appendIcon(iconString);
+		super(owner, superObject);
+		this.appendIcon(iconString);
 	}
 
 	public void appendIcon(String iconString)
 	{
-		appendIcon(iconString, 0xffffff);
+		this.appendIcon(iconString, 0xffffff);
 	}
 
 	public void appendIcon(String iconString, int iconColor)
 	{
-		iconStrings.add(iconString);
-		iconColors.add(iconColor);
+		this.iconStrings.add(iconString);
+		this.iconColors.add(iconColor);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamageForRenderPass(int meta, int pass)
 	{
-		return itemIcons.get(pass);
+		return this.itemIcons.get(pass);
 	}
 
 	@Override
@@ -57,53 +60,53 @@ public class AdaptorItemIconAutonomy extends AdaptorItemIcon
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta)
 	{
-		return getIconFromDamageForRenderPass(meta, 0);
+		return owner.accessor_IAdaptorItemIcon.get().getIconFromDamageForRenderPass(meta, 0);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister)
 	{
-		while (itemIcons.size() < iconStrings.size()) {
-			itemIcons.add(null);
+		while (this.itemIcons.size() < this.iconStrings.size()) {
+			this.itemIcons.add(null);
 		}
-		for (int i = 0; i < iconStrings.size(); i++) {
-			itemIcons.set(i, iconRegister.registerIcon(iconStrings.get(i)));
+		for (int i = 0; i < this.iconStrings.size(); i++) {
+			this.itemIcons.set(i, iconRegister.registerIcon(this.iconStrings.get(i)));
 		}
 	}
 
 	public String getIconString(int pass)
 	{
-		return iconStrings.get(pass) == null
-			? "MISSING_ICON_ITEM_" + Item.itemRegistry.getIDForObject(itemMir50) + "_" + itemMir50.getUnlocalizedName()
-			: iconStrings.get(pass);
+		return this.iconStrings.get(pass) == null
+			? "MISSING_ICON_ITEM_" + Item.itemRegistry.getIDForObject(this.owner) + "_" + this.owner.getUnlocalizedName()
+			: this.iconStrings.get(pass);
 	}
 
 	@Override
 	@Deprecated
 	public String getIconString()
 	{
-		return getIconString(0);
+		return this.getIconString(0);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean requiresMultipleRenderPasses()
 	{
-		return itemIcons.size() != 1;
+		return this.itemIcons.size() != 1;
 	}
 
 	@Override
 	public int getRenderPasses(int meta)
 	{
-		return itemIcons.size();
+		return this.itemIcons.size();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack itemStack, int pass)
 	{
-		return iconColors.get(pass);
+		return this.iconColors.get(pass);
 	}
 
 }

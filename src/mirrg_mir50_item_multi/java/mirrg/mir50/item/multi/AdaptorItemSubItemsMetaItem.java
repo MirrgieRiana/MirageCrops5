@@ -11,26 +11,22 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class AdaptorItemSubItemsMulti extends AdaptorItemSubItemsOverriding
+public class AdaptorItemSubItemsMetaItem extends AdaptorItemSubItemsOverriding
 {
 
-	protected ContainerMetaItem containerMetaItem;
+	protected final MetaItem metaItem;
 
-	public AdaptorItemSubItemsMulti(ItemMir50 itemMir50, IVirtualClass virtualClass, ContainerMetaItem containerMetaItem)
+	public AdaptorItemSubItemsMetaItem(ItemMir50 owner, IVirtualClass superObject, MetaItem metaItem)
 	{
-		super(itemMir50, virtualClass);
-		this.containerMetaItem = containerMetaItem;
+		super(owner, superObject);
+		this.metaItem = metaItem;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 	{
-		containerMetaItem.forEach(metaItem -> {
-			if (metaItem != null) {
-				metaItem.accessor_IAdaptorItemSubItems.get().getSubItems(item, creativeTab, itemStacks);
-			}
-		});
+		itemStacks.add(new ItemStack(this.metaItem.itemMir50, 1, this.metaItem.meta));
 	}
 
 }

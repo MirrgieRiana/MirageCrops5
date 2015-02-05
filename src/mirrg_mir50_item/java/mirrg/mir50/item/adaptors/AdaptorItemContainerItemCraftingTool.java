@@ -1,13 +1,16 @@
-package mirrg.mir50.item;
+package mirrg.mir50.item.adaptors;
 
+import mirrg.mir50.item.AdaptorItemContainerItemOverriding;
+import mirrg.mir50.item.ItemMir50;
+import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.item.ItemStack;
 
-public class AdaptorItemContainerItemCraftingTool extends AdaptorItemContainerItem
+public class AdaptorItemContainerItemCraftingTool extends AdaptorItemContainerItemOverriding
 {
 
-	public AdaptorItemContainerItemCraftingTool(ItemMir50 itemMir50)
+	public AdaptorItemContainerItemCraftingTool(ItemMir50 owner, IVirtualClass superObject)
 	{
-		super(itemMir50);
+		super(owner, superObject);
 	}
 
 	@Override

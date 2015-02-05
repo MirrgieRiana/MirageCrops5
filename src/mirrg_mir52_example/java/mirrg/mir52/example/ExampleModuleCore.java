@@ -1,9 +1,10 @@
 package mirrg.mir52.example;
 
 import mirrg.mir50.block.BlockMir50;
-import mirrg.mir50.item.AdaptorItemIconAutonomy;
-import mirrg.mir50.item.AdaptorItemNameAutonomy;
 import mirrg.mir50.item.ItemMir50;
+import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
+import mirrg.mir50.item.multi.AdaptorItemNameAutonomy;
+import mirrg.mir50.item.multi.AdaptorItemSubItemsMetaItem;
 import mirrg.mir50.item.multi.ContainerMetaItem;
 import mirrg.mir50.item.multi.HelpersItemMulti;
 import mirrg.mir50.item.multi.MetaItem;
@@ -39,20 +40,19 @@ public class ExampleModuleCore extends ModuleAbstract
 		add(loaderCreativeTab);
 
 		loaderItemSample.init(() -> {
-			ItemMir50 itemSample = new ItemMir50();
+			ItemMir50 itemMir50 = new ItemMir50();
 
-			itemSample.setUnlocalizedName("sample");
-			itemSample.setTextureName("minecraft:apple");
+			itemMir50.setUnlocalizedName("sample");
+			itemMir50.setTextureName("minecraft:apple");
 
 			{
 				ContainerMetaItem metaItemContainer = new ContainerMetaItem(100);
-
-				HelpersItemMulti.makeItemMulti(itemSample, metaItemContainer, true);
+				HelpersItemMulti.make(itemMir50, itemMir50, metaItemContainer, true);
 
 				{
 					int metaId = 0;
 
-					MetaItem metaItem = new MetaItem(itemSample, metaId);
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
 
 					metaItemContainer.set(metaId, metaItem);
 				}
@@ -60,9 +60,11 @@ public class ExampleModuleCore extends ModuleAbstract
 				{
 					int metaId = 1;
 
-					MetaItem metaItem = new MetaItem(itemSample, metaId);
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
 
-					metaItem.adaptorItemIcon = new AdaptorItemIconAutonomy(itemSample, "minecraft:arrow");
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(itemMir50, metaItem, "minecraft:arrow"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
@@ -70,9 +72,11 @@ public class ExampleModuleCore extends ModuleAbstract
 				{
 					int metaId = 2;
 
-					MetaItem metaItem = new MetaItem(itemSample, metaId);
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
 
-					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample2");
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+
+					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample2"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
@@ -84,14 +88,16 @@ public class ExampleModuleCore extends ModuleAbstract
 				{
 					int metaId = 4;
 
-					MetaItem metaItem = new MetaItem(itemSample, metaId);
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
 
 					{
-						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemSample, "minecraft:gold_ingot");
+						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemMir50, metaItem, "minecraft:gold_ingot");
 						adaptorItemIconAutonomy.appendIcon("minecraft:fish_cod_raw");
-						metaItem.adaptorItemIcon = adaptorItemIconAutonomy;
+						metaItem.virtualClass.override(adaptorItemIconAutonomy);
 					}
-					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample4");
+					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
@@ -99,21 +105,23 @@ public class ExampleModuleCore extends ModuleAbstract
 				{
 					int metaId = 5;
 
-					MetaItem metaItem = new MetaItem(itemSample, metaId);
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
 
 					{
-						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemSample);
+						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemMir50, metaItem);
 						adaptorItemIconAutonomy.appendIcon("minecraft:iron_ingot", 0x22cc00);
-						metaItem.adaptorItemIcon = adaptorItemIconAutonomy;
+						metaItem.virtualClass.override(adaptorItemIconAutonomy);
 					}
-					metaItem.adaptorItemName = new AdaptorItemNameAutonomy(itemSample, "sample4");
+					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
 
 			}
 
-			return itemSample;
+			return itemMir50;
 		}, "sampleItem", ExampleMod.MODID);
 		loaderItemSample.setCreativeTab(loaderCreativeTab);
 		ExampleApiModuleCore.loaderItemSample = loaderItemSample;
@@ -131,6 +139,7 @@ public class ExampleModuleCore extends ModuleAbstract
 		loaderBlockSample.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
 
+			blockMir50.setBlockName("sampleBlock");
 			//setBlockTextureName("minecraft:grass_top");
 			blockMir50.setBlockTextureName("minecraft:double_plant_sunflower_front");
 
@@ -142,6 +151,9 @@ public class ExampleModuleCore extends ModuleAbstract
 
 		loaderBlockSample2.init(() -> {
 			BlockMir50 blockMir50 = new BlockMir50(Material.rock);
+
+			blockMir50.setBlockName("sampleBlock2");
+			blockMir50.setBlockTextureName("minecraft:stone");
 
 			AdaptorBlockMultipleRenderingAutonomy a = HelpersBlockMultipleRendering.makeAutonomy(blockMir50, blockMir50);
 
