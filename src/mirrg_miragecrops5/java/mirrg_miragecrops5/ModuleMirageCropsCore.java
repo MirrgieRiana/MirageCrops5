@@ -3,9 +3,9 @@ package mirrg_miragecrops5;
 import java.util.function.Supplier;
 
 import mirrg.mir40.math.HelpersString;
-import mirrg.mir50.block.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.multi.AdaptorBlockHarvestMetaBlock;
+import mirrg.mir50.block.multi.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.multi.AdaptorBlockNameExtra;
 import mirrg.mir50.block.multi.AdaptorBlockSubBlocksMetaBlock;
 import mirrg.mir50.block.multi.ContainerMetaBlock;

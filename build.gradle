@@ -70,12 +70,81 @@ processResources
 
 
 
+def fromSourceSet(target, output = false)
+{
+    return [
+        output: output,
+        target: target,
+        runner: { packageName ->
 
+	        println packageName + "  depends on  " + target
+
+	        tasks["compile" + packageName.capitalize() + "Java"].dependsOn tasks[target + "Classes"]
+
+	        dependencies.add packageName + "Compile", files(
+	            sourceSets[target].output.classesDir,
+	            sourceSets[target].output.resourcesDir)
+
+	    },
+    ]
+}
+
+def fromForge(output = false)
+{
+    return [
+        output: output,
+        target: "",
+        runner: { packageName ->
+	        println packageName + "  depends on  " + "MinecraftForge"
+	        configurations[packageName + "Compile"].extendsFrom configurations.compile
+        },
+    ]
+}
+
+def fromString(string, output = false)
+{
+    return [
+        output: output,
+        target: "",
+        runner: { packageName ->
+	        println packageName + "  depends on  " + string
+	        dependencies.add packageName + "Compile", string
+	    },
+    ]
+}
 
 // パッケージと依存関係の定義
 // 依存関係は再帰する
 @groovy.transform.Field
 def packageDependancy = [
+
+    "mirrg_p": [
+        fromString('junit:junit:4.11'),
+    ],
+
+    "mirrg_mir50_block": [
+        fromForge(true),
+        fromSourceSet("mirrg_p", true),
+    ],
+
+    "mirrg_mir50_block_multi": [
+        fromSourceSet("mirrg_mir50_block", true),
+    ],
+
+    "mirrg_mir50_render_block": [
+        fromForge(true),
+    ],
+
+    "mirrg_mir51_render_block_multiple": [
+        fromSourceSet("mirrg_mir50_block", true),
+        fromSourceSet("mirrg_mir50_loaders"),
+        fromSourceSet("mirrg_mir50_render_block"),
+    ],
+
+    "mirrg_mir51_render_block_multiple_multi": [
+        fromSourceSet("mirrg_mir51_render_block_multiple", true),
+        fromSourceSet("mirrg_mir50_block_multi", true),
+    ],
 
     /////////////////////////////////////////////////////
 
@@ -83,66 +152,58 @@ def packageDependancy = [
     ],
 
     "mirrg_mir50_loader": [
-        "api_mirrg_mir50_loader",
+        fromSourceSet("api_mirrg_mir50_loader", true),
     ],
 
-    //
+    "api_mirrg_mir50_worldgen": [
+        fromForge(true),
+    ],
+
+    "mirrg_mir50_loaders": [
+        fromForge(),
+        fromSourceSet("api_mirrg_mir50_worldgen", true),
+        fromSourceSet("mirrg_mir50_loader", true),
+    ],
 
     "mirrg_mir50_modding": [
-        "mirrg_mir50_loader",
-    ],
-    "mirrg_mir50_loaders": [
-        "mirrg_mir50_loader",
+        fromForge(true),
+        fromSourceSet("mirrg_mir50_loader", true),
     ],
 
-    /////////////////////////////////////////////////////
-
-	"mirrg_mir50_item": [
-	],
-
-    //
-
-	"mirrg_mir50_item_multi": [
-	    "mirrg_mir50_item",
-	],
-
-    /////////////////////////////////////////////////////
-
-    "mirrg_mir50_block": [
+    "mirrg_mir40_math": [
     ],
 
-    //
-
-    "mirrg_mir50_block_multi": [
-        "mirrg_mir50_block",
+    "mirrg_mir50_worldgen_ore": [
+        fromSourceSet("mirrg_mir40_math"),
+        fromSourceSet("api_mirrg_mir50_worldgen", true),
     ],
 
     /////////////////////////////////////////////////////
 
-    "mirrg_mir50_render_block": [
+    "mirrg_mir50_item": [
+        fromForge(true),
     ],
 
-    //
-
-    //###################################################
-
-    "mirrg_mir51_render_block_multiple": [
-        "mirrg_mir50_loaders",
-        "mirrg_mir50_block",
-        "mirrg_mir50_render_block",
+    "mirrg_mir50_item_multi": [
+        fromSourceSet("mirrg_mir50_item", true),
     ],
 
-    //###################################################
+    /////////////////////////////////////////////////////
 
     "mirrg_mir52_example": [
-        "mirrg_mir50_loaders",
-        "mirrg_mir50_modding",
-        "mirrg_mir50_item_multi",
-        "mirrg_mir50_block_multi",
-        "mirrg_mir51_render_block_multiple",
+        fromSourceSet("mirrg_mir50_modding"),
+        fromSourceSet("mirrg_mir50_loaders"),
+        fromSourceSet("mirrg_mir50_block"),
+        fromSourceSet("mirrg_mir51_render_block_multiple"),
+        fromSourceSet("mirrg_mir50_item_multi"),
     ],
     "mirrg_miragecrops5": [
-        "mirrg_mir52_example",
+        fromSourceSet("mirrg_mir50_modding"),
+        fromSourceSet("mirrg_mir50_loaders"),
+        fromSourceSet("mirrg_mir51_render_block_multiple_multi"),
+        fromSourceSet("mirrg_mir50_item_multi"),
+        fromSourceSet("mirrg_mir40_math"),
+        fromSourceSet("mirrg_mir50_worldgen_ore"),
     ],
 
 ]
@@ -171,11 +232,6 @@ packages.each {
 // 準拠指定
 sourceCompatibility = targetCompatibility = '1.8'
 
-// 依存の継承
-packages.each {
-    configurations[it + "Compile"].extendsFrom configurations.compile
-}
-
 // compileJavaコマンドのタスクに指定
 compileJava.dependsOn tasks["api" + "Classes"]
 packages.each {
@@ -194,32 +250,26 @@ def getDependancy(packageName) {
     def res = []
 
     def add
-    add = {
+    add = { it, firstLayer ->
         def list = packageDependancy[it]
 	    list.each {
 	        if (!res.contains(it)) {
-	            res.add it
-	            add it
+	            if (firstLayer || it.output) {
+		            res.add it
+		            add it.target, false
+		        }
 	        }
 	    }
     }
 
-    add packageName
+    add packageName, true
 
     return res
 }
 
 // パッケージ依存関係の定義
-packages.each { key ->
-    getDependancy(key).each {
-
-        println key + "  depends on  " + it
-
-        tasks["compile" + key.capitalize() + "Java"].dependsOn tasks[it + "Classes"]
-
-        dependencies.add key + "Compile", files(
-            sourceSets[it].output.classesDir,
-            sourceSets[it].output.resourcesDir)
-
+packages.each { packageName ->
+    getDependancy(packageName).each { depencancy ->
+        depencancy.runner(packageName)
     }
 }

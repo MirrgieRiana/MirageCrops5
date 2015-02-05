@@ -1,5 +1,7 @@
-package mirrg.mir50.block;
+package mirrg.mir50.block.multi;
 
+import mirrg.mir50.block.AdaptorBlockNameOverriding;
+import mirrg.mir50.block.BlockMir50;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;
 
