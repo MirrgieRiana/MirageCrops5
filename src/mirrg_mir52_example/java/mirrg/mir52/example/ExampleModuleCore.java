@@ -92,12 +92,13 @@ public class ExampleModuleCore extends ModuleAbstract
 
 					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
 
+					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
+
 					{
 						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemMir50, metaItem, "minecraft:gold_ingot");
 						adaptorItemIconAutonomy.appendIcon("minecraft:fish_cod_raw");
 						metaItem.virtualClass.override(adaptorItemIconAutonomy);
 					}
-					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
@@ -109,12 +110,13 @@ public class ExampleModuleCore extends ModuleAbstract
 
 					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
 
+					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
+
 					{
 						AdaptorItemIconAutonomy adaptorItemIconAutonomy = new AdaptorItemIconAutonomy(itemMir50, metaItem);
 						adaptorItemIconAutonomy.appendIcon("minecraft:iron_ingot", 0x22cc00);
 						metaItem.virtualClass.override(adaptorItemIconAutonomy);
 					}
-					metaItem.virtualClass.override(new AdaptorItemNameAutonomy(itemMir50, metaItem, "sample4"));
 
 					metaItemContainer.set(metaId, metaItem);
 				}
