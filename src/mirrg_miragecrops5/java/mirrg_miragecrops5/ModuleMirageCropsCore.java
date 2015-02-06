@@ -15,6 +15,11 @@ import mirrg.mir50.block.multi.ItemBlockMulti;
 import mirrg.mir50.block.multi.MetaBlock;
 import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingTool;
+import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
+import mirrg.mir50.item.multi.AdaptorItemSubItemsMetaItem;
+import mirrg.mir50.item.multi.ContainerMetaItem;
+import mirrg.mir50.item.multi.HelpersItemMulti;
+import mirrg.mir50.item.multi.MetaItem;
 import mirrg.mir50.loaders.LoaderBlock;
 import mirrg.mir50.loaders.LoaderCreativeTab;
 import mirrg.mir50.loaders.LoaderItem;
@@ -47,6 +52,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 	public LoaderBlock loaderBlock_oreCalciteGroup = new LoaderBlock();
 	public LoaderBlock loaderBlock_blockCalciteGroup = new LoaderBlock();
 	public LoaderItem loaderItem_craftingToolHammerIron = new LoaderItem();
+	public LoaderItem loaderItem_craftingTool = new LoaderItem();
 
 	public ContainerMetaBlock container1;
 	public ContainerMetaBlock container2;
@@ -188,6 +194,7 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 			ItemMir50 itemMir50 = new ItemMir50();
 
 			itemMir50.setMaxStackSize(1);
+			itemMir50.setUnlocalizedName("sample");
 			itemMir50.setTextureName("minecraft:iron_pickaxe");
 
 			itemMir50.setMaxDamage(20 - 1);
@@ -197,6 +204,95 @@ public class ModuleMirageCropsCore extends ModuleAbstract
 		}, "craftingToolHammerIron", ModMirageCrops.MODID);
 		loaderItem_craftingToolHammerIron.setCreativeTab(loaderCreativeTab);
 		add(loaderItem_craftingToolHammerIron);
+
+		loaderItem_craftingTool.init(() -> {
+			ItemMir50 itemMir50 = new ItemMir50();
+
+			itemMir50.setUnlocalizedName("craftingTool");
+			itemMir50.setTextureName("minecraft:apple");
+
+			{
+				ContainerMetaItem metaItemContainer = new ContainerMetaItem(100);
+				HelpersItemMulti.make(itemMir50, itemMir50, metaItemContainer, true);
+
+				{
+					int metaId = 0;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingDallFairy"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 1;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingSpinachiumMold"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 2;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingSpinachiumMoldBaked"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 3;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingSpinachiumMoldFilled"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 4;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingSpiritFairy"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 5;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingToolHardHammerSpinachium"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 6;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:craftingToolMirageFairy"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+				{
+					int metaId = 7;
+					MetaItem metaItem = new MetaItem(itemMir50, metaId);
+					metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
+					metaItem.virtualClass.override(new AdaptorItemIconAutonomy(
+						itemMir50, metaItem, "miragecrops5:dustMirage"));
+					metaItemContainer.set(metaId, metaItem);
+				}
+
+			}
+
+			return itemMir50;
+		}, "craftingTool", ModMirageCrops.MODID);
+		loaderItem_craftingTool.setCreativeTab(loaderCreativeTab);
+		add(loaderItem_craftingTool);
 
 		add(new LoaderRecipe(() -> {
 
