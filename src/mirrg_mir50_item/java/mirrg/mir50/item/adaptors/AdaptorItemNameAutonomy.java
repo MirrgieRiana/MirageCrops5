@@ -1,4 +1,4 @@
-package mirrg.mir50.item.multi;
+package mirrg.mir50.item.adaptors;
 
 import mirrg.mir50.item.AdaptorItemNameOverriding;
 import mirrg.mir50.item.ItemMir50;

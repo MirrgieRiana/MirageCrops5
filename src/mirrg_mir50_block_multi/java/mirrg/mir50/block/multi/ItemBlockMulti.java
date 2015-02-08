@@ -1,5 +1,6 @@
 package mirrg.mir50.block.multi;
 
+import mirrg.mir50.block.adaptors.IAdaptorBlockNameExtra;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;

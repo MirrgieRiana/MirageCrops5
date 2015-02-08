@@ -1,4 +1,4 @@
-package mirrg.mir50.block.multi;
+package mirrg.mir50.block.adaptors;
 
 import mirrg.mir50.block.IAdaptorBlockName;
 import net.minecraft.item.ItemStack;

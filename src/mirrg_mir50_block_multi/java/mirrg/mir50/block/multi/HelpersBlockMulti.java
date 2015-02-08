@@ -1,6 +1,8 @@
 package mirrg.mir50.block.multi;
 
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.adaptors.AdaptorBlockNameExtra;
+import mirrg.mir50.block.adaptors.IAdaptorBlockNameExtra;
 import mirrg.p.virtualclass.IVirtualClass;
 
 public class HelpersBlockMulti
