@@ -22,6 +22,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		this.containerMetaItem = containerMetaItem;
 	}
 
+	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -32,6 +33,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		metaItem.accessor_IAdaptorItemEvents.get().onArmorTick(world, player, itemStack);
 	}
 
+	@Override
 	public boolean onBlockDestroyed(ItemStack itemStack, World world, Block block, int x, int y, int z, EntityLivingBase entityLiving)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -39,6 +41,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onBlockDestroyed(itemStack, world, block, x, y, z, entityLiving);
 	}
 
+	@Override
 	public boolean onBlockStartBreak(ItemStack itemStack, int x, int y, int z, EntityPlayer player)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -46,6 +49,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onBlockStartBreak(itemStack, x, y, z, player);
 	}
 
+	@Override
 	public void onCreated(ItemStack itemStack, World world, EntityPlayer player)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -56,6 +60,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		metaItem.accessor_IAdaptorItemEvents.get().onCreated(itemStack, world, player);
 	}
 
+	@Override
 	public boolean onDroppedByPlayer(ItemStack itemStack, EntityPlayer player)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -63,6 +68,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onDroppedByPlayer(itemStack, player);
 	}
 
+	@Override
 	public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -70,6 +76,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onEaten(itemStack, world, player);
 	}
 
+	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
 		MetaItem metaItem = containerMetaItem.get(entityItem.getEntityItem());
@@ -77,6 +84,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onEntityItemUpdate(entityItem);
 	}
 
+	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack itemStack)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -84,6 +92,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onEntitySwing(entityLiving, itemStack);
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -91,6 +100,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onItemRightClick(itemStack, world, player);
 	}
 
+	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -98,6 +108,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onItemUse(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 
+	@Override
 	public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -105,6 +116,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 
+	@Override
 	public boolean onLeftClickEntity(ItemStack itemStack, EntityPlayer player, Entity entity)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -112,6 +124,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		return metaItem.accessor_IAdaptorItemEvents.get().onLeftClickEntity(itemStack, player, entity);
 	}
 
+	@Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world, EntityPlayer player, int itemInUseCount)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -122,6 +135,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		metaItem.accessor_IAdaptorItemEvents.get().onPlayerStoppedUsing(itemStack, world, player, itemInUseCount);
 	}
 
+	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int positionInInventory, boolean having)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
@@ -132,6 +146,7 @@ public class AdaptorItemEventsMulti extends AdaptorItemEventsOverriding
 		metaItem.accessor_IAdaptorItemEvents.get().onUpdate(itemStack, world, entity, positionInInventory, having);
 	}
 
+	@Override
 	public void onUsingTick(ItemStack itemStack, EntityPlayer player, int count)
 	{
 		MetaItem metaItem = containerMetaItem.get(itemStack);
