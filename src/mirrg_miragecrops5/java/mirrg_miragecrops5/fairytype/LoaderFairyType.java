@@ -1,4 +1,4 @@
-package mirrg_miragecrops5;
+package mirrg_miragecrops5.fairytype;
 
 import java.util.function.Consumer;
 

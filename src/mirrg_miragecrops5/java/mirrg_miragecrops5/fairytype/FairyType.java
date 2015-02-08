@@ -1,4 +1,4 @@
-package mirrg_miragecrops5;
+package mirrg_miragecrops5.fairytype;
 
 import mirrg_miragecrops5.recipefairy.OreMatcher;
 import net.minecraft.item.ItemStack;
