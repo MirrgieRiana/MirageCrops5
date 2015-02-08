@@ -8,6 +8,16 @@ public class LoaderOreDictionary extends Loader<Void>
 
 	protected Runnable runner;
 
+	public LoaderOreDictionary()
+	{
+
+	}
+
+	public LoaderOreDictionary(Runnable runner)
+	{
+		init(runner);
+	}
+
 	public void init(Runnable runner)
 	{
 		this.runner = runner;
@@ -16,7 +26,7 @@ public class LoaderOreDictionary extends Loader<Void>
 	@Override
 	protected void loadThisLoader(EnumLoadEventTiming loadEvent)
 	{
-		if (loadEvent == EnumLoadEventTiming.PreInit) {
+		if (loadEvent == EnumLoadEventTiming.Init) {
 			runner.run();
 			loadCompleted();
 		}
