@@ -25,6 +25,19 @@ public class FairyType
 		return oreMatcher.matches(itemStack);
 	}
 
-	public int color = 0xffffff;
+	/**
+	 * 奥翅の色
+	 */
+	public int colorA = 0xffffff;
+
+	/**
+	 * 手前翅の色
+	 */
+
+	public int colorB = 0xffffff;
+	/**
+	 * 触角の色
+	 */
+	public int colorC = 0xffffff;
 
 }
