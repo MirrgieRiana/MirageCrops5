@@ -18,6 +18,8 @@ public class HelpersItemMulti
 		virtualClass.getVirtualClass().override(new AdaptorItemSubItemsMulti(itemMir50, virtualClass, containerMetaItem));
 		virtualClass.getVirtualClass().override(new AdaptorItemIconMulti(itemMir50, virtualClass, containerMetaItem, requiresMultipleRenderPasses));
 		virtualClass.getVirtualClass().override(new AdaptorItemNameMulti(itemMir50, virtualClass, containerMetaItem));
+		virtualClass.getVirtualClass().override(new AdaptorItemContainerItemMulti(itemMir50, virtualClass, containerMetaItem));
+		virtualClass.getVirtualClass().override(new AdaptorItemEventsMulti(itemMir50, virtualClass, containerMetaItem));
 	}
 
 }
