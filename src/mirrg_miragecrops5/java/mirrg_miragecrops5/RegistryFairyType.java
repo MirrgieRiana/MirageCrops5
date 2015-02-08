@@ -2,6 +2,8 @@ package mirrg_miragecrops5;
 
 import java.util.Hashtable;
 
+import net.minecraft.item.ItemStack;
+
 public class RegistryFairyType
 {
 
@@ -9,7 +11,28 @@ public class RegistryFairyType
 
 	public static FairyType register(String typeName)
 	{
-		return hash.put(typeName, new FairyType(typeName));
+		FairyType value = new FairyType(typeName);
+		hash.put(typeName, value);
+		return value;
+	}
+
+	public static FairyType get(String typeName)
+	{
+		return hash.get(typeName);
+	}
+
+	public static FairyType get(ItemStack itemStack)
+	{
+		for (FairyType fairyType : hash.values()) {
+			if (fairyType.matches(itemStack)) return fairyType;
+		}
+
+		return null;
+	}
+
+	public static boolean matches(String typeName, ItemStack itemStack)
+	{
+		return get(typeName).matches(itemStack);
 	}
 
 }
