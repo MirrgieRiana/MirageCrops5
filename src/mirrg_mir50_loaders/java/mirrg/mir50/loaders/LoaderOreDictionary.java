@@ -26,7 +26,7 @@ public class LoaderOreDictionary extends Loader<Void>
 	@Override
 	protected void loadThisLoader(EnumLoadEventTiming loadEvent)
 	{
-		if (loadEvent == EnumLoadEventTiming.Init) {
+		if (loadEvent == EnumLoadEventTiming.PreInit) {
 			runner.run();
 			loadCompleted();
 		}
