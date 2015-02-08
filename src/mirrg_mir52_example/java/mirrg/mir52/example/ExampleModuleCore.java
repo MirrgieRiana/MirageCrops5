@@ -3,7 +3,7 @@ package mirrg.mir52.example;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.item.ItemMir50;
 import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
-import mirrg.mir50.item.multi.AdaptorItemNameAutonomy;
+import mirrg.mir50.item.adaptors.AdaptorItemNameAutonomy;
 import mirrg.mir50.item.multi.AdaptorItemSubItemsMetaItem;
 import mirrg.mir50.item.multi.ContainerMetaItem;
 import mirrg.mir50.item.multi.HelpersItemMulti;
