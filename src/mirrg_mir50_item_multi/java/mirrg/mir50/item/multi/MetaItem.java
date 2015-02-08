@@ -1,10 +1,12 @@
 package mirrg.mir50.item.multi;
 
 import mirrg.mir50.item.AdaptorItemContainerItem;
+import mirrg.mir50.item.AdaptorItemEvents;
 import mirrg.mir50.item.AdaptorItemIcon;
 import mirrg.mir50.item.AdaptorItemName;
 import mirrg.mir50.item.AdaptorItemSubItems;
 import mirrg.mir50.item.IAdaptorItemContainerItem;
+import mirrg.mir50.item.IAdaptorItemEvents;
 import mirrg.mir50.item.IAdaptorItemIcon;
 import mirrg.mir50.item.IAdaptorItemName;
 import mirrg.mir50.item.IAdaptorItemSubItems;
@@ -40,6 +42,8 @@ public class MetaItem implements IVirtualClass
 		accessor_IAdaptorItemName = virtualClass.cast(IAdaptorItemName.class);
 		virtualClass.register(IAdaptorItemContainerItem.class, new AdaptorItemContainerItem(itemMir50));
 		accessor_IAdaptorItemContainerItem = virtualClass.cast(IAdaptorItemContainerItem.class);
+		virtualClass.register(IAdaptorItemEvents.class, new AdaptorItemEvents(itemMir50));
+		accessor_IAdaptorItemEvents = virtualClass.cast(IAdaptorItemEvents.class);
 
 	}
 
@@ -50,5 +54,7 @@ public class MetaItem implements IVirtualClass
 	public final IVirtualImplementationAccessor<IAdaptorItemName> accessor_IAdaptorItemName;
 
 	public final IVirtualImplementationAccessor<IAdaptorItemContainerItem> accessor_IAdaptorItemContainerItem;
+
+	public final IVirtualImplementationAccessor<IAdaptorItemEvents> accessor_IAdaptorItemEvents;
 
 }

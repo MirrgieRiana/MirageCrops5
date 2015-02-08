@@ -1,9 +1,14 @@
 package mirrg.mir50.item;
 
+import java.util.List;
+
 import mirrg.p.adaptor.Adaptor;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class AdaptorItemName extends Adaptor<ItemMir50> implements IAdaptorItemName
 {
@@ -37,6 +42,13 @@ public class AdaptorItemName extends Adaptor<ItemMir50> implements IAdaptorItemN
 	public String getUnlocalizedName(ItemStack itemStack)
 	{
 		return "item." + this.owner.getField_unlocalizedName();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
+	{
+
 	}
 
 }
