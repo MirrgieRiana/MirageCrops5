@@ -1,5 +1,7 @@
 package mirrg_miragecrops5.recipefairy;
 
+import java.util.function.Predicate;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -8,10 +10,10 @@ import net.minecraft.world.World;
 public class RecipeFairy implements IRecipe
 {
 
-	protected IRecipeFairyInput[] inputs;
+	protected Predicate<ItemStack>[] inputs;
 	protected IRecipeFairyMatching result;
 
-	public RecipeFairy(IRecipeFairyMatching result, IRecipeFairyInput... inputs)
+	public RecipeFairy(IRecipeFairyMatching result, OreMatcher... inputs)
 	{
 		this.result = result;
 		this.inputs = inputs;
@@ -27,7 +29,7 @@ public class RecipeFairy implements IRecipe
 	public boolean matches(InventoryCrafting inventoryCrafting, World world)
 	{
 
-		IRecipeFairyInput[] inputs = this.inputs.clone();
+		Predicate<ItemStack>[] inputs = this.inputs.clone();
 		Integer[] slotIndexes = new Integer[inputs.length];
 		int matchCount = 0;
 
@@ -36,7 +38,7 @@ public class RecipeFairy implements IRecipe
 
 			for (int indexInput = 0; indexInput < inputs.length; indexInput++) {
 				if (slotIndexes[indexInput] == null) {
-					if (inputs[indexInput].matches(watching)) {
+					if (inputs[indexInput].test(watching)) {
 						matchCount++;
 						slotIndexes[indexInput] = indexSlot;
 					}
@@ -51,7 +53,7 @@ public class RecipeFairy implements IRecipe
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting)
 	{
-		IRecipeFairyInput[] inputs = this.inputs.clone();
+		Predicate<ItemStack>[] inputs = this.inputs.clone();
 		Integer[] slotIndexes = new Integer[inputs.length];
 		int matchCount = 0;
 
@@ -60,7 +62,7 @@ public class RecipeFairy implements IRecipe
 
 			for (int indexInput = 0; indexInput < inputs.length; indexInput++) {
 				if (slotIndexes[indexInput] == null) {
-					if (inputs[indexInput].matches(watching)) {
+					if (inputs[indexInput].test(watching)) {
 						matchCount++;
 						slotIndexes[indexInput] = indexSlot;
 					}
