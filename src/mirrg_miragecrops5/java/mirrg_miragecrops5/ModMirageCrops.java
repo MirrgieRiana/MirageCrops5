@@ -1,6 +1,7 @@
 package mirrg_miragecrops5;
 
 import mirrg.mir51.modding.ModAbstract;
+import mirrg_miragecrops5.machine.ModuleMachine;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -29,11 +30,19 @@ public class ModMirageCrops extends ModAbstract
 
 	//
 
-	public static ModuleMirageCropsCore moduleMirageCropsCore = new ModuleMirageCropsCore();
+	public static ModuleCore moduleCore = new ModuleCore();
+	public static ModuleMaterials moduleMaterials = new ModuleMaterials();
+	public static ModuleWorldGeneration moduleWorldGeneration = new ModuleWorldGeneration();
+	public static ModuleFairyType moduleFairyType = new ModuleFairyType();
+	public static ModuleMachine moduleMachine = new ModuleMachine();
 
 	public ModMirageCrops()
 	{
-		add(moduleMirageCropsCore);
+		add(moduleCore);
+		add(moduleMaterials);
+		add(moduleWorldGeneration);
+		add(moduleFairyType);
+		add(moduleMachine);
 
 		handleCreated();
 	}
