@@ -1,4 +1,4 @@
-package mirrg.mir40.math;
+package mirrg.mir50.math;
 
 public class HelpersString
 {

@@ -1,4 +1,4 @@
-package mirrg.mir40.math;
+package mirrg.mir50.math;
 
 public class HelpersCollision
 {
@@ -20,7 +20,7 @@ public class HelpersCollision
 	/**
 	 * {@link #isHit(int, int, int)}
 	 */
-	public static int isHit(int x, int y, int xMin, int xMax, int yMin, int yMax)
+	public static int isHit(int x, int y, int xMin, int yMin, int xMax, int yMax)
 	{
 		return Math.min(isHit(y, yMin, yMax), isHit(x, xMin, xMax));
 	}
@@ -44,7 +44,7 @@ public class HelpersCollision
 	 * {@link #getHit(int, int, int, boolean)}と同じだが、ビットは下位からxmin, xmax, ymin,
 	 * ymaxになっている。
 	 */
-	public static int getHit(int x, int y, int xMin, int xMax, int yMin, int yMax, boolean border)
+	public static int getHit(int x, int y, int xMin, int yMin, int xMax, int yMax, boolean border)
 	{
 		return getHit(x, xMin, xMax, border) | (getHit(y, yMin, yMax, border) << 2);
 	}

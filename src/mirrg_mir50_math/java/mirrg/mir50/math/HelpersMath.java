@@ -1,4 +1,4 @@
-package mirrg.mir40.math;
+package mirrg.mir50.math;
 
 import java.util.Random;
 

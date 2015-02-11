@@ -3,7 +3,7 @@ package mirrg.mir50.worldgen.ore;
 import java.util.ArrayList;
 import java.util.Random;
 
-import mirrg.mir40.math.HelpersMath;
+import mirrg.mir50.math.HelpersMath;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
