@@ -40,4 +40,23 @@ public class FairyType
 	 */
 	public int colorC = 0xffffff;
 
+	public int ph, in, em, lo, ma, tr;
+
+	public void setColors(int a, int b, int c)
+	{
+		colorA = a;
+		colorB = b;
+		colorC = c;
+	}
+
+	public void setValues(int ph, int in, int em, int lo, int ma, int tr)
+	{
+		this.ph = ph;
+		this.in = in;
+		this.em = em;
+		this.lo = lo;
+		this.ma = ma;
+		this.tr = tr;
+	}
+
 }
