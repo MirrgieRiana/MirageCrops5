@@ -66,8 +66,8 @@ public abstract class ModAbstract
 	//
 
 	@SidedProxy(
-		clientSide = "mirrg.mir50.modding.ProxyClient",
-		serverSide = "mirrg.mir50.modding.ProxyServer")
+		clientSide = "mirrg.mir51.modding.ProxyClient",
+		serverSide = "mirrg.mir51.modding.ProxyServer")
 	public static IProxy proxy;
 
 	public static boolean isClient()
