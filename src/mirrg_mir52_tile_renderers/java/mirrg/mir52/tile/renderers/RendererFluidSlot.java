@@ -2,7 +2,7 @@ package mirrg.mir52.tile.renderers;
 
 import java.util.ArrayList;
 
-import mirrg.mir50.math.HelpersCollision;
+import mirrg.he.math.HelpersCollision;
 import mirrg.mir50.tile.renderer.IGuiRenderHelper;
 import mirrg.mir50.tile.renderer.IRenderer;
 import mirrg.mir50.tile.renderer.IGuiRenderHelper.EnumRotate;
