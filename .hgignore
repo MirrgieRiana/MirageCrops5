@@ -18,3 +18,4 @@ build/resources/
 build/sources/
 build/classes/
 bin/
+log.txt
