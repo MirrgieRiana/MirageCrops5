@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class HandlersItemUse
+public class HelpersItemUse
 {
 
 	public static ItemStack craft(ItemStack holding, World world, EntityPlayer player,
