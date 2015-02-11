@@ -1,6 +1,6 @@
 package mirrg.mir52.example;
 
-import mirrg.mir50.modding.ModAbstract;
+import mirrg.mir51.modding.ModAbstract;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

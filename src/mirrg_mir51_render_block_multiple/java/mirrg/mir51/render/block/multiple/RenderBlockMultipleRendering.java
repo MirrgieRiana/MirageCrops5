@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import mirrg.mir50.loaders.LoaderSimpleBlockRenderingHandler;
 import mirrg.mir50.render.block.RenderBlockAbstract;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;

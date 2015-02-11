@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import mirrg.mir50.loader.EnumLoadEventTiming;
 import mirrg.mir50.loader.Loader;
-import mirrg.mir50.modding.ModuleAbstract;
+import mirrg.mir51.modding.ModuleAbstract;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;

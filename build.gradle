@@ -118,93 +118,145 @@ def fromString(string, output = false)
 @groovy.transform.Field
 def packageDependancy = [
 
-    "mirrg_p": [
+    // ----- Level -1 -----
+
+    "mirrg": [
         fromString('junit:junit:4.11'),
     ],
 
-    "mirrg_mir50_block": [
-        fromForge(true),
-        fromSourceSet("mirrg_p", true),
-    ],
+    // forge
 
-    "mirrg_mir50_block_multi": [
-        fromSourceSet("mirrg_mir50_block", true),
-    ],
+    //########################################################################
 
-    "mirrg_mir50_render_block": [
+    // ----- Level 0 API -----
+
+    "ic2_api": [
         fromForge(true),
     ],
-
-    "mirrg_mir51_render_block_multiple": [
-        fromSourceSet("mirrg_mir50_block", true),
-        fromSourceSet("mirrg_mir50_loaders"),
-        fromSourceSet("mirrg_mir50_render_block"),
-    ],
-
-    "mirrg_mir51_render_block_multiple_multi": [
-        fromSourceSet("mirrg_mir51_render_block_multiple", true),
-        fromSourceSet("mirrg_mir50_block_multi", true),
-    ],
-
-    /////////////////////////////////////////////////////
-
-    "mirrg_mir50_item": [
-        fromForge(true),
-        fromSourceSet("mirrg_p", true),
-    ],
-
-    "mirrg_mir50_item_multi": [
-        fromSourceSet("mirrg_mir50_item", true),
-    ],
-
-    /////////////////////////////////////////////////////
 
     "api_mirrg_mir50_loader": [
-    ],
-
-    "mirrg_mir50_loader": [
-        fromSourceSet("api_mirrg_mir50_loader", true),
     ],
 
     "api_mirrg_mir50_worldgen": [
         fromForge(true),
     ],
 
-    "mirrg_mir50_loaders": [
-        fromForge(),
+    "api_mirrg_mir50_net": [
+    ],
+
+    //########################################################################
+
+    // ----- Level 0 -----
+
+    "mirrg_mir50_block": [
+        fromForge(true),
+        fromSourceSet("mirrg", true),
+    ],
+
+    "mirrg_mir50_render_block": [
+        fromForge(true),
+    ],
+
+    "mirrg_mir50_item": [
+        fromForge(true),
+        fromSourceSet("mirrg", true),
+    ],
+
+    "mirrg_mir50_loader": [
+        fromSourceSet("api_mirrg_mir50_loader", true),
+    ],
+
+    "mirrg_mir50_worldgen_ore": [
+        fromSourceSet("mirrg", true),
+        fromSourceSet("api_mirrg_mir50_worldgen", true),
+    ],
+
+    "mirrg_mir50_guihandler": [
+        fromForge(true),
+        fromSourceSet("mirrg", true),
+    ],
+
+    "mirrg_mir50_tile_renderer": [
+        fromForge(true),
+    ],
+
+    "mirrg_mir50_tile_inventory": [
+        fromForge(true),
+        fromSourceSet("api_mirrg_mir50_net", true),
+    ],
+
+    //########################################################################
+
+    // ----- Level 1 -----
+
+    "mirrg_mir51_block_multi": [
+        fromSourceSet("mirrg_mir50_block", true),
+    ],
+
+    "mirrg_mir51_item_multi": [
+        fromSourceSet("mirrg_mir50_item", true),
+    ],
+
+    "mirrg_mir51_loaders": [
+        fromForge(true),
         fromSourceSet("api_mirrg_mir50_worldgen", true),
         fromSourceSet("mirrg_mir50_loader", true),
     ],
 
-    "mirrg_mir50_modding": [
+    "mirrg_mir51_modding": [
         fromForge(true),
         fromSourceSet("mirrg_mir50_loader", true),
     ],
 
-    "mirrg_mir40_math": [
+    "mirrg_mir51_render_block_multiple": [
+        fromSourceSet("mirrg_mir50_block", true),
+        fromSourceSet("mirrg_mir50_loader", true),
+        fromSourceSet("mirrg_mir50_render_block", true),
     ],
 
-    "mirrg_mir50_worldgen_ore": [
-        fromSourceSet("mirrg_mir40_math"),
-        fromSourceSet("api_mirrg_mir50_worldgen", true),
+    "mirrg_mir51_tile_renderers": [
+        fromSourceSet("mirrg", true),
+        fromSourceSet("mirrg_mir50_tile_renderer", true),
+        fromSourceSet("mirrg_mir50_tile_inventory", true),
     ],
 
-    /////////////////////////////////////////////////////
+    //########################################################################
+
+    // ----- Level 2 -----
+
+    "mirrg_mir52_render_block_multiple_multi": [
+        fromSourceSet("mirrg_mir51_render_block_multiple", true),
+        fromSourceSet("mirrg_mir51_block_multi", true),
+    ],
+
+    "mirrg_mir52_tile": [
+        fromSourceSet("ic2_api", true),
+        fromSourceSet("mirrg_mir51_modding", true),
+        fromSourceSet("api_mirrg_mir50_net", true),
+        fromSourceSet("mirrg_mir50_guihandler", true),
+        fromSourceSet("mirrg_mir50_tile_inventory", true),
+        fromSourceSet("mirrg_mir51_tile_renderers", true),
+    ],
+
+    //########################################################################
+
+    // ----- Level Ex -----
 
     "mirrg_mir52_example": [
-        fromSourceSet("mirrg_mir50_modding"),
-        fromSourceSet("mirrg_mir50_loaders"),
+        fromSourceSet("mirrg_mir51_modding"),
+        fromSourceSet("mirrg_mir51_loaders"),
         fromSourceSet("mirrg_mir50_block"),
         fromSourceSet("mirrg_mir51_render_block_multiple"),
-        fromSourceSet("mirrg_mir50_item_multi"),
+        fromSourceSet("mirrg_mir51_item_multi"),
     ],
     "mirrg_miragecrops5": [
-        fromSourceSet("mirrg_mir50_modding"),
-        fromSourceSet("mirrg_mir50_loaders"),
-        fromSourceSet("mirrg_mir51_render_block_multiple_multi"),
-        fromSourceSet("mirrg_mir50_item_multi"),
-        fromSourceSet("mirrg_mir40_math"),
+        fromSourceSet("mirrg_mir51_modding"),
+        fromSourceSet("mirrg_mir51_loaders"),
+        fromSourceSet("mirrg_mir52_render_block_multiple_multi"),
+        fromSourceSet("mirrg_mir51_item_multi"),
+        fromSourceSet("mirrg"),
         fromSourceSet("mirrg_mir50_worldgen_ore"),
+        fromSourceSet("mirrg_mir52_tile"),
     ],
 
 ]
