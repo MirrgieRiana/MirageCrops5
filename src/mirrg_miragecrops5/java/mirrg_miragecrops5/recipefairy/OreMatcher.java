@@ -33,6 +33,14 @@ public class OreMatcher implements Predicate<ItemStack>
 		}
 	}
 
+	public OreMatcher addMatcher(String... oreNames)
+	{
+		for (String oreName : oreNames) {
+			addMatcher(oreName);
+		}
+		return this;
+	}
+
 	public OreMatcher addMatcher(String oreName)
 	{
 		return addMatcher(itemStack -> {
