@@ -41,4 +41,17 @@ public class HelpersMath
 		return value;
 	}
 
+	public static int log2(int value)
+	{
+		if (value <= 0) return -9999;
+		int t = -1;
+
+		while (value != 0) {
+			value >>= 1;
+			t++;
+		}
+
+		return t;
+	}
+
 }
