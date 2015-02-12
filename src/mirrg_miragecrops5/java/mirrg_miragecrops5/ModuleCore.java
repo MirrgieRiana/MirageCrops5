@@ -4,7 +4,10 @@ import static net.minecraft.util.EnumChatFormatting.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 
+import mirrg.he.math.HelpersMath;
+import mirrg.he.math.HelpersString;
 import mirrg.mir50.item.AdaptorItemEventsOverriding;
 import mirrg.mir50.item.AdaptorItemIconOverriding;
 import mirrg.mir50.item.AdaptorItemNameOverriding;
@@ -90,26 +93,53 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					if (itemStack.getTagCompound() != null
 						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
 						String type = itemStack.getTagCompound().getString("type");
-						strings.add("Type: " + AQUA + type);
 
-						strings.add("Values:");
-						strings.add(
-							GRAY + "       Tr " + GREEN + "+14 " + GREEN + "|||" + BLACK + "|||||||");
-						strings.add(
-							GRAY + "Lo " + DARK_GRAY + "  0 " + BLACK + "||||||||||" +
-								GRAY +
-								" Ma " + GREEN + " +9 " + GREEN + "||" + BLACK + "||||||||");
-						strings.add(
-							GRAY + "In " + RED + " -7 " + RED + "||" + BLACK + "||||||||" +
-								GRAY + " Em " + DARK_GRAY + "  0 " + BLACK + "||||||||||");
-						strings.add(
-							GRAY + "       Ph " + DARK_GRAY + "  0 " + BLACK + "||||||||||");
+						FairyType fairyType = RegistryFairyType.get(type);
 
-						strings.add("Effects:");
-						strings.add("    Right: 攻撃力増加");
-						strings.add("    Left : 防御力増加");
-						strings.add("    Chest: 自動整列");
-						strings.add("    植物成長効率増加");
+						if (fairyType != null) {
+							strings.add("Type: " + AQUA + fairyType.typeName);
+
+							IntFunction<String> makeGauge = v -> {
+								StringBuffer sb = new StringBuffer();
+								if (v < 0) {
+									sb.append(RED);
+									sb.append("-");
+								} else if (v > 0) {
+									sb.append(GREEN);
+									sb.append("+");
+								} else {
+									sb.append(DARK_GRAY);
+									sb.append(" ");
+								}
+								sb.append(Math.abs(v));
+								sb.append(" ");
+
+								int gauge = HelpersMath.log2(Math.abs(v)) + 1;
+								if (v == 0) gauge = 0;
+								sb.append(HelpersString.rept("|", gauge));
+								sb.append(BLACK);
+								sb.append(HelpersString.rept("|", 10 - gauge));
+								return sb.toString();
+							};
+
+							strings.add("Values:");
+							strings.add(GRAY + "       Tr " + makeGauge.apply(fairyType.tr));
+							strings.add(GRAY + "Lo " + makeGauge.apply(fairyType.lo) +
+								GRAY + " Ma " + makeGauge.apply(fairyType.ma));
+							strings.add(GRAY + "In " + makeGauge.apply(fairyType.in) +
+								GRAY + " Em " + makeGauge.apply(fairyType.em));
+							strings.add(GRAY + "       Ph " + makeGauge.apply(fairyType.ph));
+							strings.add("");
+							strings.add(GRAY + "Heat " + makeGauge.apply(41));
+							strings.add("");
+							strings.add("Effects:");
+							strings.add("    Right: 攻撃力増加");
+							strings.add("    Left : 防御力増加");
+							strings.add("    Chest: 自動整列");
+							strings.add("    植物成長効率増加");
+						} else {
+							strings.add("Type: " + RED + type);
+						}
 
 					} else {
 						strings.add("Type: " + RED + "Undefined!!");
