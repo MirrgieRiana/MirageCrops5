@@ -247,6 +247,22 @@ public class GuiMir53 extends GuiContainer
 		}
 
 		@Override
+		public void drawRectBlend(int x1, int y1, int x2, int y2, int color)
+		{
+			GL11.glDisable(GL11.GL_ALPHA_TEST);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+			glColor4f(color);
+
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			drawRect(x1, y1, x2, y2);
+
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+
+		@Override
 		public void drawRect(int x1, int y1, int x2, int y2)
 		{
 			Tessellator tessellator = Tessellator.instance;

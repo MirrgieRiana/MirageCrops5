@@ -28,6 +28,8 @@ public interface IGuiRenderHelper
 
 	public void drawRectMultiply(int x1, int y1, int x2, int y2, int color);
 
+	public void drawRectBlend(int x1, int y1, int x2, int y2, int color);
+
 	public void drawRect(int x1, int y1, int x2, int y2);
 
 	public void drawRectFrame(int x, int y, int w, int h, int padding, int borderSize);
