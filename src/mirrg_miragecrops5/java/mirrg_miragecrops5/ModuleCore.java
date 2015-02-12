@@ -132,6 +132,24 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				{
 					if (pass == 1) return 0xFF78A7;
 
+					if (pass >= 2) {
+						FairyType fairyType = RegistryFairyType.get("apatite");
+						if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
+						if (pass == 2) return fairyType.colorA;
+						if (pass == 3) return fairyType.colorB;
+						if (pass == 4) return fairyType.colorC;
+					}
+
+					return super.getColorFromItemStack(itemStack, pass);
+				}
+			});
+			itemMir50.virtualClass.override(new AdaptorItemIconOverriding(itemMir50, itemMir50) {
+				@Override
+				@SideOnly(Side.CLIENT)
+				public int getColorFromItemStack(ItemStack itemStack, int pass)
+				{
+					if (pass == 1) return 0xFF78A7;
+
 					if (pass >= 2 && itemStack.getTagCompound() != null
 						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
 						String type = itemStack.getTagCompound().getString("type");
