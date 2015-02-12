@@ -249,6 +249,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		});
 
 		process_loaderItem_multi(loaderItem_craftingTool, loaderCreativeTab, "craftingTool", (itemMir50, metaItemContainer) -> {
+			itemMir50.setTextureName("minecraft:apple");
 			setMetaItem(itemMir50, metaItemContainer, 0, "craftingDallFairy", null, false);
 			setMetaItem(itemMir50, metaItemContainer, 1, "craftingSpinachiumMold", null, false);
 			setMetaItem(itemMir50, metaItemContainer, 2, "craftingSpinachiumMoldBaked", (metaItem, a) -> {
