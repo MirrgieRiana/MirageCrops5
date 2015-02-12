@@ -10,4 +10,13 @@ public class HelpersString
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
+	public static String rept(String string, int count)
+	{
+		StringBuffer sb = new StringBuffer(string.length() * count);
+		for (; count > 0; count--) {
+			sb.append(string);
+		}
+		return sb.toString();
+	}
+
 }
