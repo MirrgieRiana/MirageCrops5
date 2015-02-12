@@ -1,7 +1,5 @@
 package mirrg_miragecrops5.machine;
 
-import java.util.function.IntUnaryOperator;
-
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir50.tile.inventory.FluidTank;
 import mirrg.mir50.tile.inventory.Inventory;
@@ -44,7 +42,7 @@ public class TileEntityMachineMirageFairy extends TileEntityMir53Connected
 
 	public TileEntityMachineMirageFairy()
 	{
-		inventory = add(new Inventory(this, 9 * 3), "inventory");
+		inventory = add(new Inventory(this, 8 * 3), "inventory");
 		inventoryChain.add(inventory);
 
 		fluidTank = add(new FluidTank(this, 16 * 1000), "fluidTank");
@@ -89,51 +87,15 @@ public class TileEntityMachineMirageFairy extends TileEntityMir53Connected
 		InventoryTrimmer inventoryPlayer = new InventoryTrimmer(container.getPlayer().inventory, 9, 27);
 		InventoryTrimmer inventoryHandle = new InventoryTrimmer(container.getPlayer().inventory, 0, 9);
 
-		container.addInventory(inventoryChest, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 8 + (id % 9) * 18;
-			}
-		}, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 16 + (id / 9) * 18;
-			}
-		}, false);
-		container.addInventory(inventoryPlayer, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 8 + (id % 9) * 18;
-			}
-		}, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 84 + (id / 9) * 18;
-			}
-		}, true);
-		container.addInventory(inventoryHandle, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 8 + (id % 9) * 18;
-			}
-		}, new IntUnaryOperator() {
-			@Override
-			public int applyAsInt(int id)
-			{
-				return 142;
-			}
-		}, true);
+		container.addInventory(inventoryChest, id -> 8 + (id % 8) * 18, id -> 16 + (id / 8) * 18, false);
+		container.addInventory(inventoryPlayer, id -> 8 + (id % 9) * 18, id -> 84 + (id / 9) * 18, true);
+		container.addInventory(inventoryHandle, id -> 8 + (id % 9) * 18, id -> 142, true);
 
 		container.setTransferInventories(inventoryChest, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryPlayer, inventoryChest);
 		container.setTransferInventories(inventoryHandle, inventoryChest);
 
-		container.addFluidSlot(new FluidSlot(fluidTank, 180, 16, 16, 60));
+		container.addFluidSlot(new FluidSlot(fluidTank, 152, 16, 16, 52));
 	}
 
 	@Override
