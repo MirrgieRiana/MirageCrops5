@@ -3,13 +3,12 @@ package mirrg_miragecrops5.machine;
 import mirrg.mir50.block.AdaptorBlockEventsOverriding;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.guihandler.IGuiProvider;
-import mirrg.mir50.loader.EnumLoadEventTiming;
-import mirrg.mir50.loader.Loader;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.GuiMir53;
+import mirrg_miragecrops5.LoaderTileEntity;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
@@ -17,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -29,16 +27,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public ModuleMachine()
 	{
 
-		add(new Loader<Void>() {
-			@Override
-			protected void loadThisLoader(EnumLoadEventTiming loadEvent)
-			{
-				if (loadEvent == EnumLoadEventTiming.PreInit) {
-					GameRegistry.registerTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy");
-					loadCompleted();
-				}
-			}
-		});
+		add(new LoaderTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy"));
 
 		loaderGuiHandler.guiId = 1;
 		loaderGuiHandler.supplierMod = () -> ModMirageCrops.instance;
