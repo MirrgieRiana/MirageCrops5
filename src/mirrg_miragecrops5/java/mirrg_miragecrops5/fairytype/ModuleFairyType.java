@@ -1,10 +1,10 @@
-package mirrg_miragecrops5;
+package mirrg_miragecrops5.fairytype;
 
 import java.util.Arrays;
 import java.util.List;
 
 import mirrg.he.math.HelpersString;
-import mirrg_miragecrops5.fairytype.LoaderFairyType;
+import mirrg_miragecrops5.ModuleMirageCropsAbstract;
 
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
