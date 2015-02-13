@@ -1,7 +1,7 @@
-package mirrg.mir51.tile.renderers;
+package mirrg.mir51.gui.renderers;
 
-import mirrg.mir50.tile.renderer.IGuiRenderHelper;
-import mirrg.mir50.tile.renderer.IRenderer;
+import mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import mirrg.mir50.gui.renderer.IRenderer;
 import net.minecraft.inventory.Slot;
 
 import org.lwjgl.opengl.GL11;

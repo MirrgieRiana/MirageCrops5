@@ -176,7 +176,7 @@ def packageDependancy = [
         fromSourceSet("mirrg", true),
     ],
 
-    "mirrg_mir50_tile_renderer": [
+    "mirrg_mir50_gui_renderer": [
         fromForge(true),
     ],
 
@@ -214,9 +214,9 @@ def packageDependancy = [
         fromSourceSet("mirrg_mir50_render_block", true),
     ],
 
-    "mirrg_mir51_tile_renderers": [
+    "mirrg_mir51_gui_renderers": [
         fromSourceSet("mirrg", true),
-        fromSourceSet("mirrg_mir50_tile_renderer", true),
+        fromSourceSet("mirrg_mir50_gui_renderer", true),
         fromSourceSet("mirrg_mir50_tile_inventory", true),
     ],
 
@@ -235,7 +235,7 @@ def packageDependancy = [
         fromSourceSet("api_mirrg_mir50_net", true),
         fromSourceSet("mirrg_mir50_guihandler", true),
         fromSourceSet("mirrg_mir50_tile_inventory", true),
-        fromSourceSet("mirrg_mir51_tile_renderers", true),
+        fromSourceSet("mirrg_mir51_gui_renderers", true),
     ],
 
     //########################################################################

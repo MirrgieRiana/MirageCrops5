@@ -2,12 +2,12 @@ package mirrg.mir52.tile;
 
 import java.util.List;
 
-import mirrg.mir50.tile.renderer.IGuiRenderHelper;
-import mirrg.mir50.tile.renderer.IRenderer;
-import mirrg.mir50.tile.renderer.IRendererProvider;
-import mirrg.mir51.tile.renderers.RendererEnergySlotProgress;
-import mirrg.mir51.tile.renderers.RendererFluidSlot;
-import mirrg.mir51.tile.renderers.RendererSlot;
+import mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import mirrg.mir50.gui.renderer.IRenderer;
+import mirrg.mir50.gui.renderer.IRendererProvider;
+import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
+import mirrg.mir51.gui.renderers.RendererFluidSlot;
+import mirrg.mir51.gui.renderers.RendererSlot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;

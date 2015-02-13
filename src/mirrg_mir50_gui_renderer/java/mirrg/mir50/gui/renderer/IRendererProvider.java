@@ -1,4 +1,4 @@
-package mirrg.mir50.tile.renderer;
+package mirrg.mir50.gui.renderer;
 
 public interface IRendererProvider<T>
 {

@@ -1,12 +1,12 @@
-package mirrg.mir51.tile.renderers;
+package mirrg.mir51.gui.renderers;
 
 import java.util.ArrayList;
 
 import mirrg.he.math.HelpersCollision;
+import mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import mirrg.mir50.gui.renderer.IRenderer;
+import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
 import mirrg.mir50.tile.inventory.FluidSlot;
-import mirrg.mir50.tile.renderer.IGuiRenderHelper;
-import mirrg.mir50.tile.renderer.IRenderer;
-import mirrg.mir50.tile.renderer.IGuiRenderHelper.EnumRotate;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 

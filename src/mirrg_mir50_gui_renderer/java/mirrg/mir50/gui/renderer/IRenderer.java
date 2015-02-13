@@ -1,4 +1,4 @@
-package mirrg.mir50.tile.renderer;
+package mirrg.mir50.gui.renderer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
