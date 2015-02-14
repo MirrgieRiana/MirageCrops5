@@ -119,8 +119,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		container.setTransferInventories(inventoryOut, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryFairy, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryFairyFuel, inventoryHandle, inventoryPlayer);
-		container.setTransferInventories(inventoryPlayer, inventoryInMaterial, inventoryInFuel, inventoryFairy, inventoryFairyFuel);
-		container.setTransferInventories(inventoryHandle, inventoryInMaterial, inventoryInFuel, inventoryFairy, inventoryFairyFuel);
+		container.setTransferInventories(inventoryPlayer, inventoryFairy, inventoryInMaterial, inventoryInFuel, inventoryFairyFuel);
+		container.setTransferInventories(inventoryHandle, inventoryFairy, inventoryInMaterial, inventoryInFuel, inventoryFairyFuel);
 
 		{
 			int w = 24, h = 17;
