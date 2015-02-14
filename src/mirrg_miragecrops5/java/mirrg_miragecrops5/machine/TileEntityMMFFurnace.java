@@ -4,7 +4,6 @@ import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.EnergyTank;
 import mirrg.mir50.tile.inventory.Inventory;
 import mirrg.mir50.tile.inventory.InventoryTrimmer;
-import mirrg.mir51.gui.renderers.RendererSlot;
 import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.SupplierPositionFlow;
 import net.minecraft.item.ItemStack;
@@ -100,7 +99,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		container.addInventory(inventoryInMaterial,
 			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryInMaterialProcessing,
-			(inventory, index, x, y) -> new SlotAdvanced(inventory, index, x, y, RendererSlot.instanceGroove),
+			(inventory, index, x, y) -> new SlotProcessing(inventory, index, x, y),
 			new SupplierPositionFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryInFuel,
 			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 9), false);
