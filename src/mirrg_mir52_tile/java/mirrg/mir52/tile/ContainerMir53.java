@@ -63,6 +63,11 @@ public class ContainerMir53 extends Container
 		return energySlots;
 	}
 
+	public void addInventory(IInventory inventory, ISupplierPosition supplierPosition, boolean inverse)
+	{
+		addInventory(inventory, supplierPosition::getX, supplierPosition::getY, inverse);
+	}
+
 	public void addInventory(IInventory inventory, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
 	{
 		inventoryChain.add(inventory);
