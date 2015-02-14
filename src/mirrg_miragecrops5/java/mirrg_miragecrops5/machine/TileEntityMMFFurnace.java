@@ -97,6 +97,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		container.addInventory(inventoryInMaterial,
 			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryInMaterialProcessing,
+			(inventory, index, x, y) -> new SlotAdvanced(inventory, index, x, y, RendererSlot.instanceGroove),
 			new SupplierPositionFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryInFuel,
 			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 9), false);
