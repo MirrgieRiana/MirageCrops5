@@ -2,6 +2,7 @@ package mirrg.mir52.tile;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.IntUnaryOperator;
 
@@ -177,7 +178,7 @@ public class ContainerMir53 extends Container
 	}
 
 	/**
-	 * アイテムをstart～end-1のスロットに移動させる。<br>
+	 * アイテムをグローバルスロットのstart～end-1のスロットに移動させる。<br>
 	 * 移動が完了したかどうかは、stackのサイズが変更されるのでそれを見る。
 	 *
 	 * @return 移動が行われたか否か
@@ -185,7 +186,123 @@ public class ContainerMir53 extends Container
 	@Override
 	protected boolean mergeItemStack(ItemStack stack, int start, int end, boolean inverse)
 	{
-		return super.mergeItemStack(stack, start, end, inverse);
+		boolean moved = false;
+
+		// 既存スタックに重ねる
+		if (stack.isStackable()) {
+			if (stack.stackSize > 0) {
+				Range range = new Range(start, end - 1, inverse);
+
+				for (int i : range) {
+					Slot slot = (Slot) this.inventorySlots.get(i);
+					ItemStack dest = slot.getStack();
+
+					if (dest != null) {
+						if (dest.getItem() == stack.getItem()
+							&& (!stack.getHasSubtypes() || stack.getItemDamage() == dest.getItemDamage())
+							&& ItemStack.areItemStackTagsEqual(stack, dest)) {
+
+							int maxStackSize;
+							maxStackSize = stack.getMaxStackSize();
+							maxStackSize = Math.min(maxStackSize, slot.getSlotStackLimit());
+
+							if (dest.stackSize < maxStackSize) {
+								int mergedStackSide = dest.stackSize + stack.stackSize;
+
+								if (mergedStackSide > maxStackSize) { // あふれ
+									stack.stackSize = maxStackSize - mergedStackSide;
+									dest.stackSize = maxStackSize;
+								} else {
+									stack.stackSize = 0;
+									dest.stackSize = mergedStackSide;
+								}
+
+								slot.onSlotChanged();
+								moved = true;
+
+								if (stack.stackSize <= 0) break;
+							}
+
+						}
+					}
+
+				}
+			}
+		}
+
+		// 空スロットに移動
+		if (stack.stackSize > 0) {
+			Range range = new Range(start, end - 1, inverse);
+
+			for (int i : range) {
+				Slot slot = (Slot) this.inventorySlots.get(i);
+				ItemStack dest = slot.getStack();
+
+				if (dest == null) {
+					if (slot.isItemValid(stack)) {
+						slot.putStack(stack.copy());
+						slot.onSlotChanged();
+						stack.stackSize = 0;
+						moved = true;
+						break;
+					}
+				}
+			}
+		}
+
+		return moved;
+	}
+
+	/**
+	 * aからbまでの整数を返す。3と5なら、3,4,5。
+	 */
+	public static class Range implements Iterable<Integer>
+	{
+
+		int a;
+		int b;
+		boolean bToA;
+
+		public Range(int a, int b)
+		{
+			this(a, b, false);
+		}
+
+		public Range(int a, int b, boolean bToA)
+		{
+			if (a > b) {
+				int tmp = a;
+				a = b;
+				b = tmp;
+				bToA = !bToA;
+			}
+
+			this.a = a;
+			this.b = b;
+			this.bToA = bToA;
+		}
+
+		@Override
+		public Iterator<Integer> iterator()
+		{
+			return new Iterator<Integer>() {
+
+				int next = bToA ? b : a;
+
+				@Override
+				public boolean hasNext()
+				{
+					return bToA ? next >= a : next <= b;
+				}
+
+				@Override
+				public Integer next()
+				{
+					return bToA ? next-- : next++;
+				}
+
+			};
+		}
 	}
 
 }
