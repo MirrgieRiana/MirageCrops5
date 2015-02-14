@@ -43,10 +43,11 @@ public class GuiMir53 extends GuiContainer
 		if (slot instanceof IRenderer) {
 			return (IRenderer<T>) slot;
 		} else if (slot instanceof IRendererProvider) {
-			return ((IRendererProvider<T>) slot).getRenderer();
-		} else {
-			return defaultRenderer;
+			IRenderer<T> renderer = ((IRendererProvider<T>) slot).getRenderer();
+			if (renderer != null) return renderer;
 		}
+
+		return defaultRenderer;
 	}
 
 	public static enum EnumLayer
