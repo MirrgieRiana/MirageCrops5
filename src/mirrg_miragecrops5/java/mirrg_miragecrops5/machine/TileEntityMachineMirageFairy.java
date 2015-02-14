@@ -6,35 +6,13 @@ import mirrg.mir50.tile.inventory.Inventory;
 import mirrg.mir50.tile.inventory.InventoryChain;
 import mirrg.mir50.tile.inventory.InventoryTrimmer;
 import mirrg.mir52.tile.ContainerMir53;
-import mirrg.mir52.tile.TileEntityMir53Connected;
-import mirrg_miragecrops5.ModMirageCrops;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 
-public class TileEntityMachineMirageFairy extends TileEntityMir53Connected
+public class TileEntityMachineMirageFairy extends TileEntityMMF
 {
-
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
-	{
-		TileEntity tileEntity = world.getTileEntity(x, y, z);
-		if (tileEntity == null) return false;
-
-		if (true) {
-			if (!world.isRemote) {
-				player.openGui(ModMirageCrops.instance, ModuleMachine.loaderGuiHandler.guiId, world, x, y, z);
-			}
-			return true;
-		}
-
-		return false;
-	}
-
-	//////////////////////////////////////////
 
 	public final Inventory inventory;
 
