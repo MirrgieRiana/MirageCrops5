@@ -2,13 +2,13 @@ package mirrg_miragecrops5;
 
 import mirrg.mir50.loader.EnumLoadEventTiming;
 import mirrg.mir50.loader.Loader;
-import mirrg_miragecrops5.machine.TileEntityMachineMirageFairy;
+import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class LoaderTileEntity extends Loader<Void>
 {
 
-	public Class<TileEntityMachineMirageFairy> tileEntityClass;
+	public Class<? extends TileEntity> tileEntityClass;
 	public String id;
 
 	public LoaderTileEntity()
@@ -16,7 +16,7 @@ public class LoaderTileEntity extends Loader<Void>
 
 	}
 
-	public LoaderTileEntity(Class<TileEntityMachineMirageFairy> tileEntityClass, String id)
+	public LoaderTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
 	{
 		this.tileEntityClass = tileEntityClass;
 		this.id = id;
