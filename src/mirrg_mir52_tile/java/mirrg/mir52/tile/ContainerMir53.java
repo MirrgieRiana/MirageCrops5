@@ -195,35 +195,9 @@ public class ContainerMir53 extends Container
 
 				for (int i : range) {
 					Slot slot = (Slot) this.inventorySlots.get(i);
-					ItemStack dest = slot.getStack();
-
-					if (dest != null) {
-						if (dest.getItem() == stack.getItem()
-							&& (!stack.getHasSubtypes() || stack.getItemDamage() == dest.getItemDamage())
-							&& ItemStack.areItemStackTagsEqual(stack, dest)) {
-
-							int maxStackSize;
-							maxStackSize = stack.getMaxStackSize();
-							maxStackSize = Math.min(maxStackSize, slot.getSlotStackLimit());
-
-							if (dest.stackSize < maxStackSize) {
-								int mergedStackSide = dest.stackSize + stack.stackSize;
-
-								if (mergedStackSide > maxStackSize) { // あふれ
-									stack.stackSize = maxStackSize - mergedStackSide;
-									dest.stackSize = maxStackSize;
-								} else {
-									stack.stackSize = 0;
-									dest.stackSize = mergedStackSide;
-								}
-
-								slot.onSlotChanged();
-								moved = true;
-
-								if (stack.stackSize <= 0) break;
-							}
-
-						}
+					if (slot.getStack() != null) {
+						if (mergeItemStack(stack, i, inverse)) moved = true;
+						if (stack.stackSize <= 0) break;
 					}
 
 				}
@@ -236,21 +210,55 @@ public class ContainerMir53 extends Container
 
 			for (int i : range) {
 				Slot slot = (Slot) this.inventorySlots.get(i);
-				ItemStack dest = slot.getStack();
-
-				if (dest == null) {
-					if (slot.isItemValid(stack)) {
-						slot.putStack(stack.copy());
-						slot.onSlotChanged();
-						stack.stackSize = 0;
-						moved = true;
-						break;
-					}
+				if (slot.getStack() == null) {
+					if (mergeItemStack(stack, i, inverse)) moved = true;
+					if (stack.stackSize <= 0) break;
 				}
 			}
 		}
 
 		return moved;
+	}
+
+	/**
+	 * 指定のスロットとマージする。マージできない場合はしない。
+	 *
+	 * @return マージが行われたか否か
+	 */
+	protected boolean mergeItemStack(ItemStack stack, int index, boolean inverse)
+	{
+		Slot slot = (Slot) this.inventorySlots.get(index);
+		ItemStack dest = slot.getStack();
+
+		int maxStackSize;
+		maxStackSize = stack.getMaxStackSize();
+		maxStackSize = Math.min(maxStackSize, slot.getSlotStackLimit());
+
+		if (dest != null) {
+			if (dest.getItem() != stack.getItem()) return false;
+			if (stack.getHasSubtypes() && stack.getItemDamage() != dest.getItemDamage()) return false;
+			if (!ItemStack.areItemStackTagsEqual(stack, dest)) return false;
+			if (dest.stackSize >= maxStackSize) return false;
+		} else {
+			if (!slot.isItemValid(stack)) return false;
+		}
+
+		if (dest == null) {
+			slot.putStack(stack.copy());
+			dest = slot.getStack();
+			dest.stackSize = 0;
+		}
+
+		int transferStackSize = Math.min(maxStackSize - dest.stackSize, stack.stackSize);
+
+		if (transferStackSize > 0) {
+			stack.stackSize -= transferStackSize;
+			dest.stackSize += transferStackSize;
+			slot.onSlotChanged();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
