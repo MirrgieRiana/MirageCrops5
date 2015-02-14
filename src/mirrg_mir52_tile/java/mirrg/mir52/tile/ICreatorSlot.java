@@ -3,6 +3,7 @@ package mirrg.mir52.tile;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
+@FunctionalInterface
 public interface ICreatorSlot
 {
 
