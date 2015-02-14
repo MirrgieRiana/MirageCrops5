@@ -65,15 +65,25 @@ public class ContainerMir53 extends Container
 
 	public void addInventory(IInventory inventory, ISupplierPosition supplierPosition, boolean inverse)
 	{
-		addInventory(inventory, supplierPosition::getX, supplierPosition::getY, inverse);
+		addInventory(inventory, Slot::new, supplierPosition::getX, supplierPosition::getY, inverse);
+	}
+
+	public void addInventory(IInventory inventory, ICreatorSlot creatorSlot, ISupplierPosition supplierPosition, boolean inverse)
+	{
+		addInventory(inventory, creatorSlot, supplierPosition::getX, supplierPosition::getY, inverse);
 	}
 
 	public void addInventory(IInventory inventory, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
 	{
+		addInventory(inventory, Slot::new, x, y, inverse);
+	}
+
+	public void addInventory(IInventory inventory, ICreatorSlot creatorSlot, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
+	{
 		inventoryChain.add(inventory);
 
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
-			super.addSlotToContainer(new Slot(inventory, i, x.applyAsInt(i), y.applyAsInt(i)));
+			super.addSlotToContainer(creatorSlot.create(inventory, i, x.applyAsInt(i), y.applyAsInt(i)));
 		}
 
 		inventoryInverseTable.put(inventoryChain.getInventoryCount() - 1, inverse);
