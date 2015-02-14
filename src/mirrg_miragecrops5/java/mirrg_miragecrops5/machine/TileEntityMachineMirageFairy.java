@@ -6,6 +6,7 @@ import mirrg.mir50.tile.inventory.Inventory;
 import mirrg.mir50.tile.inventory.InventoryChain;
 import mirrg.mir50.tile.inventory.InventoryTrimmer;
 import mirrg.mir52.tile.ContainerMir53;
+import mirrg.mir52.tile.SupplierPositionFlow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -65,9 +66,9 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 		InventoryTrimmer inventoryPlayer = new InventoryTrimmer(container.getPlayer().inventory, 9, 27);
 		InventoryTrimmer inventoryHandle = new InventoryTrimmer(container.getPlayer().inventory, 0, 9);
 
-		container.addInventory(inventoryChest, id -> 8 + (id % 8) * 18, id -> 16 + (id / 8) * 18, false);
-		container.addInventory(inventoryPlayer, id -> 8 + (id % 9) * 18, id -> 84 + (id / 9) * 18, true);
-		container.addInventory(inventoryHandle, id -> 8 + (id % 9) * 18, id -> 142, true);
+		container.addInventory(inventoryChest, new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
+		container.addInventory(inventoryPlayer, new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
+		container.addInventory(inventoryHandle, new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
 
 		container.setTransferInventories(inventoryChest, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryPlayer, inventoryChest);
