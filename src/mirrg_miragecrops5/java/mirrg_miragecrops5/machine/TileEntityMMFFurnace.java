@@ -4,6 +4,7 @@ import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.EnergyTank;
 import mirrg.mir50.tile.inventory.Inventory;
 import mirrg.mir50.tile.inventory.InventoryTrimmer;
+import mirrg.mir51.gui.renderers.RendererSlot;
 import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.SupplierPositionFlow;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	public final Inventory inventoryFairy;
 	public final Inventory inventoryFairyFuel;
 
-	public final EnergyTank energyTank;
+	public final EnergyTank energyTankProcessing;
+	public final EnergyTank energyTankFuel;
 
 	public TileEntityMMFFurnace()
 	{
@@ -38,7 +40,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		inventoryChain.add(inventoryFairy);
 		inventoryChain.add(inventoryFairyFuel);
 
-		energyTank = add(new EnergyTank(this, 1000), "energyTank");
+		energyTankProcessing = add(new EnergyTank(this, 1000), "energyTankProcessing");
+		energyTankFuel = add(new EnergyTank(this, 1000), "energyTankFuel");
 	}
 
 	@Override
@@ -119,9 +122,20 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		container.setTransferInventories(inventoryPlayer, inventoryInMaterial, inventoryInFuel, inventoryFairy, inventoryFairyFuel);
 		container.setTransferInventories(inventoryHandle, inventoryInMaterial, inventoryInFuel, inventoryFairy, inventoryFairyFuel);
 
-		int w = 24, h = 17;
-		energyTank.amount = 725;
-		container.addEnergySlot(new EnergySlot(energyTank, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 3 - h / 2 - 5, w, h));
+		{
+			int w = 24, h = 17;
+			container.addEnergySlot(new EnergySlot(energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 3 - h / 2 - 5, w, h));
+		}
+		{
+			int w = 24, h = 17;
+			container.addEnergySlot(new EnergySlot(energyTankFuel, LEFT + 9 * 9 - w / 2, TOP_CHEST + 9 * 3 - h / 2, w, h));
+		}
+	}
+
+	@Override
+	protected void tick()
+	{
+
 	}
 
 }
