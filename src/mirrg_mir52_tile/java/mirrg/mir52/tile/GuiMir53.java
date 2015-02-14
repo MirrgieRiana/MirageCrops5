@@ -278,19 +278,58 @@ public class GuiMir53 extends GuiContainer
 		@Override
 		public void drawRectFrame(int x, int y, int w, int h, int padding, int borderSize)
 		{
+			drawRectFrame(x, y, w, h, padding, borderSize, EnumStyleFrame.INSET);
+		}
+
+		@Override
+		public void drawRectFrame(int x, int y, int w, int h, int padding, int borderSize, EnumStyleFrame styleFrame)
+		{
 
 			x -= padding;
 			y -= padding;
 			w += 2 * padding;
 			h += 2 * padding;
 
-			drawRectMultiply(x, y, x + w, y + h, 0xffb3b3b3);
-			drawRectMultiply(x - borderSize, y - borderSize, x + w, y, 0xff474747);
-			drawRectMultiply(x - borderSize, y, x, y + h, 0xff474747);
-			drawRectMultiply(x - borderSize, y + h, x, y + h + borderSize, 0xffb3b3b3);
-			drawRectMultiply(x + w, y - borderSize, x + w + borderSize, y, 0xffb3b3b3);
-			drawRectAdd(x + w, y, x + w + borderSize, y + h, 0xff3a3a3a);
-			drawRectAdd(x, y + h, x + w + borderSize, y + h + borderSize, 0xff3a3a3a);
+			switch (styleFrame) {
+				case GROOVE:
+					drawRectMultiply(x, y, x + w, y + h, 0xffb3b3b3);
+					drawRectMultiply(x - borderSize, y - borderSize, x + w, y, 0xff474747);
+					drawRectMultiply(x - borderSize, y, x, y + h, 0xff474747);
+					drawRectMultiply(x - borderSize, y + h, x, y + h + borderSize, 0xff474747);
+					drawRectMultiply(x + w, y - borderSize, x + w + borderSize, y, 0xff474747);
+					drawRectMultiply(x + w, y, x + w + borderSize, y + h, 0xff474747);
+					drawRectMultiply(x, y + h, x + w + borderSize, y + h + borderSize, 0xff474747);
+					break;
+				case INSET:
+					drawRectMultiply(x, y, x + w, y + h, 0xffb3b3b3);
+					drawRectMultiply(x - borderSize, y - borderSize, x + w, y, 0xff474747);
+					drawRectMultiply(x - borderSize, y, x, y + h, 0xff474747);
+					drawRectMultiply(x - borderSize, y + h, x, y + h + borderSize, 0xffb3b3b3);
+					drawRectMultiply(x + w, y - borderSize, x + w + borderSize, y, 0xffb3b3b3);
+					drawRectAdd(x + w, y, x + w + borderSize, y + h, 0xff3a3a3a);
+					drawRectAdd(x, y + h, x + w + borderSize, y + h + borderSize, 0xff3a3a3a);
+					break;
+				case OUTSET:
+					drawRectMultiply(x, y, x + w, y + h, 0xffb3b3b3);
+					drawRectAdd(x - borderSize, y - borderSize, x + w, y, 0xff3a3a3a);
+					drawRectAdd(x - borderSize, y, x, y + h, 0xff3a3a3a);
+					drawRectMultiply(x - borderSize, y + h, x, y + h + borderSize, 0xffb3b3b3);
+					drawRectMultiply(x + w, y - borderSize, x + w + borderSize, y, 0xffb3b3b3);
+					drawRectMultiply(x + w, y, x + w + borderSize, y + h, 0xff474747);
+					drawRectMultiply(x, y + h, x + w + borderSize, y + h + borderSize, 0xff474747);
+					break;
+				case RIDGE:
+					drawRectMultiply(x, y, x + w, y + h, 0xffb3b3b3);
+					drawRectAdd(x - borderSize, y - borderSize, x + w, y, 0xff3a3a3a);
+					drawRectAdd(x - borderSize, y, x, y + h, 0xff3a3a3a);
+					drawRectAdd(x - borderSize, y + h, x, y + h + borderSize, 0xff3a3a3a);
+					drawRectAdd(x + w, y - borderSize, x + w + borderSize, y, 0xff3a3a3a);
+					drawRectAdd(x + w, y, x + w + borderSize, y + h, 0xff3a3a3a);
+					drawRectAdd(x, y + h, x + w + borderSize, y + h + borderSize, 0xff3a3a3a);
+					break;
+				default:
+					break;
+			}
 
 		}
 

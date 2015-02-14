@@ -34,6 +34,8 @@ public interface IGuiRenderHelper
 
 	public void drawRectFrame(int x, int y, int w, int h, int padding, int borderSize);
 
+	public void drawRectFrame(int x, int y, int w, int h, int padding, int borderSize, EnumStyleFrame styleFrame);
+
 	public void drawHoveringText(List<String> list, int mouseX, int mouseY, FontRenderer font);
 
 	public int getScreenWidth();
@@ -50,6 +52,21 @@ public interface IGuiRenderHelper
 		RIGHT90,
 		RIGHT180,
 		RIGHT270,
+	}
+
+	public static enum EnumStyleFrame
+	{
+		/** 線が凹む */
+		GROOVE,
+
+		/** 線が隆起 */
+		RIDGE,
+
+		/** 内部が凹む */
+		INSET,
+
+		/** 内部が隆起 */
+		OUTSET,
 	}
 
 }
