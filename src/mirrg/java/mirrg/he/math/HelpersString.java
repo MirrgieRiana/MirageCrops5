@@ -1,7 +1,11 @@
 package mirrg.he.math;
 
+import java.text.NumberFormat;
+
 public class HelpersString
 {
+
+	public static NumberFormat numberInstance = NumberFormat.getNumberInstance();
 
 	public static String toUpperCaseHead(String str)
 	{
@@ -17,6 +21,11 @@ public class HelpersString
 			sb.append(string);
 		}
 		return sb.toString();
+	}
+
+	public static String getSeparatedString(long value)
+	{
+		return numberInstance.format(value);
 	}
 
 }

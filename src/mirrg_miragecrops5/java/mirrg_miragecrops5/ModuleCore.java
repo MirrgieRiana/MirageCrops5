@@ -129,6 +129,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							strings.add(GRAY + "In " + makeGauge.apply(fairyType.in) +
 								GRAY + " Em " + makeGauge.apply(fairyType.em));
 							strings.add(GRAY + "       Ph " + makeGauge.apply(fairyType.ph));
+
+							/*
 							strings.add("");
 							strings.add(GRAY + "Heat " + makeGauge.apply(41));
 							strings.add("");
@@ -137,6 +139,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							strings.add("    Left : 防御力増加");
 							strings.add("    Chest: 自動整列");
 							strings.add("    植物成長効率増加");
+							*/
 						} else {
 							strings.add("Type: " + RED + type);
 						}

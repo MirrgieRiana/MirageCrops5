@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import mirrg.he.math.HelpersCollision;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
+import mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.mir50.tile.inventory.FluidSlot;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
@@ -65,25 +65,19 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 		}
 
 		{
-			ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/miragefont.png");
-			gui.getMinecraft().renderEngine.bindTexture(texture);
-
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			{
 				String amount = "" + t.fluidTank.getFluidAmount();
 
 				if (amount.length() >= 4) {
-					drawFluidString(gui, amount.substring(0, amount.length() - 3),
-						t.x + t.w - 6 - 1,
-						t.y + t.h / 2);
-					drawFluidString(gui, amount.substring(amount.length() - 3),
-						t.x + t.w - 6 - 1,
-						t.y + t.h / 2 + 3 * 4 + 2);
+					HelpersRenderer.drawMirageFontString(gui, amount.substring(0, amount.length() - 3),
+						t.x + t.w - 6 - 1, t.y + t.h / 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
+					HelpersRenderer.drawMirageFontString(gui, amount.substring(amount.length() - 3),
+						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
 				} else {
-					drawFluidString(gui, amount,
-						t.x + t.w - 6 - 1,
-						t.y + t.h / 2 + 3 * 4 + 2);
+					HelpersRenderer.drawMirageFontString(gui, amount,
+						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
 				}
 			}
 		}
@@ -97,26 +91,6 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-	}
-
-	public void drawFluidString(IGuiRenderHelper gui, String text, int oX, int oY)
-	{
-		for (int i = 0; i < text.length(); i++) {
-			char ch = text.charAt(i);
-
-			if (' ' <= ch && ch <= '~') {
-				int r = (ch >> 4) - 2;
-				int c = ch & 0xf;
-				gui.drawTexturedModelRect(
-					oX - 1,
-					oY - text.length() * 4 + i * 4 - 1,
-					6 + 2, 4 + 2,
-					(float) (c) / 16,
-					(float) (r) / 6,
-					(float) (c + 1) / 16,
-					(float) (r + 1) / 6, EnumRotate.RIGHT90);
-			}
-		}
 	}
 
 	@Override

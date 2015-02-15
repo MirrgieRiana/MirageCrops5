@@ -17,16 +17,34 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 {
+	public static final RendererEnergySlotProgress instanceDown = new RendererEnergySlotProgress("progress", EnumProgressAlign.DOWN);
+	public static final RendererEnergySlotProgress instanceUp = new RendererEnergySlotProgress("progress", EnumProgressAlign.UP);
+	public static final RendererEnergySlotProgress instanceLeft = new RendererEnergySlotProgress("progress", EnumProgressAlign.LEFT);
+	public static final RendererEnergySlotProgress instanceRight = new RendererEnergySlotProgress("progress", EnumProgressAlign.RIGHT);
 
-	public static final RendererEnergySlotProgress instance = new RendererEnergySlotProgress();
+	public static enum EnumProgressAlign
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+	}
 
 	public String domain = "mir41";
+	protected String texturePrefix;
+	protected EnumProgressAlign progressAlign;
+
+	public RendererEnergySlotProgress(String texturePrefix, EnumProgressAlign progressAlign)
+	{
+		this.texturePrefix = texturePrefix;
+		this.progressAlign = progressAlign;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void drawForegroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
 	{
-		ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/progress_foreground.png");
+		ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/" + texturePrefix + "_foreground.png");
 		gui.getMinecraft().renderEngine.bindTexture(texture);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -39,10 +57,42 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glColorMask(true, true, true, false);
 
-		float rate = t.energyTank.capacity == 0 ? 1 : (float) t.energyTank.amount / t.energyTank.capacity;
-		int w = (int) (t.w * rate);
-		rate = (float) w / t.w;
-		gui.drawTexturedModelRect(t.x, t.y, w, t.h, 0, 0, rate, 1);
+		switch (progressAlign) {
+			case DOWN: {
+				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
+				if (rate > 1) rate = 1;
+				int h = (int) (t.h * rate);
+				rate = (float) h / t.h;
+				gui.drawTexturedModelRect(t.x, t.y + t.h - h, t.w, h, 0, 1 - rate, 1, 1);
+			}
+				break;
+			case LEFT: {
+				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
+				if (rate > 1) rate = 1;
+				int w = (int) (t.w * rate);
+				rate = (float) w / t.w;
+				gui.drawTexturedModelRect(t.x, t.y, w, t.h, 0, 0, rate, 1);
+			}
+				break;
+			case RIGHT: {
+				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
+				if (rate > 1) rate = 1;
+				int w = (int) (t.w * rate);
+				rate = (float) w / t.w;
+				gui.drawTexturedModelRect(t.x + t.w - w, t.y, w, t.h, 1 - rate, 0, 1, 1);
+			}
+				break;
+			case UP: {
+				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
+				if (rate > 1) rate = 1;
+				int h = (int) (t.h * rate);
+				rate = (float) h / t.h;
+				gui.drawTexturedModelRect(t.x, t.y, t.w, h, 0, 0, 1, rate);
+			}
+				break;
+			default:
+				break;
+		}
 
 		GL11.glColorMask(true, true, true, true);
 		GL11.glShadeModel(GL11.GL_FLAT);
@@ -61,7 +111,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
-		ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/progress_background.png");
+		ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/" + texturePrefix + "_background.png");
 		gui.getMinecraft().renderEngine.bindTexture(texture);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -84,7 +134,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-		//
+		// stub
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);

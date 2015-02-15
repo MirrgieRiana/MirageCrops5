@@ -37,4 +37,14 @@ public class HelpersOreDictionary
 		return names;
 	}
 
+	public static boolean isOre(ItemStack itemStack, String oreName)
+	{
+		for (ItemStack ore : OreDictionary.getOres(oreName)) {
+			if (OreDictionary.itemMatches(ore, itemStack, false)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

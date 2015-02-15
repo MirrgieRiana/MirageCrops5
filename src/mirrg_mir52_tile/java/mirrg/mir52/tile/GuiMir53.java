@@ -91,11 +91,11 @@ public class GuiMir53 extends GuiContainer
 
 		drawSlotsLayer(EnumLayer.Foreground, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
 		drawSlotsLayer(EnumLayer.Foreground, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Foreground, container.energySlots, RendererEnergySlotProgress.instance, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Foreground, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
 
 		drawSlotsLayer(EnumLayer.ToolTip, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
 		drawSlotsLayer(EnumLayer.ToolTip, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.ToolTip, container.energySlots, RendererEnergySlotProgress.instance, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.ToolTip, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
 
 	}
 
@@ -112,7 +112,7 @@ public class GuiMir53 extends GuiContainer
 
 		drawSlotsLayer(EnumLayer.Background, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
 		drawSlotsLayer(EnumLayer.Background, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Background, container.energySlots, RendererEnergySlotProgress.instance, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Background, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
 
 	}
 

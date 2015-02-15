@@ -1,10 +1,13 @@
 package mirrg_miragecrops5.machine;
 
+import mirrg.mir50.inventory.HelpersSimpleInventory;
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir50.tile.inventory.FluidTank;
-import mirrg.mir50.tile.inventory.Inventory;
-import mirrg.mir50.tile.inventory.InventoryChain;
-import mirrg.mir50.tile.inventory.InventoryTrimmer;
+import mirrg.mir51.inventory.ISimpleInventoryMir51;
+import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
+import mirrg.mir52.inventories.SimpleInventoryChain;
+import mirrg.mir52.inventories.SimpleInventoryMir51;
+import mirrg.mir52.inventories.SimpleInventoryTrimmer;
 import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.SupplierPositionFlow;
 import net.minecraft.item.ItemStack;
@@ -15,42 +18,42 @@ import net.minecraftforge.fluids.Fluid;
 public class TileEntityMachineMirageFairy extends TileEntityMMF
 {
 
-	public final Inventory inventory;
+	public final ISimpleInventoryMir51 inventory;
 
 	public final FluidTank fluidTank;
 
 	public TileEntityMachineMirageFairy()
 	{
-		inventory = add(new Inventory(this, 8 * 3), "inventory");
+		inventory = add(new SimpleInventoryMir51(8 * 3, this), "inventory");
 		inventoryChain.add(inventory);
 
-		fluidTank = add(new FluidTank(this, 16 * 1000), "fluidTank");
+		fluidTank = add(new FluidTank(this::markDirty, 16 * 1000), "fluidTank");
 	}
 
 	@Override
-	protected Inventory[] getInventoryAccessible(int side)
+	protected ISimpleInventoryMir51[] getInventoryAccessible(int side)
 	{
-		return new Inventory[] {
+		return new ISimpleInventoryMir51[] {
 			inventory,
 		};
 	}
 
 	@Override
-	protected Inventory[] getInventoryExtract(int side, ItemStack itemStack)
+	protected ISimpleInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
 	{
 		return getInventoryAccessible(side);
 	}
 
 	@Override
-	protected Inventory[] getInventoryInsert(int side, ItemStack itemStack)
+	protected ISimpleInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
 	{
 		return getInventoryAccessible(side);
 	}
 
 	@Override
 	protected ResourceLocation getGuiTexture(ContainerMir53 container)
-	{
-		return new ResourceLocation("miragecrops5" + ":" + "textures/gui/machineMirageFairy.png");
+	{//machineMirageFairy
+		return new ResourceLocation("miragecrops5" + ":" + "textures/gui/NULL_GUI_TEXTURE.png");
 	}
 
 	@Override
@@ -62,13 +65,17 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 	@Override
 	protected void prepareContainerSlots(ContainerMir53 container)
 	{
-		InventoryChain inventoryChest = inventoryChain;
-		InventoryTrimmer inventoryPlayer = new InventoryTrimmer(container.getPlayer().inventory, 9, 27);
-		InventoryTrimmer inventoryHandle = new InventoryTrimmer(container.getPlayer().inventory, 0, 9);
+		SimpleInventoryChain inventoryChest = inventoryChain;
+		ISimpleInventoryMir51 inventory = HelpersSimpleInventoryMir51.make(container.getPlayer().inventory, this);
+		SimpleInventoryTrimmer inventoryPlayer = new SimpleInventoryTrimmer(this, inventory, 9, 27);
+		SimpleInventoryTrimmer inventoryHandle = new SimpleInventoryTrimmer(this, inventory, 0, 9);
 
-		container.addInventory(inventoryChest, new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
-		container.addInventory(inventoryPlayer, new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
-		container.addInventory(inventoryHandle, new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
+		container.addInventory(HelpersSimpleInventory.unmake(inventoryChest),
+			new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
+		container.addInventory(HelpersSimpleInventory.unmake(inventoryPlayer),
+			new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
+		container.addInventory(HelpersSimpleInventory.unmake(inventoryHandle),
+			new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
 
 		container.setTransferInventories(inventoryChest, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryPlayer, inventoryChest);

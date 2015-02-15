@@ -1,9 +1,6 @@
 package mirrg.mir52.tile;
 
-import api.mirrg.mir50.net.NBTTypes;
 import mirrg.mir50.guihandler.IGuiProvider;
-import mirrg.mir50.tile.inventory.ISetDirty;
-import mirrg.mir51.modding.HelpersSide;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -12,12 +9,12 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import api.mirrg.mir50.net.NBTTypes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityMir53 extends TileEntity implements IGuiProvider, ISetDirty, ITileEntityMir53
+public class TileEntityMir53 extends TileEntity implements IGuiProvider, ITileEntityMir53
 {
 
 	@Override
@@ -36,7 +33,7 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ISetDir
 	{
 		super.readFromNBT(p_145839_1_);
 
-		dirty = true;
+		//dirty = true;
 
 		if (p_145839_1_.hasKey("CustomName", NBTTypes.STRING)) {
 			customInventoryName = p_145839_1_.getString("CustomName");
@@ -98,35 +95,27 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ISetDir
 
 	///////////////////////// IMarkDirty /////////////////////////
 
-	public boolean dirty = true;
+	//public boolean dirty = true;
 
 	@Override
 	public void markDirty()
 	{
 		super.markDirty();
-		dirty = true;
-	}
-
-	@Override
-	public void setDirty()
-	{
-		markDirty();
+		//dirty = true;
 	}
 
 	@Override
 	public void updateEntity()
 	{
-		super.updateEntity();
-
 		tick();
 
-		if (dirty) {
-			dirty = false;
+		//if (dirty) {
+		//dirty = false;
 
-			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-			this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
-			if ((!HelpersSide.helper(this).isSimulating()) || HelpersSide.helper(this).isRendering()) return;
-		}
+		//this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		//this.worldObj.updateLightByType(EnumSkyBlock.Block, this.xCoord, this.yCoord, this.zCoord);
+		//if ((!HelpersSide.helper(this).isSimulating()) || HelpersSide.helper(this).isRendering()) return;
+		//}
 	}
 
 	protected void tick()
@@ -138,7 +127,6 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ISetDir
 
 	protected String customInventoryName;
 
-	@Override
 	public void setCustomInventoryName(String customInventoryName)
 	{
 		this.customInventoryName = customInventoryName;
@@ -166,6 +154,12 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ISetDir
 	public String getLocalizedName()
 	{
 		return hasCustomInventoryName() ? getInventoryName() : StatCollector.translateToLocal(getInventoryName());
+	}
+
+	@Override
+	public String getCustomInventoryName()
+	{
+		return customInventoryName;
 	}
 
 	///////////////////////// ITileEntityMirageMachine /////////////////////////

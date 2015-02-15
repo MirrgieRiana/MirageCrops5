@@ -1,6 +1,6 @@
 package mirrg.mir52.tile;
 
-import mirrg.mir50.tile.inventory.IInventoryName;
+import mirrg.mir51.inventory.IInventoryName;
 import net.minecraft.tileentity.TileEntity;
 
 public interface ITileEntityMir53 extends IInventoryName
