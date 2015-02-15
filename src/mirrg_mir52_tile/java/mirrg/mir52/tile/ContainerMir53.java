@@ -9,7 +9,6 @@ import java.util.function.IntUnaryOperator;
 import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
-import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
 import mirrg.mir52.inventories.SimpleInventoryChain;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -67,24 +66,24 @@ public class ContainerMir53 extends Container
 		return energySlots;
 	}
 
-	public void addInventory(IInventory inventory, ISupplierPosition supplierPosition, boolean inverse)
+	public void addInventory(ISimpleInventoryMir51 inventory, ISupplierPosition supplierPosition, boolean inverse)
 	{
 		addInventory(inventory, Slot::new, supplierPosition::getX, supplierPosition::getY, inverse);
 	}
 
-	public void addInventory(IInventory inventory, ICreatorSlot creatorSlot, ISupplierPosition supplierPosition, boolean inverse)
+	public void addInventory(ISimpleInventoryMir51 inventory, ICreatorSlot creatorSlot, ISupplierPosition supplierPosition, boolean inverse)
 	{
 		addInventory(inventory, creatorSlot, supplierPosition::getX, supplierPosition::getY, inverse);
 	}
 
-	public void addInventory(IInventory inventory, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
+	public void addInventory(ISimpleInventoryMir51 inventory, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
 	{
 		addInventory(inventory, Slot::new, x, y, inverse);
 	}
 
-	public void addInventory(IInventory inventory, ICreatorSlot creatorSlot, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
+	public void addInventory(ISimpleInventoryMir51 inventory, ICreatorSlot creatorSlot, IntUnaryOperator x, IntUnaryOperator y, boolean inverse)
 	{
-		inventoryChain.add(HelpersSimpleInventoryMir51.make(inventory, tileEntity.getTileEntity()));
+		inventoryChain.add(inventory);
 
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			super.addSlotToContainer(creatorSlot.create(inventory, i, x.applyAsInt(i), y.applyAsInt(i)));

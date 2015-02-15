@@ -147,9 +147,10 @@ public class SimpleInventoryChain extends SimpleInventoryMir51
 		return inventories.size();
 	}
 
-	public int getInventoryIndex(ISimpleInventoryMir51 inventory)
+	public Integer getInventoryIndex(ISimpleInventoryMir51 inventory)
 	{
-		return inventories.indexOf(inventory);
+		int indexOf = inventories.indexOf(inventory);
+		return indexOf < 0 ? null : indexOf;
 	}
 
 	public ISimpleInventoryMir51 getInventoryFromGlobalSlotIndex(int globalSlotIndex)
