@@ -5,27 +5,127 @@ import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 /**
  * 複数のインベントリを結合し、新たな通し番号によるスロットへの参照を与えます。
  */
-public class InventoryChain implements IInventory
+public class InventoryChain extends InventoryMir50
 {
 
-	protected ArrayList<IInventory> inventories = new ArrayList<IInventory>();
-	protected IInventoryName name;
-	protected int inventoryStackLimit = 64;
-	protected ISetDirty parent;
+	protected ArrayList<IInventoryMir50> inventories = new ArrayList<IInventoryMir50>();
 
-	public InventoryChain(ISetDirty parent, IInventoryName name)
+	public InventoryChain(TileEntity tileEntity)
 	{
-		this.parent = parent;
-		this.name = name;
+		super(tileEntity);
 	}
 
 	public void add(IInventory inventory)
 	{
+		if (inventory instanceof IInventoryMir50) {
+			add((IInventoryMir50) inventory);
+		} else {
+			add(new InventoryMir50FromBasic(getTileEntity(), inventory));
+		}
+	}
+
+	public void add(IInventoryMir50 inventory)
+	{
 		inventories.add(inventory);
+	}
+
+	//
+
+	@Override
+	public int getInventoryStackLimit(int globalSlotIndex)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		return inventories.get(address[0]).getInventoryStackLimit(address[1]);
+	}
+
+	//
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer var1)
+	{
+		for (IInventory inventory : inventories) {
+			if (!inventory.isUseableByPlayer(var1)) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void markDirty()
+	{
+		for (IInventory inventory : inventories) {
+			inventory.markDirty();
+		}
+	}
+
+	@Override
+	public void openInventory()
+	{
+		for (IInventory inventory : inventories) {
+			inventory.openInventory();
+		}
+	}
+
+	@Override
+	public void closeInventory()
+	{
+		for (IInventory inventory : inventories) {
+			inventory.closeInventory();
+		}
+	}
+
+	//
+
+	@Override
+	public ItemStack getStackInSlot(int globalSlotIndex)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		return inventories.get(address[0]).getStackInSlot(address[1]);
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int globalSlotIndex)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		return inventories.get(address[0]).getStackInSlotOnClosing(address[1]);
+	}
+
+	@Override
+	public ItemStack decrStackSize(int globalSlotIndex, int amount)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		return inventories.get(address[0]).decrStackSize(address[1], amount);
+	}
+
+	@Override
+	public void setInventorySlotContents(int globalSlotIndex, ItemStack var2)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		inventories.get(address[0]).setInventorySlotContents(address[1], var2);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int globalSlotIndex, ItemStack var2)
+	{
+		int[] address = getAddress(globalSlotIndex);
+		return inventories.get(address[0]).isItemValidForSlot(address[1], var2);
+	}
+
+	//
+
+	@Override
+	public int getSizeInventory()
+	{
+		int size = 0;
+		for (IInventory inventory : inventories) {
+			size += inventory.getSizeInventory();
+		}
+		return size;
 	}
 
 	/**
@@ -62,93 +162,6 @@ public class InventoryChain implements IInventory
 	public IInventory getInventory(int index)
 	{
 		return inventories.get(index);
-	}
-
-	@Override
-	public int getSizeInventory()
-	{
-		int size = 0;
-		for (IInventory inventory : inventories) {
-			size += inventory.getSizeInventory();
-		}
-		return size;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int globalSlotIndex)
-	{
-		int[] address = getAddress(globalSlotIndex);
-		return inventories.get(address[0]).getStackInSlot(address[1]);
-	}
-
-	@Override
-	public ItemStack decrStackSize(int globalSlotIndex, int amount)
-	{
-		int[] address = getAddress(globalSlotIndex);
-		return inventories.get(address[0]).decrStackSize(address[1], amount);
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int globalSlotIndex)
-	{
-		int[] address = getAddress(globalSlotIndex);
-		return inventories.get(address[0]).getStackInSlotOnClosing(address[1]);
-	}
-
-	@Override
-	public void setInventorySlotContents(int globalSlotIndex, ItemStack var2)
-	{
-		int[] address = getAddress(globalSlotIndex);
-		inventories.get(address[0]).setInventorySlotContents(address[1], var2);
-	}
-
-	@Override
-	public String getInventoryName()
-	{
-		return name.getInventoryName();
-	}
-
-	@Override
-	public boolean hasCustomInventoryName()
-	{
-		return name.hasCustomInventoryName();
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return inventoryStackLimit;
-	}
-
-	@Override
-	public void markDirty()
-	{
-		parent.setDirty();
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer var1)
-	{
-		return true;
-	}
-
-	@Override
-	public void openInventory()
-	{
-
-	}
-
-	@Override
-	public void closeInventory()
-	{
-
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int globalSlotIndex, ItemStack var2)
-	{
-		int[] address = getAddress(globalSlotIndex);
-		return inventories.get(address[0]).isItemValidForSlot(address[1], var2);
 	}
 
 	public int[] getSlotsOfInventory(IInventory... inventoryList)
@@ -189,6 +202,34 @@ public class InventoryChain implements IInventory
 	public int getInventoryCount()
 	{
 		return inventories.size();
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tag)
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tag)
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void onBroken()
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void dropAll()
+	{
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 }

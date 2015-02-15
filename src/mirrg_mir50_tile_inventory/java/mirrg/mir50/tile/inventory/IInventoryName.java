@@ -1,6 +1,6 @@
 package mirrg.mir50.tile.inventory;
 
-public interface IInventoryName
+ interface IInventoryName
 {
 
 	/**
@@ -16,7 +16,5 @@ public interface IInventoryName
 	public String getDefaultName();
 
 	public String getLocalizedName();
-
-	public void setCustomInventoryName(String customInventoryName);
 
 }
