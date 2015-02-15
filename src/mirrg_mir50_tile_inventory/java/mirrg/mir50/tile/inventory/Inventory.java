@@ -1,22 +1,26 @@
 package mirrg.mir50.tile.inventory;
 
-import api.mirrg.mir50.net.NBTTypes;
+import java.util.function.Predicate;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import api.mirrg.mir50.net.NBTTypes;
 
-public class Inventory implements IInventory, ISetDirty
+public class Inventory implements IInventory
 {
 
-	public ItemStack[] itemStacks;
-	protected ISetDirty parent;
+	protected ItemStack[] itemStacks;
+	protected Runnable runnableMarkDirty;
+	protected Predicate<EntityPlayer> predicateIsUseableByPlayer;
 
-	public Inventory(ISetDirty parent, int size)
+	public Inventory(Runnable runnableMarkDirty, int size)
 	{
-		this.parent = parent;
+		this.runnableMarkDirty = runnableMarkDirty;
+		this.predicateIsUseableByPlayer = p -> true;
 		itemStacks = new ItemStack[size];
 	}
 
@@ -33,15 +37,23 @@ public class Inventory implements IInventory, ISetDirty
 	}
 
 	@Override
-	public ItemStack decrStackSize(int arg0, int arg1)
+	public ItemStack decrStackSize(int index, int amount)
 	{
-		ItemStack itemStack = itemStacks[arg0].copy();
-		itemStacks[arg0].stackSize -= arg1;
-		itemStack.stackSize = arg1;
-		if (itemStacks[arg0].stackSize <= 0) {
-			itemStacks[arg0] = null;
+		if (itemStacks[index] != null) {
+			if (itemStacks[index].stackSize <= amount) {
+				ItemStack itemStack = itemStacks[index];
+				itemStacks[index] = null;
+				markDirty();
+				return itemStack;
+			} else {
+				ItemStack itemStack = itemStacks[index].splitStack(amount);
+				if (itemStacks[index].stackSize == 0) itemStacks[index] = null;
+				markDirty();
+				return itemStack;
+			}
+		} else {
+			return null;
 		}
-		return itemStack;
 	}
 
 	@Override
@@ -63,11 +75,15 @@ public class Inventory implements IInventory, ISetDirty
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int arg0)
+	public ItemStack getStackInSlotOnClosing(int index)
 	{
-		ItemStack itemStack = itemStacks[arg0];
-		itemStacks[arg0] = null;
-		return itemStack;
+		if (itemStacks[index] != null) {
+			ItemStack itemStack = itemStacks[index];
+			itemStacks[index] = null;
+			return itemStack;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -89,15 +105,19 @@ public class Inventory implements IInventory, ISetDirty
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer arg0)
+	public boolean isUseableByPlayer(EntityPlayer player)
 	{
-		return true;
+		return predicateIsUseableByPlayer.test(player);
 	}
 
 	@Override
-	public void setInventorySlotContents(int arg0, ItemStack arg1)
+	public void setInventorySlotContents(int index, ItemStack itemStack)
 	{
-		itemStacks[arg0] = arg1;
+		itemStacks[index] = itemStack;
+		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
+			itemStack.stackSize = getInventoryStackLimit();
+		}
+		markDirty();
 	}
 
 	public void dropAll(World worldObj, float xCoord, float yCoord, float zCoord)
@@ -154,20 +174,16 @@ public class Inventory implements IInventory, ISetDirty
 			if (tag.hasKey("Slot_" + i, NBTTypes.COMPOUND)) {
 				NBTTagCompound tag2 = tag.getCompoundTag("Slot_" + i);
 				itemStacks[i] = ItemStack.loadItemStackFromNBT(tag2);
+			} else {
+				itemStacks[i] = null;
 			}
 		}
 	}
 
 	@Override
-	public void setDirty()
-	{
-		parent.setDirty();
-	}
-
-	@Override
 	public void markDirty()
 	{
-		parent.setDirty();
+		runnableMarkDirty.run();
 	}
 
 }
