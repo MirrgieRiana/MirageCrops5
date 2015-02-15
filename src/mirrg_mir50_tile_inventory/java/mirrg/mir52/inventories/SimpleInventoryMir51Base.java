@@ -1,16 +1,16 @@
 package mirrg.mir52.inventories;
 
 import mirrg.mir51.inventory.IInventoryCellMir51;
-import mirrg.mir51.inventory.SimpleInventoryMir51Abstract;
+import mirrg.mir51.inventory.SimpleInventoryMir51;
 import net.minecraft.tileentity.TileEntity;
 
-public class SimpleInventoryMir51 extends SimpleInventoryMir51Abstract
+public class SimpleInventoryMir51Base extends SimpleInventoryMir51
 {
 
 	protected final IInventoryCellMir51[] inventoryCellMir51s;
 	public String customInventoryName;
 
-	public SimpleInventoryMir51(int size, TileEntity tileEntity)
+	public SimpleInventoryMir51Base(TileEntity tileEntity, int size)
 	{
 		super(tileEntity);
 		inventoryCellMir51s = new IInventoryCellMir51[size];
@@ -26,7 +26,7 @@ public class SimpleInventoryMir51 extends SimpleInventoryMir51Abstract
 	public IInventoryCellMir51 getInventoryCell(int index)
 	{
 		if (inventoryCellMir51s[index] == null) {
-			inventoryCellMir51s[index] = new InventoryCellMir51(this::markDirty);
+			inventoryCellMir51s[index] = new InventoryCellMir51Base(this::markDirty);
 		}
 		return inventoryCellMir51s[index];
 	}
@@ -35,14 +35,6 @@ public class SimpleInventoryMir51 extends SimpleInventoryMir51Abstract
 	public boolean hasCustomInventoryName()
 	{
 		return customInventoryName != null;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Deprecated
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
 	}
 
 	@Override

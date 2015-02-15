@@ -10,9 +10,4 @@ public class HelpersSimpleInventory
 		return new SimpleInventoryFromBasic(inventory);
 	}
 
-	public static IInventory unmake(ISimpleInventory simpleInventory)
-	{
-		return new InventoryFromSimple(simpleInventory);
-	}
-
 }

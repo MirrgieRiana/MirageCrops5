@@ -2,11 +2,11 @@ package mirrg.mir52.inventories;
 
 import mirrg.mir50.inventory.ISimpleInventory;
 import mirrg.mir51.inventory.IInventoryCellMir51;
-import mirrg.mir51.inventory.SimpleInventoryMir51Abstract;
+import mirrg.mir51.inventory.SimpleInventoryMir51;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-public class SimpleInventoryMir51FromSimpleInventory extends SimpleInventoryMir51Abstract
+public class SimpleInventoryMir51FromSimpleInventory extends SimpleInventoryMir51
 {
 
 	protected ISimpleInventory owner;
@@ -35,7 +35,7 @@ public class SimpleInventoryMir51FromSimpleInventory extends SimpleInventoryMir5
 
 		if (inventoryCells[index] == null) {
 			inventoryCells[index] = new InventoryCellMir51FromInventoryCell(
-				owner.getInventoryCell(index), this::markDirty);
+				this::markDirty, owner.getInventoryCell(index));
 		}
 
 		return inventoryCells[index];

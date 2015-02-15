@@ -1,12 +1,11 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.inventory.HelpersSimpleInventory;
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir50.tile.inventory.FluidTank;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
 import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
 import mirrg.mir52.inventories.SimpleInventoryChain;
-import mirrg.mir52.inventories.SimpleInventoryMir51;
+import mirrg.mir52.inventories.SimpleInventoryMir51Base;
 import mirrg.mir52.inventories.SimpleInventoryTrimmer;
 import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.SupplierPositionFlow;
@@ -24,7 +23,7 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 
 	public TileEntityMachineMirageFairy()
 	{
-		inventory = add(new SimpleInventoryMir51(8 * 3, this), "inventory");
+		inventory = add(new SimpleInventoryMir51Base(this, 8 * 3), "inventory");
 		inventoryChain.add(inventory);
 
 		fluidTank = add(new FluidTank(this::markDirty, 16 * 1000), "fluidTank");
@@ -70,11 +69,11 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 		SimpleInventoryTrimmer inventoryPlayer = new SimpleInventoryTrimmer(this, inventory, 9, 27);
 		SimpleInventoryTrimmer inventoryHandle = new SimpleInventoryTrimmer(this, inventory, 0, 9);
 
-		container.addInventory(HelpersSimpleInventory.unmake(inventoryChest),
+		container.addInventory(inventoryChest,
 			new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
-		container.addInventory(HelpersSimpleInventory.unmake(inventoryPlayer),
+		container.addInventory(inventoryPlayer,
 			new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
-		container.addInventory(HelpersSimpleInventory.unmake(inventoryHandle),
+		container.addInventory(inventoryHandle,
 			new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
 
 		container.setTransferInventories(inventoryChest, inventoryHandle, inventoryPlayer);

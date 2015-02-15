@@ -3,61 +3,20 @@ package mirrg.mir50.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
-public class SimpleInventoryFromBasic implements ISimpleInventory
+public class SimpleInventoryFromBasic extends SimpleInventory
 {
 
-	protected IInventory inventory;
-
+	@Handmade
 	public SimpleInventoryFromBasic(IInventory inventory)
 	{
 		this.inventory = inventory;
 	}
 
-	@Override
-	public void openInventory()
-	{
-		inventory.openInventory();
-	}
-
-	@Override
-	public void markDirty()
-	{
-		inventory.markDirty();
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-	{
-		return inventory.isUseableByPlayer(player);
-	}
-
-	@Override
-	public boolean hasCustomInventoryName()
-	{
-		return inventory.hasCustomInventoryName();
-	}
-
-	@Override
-	public int getSizeInventory()
-	{
-		return inventory.getSizeInventory();
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return inventory.getInventoryStackLimit();
-	}
-
-	@Override
-	public String getInventoryName()
-	{
-		return inventory.getInventoryName();
-	}
-
+	@Handmade
 	protected IInventoryCell[] inventoryCells;
 
 	@Override
+	@Handmade
 	public IInventoryCell getInventoryCell(int index)
 	{
 		if (inventoryCells == null) {
@@ -69,6 +28,53 @@ public class SimpleInventoryFromBasic implements ISimpleInventory
 		}
 
 		return inventoryCells[index];
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	@Handmade
+	protected IInventory inventory;
+
+	@Override
+	public int getSizeInventory()
+	{
+		return inventory.getSizeInventory();
+	}
+
+	@Override
+	public String getInventoryName()
+	{
+		return inventory.getInventoryName();
+	}
+
+	@Override
+	public boolean hasCustomInventoryName()
+	{
+		return inventory.hasCustomInventoryName();
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return inventory.getInventoryStackLimit();
+	}
+
+	@Override
+	public void markDirty()
+	{
+		inventory.markDirty();
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	{
+		return inventory.isUseableByPlayer(p_70300_1_);
+	}
+
+	@Override
+	public void openInventory()
+	{
+		inventory.openInventory();
 	}
 
 	@Override

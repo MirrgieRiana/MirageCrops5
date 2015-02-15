@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import mirrg.mir51.inventory.IInventoryCellMir51;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
-import mirrg.mir51.inventory.SimpleInventoryMir51Abstract;
+import mirrg.mir51.inventory.SimpleInventoryMir51;
 import net.minecraft.tileentity.TileEntity;
 
 /**
  * 複数のインベントリを結合し、新たな通し番号によるスロットへの参照を与えます。
  */
-public class SimpleInventoryChain extends SimpleInventoryMir51Abstract
+public class SimpleInventoryChain extends SimpleInventoryMir51
 {
 
 	protected ArrayList<ISimpleInventoryMir51> inventories = new ArrayList<ISimpleInventoryMir51>();

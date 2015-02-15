@@ -26,4 +26,10 @@ public interface ISimpleInventoryMir51 extends ISimpleInventory, IInventoryName
 
 	public void dropAll();
 
+	public int getInventoryStackLimit(int index);
+
+	public void clearInventory(int index);
+
+	public void markDirty(int index);
+
 }

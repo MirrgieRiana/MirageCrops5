@@ -2,15 +2,19 @@ package mirrg.mir50.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class SimpleInventoryDelegation implements ISimpleInventory
+public class SimpleInventoryDelegation extends SimpleInventory
 {
 
-	protected ISimpleInventory owner;
-
+	@Handmade
 	public SimpleInventoryDelegation(ISimpleInventory owner)
 	{
 		this.owner = owner;
 	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	@Handmade
+	protected ISimpleInventory owner;
 
 	@Override
 	public int getSizeInventory()
@@ -22,6 +26,12 @@ public class SimpleInventoryDelegation implements ISimpleInventory
 	public IInventoryCell getInventoryCell(int index)
 	{
 		return owner.getInventoryCell(index);
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player)
+	{
+		return owner.isUseableByPlayer(player);
 	}
 
 	@Override
@@ -46,12 +56,6 @@ public class SimpleInventoryDelegation implements ISimpleInventory
 	public void markDirty()
 	{
 		owner.markDirty();
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player)
-	{
-		return owner.isUseableByPlayer(player);
 	}
 
 	@Override

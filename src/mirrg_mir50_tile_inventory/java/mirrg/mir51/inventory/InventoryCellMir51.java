@@ -1,9 +1,17 @@
 package mirrg.mir51.inventory;
 
+import mirrg.mir50.inventory.InventoryCell;
 import net.minecraft.item.ItemStack;
 
-public abstract class InventoryCellMir51Abstract implements IInventoryCellMir51
+public abstract class InventoryCellMir51 extends InventoryCell implements IInventoryCellMir51
 {
+
+	protected Runnable runnableMarkDirty;
+
+	public InventoryCellMir51(Runnable runnableMarkDirty)
+	{
+		this.runnableMarkDirty = runnableMarkDirty;
+	}
 
 	@Override
 	public ItemStack decrStackSize(int amount)
@@ -36,6 +44,18 @@ public abstract class InventoryCellMir51Abstract implements IInventoryCellMir51
 	public void clearInventory()
 	{
 		setInventorySlotContents(null);
+	}
+
+	@Override
+	public void markDirty()
+	{
+		runnableMarkDirty.run();
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 64;
 	}
 
 }

@@ -1,17 +1,16 @@
 package mirrg.mir52.inventories;
 
-import mirrg.mir51.inventory.InventoryCellMir51Abstract;
+import mirrg.mir51.inventory.InventoryCellMir51;
 import net.minecraft.item.ItemStack;
 
-public class InventoryCellMir51 extends InventoryCellMir51Abstract
+public class InventoryCellMir51Base extends InventoryCellMir51
 {
 
 	protected ItemStack itemStack;
-	protected Runnable runnableMarkDirty;
 
-	public InventoryCellMir51(Runnable runnableMarkDirty)
+	public InventoryCellMir51Base(Runnable runnableMarkDirty)
 	{
-		this.runnableMarkDirty = runnableMarkDirty;
+		super(runnableMarkDirty);
 	}
 
 	@Override
@@ -31,18 +30,6 @@ public class InventoryCellMir51 extends InventoryCellMir51Abstract
 	public boolean isItemValidForSlot(ItemStack itemStack)
 	{
 		return true;
-	}
-
-	@Override
-	public int getInventoryStackLimit()
-	{
-		return 64;
-	}
-
-	@Override
-	public void markDirty()
-	{
-		runnableMarkDirty.run();
 	}
 
 }

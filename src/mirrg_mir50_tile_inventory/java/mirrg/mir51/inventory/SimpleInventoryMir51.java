@@ -1,5 +1,6 @@
 package mirrg.mir51.inventory;
 
+import mirrg.mir50.inventory.SimpleInventory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,12 +10,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import api.mirrg.mir50.net.NBTTypes;
 
-public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMir51
+public abstract class SimpleInventoryMir51 extends SimpleInventory implements ISimpleInventoryMir51
 {
 
 	private final TileEntity tileEntity;
 
-	public SimpleInventoryMir51Abstract(TileEntity tileEntity)
+	public SimpleInventoryMir51(TileEntity tileEntity)
 	{
 		this.tileEntity = tileEntity;
 	}
@@ -57,7 +58,7 @@ public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMi
 	public void clearInventoryAll()
 	{
 		for (int i = 0; i < getSizeInventory(); i++) {
-			getInventoryCell(i).clearInventory();
+			clearInventory(i);
 		}
 	}
 
@@ -65,9 +66,9 @@ public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMi
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		for (int i = 0; i < getSizeInventory(); i++) {
-			if (getInventoryCell(i).getStackInSlot() != null) {
+			if (getStackInSlot(i) != null) {
 				NBTTagCompound tag2 = new NBTTagCompound();
-				getInventoryCell(i).getStackInSlot().writeToNBT(tag2);
+				getStackInSlot(i).writeToNBT(tag2);
 				tag.setTag("Slot_" + i, tag2);
 			}
 		}
@@ -79,9 +80,9 @@ public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMi
 		for (int i = 0; i < getSizeInventory(); i++) {
 			if (tag.hasKey("Slot_" + i, NBTTypes.COMPOUND)) {
 				NBTTagCompound tag2 = tag.getCompoundTag("Slot_" + i);
-				getInventoryCell(i).setInventorySlotContents(ItemStack.loadItemStackFromNBT(tag2));
+				setInventorySlotContents(i, ItemStack.loadItemStackFromNBT(tag2));
 			} else {
-				getInventoryCell(i).clearInventory();
+				clearInventory(i);
 			}
 		}
 	}
@@ -96,7 +97,7 @@ public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMi
 	public void dropAll()
 	{
 		for (int i = 0; i < getSizeInventory(); i++) {
-			ItemStack itemStack = getInventoryCell(i).getStackInSlot();
+			ItemStack itemStack = getStackInSlot(i);
 			if (itemStack != null) {
 				dropItemStack(getTileEntity().getWorldObj(),
 					getTileEntity().xCoord, getTileEntity().yCoord, getTileEntity().zCoord, itemStack);
@@ -129,6 +130,32 @@ public abstract class SimpleInventoryMir51Abstract implements ISimpleInventoryMi
 			worldObj.spawnEntityInWorld(entityItem);
 		}
 
+	}
+
+	@Override
+	public final int getInventoryStackLimit(int index)
+	{
+		return getInventoryCell(index).getInventoryStackLimit();
+	}
+
+	@Override
+	public final void clearInventory(int index)
+	{
+		getInventoryCell(index).clearInventory();
+	}
+
+	@Override
+	public final void markDirty(int index)
+	{
+		getInventoryCell(index).markDirty();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return 64;
 	}
 
 }

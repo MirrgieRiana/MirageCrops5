@@ -1,26 +1,30 @@
 package mirrg.mir50.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
-public interface ISimpleInventory
+public interface ISimpleInventory extends IInventory
 {
-
-	public int getSizeInventory();
 
 	public IInventoryCell getInventoryCell(int index);
 
-	public String getInventoryName();
+	@Override
+	public ItemStack getStackInSlot(int index);
 
-	public boolean hasCustomInventoryName();
+	@Override
+	public ItemStack decrStackSize(int index, int amount);
 
-	public int getInventoryStackLimit();
+	@Override
+	public ItemStack getStackInSlotOnClosing(int index);
 
-	public void markDirty();
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stackSize);
 
+	@Override
 	public boolean isUseableByPlayer(EntityPlayer player);
 
-	public void openInventory();
-
-	public void closeInventory();
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stackSize);
 
 }

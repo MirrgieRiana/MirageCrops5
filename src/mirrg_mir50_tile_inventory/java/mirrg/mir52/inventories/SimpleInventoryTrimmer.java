@@ -2,13 +2,13 @@ package mirrg.mir52.inventories;
 
 import mirrg.mir51.inventory.IInventoryCellMir51;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
-import mirrg.mir51.inventory.SimpleInventoryMir51Abstract;
+import mirrg.mir51.inventory.SimpleInventoryMir51;
 import net.minecraft.tileentity.TileEntity;
 
 /**
  * インベントリの部分を分離し、新たな通し番号によるスロットへの参照を与えます。
  */
-public class SimpleInventoryTrimmer extends SimpleInventoryMir51Abstract
+public class SimpleInventoryTrimmer extends SimpleInventoryMir51
 {
 
 	protected ISimpleInventoryMir51 inventory;

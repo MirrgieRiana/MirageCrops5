@@ -5,12 +5,16 @@ import net.minecraft.item.ItemStack;
 public class InventoryCellDelegation implements IInventoryCell
 {
 
-	protected IInventoryCell owner;
-
+	@Handmade
 	public InventoryCellDelegation(IInventoryCell owner)
 	{
 		this.owner = owner;
 	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	@Handmade
+	protected IInventoryCell owner;
 
 	@Override
 	public ItemStack getStackInSlot()
