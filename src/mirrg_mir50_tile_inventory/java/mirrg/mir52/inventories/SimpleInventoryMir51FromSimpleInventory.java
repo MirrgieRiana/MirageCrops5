@@ -97,4 +97,16 @@ public class SimpleInventoryMir51FromSimpleInventory extends SimpleInventoryMir5
 		return owner.hasCustomInventoryName() ? "container.mir51" : owner.getInventoryName();
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		return owner.equals(obj);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return owner.hashCode();
+	}
+
 }

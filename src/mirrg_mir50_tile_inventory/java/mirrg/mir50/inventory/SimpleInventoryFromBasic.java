@@ -7,9 +7,9 @@ public class SimpleInventoryFromBasic extends SimpleInventory
 {
 
 	@Handmade
-	public SimpleInventoryFromBasic(IInventory inventory)
+	public SimpleInventoryFromBasic(IInventory owner)
 	{
-		this.inventory = inventory;
+		this.owner = owner;
 	}
 
 	@Handmade
@@ -24,63 +24,75 @@ public class SimpleInventoryFromBasic extends SimpleInventory
 		}
 
 		if (inventoryCells[index] == null) {
-			inventoryCells[index] = new InventoryCellFromBasic(inventory, index);
+			inventoryCells[index] = new InventoryCellFromBasic(owner, index);
 		}
 
 		return inventoryCells[index];
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		return owner.equals(obj);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return owner.hashCode();
+	}
+
 	/////////////////////////////////////////////////////////////////////
 
 	@Handmade
-	protected IInventory inventory;
+	protected IInventory owner;
 
 	@Override
 	public int getSizeInventory()
 	{
-		return inventory.getSizeInventory();
+		return owner.getSizeInventory();
 	}
 
 	@Override
 	public String getInventoryName()
 	{
-		return inventory.getInventoryName();
+		return owner.getInventoryName();
 	}
 
 	@Override
 	public boolean hasCustomInventoryName()
 	{
-		return inventory.hasCustomInventoryName();
+		return owner.hasCustomInventoryName();
 	}
 
 	@Override
 	public int getInventoryStackLimit()
 	{
-		return inventory.getInventoryStackLimit();
+		return owner.getInventoryStackLimit();
 	}
 
 	@Override
 	public void markDirty()
 	{
-		inventory.markDirty();
+		owner.markDirty();
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return inventory.isUseableByPlayer(p_70300_1_);
+		return owner.isUseableByPlayer(p_70300_1_);
 	}
 
 	@Override
 	public void openInventory()
 	{
-		inventory.openInventory();
+		owner.openInventory();
 	}
 
 	@Override
 	public void closeInventory()
 	{
-		inventory.closeInventory();
+		owner.closeInventory();
 	}
 
 }
