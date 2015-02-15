@@ -25,6 +25,9 @@ public class SimpleInventoryMir51 extends SimpleInventoryMir51Abstract
 	@Override
 	public IInventoryCellMir51 getInventoryCell(int index)
 	{
+		if (inventoryCellMir51s[index] == null) {
+			inventoryCellMir51s[index] = new InventoryCellMir51(this::markDirty);
+		}
 		return inventoryCellMir51s[index];
 	}
 
