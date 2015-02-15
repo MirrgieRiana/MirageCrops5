@@ -23,6 +23,70 @@ import buildcraft.api.transport.IPipeTile.PipeType;
 public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeConnection, IFluidHandler, ISidedInventory
 {
 
+	public void writeToNBT(String componentName, NBTTagCompound p_145841_1_)
+	{
+
+		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().writeToNBT(p_145841_1_);
+				return;
+			}
+
+		}
+
+		for (Tuple<FluidTank, String> entry : fluidTanks) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().writeToNBT(p_145841_1_);
+				return;
+			}
+
+		}
+
+		for (Tuple<EnergyTank, String> entry : energyTanks) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().writeToNBT(p_145841_1_);
+				return;
+			}
+
+		}
+
+	}
+
+	public void readFromNBT(String componentName, NBTTagCompound p_145839_1_)
+	{
+
+		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().readFromNBT(p_145839_1_);
+				return;
+			}
+
+		}
+
+		for (Tuple<FluidTank, String> entry : fluidTanks) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().readFromNBT(p_145839_1_);
+				return;
+			}
+
+		}
+
+		for (Tuple<EnergyTank, String> entry : energyTanks) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().readFromNBT(p_145839_1_);
+				return;
+			}
+
+		}
+
+	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound p_145841_1_)
 	{
@@ -89,8 +153,8 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
 				entry.getX().readFromNBT(tag);
 			} else {
-				entry.getX().amount = 0;
-				entry.getX().capacity = entry.getX().getDefaultCapacity();
+				entry.getX().setAmount(0);
+				entry.getX().setCapacity(entry.getX().getDefaultCapacity());
 			}
 
 		}
@@ -325,6 +389,66 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	{
 		energyTanks.add(new Tuple<EnergyTank, String>(energyTank, tagName));
 		return energyTank;
+	}
+
+	public String getName(FluidTank fluidTank)
+	{
+		for (Tuple<FluidTank, String> entry : fluidTanks) {
+			if (entry.getX() == fluidTank) {
+				return entry.getY();
+			}
+		}
+		return null;
+	}
+
+	public String getName(EnergyTank energyTank)
+	{
+		for (Tuple<EnergyTank, String> entry : energyTanks) {
+			if (entry.getX() == energyTank) {
+				return entry.getY();
+			}
+		}
+		return null;
+	}
+
+	public String getName(ISimpleInventoryMir51 inventory)
+	{
+		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+			if (entry.getX() == inventory) {
+				return entry.getY();
+			}
+		}
+		return null;
+	}
+
+	public FluidTank getFluidTank(String name)
+	{
+		for (Tuple<FluidTank, String> entry : fluidTanks) {
+			if (entry.getY().equals(name)) {
+				return entry.getX();
+			}
+		}
+		return null;
+	}
+
+	public EnergyTank getEnergyTank(String name)
+	{
+		for (Tuple<EnergyTank, String> entry : energyTanks) {
+			if (entry.getY().equals(name)) {
+				return entry.getX();
+			}
+		}
+		return null;
+	}
+
+	public ISimpleInventoryMir51 getInventory(String name)
+	{
+		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+			if (entry.getY().equals(name)) {
+				return entry.getX();
+			}
+		}
+		return null;
 	}
 
 }

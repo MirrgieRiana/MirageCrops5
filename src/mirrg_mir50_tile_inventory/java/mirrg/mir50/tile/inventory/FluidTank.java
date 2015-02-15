@@ -12,6 +12,7 @@ public class FluidTank implements IFluidTank
 	public FluidStack fluidStack;
 	protected Runnable runnableMarkDirty;
 	private int capacity;
+	public boolean dirty;
 
 	public FluidTank(Runnable runnableMarkDirty, int capacity)
 	{
@@ -144,6 +145,36 @@ public class FluidTank implements IFluidTank
 	public FluidTankInfo getInfo()
 	{
 		return new FluidTankInfo(fluidStack, capacity);
+	}
+
+	public FluidTank copy()
+	{
+		FluidTank fluidTank = new FluidTank(runnableMarkDirty, capacity);
+		fluidTank.fluidStack = fluidStack != null ? fluidStack.copy() : null;
+		return fluidTank;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fluidStack == null) ? 0 : fluidStack.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		FluidTank other = (FluidTank) obj;
+		if (fluidStack == null) {
+			if (other.fluidStack != null) return false;
+		} else if (!fluidStack.equals(other.fluidStack)) return false;
+		if (fluidStack.amount != other.fluidStack.amount) return false;
+		return true;
 	}
 
 }

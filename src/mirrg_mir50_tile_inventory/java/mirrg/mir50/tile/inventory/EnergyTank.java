@@ -38,6 +38,16 @@ public class EnergyTank
 		runnableMarkDirty.run();
 	}
 
+	public void setAmount(long amount)
+	{
+		this.amount = amount;
+	}
+
+	public void setCapacity(long capacity)
+	{
+		this.capacity = capacity;
+	}
+
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		tag.setLong("Amount", amount);
@@ -59,6 +69,36 @@ public class EnergyTank
 			capacity = 0;
 		}
 
+	}
+
+	public EnergyTank copy()
+	{
+		EnergyTank energyTank = new EnergyTank(runnableMarkDirty, defaultCapacity);
+		energyTank.amount = amount;
+		energyTank.capacity = capacity;
+		return energyTank;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (amount ^ (amount >>> 32));
+		result = prime * result + (int) (capacity ^ (capacity >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		EnergyTank other = (EnergyTank) obj;
+		if (amount != other.amount) return false;
+		if (capacity != other.capacity) return false;
+		return true;
 	}
 
 }

@@ -28,7 +28,7 @@ public class RendererEnergySlotMeter implements IRenderer<EnergySlot>
 	@SideOnly(Side.CLIENT)
 	public void drawForegroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
 	{
-		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.energyTank.amount) + " H",
+		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.energyTank.getAmount()) + " H",
 			t.x, t.y, HelpersRenderer.EnumTextAlign.CENTER, EnumRotate.RIGHT0);
 	}
 
@@ -41,7 +41,7 @@ public class RendererEnergySlotMeter implements IRenderer<EnergySlot>
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.energyTank.amount + " / " + t.energyTank.capacity);
+			list.add("" + t.energyTank.getAmount() + " / " + t.energyTank.getCapacity());
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}

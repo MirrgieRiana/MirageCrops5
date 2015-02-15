@@ -4,6 +4,8 @@ import mirrg.mir50.block.AdaptorBlockEventsOverriding;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir51.loaders.LoaderBlock;
+import mirrg.mir51.loaders.LoaderMessageHandler;
+import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.tile.ContainerMir53;
@@ -16,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -25,8 +28,16 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public static LoaderBlock loaderBlock_machineMirageFairy = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfFurnace = new LoaderBlock();
 
+	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
+	public static int loaderSimpleNetworkWrapper_counter = 0;
+
 	public ModuleMachine()
 	{
+
+		loaderSimpleNetworkWrapper.channelName = ModMirageCrops.MODID;
+		add(loaderSimpleNetworkWrapper);
+		add(new LoaderMessageHandler(loaderSimpleNetworkWrapper,
+			MessageNamedTagHandler.class, MessageNamedTag.class, loaderSimpleNetworkWrapper_counter++, Side.CLIENT));
 
 		add(new LoaderTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy"));
 		add(new LoaderTileEntity(TileEntityMMFFurnace.class, "MMFFurnace"));

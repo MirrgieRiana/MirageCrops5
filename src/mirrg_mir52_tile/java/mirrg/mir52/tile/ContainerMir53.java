@@ -10,11 +10,16 @@ import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
 import mirrg.mir52.inventories.SimpleInventoryChain;
+import mirrg_miragecrops5.machine.MessageNamedTag;
+import mirrg_miragecrops5.machine.ModuleMachine;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ContainerMir53 extends Container
 {
@@ -183,6 +188,57 @@ public class ContainerMir53 extends Container
 	protected boolean mergeItemStack(ItemStack stack, int start, int end, boolean inverse)
 	{
 		return HelpersContainer.mergeItemStackIntoInventory(((List<Slot>) inventorySlots)::get, stack, start, end, inverse);
+	}
+
+	@Override
+	public void detectAndSendChanges()
+	{
+		super.detectAndSendChanges();
+
+		if (tileEntity instanceof TileEntityMir53Connected) {
+			TileEntityMir53Connected tile = ((TileEntityMir53Connected) tileEntity);
+
+			for (FluidSlot fluidSlot : fluidSlots) {
+				if (fluidSlot.isDirtyAndSaveSnapshot()) {
+
+					for (int i = 0; i < this.crafters.size(); i++) {
+						ICrafting icrafting = (ICrafting) this.crafters.get(i);
+						if (icrafting instanceof EntityPlayerMP) {
+							EntityPlayerMP player = (EntityPlayerMP) icrafting;
+
+							String name = tile.getName(fluidSlot.fluidTank);
+
+							NBTTagCompound nbt = new NBTTagCompound();
+							fluidSlot.fluidTank.writeToNBT(nbt);
+
+							ModuleMachine.loaderSimpleNetworkWrapper.get().sendTo(new MessageNamedTag(name, nbt), player);
+						}
+					}
+
+				}
+			}
+
+			for (EnergySlot energySlot : energySlots) {
+				if (energySlot.isDirtyAndSaveSnapshot()) {
+
+					for (int i = 0; i < this.crafters.size(); i++) {
+						ICrafting icrafting = (ICrafting) this.crafters.get(i);
+						if (icrafting instanceof EntityPlayerMP) {
+							EntityPlayerMP player = (EntityPlayerMP) icrafting;
+
+							String name = tile.getName(energySlot.energyTank);
+
+							NBTTagCompound nbt = new NBTTagCompound();
+							energySlot.energyTank.writeToNBT(nbt);
+
+							ModuleMachine.loaderSimpleNetworkWrapper.get().sendTo(new MessageNamedTag(name, nbt), player);
+						}
+					}
+
+				}
+			}
+
+		}
 	}
 
 	/**

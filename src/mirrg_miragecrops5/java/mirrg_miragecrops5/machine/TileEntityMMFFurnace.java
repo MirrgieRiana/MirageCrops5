@@ -4,6 +4,7 @@ import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.EnergyTank;
 import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
 import mirrg.mir51.inventory.ISimpleInventoryMir51;
+import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
 import mirrg.mir52.inventories.SimpleInventoryMir51Base;
 import mirrg.mir52.inventories.SimpleInventoryTrimmer;
@@ -156,7 +157,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	@Override
 	protected void tick()
 	{
-		//if (HelpersSide.helper(this).isRemote()) return;
+		if (HelpersSide.helper(this).isRemote()) return;
 
 		{
 			ISimpleInventoryMir51 inventory = inventoryInMaterial;
@@ -256,8 +257,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 		if (isWaiting()) {
 			tryStartProcess(() -> {
-				energyTankProcessing.amount = 0;
-				energyTankProcessing.capacity = 200;
+				energyTankProcessing.setAmount(0);
+				energyTankProcessing.setCapacity(200);
 			});
 		}
 
@@ -271,34 +272,34 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 
 		if (isOutputted()) {
-			energyTankProcessing.amount = 0;
-			energyTankProcessing.capacity = 0;
+			energyTankProcessing.setAmount(0);
+			energyTankProcessing.setCapacity(0);
 		}
 
 	}
 
 	public boolean isWaiting()
 	{
-		return energyTankProcessing.capacity <= 0;
+		return energyTankProcessing.getCapacity() <= 0;
 	}
 
 	public boolean isProcessing()
 	{
-		return energyTankProcessing.capacity > 0
-			&& energyTankProcessing.amount < energyTankProcessing.capacity;
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() < energyTankProcessing.getCapacity();
 	}
 
 	public boolean isOutputting()
 	{
-		return energyTankProcessing.capacity > 0
-			&& energyTankProcessing.amount >= energyTankProcessing.capacity
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
 			&& !isEmpty(inventoryOutProcessing);
 	}
 
 	public boolean isOutputted()
 	{
-		return energyTankProcessing.capacity > 0
-			&& energyTankProcessing.amount >= energyTankProcessing.capacity
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
 			&& isEmpty(inventoryOutProcessing);
 	}
 
@@ -337,13 +338,13 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	 */
 	protected void processTick()
 	{
-		long need = energyTankProcessing.capacity - energyTankProcessing.amount;
+		long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
 
 		need = Math.min(1, need);
 
 		long pop = popFuel(0, need);
 
-		energyTankProcessing.amount += pop;
+		energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop);
 	}
 
 	/**
@@ -353,8 +354,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	 */
 	protected long popFuel(long min, long max)
 	{
-		if (energyTankFuel.amount >= max) {
-			energyTankFuel.amount -= max;
+		if (energyTankFuel.getAmount() >= max) {
+			energyTankFuel.setAmount(energyTankFuel.getAmount() - max);
 			return max;
 		} else {
 			// 燃料が足りない
@@ -362,9 +363,9 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 			if (tryBurnFuel()) {
 				return popFuel(min, max);
 			} else {
-				if (energyTankFuel.amount >= min) {
-					long amount = energyTankFuel.amount;
-					energyTankFuel.amount -= amount;
+				if (energyTankFuel.getAmount() >= min) {
+					long amount = energyTankFuel.getAmount();
+					energyTankFuel.setAmount(energyTankFuel.getAmount() - amount);
 					return amount;
 				} else {
 					// 燃料がちっとも足りない
@@ -390,9 +391,9 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 				inventoryInFuel.getInventoryCell(inventoryInFuel.getSizeInventory() - 1).decrStackSize(1);
 
-				energyTankFuel.capacity = energyTankFuel.amount;
-				energyTankFuel.amount += fuelValue;
-				energyTankFuel.capacity += fuelValue;
+				energyTankFuel.setCapacity(energyTankFuel.getAmount());
+				energyTankFuel.setAmount(energyTankFuel.getAmount() + fuelValue);
+				energyTankFuel.setCapacity(energyTankFuel.getCapacity() + fuelValue);
 
 				return true;
 			}
@@ -452,4 +453,11 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 		return true;
 	}
+
+	@Override
+	public String getDefaultName()
+	{
+		return "container.miragecrops5.mmfFurnace";
+	}
+
 }

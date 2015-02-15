@@ -4,6 +4,7 @@ public class FluidSlot
 {
 
 	public FluidTank fluidTank;
+	public FluidTank snapshot;
 	public int x;
 	public int y;
 	public int w;
@@ -16,6 +17,13 @@ public class FluidSlot
 		this.y = y;
 		this.w = w;
 		this.h = h;
+	}
+
+	public boolean isDirtyAndSaveSnapshot()
+	{
+		boolean isDirty = !fluidTank.equals(snapshot);
+		snapshot = fluidTank.copy();
+		return isDirty;
 	}
 
 }

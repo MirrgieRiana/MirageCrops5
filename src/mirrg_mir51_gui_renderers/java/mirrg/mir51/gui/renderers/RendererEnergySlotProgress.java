@@ -57,41 +57,37 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glColorMask(true, true, true, false);
 
-		switch (progressAlign) {
-			case DOWN: {
-				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
-				if (rate > 1) rate = 1;
-				int h = (int) (t.h * rate);
-				rate = (float) h / t.h;
-				gui.drawTexturedModelRect(t.x, t.y + t.h - h, t.w, h, 0, 1 - rate, 1, 1);
+		{
+			float rate = t.energyTank.getCapacity() == 0 ? 0 : (float) t.energyTank.getAmount() / t.energyTank.getCapacity();
+			if (rate > 1) rate = 1;
+			switch (progressAlign) {
+				case DOWN: {
+					int h = (int) (t.h * rate);
+					rate = (float) h / t.h;
+					gui.drawTexturedModelRect(t.x, t.y + t.h - h, t.w, h, 0, 1 - rate, 1, 1);
+				}
+					break;
+				case LEFT: {
+					int w = (int) (t.w * rate);
+					rate = (float) w / t.w;
+					gui.drawTexturedModelRect(t.x, t.y, w, t.h, 0, 0, rate, 1);
+				}
+					break;
+				case RIGHT: {
+					int w = (int) (t.w * rate);
+					rate = (float) w / t.w;
+					gui.drawTexturedModelRect(t.x + t.w - w, t.y, w, t.h, 1 - rate, 0, 1, 1);
+				}
+					break;
+				case UP: {
+					int h = (int) (t.h * rate);
+					rate = (float) h / t.h;
+					gui.drawTexturedModelRect(t.x, t.y, t.w, h, 0, 0, 1, rate);
+				}
+					break;
+				default:
+					break;
 			}
-				break;
-			case LEFT: {
-				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
-				if (rate > 1) rate = 1;
-				int w = (int) (t.w * rate);
-				rate = (float) w / t.w;
-				gui.drawTexturedModelRect(t.x, t.y, w, t.h, 0, 0, rate, 1);
-			}
-				break;
-			case RIGHT: {
-				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
-				if (rate > 1) rate = 1;
-				int w = (int) (t.w * rate);
-				rate = (float) w / t.w;
-				gui.drawTexturedModelRect(t.x + t.w - w, t.y, w, t.h, 1 - rate, 0, 1, 1);
-			}
-				break;
-			case UP: {
-				float rate = t.energyTank.capacity == 0 ? 0 : (float) t.energyTank.amount / t.energyTank.capacity;
-				if (rate > 1) rate = 1;
-				int h = (int) (t.h * rate);
-				rate = (float) h / t.h;
-				gui.drawTexturedModelRect(t.x, t.y, t.w, h, 0, 0, 1, rate);
-			}
-				break;
-			default:
-				break;
 		}
 
 		GL11.glColorMask(true, true, true, true);
@@ -176,7 +172,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.energyTank.amount + " / " + t.energyTank.capacity);
+			list.add("" + t.energyTank.getAmount() + " / " + t.energyTank.getCapacity());
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
