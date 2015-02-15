@@ -10,12 +10,12 @@ public class FluidTank implements IFluidTank
 {
 
 	public FluidStack fluidStack;
-	protected ISetDirty parent;
+	protected Runnable runnableMarkDirty;
 	private int capacity;
 
-	public FluidTank(ISetDirty parent, int capacity)
+	public FluidTank(Runnable runnableMarkDirty, int capacity)
 	{
-		this.parent = parent;
+		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
 	}
 
@@ -27,7 +27,7 @@ public class FluidTank implements IFluidTank
 
 	public void markDirty()
 	{
-		parent.setDirty();
+		runnableMarkDirty.run();
 	}
 
 	public void writeToNBT(NBTTagCompound tag)
@@ -100,7 +100,7 @@ public class FluidTank implements IFluidTank
 				fluidStack = new FluidStack(paramFluidStack.getFluid(), 0);
 			}
 			fluidStack.amount += moveAmount;
-			parent.setDirty();
+			markDirty();
 		}
 
 		return moveAmount;
@@ -114,7 +114,7 @@ public class FluidTank implements IFluidTank
 
 		if (paramBoolean) {
 			fluidStack.amount -= moveAmount;
-			parent.setDirty();
+			markDirty();
 		}
 
 		return new FluidStack(fluidStack.getFluid(), moveAmount);

@@ -1,19 +1,19 @@
 package mirrg.mir50.tile.inventory;
 
-import api.mirrg.mir50.net.NBTTypes;
 import net.minecraft.nbt.NBTTagCompound;
+import api.mirrg.mir50.net.NBTTypes;
 
-public class EnergyTank implements ISetDirty
+public class EnergyTank
 {
 
 	public long amount;
 	public long capacity;
 	public final long defaultCapacity;
-	protected ISetDirty parent;
+	protected Runnable runnableMarkDirty;
 
-	public EnergyTank(ISetDirty parent, long capacity)
+	public EnergyTank(Runnable runnableMarkDirty, long capacity)
 	{
-		this.parent = parent;
+		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
 		this.defaultCapacity = capacity;
 	}
@@ -33,10 +33,9 @@ public class EnergyTank implements ISetDirty
 		return defaultCapacity;
 	}
 
-	@Override
-	public void setDirty()
+	public void markDirty()
 	{
-		parent.setDirty();
+		runnableMarkDirty.run();
 	}
 
 	public void writeToNBT(NBTTagCompound tag)
