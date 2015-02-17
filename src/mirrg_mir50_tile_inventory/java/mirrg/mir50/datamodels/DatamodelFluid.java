@@ -163,6 +163,7 @@ public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 	@Override
 	public boolean isEqualContent(DatamodelFluid other)
 	{
+		if (other == null) return false;
 		if (fluidStack == null) return other.fluidStack == null;
 		return fluidStack.isFluidEqual(other.fluidStack)
 			&& fluidStack.amount == other.fluidStack.amount;

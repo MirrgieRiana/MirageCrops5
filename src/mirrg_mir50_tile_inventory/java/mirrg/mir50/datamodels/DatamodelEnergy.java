@@ -93,6 +93,7 @@ public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 	@Override
 	public boolean isEqualContent(DatamodelEnergy other)
 	{
+		if (other == null) return false;
 		return amount == other.amount && capacity == other.capacity;
 	}
 
