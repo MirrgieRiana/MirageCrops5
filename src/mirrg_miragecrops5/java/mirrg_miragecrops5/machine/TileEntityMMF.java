@@ -21,14 +21,10 @@ public class TileEntityMMF extends TileEntityMir53Connected
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity == null) return false;
 
-		if (true) {
-			if (!world.isRemote) {
-				player.openGui(ModMirageCrops.instance, ModuleMachine.loaderGuiHandler.guiId, world, x, y, z);
-			}
-			return true;
+		if (!world.isRemote) {
+			player.openGui(ModMirageCrops.instance, ModuleMachine.loaderGuiHandler.guiId, world, x, y, z);
 		}
-
-		return false;
+		return true;
 	}
 
 	private final SupplierPositionWorldFromTileEntity supplierPosition = new SupplierPositionWorldFromTileEntity(this);

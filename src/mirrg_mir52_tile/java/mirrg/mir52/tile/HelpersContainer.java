@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
-import java.util.function.IntSupplier;
+import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -20,7 +20,7 @@ public class HelpersContainer
 			i -> inventorySlots.apply(i)::getStack,
 			i -> inventorySlots.apply(i)::putStack,
 			i -> inventorySlots.apply(i)::isItemValid,
-			i -> inventorySlots.apply(i)::getSlotStackLimit,
+			i -> i2 -> inventorySlots.apply(i).getSlotStackLimit(),
 			i -> inventorySlots.apply(i)::onSlotChanged,
 			stack, start, end, inverse);
 	}
@@ -35,7 +35,7 @@ public class HelpersContainer
 		Function<Integer, Supplier<ItemStack>> getStack,
 		Function<Integer, Consumer<ItemStack>> putStack,
 		Function<Integer, Predicate<ItemStack>> isItemValid,
-		Function<Integer, IntSupplier> getSlotStackLimit,
+		Function<Integer, IntUnaryOperator> getSlotStackLimit,
 		Function<Integer, Runnable> onSlotChanged,
 		ItemStack stack, int start, int end, boolean inverse)
 	{
@@ -52,7 +52,7 @@ public class HelpersContainer
 							getStack.apply(i)::get,
 							putStack.apply(i)::accept,
 							isItemValid.apply(i)::test,
-							getSlotStackLimit.apply(i)::getAsInt,
+							getSlotStackLimit.apply(i)::applyAsInt,
 							onSlotChanged.apply(i)::run,
 							stack, i, inverse)) moved = true;
 						if (stack.stackSize <= 0) break;
@@ -71,7 +71,7 @@ public class HelpersContainer
 						getStack.apply(i)::get,
 						putStack.apply(i)::accept,
 						isItemValid.apply(i)::test,
-						getSlotStackLimit.apply(i)::getAsInt,
+						getSlotStackLimit.apply(i)::applyAsInt,
 						onSlotChanged.apply(i)::run,
 						stack, i, inverse)) moved = true;
 					if (stack.stackSize <= 0) break;
@@ -92,7 +92,7 @@ public class HelpersContainer
 			slot::getStack,
 			slot::putStack,
 			slot::isItemValid,
-			slot::getSlotStackLimit,
+			i -> slot.getSlotStackLimit(),
 			slot::onSlotChanged,
 			stack, index, inverse);
 	}
@@ -106,7 +106,7 @@ public class HelpersContainer
 		Supplier<ItemStack> getStack,
 		Consumer<ItemStack> putStack,
 		Predicate<ItemStack> isItemValid,
-		IntSupplier getSlotStackLimit,
+		IntUnaryOperator getSlotStackLimit,
 		Runnable onSlotChanged,
 		ItemStack stack, int index, boolean inverse)
 	{
@@ -114,7 +114,7 @@ public class HelpersContainer
 
 		int maxStackSize;
 		maxStackSize = stack.getMaxStackSize();
-		maxStackSize = Math.min(maxStackSize, getSlotStackLimit.getAsInt());
+		maxStackSize = Math.min(maxStackSize, getSlotStackLimit.applyAsInt(index));
 
 		if (dest != null) {
 			if (dest.getItem() != stack.getItem()) return false;

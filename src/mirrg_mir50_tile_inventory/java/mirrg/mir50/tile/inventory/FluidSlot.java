@@ -1,9 +1,12 @@
 package mirrg.mir50.tile.inventory;
 
+import mirrg.mir50.gui.renderer.IRenderer;
+import mirrg.mir50.gui.renderer.IRendererProvider;
+import mirrg.mir51.gui.renderers.RendererFluidSlot;
 import mirrg.mir52.tile.IContainerExtraSlot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class FluidSlot implements IContainerExtraSlot
+public class FluidSlot implements IContainerExtraSlot, IRendererProvider<FluidSlot>
 {
 
 	public FluidTank fluidTank;
@@ -40,6 +43,12 @@ public class FluidSlot implements IContainerExtraSlot
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		fluidTank.writeToNBT(nbt);
+	}
+
+	@Override
+	public IRenderer<FluidSlot> getRenderer()
+	{
+		return RendererFluidSlot.instance;
 	}
 
 }

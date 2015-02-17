@@ -1,9 +1,12 @@
 package mirrg.mir50.tile.inventory;
 
+import mirrg.mir50.gui.renderer.IRenderer;
+import mirrg.mir50.gui.renderer.IRendererProvider;
+import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
 import mirrg.mir52.tile.IContainerExtraSlot;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class EnergySlot implements IContainerExtraSlot
+public class EnergySlot implements IContainerExtraSlot, IRendererProvider<EnergySlot>
 {
 
 	public EnergyTank energyTank;
@@ -40,6 +43,12 @@ public class EnergySlot implements IContainerExtraSlot
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		energyTank.writeToNBT(nbt);
+	}
+
+	@Override
+	public IRenderer<EnergySlot> getRenderer()
+	{
+		return RendererEnergySlotProgress.instanceLeft;
 	}
 
 }
