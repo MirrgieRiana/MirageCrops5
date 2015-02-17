@@ -1,11 +1,11 @@
 package mirrg.mir50.datamodels;
 
-import api.mirrg.mir50.datamodel.IDatamodel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
+import api.mirrg.mir50.datamodel.IDatamodel;
 
 public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 {
@@ -163,6 +163,7 @@ public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 	@Override
 	public boolean isEqualContent(DatamodelFluid other)
 	{
+		if (fluidStack == null) return other.fluidStack == null;
 		return fluidStack.isFluidEqual(other.fluidStack)
 			&& fluidStack.amount == other.fluidStack.amount;
 	}
