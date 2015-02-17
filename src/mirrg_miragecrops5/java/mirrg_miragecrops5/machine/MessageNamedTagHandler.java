@@ -1,6 +1,6 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir52.tile.IContainerExtraSlot;
+import mirrg.mir50.gui.container.IContainerExtraSlot;
 import mirrg.mir53.gui.container.ContainerMir53;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;

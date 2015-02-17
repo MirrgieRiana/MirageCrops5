@@ -1,7 +1,8 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.tile.inventory.FluidSlot;
-import mirrg.mir50.tile.inventory.FluidTank;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotLabel;
+import mirrg.mir51.datamodels.DatamodelFluid;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Base;
 import mirrg.mir51.inventory.InventoryMir51Chain;
@@ -20,14 +21,14 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 
 	public final IInventoryMir51 inventory;
 
-	public final FluidTank fluidTank;
+	public final DatamodelFluid fluidTank;
 
 	public TileEntityMachineMirageFairy()
 	{
 		inventory = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 8 * 3), "inventory");
 		inventoryChain.add(inventory);
 
-		fluidTank = add(new FluidTank(this::markDirty, 16 * 1000), "fluidTank");
+		fluidTank = add(new DatamodelFluid(this::markDirty, 16 * 1000), "fluidTank");
 	}
 
 	@Override
@@ -94,32 +95,32 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 		container.setTransferInventories(inventoryPlayer, inventoryChest);
 		container.setTransferInventories(inventoryHandle, inventoryChest);
 
-		container.addContainerExtraSlot(new FluidSlot(fluidTank, 152, 16, 16, 52),
+		container.addContainerExtraSlot(new ContainerExtraSlotDatamodel<DatamodelFluid>(fluidTank, 152, 16, 16, 52),
 			getName(fluidTank));
 	}
 
 	@Override
-	protected FluidTank[] getFluidTank(ForgeDirection arg0)
+	protected DatamodelFluid[] getFluidTank(ForgeDirection arg0)
 	{
-		return new FluidTank[] {
+		return new DatamodelFluid[] {
 			fluidTank
 		};
 	}
 
 	@Override
-	protected FluidTank getFluidTankDrain(ForgeDirection arg0)
+	protected DatamodelFluid getFluidTankDrain(ForgeDirection arg0)
 	{
 		return fluidTank;
 	}
 
 	@Override
-	protected FluidTank getFluidTankDrain(ForgeDirection arg0, Fluid arg1)
+	protected DatamodelFluid getFluidTankDrain(ForgeDirection arg0, Fluid arg1)
 	{
 		return fluidTank;
 	}
 
 	@Override
-	protected FluidTank getFluidTankFill(ForgeDirection arg0, Fluid arg1)
+	protected DatamodelFluid getFluidTankFill(ForgeDirection arg0, Fluid arg1)
 	{
 		return fluidTank;
 	}

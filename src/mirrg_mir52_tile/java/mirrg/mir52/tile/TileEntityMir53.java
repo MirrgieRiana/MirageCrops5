@@ -1,6 +1,7 @@
 package mirrg.mir52.tile;
 
 import mirrg.mir50.guihandler.IGuiProvider;
+import mirrg.mir52.gui.GuiMir53;
 import mirrg.mir53.gui.container.ContainerMir53;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

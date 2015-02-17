@@ -7,48 +7,49 @@ import mirrg.he.math.HelpersString;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
 import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.EnergySlot;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
+import mirrg.mir51.datamodels.DatamodelEnergy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RendererEnergySlotMeter implements IRenderer<EnergySlot>
+public class RendererEnergySlotMeter implements IRenderer<ContainerExtraSlotDatamodel<DatamodelEnergy>>
 {
 
 	public static final RendererEnergySlotMeter instance = new RendererEnergySlotMeter();
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawBackgroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public void drawBackgroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawForegroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
-		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.energyTank.getAmount()) + " H",
+		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.datamodel.getAmount()) + " H",
 			t.x, t.y, HelpersRenderer.EnumTextAlign.CENTER, EnumRotate.RIGHT0);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean drawToolTip(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public boolean drawToolTip(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.energyTank.getAmount() + " / " + t.energyTank.getCapacity());
+			list.add("" + t.datamodel.getAmount() + " / " + t.datamodel.getCapacity());
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
 		return false;
 	}
 
-	public boolean hit(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public boolean hit(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;

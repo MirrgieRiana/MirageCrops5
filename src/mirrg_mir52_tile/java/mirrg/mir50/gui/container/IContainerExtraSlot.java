@@ -1,4 +1,4 @@
-package mirrg.mir52.tile;
+package mirrg.mir50.gui.container;
 
 import net.minecraft.nbt.NBTTagCompound;
 

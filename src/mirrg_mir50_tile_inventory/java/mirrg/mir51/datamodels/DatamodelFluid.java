@@ -1,12 +1,13 @@
-package mirrg.mir50.tile.inventory;
+package mirrg.mir51.datamodels;
 
+import mirrg.mir50.datamodel.IDatamodel;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class FluidTank implements IFluidTank
+public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 {
 
 	public FluidStack fluidStack;
@@ -14,7 +15,7 @@ public class FluidTank implements IFluidTank
 	private int capacity;
 	public boolean dirty;
 
-	public FluidTank(Runnable runnableMarkDirty, int capacity)
+	public DatamodelFluid(Runnable runnableMarkDirty, int capacity)
 	{
 		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
@@ -26,11 +27,13 @@ public class FluidTank implements IFluidTank
 		return capacity;
 	}
 
+	@Override
 	public void markDirty()
 	{
 		runnableMarkDirty.run();
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		if (fluidStack != null) {
@@ -38,11 +41,13 @@ public class FluidTank implements IFluidTank
 		}
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		fluidStack = FluidStack.loadFluidStackFromNBT(tag);
 	}
 
+	@Override
 	public boolean isEmpty()
 	{
 		if (fluidStack == null) return true;
@@ -147,34 +152,19 @@ public class FluidTank implements IFluidTank
 		return new FluidTankInfo(fluidStack, capacity);
 	}
 
-	public FluidTank copy()
+	@Override
+	public DatamodelFluid copy()
 	{
-		FluidTank fluidTank = new FluidTank(runnableMarkDirty, capacity);
+		DatamodelFluid fluidTank = new DatamodelFluid(runnableMarkDirty, capacity);
 		fluidTank.fluidStack = fluidStack != null ? fluidStack.copy() : null;
 		return fluidTank;
 	}
 
 	@Override
-	public int hashCode()
+	public boolean isEqualContent(DatamodelFluid other)
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fluidStack == null) ? 0 : fluidStack.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		FluidTank other = (FluidTank) obj;
-		if (fluidStack == null) {
-			if (other.fluidStack != null) return false;
-		} else if (!fluidStack.equals(other.fluidStack)) return false;
-		if (fluidStack.amount != other.fluidStack.amount) return false;
-		return true;
+		return fluidStack.isFluidEqual(other.fluidStack)
+			&& fluidStack.amount == other.fluidStack.amount;
 	}
 
 }

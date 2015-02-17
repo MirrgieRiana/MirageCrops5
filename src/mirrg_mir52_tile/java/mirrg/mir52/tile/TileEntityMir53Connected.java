@@ -3,8 +3,8 @@ package mirrg.mir52.tile;
 import java.util.ArrayList;
 
 import mirrg.h.struct.Tuple;
-import mirrg.mir50.tile.inventory.EnergyTank;
-import mirrg.mir50.tile.inventory.FluidTank;
+import mirrg.mir51.datamodels.DatamodelEnergy;
+import mirrg.mir51.datamodels.DatamodelFluid;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Chain;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().writeToNBT(p_145841_1_);
@@ -44,7 +44,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().writeToNBT(p_145841_1_);
@@ -67,7 +67,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().readFromNBT(p_145839_1_);
@@ -76,7 +76,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().readFromNBT(p_145839_1_);
@@ -100,7 +100,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 
 			NBTTagCompound tag = new NBTTagCompound();
 			entry.getX().writeToNBT(tag);
@@ -108,7 +108,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 
 			NBTTagCompound tag = new NBTTagCompound();
 			entry.getX().writeToNBT(tag);
@@ -136,7 +136,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 
 			if (p_145839_1_.hasKey(entry.getY(), NBTTypes.COMPOUND)) {
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
@@ -147,7 +147,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 
 			if (p_145839_1_.hasKey(entry.getY(), NBTTypes.COMPOUND)) {
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
@@ -171,30 +171,30 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 	////////////////////////////// IFluidHandler //////////////////////////////
 
-	protected ArrayList<Tuple<FluidTank, String>> fluidTanks = new ArrayList<Tuple<FluidTank, String>>();
+	protected ArrayList<Tuple<DatamodelFluid, String>> fluidTanks = new ArrayList<Tuple<DatamodelFluid, String>>();
 
-	protected <T extends FluidTank> T add(T fluidTank, String tagName)
+	protected <T extends DatamodelFluid> T add(T fluidTank, String tagName)
 	{
-		fluidTanks.add(new Tuple<FluidTank, String>(fluidTank, tagName));
+		fluidTanks.add(new Tuple<DatamodelFluid, String>(fluidTank, tagName));
 		return fluidTank;
 	}
 
-	protected FluidTank getFluidTankFill(ForgeDirection arg0, Fluid arg1)
+	protected DatamodelFluid getFluidTankFill(ForgeDirection arg0, Fluid arg1)
 	{
 		return null;
 	}
 
-	protected FluidTank getFluidTankDrain(ForgeDirection arg0, Fluid arg1)
+	protected DatamodelFluid getFluidTankDrain(ForgeDirection arg0, Fluid arg1)
 	{
 		return null;
 	}
 
-	protected FluidTank getFluidTankDrain(ForgeDirection arg0)
+	protected DatamodelFluid getFluidTankDrain(ForgeDirection arg0)
 	{
 		return null;
 	}
 
-	protected FluidTank[] getFluidTank(ForgeDirection arg0)
+	protected DatamodelFluid[] getFluidTank(ForgeDirection arg0)
 	{
 		return null;
 	}
@@ -202,7 +202,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public boolean canFill(ForgeDirection arg0, Fluid arg1)
 	{
-		FluidTank fluidTank = getFluidTankFill(arg0, arg1);
+		DatamodelFluid fluidTank = getFluidTankFill(arg0, arg1);
 		if (fluidTank == null) return false;
 		return fluidTank.canFill(arg1);
 	}
@@ -210,7 +210,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public int fill(ForgeDirection arg0, FluidStack arg1, boolean arg2)
 	{
-		FluidTank fluidTank = getFluidTankFill(arg0, arg1.getFluid());
+		DatamodelFluid fluidTank = getFluidTankFill(arg0, arg1.getFluid());
 		if (fluidTank == null) return 0;
 		return fluidTank.fill(arg1, arg2);
 	}
@@ -218,7 +218,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public boolean canDrain(ForgeDirection arg0, Fluid arg1)
 	{
-		FluidTank fluidTank = getFluidTankDrain(arg0, arg1);
+		DatamodelFluid fluidTank = getFluidTankDrain(arg0, arg1);
 		if (fluidTank == null) return false;
 		return fluidTank.canDrain(arg1);
 	}
@@ -226,7 +226,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public FluidStack drain(ForgeDirection arg0, FluidStack arg1, boolean arg2)
 	{
-		FluidTank fluidTank = getFluidTankDrain(arg0, arg1.getFluid());
+		DatamodelFluid fluidTank = getFluidTankDrain(arg0, arg1.getFluid());
 		if (fluidTank == null) return null;
 		return fluidTank.drain(arg1, arg2);
 	}
@@ -234,7 +234,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public FluidStack drain(ForgeDirection arg0, int arg1, boolean arg2)
 	{
-		FluidTank fluidTank = getFluidTankDrain(arg0);
+		DatamodelFluid fluidTank = getFluidTankDrain(arg0);
 		if (fluidTank == null) return null;
 		return fluidTank.drain(arg1, arg2);
 	}
@@ -242,7 +242,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection arg0)
 	{
-		FluidTank[] fluidTanks = getFluidTank(arg0);
+		DatamodelFluid[] fluidTanks = getFluidTank(arg0);
 		if (fluidTanks == null) return new FluidTankInfo[] {};
 		FluidTankInfo[] fluidTankInfos = new FluidTankInfo[fluidTanks.length];
 		for (int i = 0; i < fluidTanks.length; i++) {
@@ -389,17 +389,17 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 	//////////////////////////////////// EnergyTank ////////////////////////////////////
 
-	protected ArrayList<Tuple<EnergyTank, String>> energyTanks = new ArrayList<Tuple<EnergyTank, String>>();
+	protected ArrayList<Tuple<DatamodelEnergy, String>> energyTanks = new ArrayList<Tuple<DatamodelEnergy, String>>();
 
-	protected <T extends EnergyTank> T add(T energyTank, String tagName)
+	protected <T extends DatamodelEnergy> T add(T energyTank, String tagName)
 	{
-		energyTanks.add(new Tuple<EnergyTank, String>(energyTank, tagName));
+		energyTanks.add(new Tuple<DatamodelEnergy, String>(energyTank, tagName));
 		return energyTank;
 	}
 
-	public String getName(FluidTank fluidTank)
+	public String getName(DatamodelFluid fluidTank)
 	{
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 			if (entry.getX() == fluidTank) {
 				return entry.getY();
 			}
@@ -407,9 +407,9 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		return null;
 	}
 
-	public String getName(EnergyTank energyTank)
+	public String getName(DatamodelEnergy energyTank)
 	{
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 			if (entry.getX() == energyTank) {
 				return entry.getY();
 			}
@@ -427,9 +427,9 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		return null;
 	}
 
-	public FluidTank getFluidTank(String name)
+	public DatamodelFluid getFluidTank(String name)
 	{
-		for (Tuple<FluidTank, String> entry : fluidTanks) {
+		for (Tuple<DatamodelFluid, String> entry : fluidTanks) {
 			if (entry.getY().equals(name)) {
 				return entry.getX();
 			}
@@ -437,9 +437,9 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		return null;
 	}
 
-	public EnergyTank getEnergyTank(String name)
+	public DatamodelEnergy getEnergyTank(String name)
 	{
-		for (Tuple<EnergyTank, String> entry : energyTanks) {
+		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
 			if (entry.getY().equals(name)) {
 				return entry.getX();
 			}

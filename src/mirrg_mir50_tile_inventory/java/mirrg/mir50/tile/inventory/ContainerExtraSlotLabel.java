@@ -1,11 +1,11 @@
-package mirrg_miragecrops5.machine;
+package mirrg.mir50.tile.inventory;
 
 import java.util.function.ToIntFunction;
 
+import mirrg.mir50.gui.container.IContainerExtraSlot;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
 import mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.mir50.gui.renderer.IRendererProvider;
-import mirrg.mir52.tile.IContainerExtraSlot;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ContainerExtraSlotLabel implements IContainerExtraSlot, IRendererProvider<ContainerExtraSlotLabel>
@@ -42,30 +42,35 @@ public class ContainerExtraSlotLabel implements IContainerExtraSlot, IRendererPr
 		return false;
 	}
 
+	private Renderer renderer = new Renderer();
+
 	@Override
 	public IRenderer<ContainerExtraSlotLabel> getRenderer()
 	{
-		return new IRenderer<ContainerExtraSlotLabel>() {
+		return renderer;
+	}
 
-			@Override
-			public void drawBackgroundLayer(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
-			{
+	protected class Renderer implements IRenderer<ContainerExtraSlotLabel>
+	{
 
-			}
+		@Override
+		public void drawBackgroundLayer(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
+		{
 
-			@Override
-			public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
-			{
-				gui.getFontRenderer().drawString(string, x.applyAsInt(gui), y.applyAsInt(gui), color);
-			}
+		}
 
-			@Override
-			public boolean drawToolTip(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
-			{
-				return false;
-			}
+		@Override
+		public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
+		{
+			gui.getFontRenderer().drawString(string, x.applyAsInt(gui), y.applyAsInt(gui), color);
+		}
 
-		};
+		@Override
+		public boolean drawToolTip(IGuiRenderHelper gui, ContainerExtraSlotLabel t, int mouseX, int mouseY)
+		{
+			return false;
+		}
+
 	}
 
 }

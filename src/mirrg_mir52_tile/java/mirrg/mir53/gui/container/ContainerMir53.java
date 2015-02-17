@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 
+import mirrg.mir50.gui.container.IContainerExtraSlot;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Chain;
-import mirrg.mir52.tile.HelpersContainer;
-import mirrg.mir52.tile.IContainerExtraSlot;
 import mirrg_miragecrops5.machine.MessageNamedTag;
 import mirrg_miragecrops5.machine.ModuleMachine;
 import net.minecraft.entity.player.EntityPlayer;

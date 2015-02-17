@@ -1,8 +1,9 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.tile.inventory.EnergySlot;
-import mirrg.mir50.tile.inventory.EnergyTank;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotLabel;
 import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
+import mirrg.mir51.datamodels.DatamodelEnergy;
 import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Base;
@@ -10,8 +11,8 @@ import mirrg.mir51.inventory.InventoryMir51Chain;
 import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
-import mirrg.mir52.tile.HelpersContainer;
 import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.HelpersContainer;
 import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -31,9 +32,9 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	public final IInventoryMir51 inventoryFairy;
 	public final IInventoryMir51 inventoryFairyFuel;
 
-	public final EnergyTank energyTankProcessing;
-	public final EnergyTank energyTankFuel;
-	public final EnergyTank energyTankHyleon;
+	public final DatamodelEnergy energyTankProcessing;
+	public final DatamodelEnergy energyTankFuel;
+	public final DatamodelEnergy energyTankHyleon;
 
 	protected int ticker = 0;
 
@@ -55,9 +56,9 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		inventoryChain.add(inventoryFairy);
 		inventoryChain.add(inventoryFairyFuel);
 
-		energyTankProcessing = add(new EnergyTank(this::markDirty, 0), "energyTankProcessing");
-		energyTankFuel = add(new EnergyTank(this::markDirty, 0), "energyTankFuel");
-		energyTankHyleon = add(new EnergyTank(this::markDirty, 100000), "energyTankHyleon");
+		energyTankProcessing = add(new DatamodelEnergy(this::markDirty, 0), "energyTankProcessing");
+		energyTankFuel = add(new DatamodelEnergy(this::markDirty, 0), "energyTankFuel");
+		energyTankHyleon = add(new DatamodelEnergy(this::markDirty, 100000), "energyTankHyleon");
 	}
 
 	@Override
@@ -156,7 +157,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 		{
 			int w = 24, h = 17;
-			container.addContainerExtraSlot(new EnergySlot(energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 2 - h / 2 - 3, w, h),
+			container.addContainerExtraSlot(new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+				energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 2 - h / 2 - 3, w, h),
 				getName(energyTankProcessing));
 		}
 		{

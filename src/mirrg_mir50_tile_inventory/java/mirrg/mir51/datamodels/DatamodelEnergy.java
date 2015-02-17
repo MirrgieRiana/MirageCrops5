@@ -1,9 +1,10 @@
-package mirrg.mir50.tile.inventory;
+package mirrg.mir51.datamodels;
 
+import mirrg.mir50.datamodel.IDatamodel;
 import net.minecraft.nbt.NBTTagCompound;
 import api.mirrg.mir50.net.NBTTypes;
 
-public class EnergyTank
+public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 {
 
 	public long amount;
@@ -11,7 +12,7 @@ public class EnergyTank
 	public final long defaultCapacity;
 	protected Runnable runnableMarkDirty;
 
-	public EnergyTank(Runnable runnableMarkDirty, long capacity)
+	public DatamodelEnergy(Runnable runnableMarkDirty, long capacity)
 	{
 		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
@@ -33,6 +34,7 @@ public class EnergyTank
 		return defaultCapacity;
 	}
 
+	@Override
 	public void markDirty()
 	{
 		runnableMarkDirty.run();
@@ -48,12 +50,14 @@ public class EnergyTank
 		this.capacity = capacity;
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		tag.setLong("Amount", amount);
 		tag.setLong("Capacity", capacity);
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 
@@ -71,34 +75,25 @@ public class EnergyTank
 
 	}
 
-	public EnergyTank copy()
+	@Override
+	public DatamodelEnergy copy()
 	{
-		EnergyTank energyTank = new EnergyTank(runnableMarkDirty, defaultCapacity);
+		DatamodelEnergy energyTank = new DatamodelEnergy(runnableMarkDirty, defaultCapacity);
 		energyTank.amount = amount;
 		energyTank.capacity = capacity;
 		return energyTank;
 	}
 
 	@Override
-	public int hashCode()
+	public boolean isEmpty()
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (amount ^ (amount >>> 32));
-		result = prime * result + (int) (capacity ^ (capacity >>> 32));
-		return result;
+		return amount > 0;
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	public boolean isEqualContent(DatamodelEnergy other)
 	{
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		EnergyTank other = (EnergyTank) obj;
-		if (amount != other.amount) return false;
-		if (capacity != other.capacity) return false;
-		return true;
+		return amount == other.amount && capacity == other.capacity;
 	}
 
 }

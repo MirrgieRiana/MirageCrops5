@@ -6,7 +6,8 @@ import mirrg.he.math.HelpersCollision;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
 import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.FluidSlot;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
+import mirrg.mir51.datamodels.DatamodelFluid;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -16,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RendererFluidSlot implements IRenderer<FluidSlot>
+public class RendererFluidSlot implements IRenderer<ContainerExtraSlotDatamodel<DatamodelFluid>>
 {
 
 	public static final RendererFluidSlot instance = new RendererFluidSlot();
@@ -25,7 +26,8 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawForegroundLayer(IGuiRenderHelper gui, FluidSlot t, int mouseX, int mouseY)
+	public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelFluid> t,
+		int mouseX, int mouseY)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -36,29 +38,29 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glColorMask(true, true, true, false);
 
-		if (t.fluidTank.fluidStack != null) {
-			if (t.fluidTank.fluidStack.getFluid() != null) {
+		if (t.datamodel.fluidStack != null) {
+			if (t.datamodel.fluidStack.getFluid() != null) {
 
 				ResourceLocation resourcelocation = gui.getMinecraft().renderEngine.getResourceLocation(
-					t.fluidTank.fluidStack.getFluid().getSpriteNumber());
+					t.datamodel.fluidStack.getFluid().getSpriteNumber());
 				gui.getMinecraft().renderEngine.bindTexture(resourcelocation);
 
 				{
-					float rate = (float) t.fluidTank.fluidStack.amount / t.fluidTank.getCapacity();
+					float rate = (float) t.datamodel.fluidStack.amount / t.datamodel.getCapacity();
 					int height = (int) (t.h * rate);
 					int begin = t.y + t.h - height;
 					int end = t.y + t.h;
 
 					while (height >= t.w) {
 						gui.drawTexturedModelRectFromIcon(t.x, end - t.w, t.w, t.w,
-							t.fluidTank.fluidStack.getFluid().getIcon(t.fluidTank.fluidStack),
+							t.datamodel.fluidStack.getFluid().getIcon(t.datamodel.fluidStack),
 							0, 0, 1, 1);
 						end -= t.w;
 						height -= t.w;
 					}
 
 					gui.drawTexturedModelRectFromIcon(t.x, begin, t.w, height,
-						t.fluidTank.fluidStack.getFluid().getIcon(t.fluidTank.fluidStack),
+						t.datamodel.fluidStack.getFluid().getIcon(t.datamodel.fluidStack),
 						0, 1.0F * (t.w - height) / t.w, 1, 1);
 				}
 			}
@@ -68,7 +70,7 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			{
-				String amount = "" + t.fluidTank.getFluidAmount();
+				String amount = "" + t.datamodel.getFluidAmount();
 
 				if (amount.length() >= 4) {
 					HelpersRenderer.drawMirageFontString(gui, amount.substring(0, amount.length() - 3),
@@ -95,7 +97,7 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawBackgroundLayer(IGuiRenderHelper gui, FluidSlot t, int mouseX, int mouseY)
+	public void drawBackgroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelFluid> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
@@ -126,26 +128,26 @@ public class RendererFluidSlot implements IRenderer<FluidSlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean drawToolTip(IGuiRenderHelper gui, FluidSlot t, int mouseX, int mouseY)
+	public boolean drawToolTip(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelFluid> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			if (t.fluidTank.getFluid() == null) {
+			if (t.datamodel.getFluid() == null) {
 				list.add("Empty");
 			} else {
-				list.add(t.fluidTank.getFluid().getFluid().getLocalizedName(t.fluidTank.getFluid()));
+				list.add(t.datamodel.getFluid().getFluid().getLocalizedName(t.datamodel.getFluid()));
 			}
-			list.add("" + t.fluidTank.getFluidAmount() + " / " + t.fluidTank.getCapacity());
+			list.add("" + t.datamodel.getFluidAmount() + " / " + t.datamodel.getCapacity());
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
 		return false;
 	}
 
-	public boolean hit(IGuiRenderHelper gui, FluidSlot t, int mouseX, int mouseY)
+	public boolean hit(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelFluid> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;

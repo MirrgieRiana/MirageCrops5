@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import mirrg.he.math.HelpersCollision;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
 import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.EnergySlot;
+import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
+import mirrg.mir51.datamodels.DatamodelEnergy;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
+public class RendererEnergySlotProgress implements IRenderer<ContainerExtraSlotDatamodel<DatamodelEnergy>>
 {
 	public static final RendererEnergySlotProgress instanceDown = new RendererEnergySlotProgress("progress", EnumProgressAlign.DOWN);
 	public static final RendererEnergySlotProgress instanceUp = new RendererEnergySlotProgress("progress", EnumProgressAlign.UP);
@@ -42,7 +43,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawForegroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		ResourceLocation texture = new ResourceLocation(domain + ":" + "textures/gui/" + texturePrefix + "_foreground.png");
 		gui.getMinecraft().renderEngine.bindTexture(texture);
@@ -58,7 +59,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 		GL11.glColorMask(true, true, true, false);
 
 		{
-			float rate = t.energyTank.getCapacity() == 0 ? 0 : (float) t.energyTank.getAmount() / t.energyTank.getCapacity();
+			float rate = t.datamodel.getCapacity() == 0 ? 0 : (float) t.datamodel.getAmount() / t.datamodel.getCapacity();
 			if (rate > 1) rate = 1;
 			switch (progressAlign) {
 				case DOWN: {
@@ -102,7 +103,7 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawBackgroundLayer(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public void drawBackgroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
@@ -165,21 +166,21 @@ public class RendererEnergySlotProgress implements IRenderer<EnergySlot>
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean drawToolTip(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public boolean drawToolTip(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.energyTank.getAmount() + " / " + t.energyTank.getCapacity());
+			list.add("" + t.datamodel.getAmount() + " / " + t.datamodel.getCapacity());
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
 		return false;
 	}
 
-	public boolean hit(IGuiRenderHelper gui, EnergySlot t, int mouseX, int mouseY)
+	public boolean hit(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;

@@ -1,4 +1,4 @@
-package mirrg.mir52.tile;
+package mirrg.mir52.gui;
 
 import java.util.List;
 
