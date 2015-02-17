@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg.mir52.gui;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;

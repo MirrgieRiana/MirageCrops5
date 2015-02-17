@@ -1,7 +1,7 @@
 package mirrg_miragecrops5.machine;
 
 import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
-import mirrg.mir52.tile.TileEntityMir53Connected;
+import mirrg.mir53.tile.TileEntityMir53Connected;
 import mirrg_miragecrops5.ModMirageCrops;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

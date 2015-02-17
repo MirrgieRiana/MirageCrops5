@@ -3,7 +3,6 @@ package mirrg.mir52.gui;
 import java.util.List;
 
 import mirrg.mir51.gui.renderers.RendererSlot;
-import mirrg.mir53.gui.container.ContainerMir52;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -23,13 +22,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiMir53 extends GuiContainer
+public class GuiMir52 extends GuiContainer
 {
 
 	protected final ContainerMir52 container;
 	protected final ResourceLocation guiTexture;
 
-	public GuiMir53(ContainerMir52 container, ResourceLocation guiTexture)
+	public GuiMir52(ContainerMir52 container, ResourceLocation guiTexture)
 	{
 		super(container);
 		this.container = container;
@@ -142,7 +141,7 @@ public class GuiMir53 extends GuiContainer
 		@Override
 		public void drawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2)
 		{
-			GuiMir53.this.drawGradientRect(x1, y1, x2, y2, color1, color2);
+			GuiMir52.this.drawGradientRect(x1, y1, x2, y2, color1, color2);
 		}
 
 		@Override
@@ -330,7 +329,7 @@ public class GuiMir53 extends GuiContainer
 		@Override
 		public void drawHoveringText(List<String> list, int mouseX, int mouseY, FontRenderer font)
 		{
-			GuiMir53.this.drawHoveringText(list, mouseX, mouseY, font);
+			GuiMir52.this.drawHoveringText(list, mouseX, mouseY, font);
 		}
 
 		@Override

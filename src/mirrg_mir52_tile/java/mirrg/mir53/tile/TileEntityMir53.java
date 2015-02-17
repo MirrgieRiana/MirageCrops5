@@ -1,8 +1,9 @@
-package mirrg.mir52.tile;
+package mirrg.mir53.tile;
 
 import mirrg.mir50.guihandler.IGuiProvider;
-import mirrg.mir52.gui.GuiMir53;
-import mirrg.mir53.gui.container.ContainerMir52;
+import mirrg.mir52.gui.ContainerMir52;
+import mirrg.mir52.gui.GuiMir52;
+import mirrg_miragecrops5.machine.ModuleMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -64,11 +65,11 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiMir53 createGui(EntityPlayer player, World world, int x, int y, int z)
+	public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (!hasGui()) return null;
 		ContainerMir52 container = createContainer(player, world, x, y, z);
-		return new GuiMir53(container, getGuiTexture(container));
+		return new GuiMir52(container, getGuiTexture(container));
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 			TileEntity tileEntity = world.getTileEntity(xCoord, yCoord, zCoord);
 			if (tileEntity != this) return false;
 			return player2.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
-		});
+		}, ModuleMachine.loaderSimpleNetworkWrapper.get());
 		prepareContainerSlots(container);
 		return container;
 	}

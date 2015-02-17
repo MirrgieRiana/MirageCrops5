@@ -1,4 +1,4 @@
-package mirrg.mir53.gui.container;
+package mirrg.mir52.gui;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Predicate;
 
-import api.mirrg.mir50.gui.containerextraslot.IContainerExtraSlot;
 import mirrg.mir50.gui.container.HelpersContainer;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Chain;
-import mirrg_miragecrops5.machine.MessageNamedTag;
-import mirrg_miragecrops5.machine.ModuleMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -20,14 +17,20 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import api.mirrg.mir50.gui.containerextraslot.IContainerExtraSlot;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 public class ContainerMir52 extends Container
 {
 
-	public ContainerMir52(EntityPlayer player, Predicate<EntityPlayer> predicateCanInteractWith)
+	public ContainerMir52(
+		EntityPlayer player,
+		Predicate<EntityPlayer> predicateCanInteractWith,
+		SimpleNetworkWrapper simpleNetworkWrapper)
 	{
 		this.player = player;
 		this.predicateCanInteractWith = predicateCanInteractWith;
+		this.simpleNetworkWrapper = simpleNetworkWrapper;
 	}
 
 	//
@@ -49,7 +52,7 @@ public class ContainerMir52 extends Container
 
 	//
 
-	private ArrayList<IContainerExtraSlot> containerExtraSlots = new ArrayList<>();
+	protected ArrayList<IContainerExtraSlot> containerExtraSlots = new ArrayList<>();
 	protected ArrayList<String> containerExtraSlotNames = new ArrayList<>();
 
 	public void addContainerExtraSlot(IContainerExtraSlot containerExtraSlot, String containerExtraSlotName)
@@ -196,6 +199,10 @@ public class ContainerMir52 extends Container
 		return itemstack;
 	}
 
+	//
+
+	protected SimpleNetworkWrapper simpleNetworkWrapper;
+
 	@Override
 	public void detectAndSendChanges()
 	{
@@ -215,7 +222,7 @@ public class ContainerMir52 extends Container
 						NBTTagCompound nbt = new NBTTagCompound();
 						containerExtraSlot.writeToNBT(nbt);
 
-						ModuleMachine.loaderSimpleNetworkWrapper.get().sendTo(new MessageNamedTag(name, nbt), player);
+						simpleNetworkWrapper.sendTo(new MessageNamedTag(name, nbt), player);
 
 					}
 				}

@@ -1,4 +1,4 @@
-package mirrg.mir53.gui.container;
+package mirrg.mir52.gui;
 
 public class SupplierPositionContainerFlow implements ISupplierPositionContainer
 {

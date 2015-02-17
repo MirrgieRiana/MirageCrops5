@@ -4,12 +4,15 @@ import mirrg.mir50.block.AdaptorBlockEventsOverriding;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir51.loaders.LoaderBlock;
+import mirrg.mir51.loaders.LoaderGuiHandler;
 import mirrg.mir51.loaders.LoaderMessageHandler;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
-import mirrg.mir52.gui.GuiMir53;
-import mirrg.mir53.gui.container.ContainerMir52;
+import mirrg.mir52.gui.ContainerMir52;
+import mirrg.mir52.gui.GuiMir52;
+import mirrg.mir52.gui.MessageNamedTag;
+import mirrg.mir52.gui.MessageNamedTagHandler;
 import mirrg_miragecrops5.LoaderTileEntity;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
@@ -74,7 +77,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			blockMir50.virtualClass.register(IGuiProvider.class);
 			blockMir50.virtualClass.override(new IGuiProvider() {
 				@Override
-				public GuiMir53 createGui(EntityPlayer player, World world, int x, int y, int z)
+				public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
 				{
 					TileEntity tileEntity = world.getTileEntity(x, y, z);
 					if (tileEntity == null) return null;
@@ -126,7 +129,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			blockMir50.virtualClass.register(IGuiProvider.class);
 			blockMir50.virtualClass.override(new IGuiProvider() {
 				@Override
-				public GuiMir53 createGui(EntityPlayer player, World world, int x, int y, int z)
+				public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
 				{
 					TileEntity tileEntity = world.getTileEntity(x, y, z);
 					if (tileEntity == null) return null;

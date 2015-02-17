@@ -1,7 +1,6 @@
-package mirrg_miragecrops5.machine;
+package mirrg.mir52.gui;
 
 import api.mirrg.mir50.gui.containerextraslot.IContainerExtraSlot;
-import mirrg.mir53.gui.container.ContainerMir52;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import cpw.mods.fml.common.FMLLog;
