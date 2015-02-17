@@ -13,6 +13,7 @@ import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.tile.HelpersContainer;
 import mirrg.mir53.gui.container.ContainerMir53;
 import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -106,6 +107,18 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	@Override
 	protected void prepareContainerSlots(ContainerMir53 container)
 	{
+		{
+			String s = getLocalizedName();
+			container.addContainerExtraSlot(new ContainerExtraSlotLabel(s,
+				gui -> gui.getGuiWidth() / 2 - gui.getFontRenderer().getStringWidth(s) / 2,
+				gui -> 6,
+				0x404040), "labelTileEntity");
+			container.addContainerExtraSlot(new ContainerExtraSlotLabel(I18n.format("container.inventory"),
+				gui -> 8,
+				gui -> gui.getGuiHeight() - 96 + 2,
+				0x404040), "labelInventory");
+		}
+
 		InventoryMir51Chain inventoryChest = inventoryChain;
 		IInventoryMir51 inventory2 = new InventoryMir51FromInventory(container.getPlayer().inventory,
 			new SupplierPositionWorldFromTileEntity(this));

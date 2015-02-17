@@ -9,6 +9,7 @@ import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir53.gui.container.ContainerMir53;
 import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -64,6 +65,18 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 	@Override
 	protected void prepareContainerSlots(ContainerMir53 container)
 	{
+		{
+			String s = getLocalizedName();
+			container.addContainerExtraSlot(new ContainerExtraSlotLabel(s,
+				gui -> gui.getGuiWidth() / 2 - gui.getFontRenderer().getStringWidth(s) / 2,
+				gui -> 6,
+				0x404040), "labelTileEntity");
+			container.addContainerExtraSlot(new ContainerExtraSlotLabel(I18n.format("container.inventory"),
+				gui -> 8,
+				gui -> gui.getGuiHeight() - 96 + 2,
+				0x404040), "labelInventory");
+		}
+
 		InventoryMir51Chain inventoryChest = inventoryChain;
 		IInventoryMir51 inventory = new InventoryMir51FromInventory(container.getPlayer().inventory,
 			getSupplierPosition());

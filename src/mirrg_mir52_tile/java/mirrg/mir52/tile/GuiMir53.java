@@ -80,12 +80,6 @@ public class GuiMir53 extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 
-		/*
-				String s = container.getTileEntity().getLocalizedName();
-				this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 0x404040);
-				this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
-		*/
-
 		drawSlotsLayer(EnumLayer.Foreground, container.getInventorySlots(), RendererSlot.instance, mouseX, mouseY);
 		drawSlotsLayer(EnumLayer.Foreground, container.getContainerExtraSlots(), null, mouseX, mouseY);
 
