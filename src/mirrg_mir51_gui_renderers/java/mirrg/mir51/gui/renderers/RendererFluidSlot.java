@@ -146,6 +146,7 @@ public class RendererFluidSlot implements IRenderer<ContainerExtraSlotDatamodel<
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
+
 		return false;
 	}
 

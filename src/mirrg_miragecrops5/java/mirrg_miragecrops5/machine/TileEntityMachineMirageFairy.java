@@ -106,7 +106,7 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 
 		{
 			ContainerExtraSlotDatamodel<DatamodelFluid> containerExtraSlot =
-				new ContainerExtraSlotDatamodel<DatamodelFluid>(fluidTank, 152, 16, 16, 52);
+				new ContainerExtraSlotDatamodel<DatamodelFluid>(152, 16, 16, 52, fluidTank);
 			containerExtraSlot.renderer = RendererFluidSlot.instance;
 			container.addContainerExtraSlot(containerExtraSlot, getName(fluidTank));
 		}

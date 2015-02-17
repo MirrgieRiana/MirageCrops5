@@ -131,37 +131,6 @@ public class RendererEnergySlotProgress implements IRenderer<ContainerExtraSlotD
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 
-		// stub
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glColorMask(true, true, true, false);
-
-		{
-			int i = 0, length;
-			length = 0;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xffFF4242);
-			i++;
-			length = 2;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xff00C400);
-			i++;
-			length = 0;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xffFF4242);
-			i++;
-			length = 11;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xff00C400);
-			i++;
-			length = 4;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xffFF4242);
-			i++;
-			length = 2;
-			gui.drawRectBlend(xStart + 27, yStart + i * 9 + 16, xStart + 27 + length, yStart + i * 9 + 23, 0xffFF4242);
-		}
-
-		GL11.glColorMask(true, true, true, true);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-
 	}
 
 	@Override
@@ -177,6 +146,7 @@ public class RendererEnergySlotProgress implements IRenderer<ContainerExtraSlotD
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
+
 		return false;
 	}
 

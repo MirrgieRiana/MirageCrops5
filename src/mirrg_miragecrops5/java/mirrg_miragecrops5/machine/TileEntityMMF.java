@@ -11,6 +11,7 @@ public class TileEntityMMF extends TileEntityMir53Connected
 {
 
 	protected int LEFT = 8;
+	protected int TOP = 6;
 	protected int TOP_CHEST = 16;
 	protected int TOP_INVENTORY = 84;
 	protected int TOP_HOLDING = 142;

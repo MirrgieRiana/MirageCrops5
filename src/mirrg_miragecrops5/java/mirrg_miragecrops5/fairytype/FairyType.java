@@ -59,4 +59,26 @@ public class FairyType
 		this.tr = tr;
 	}
 
+	public int getValue(int index)
+	{
+		if (index == 0) return tr;
+		if (index == 1) return lo;
+		if (index == 2) return ma;
+		if (index == 3) return in;
+		if (index == 4) return em;
+		if (index == 5) return ph;
+		return 0;
+	}
+
+	public static String getLabel(int index)
+	{
+		if (index == 0) return "Tr";
+		if (index == 1) return "Lo";
+		if (index == 2) return "Ma";
+		if (index == 3) return "In";
+		if (index == 4) return "Em";
+		if (index == 5) return "Ph";
+		return "ER";
+	}
+
 }

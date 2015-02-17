@@ -3,23 +3,16 @@ package mirrg.mir50.gui.containerextraslots;
 import net.minecraft.nbt.NBTTagCompound;
 import api.mirrg.mir50.datamodel.IDatamodel;
 
-public class ContainerExtraSlotDatamodel<T extends IDatamodel<T>> extends ContainerExtraSlotAbstract
+public class ContainerExtraSlotDatamodel<T extends IDatamodel<T>> extends ContainerExtraSlotRectangle
 {
 
 	public T datamodel;
-	public T snapshot;
-	public int x;
-	public int y;
-	public int w;
-	public int h;
+	public T snapshot = null;
 
-	public ContainerExtraSlotDatamodel(T datamodel, int x, int y, int w, int h)
+	public ContainerExtraSlotDatamodel(int x, int y, int w, int h, T datamodel)
 	{
+		super(x, y, w, h);
 		this.datamodel = datamodel;
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
 	}
 
 	@Override

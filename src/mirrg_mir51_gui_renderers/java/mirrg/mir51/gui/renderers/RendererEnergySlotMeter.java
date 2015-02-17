@@ -2,15 +2,15 @@ package mirrg.mir51.gui.renderers;
 
 import java.util.ArrayList;
 
-import api.mirrg.mir50.gui.renderer.EnumRotate;
-import api.mirrg.mir50.gui.renderer.EnumTextAlign;
-import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import api.mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.he.math.HelpersCollision;
 import mirrg.he.math.HelpersString;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import mirrg.mir50.gui.renderer.HelpersRenderer;
+import api.mirrg.mir50.gui.renderer.EnumRotate;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -48,6 +48,7 @@ public class RendererEnergySlotMeter implements IRenderer<ContainerExtraSlotData
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
+
 		return false;
 	}
 

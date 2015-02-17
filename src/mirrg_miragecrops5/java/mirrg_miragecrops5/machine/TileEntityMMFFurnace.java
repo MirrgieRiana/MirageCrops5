@@ -121,17 +121,24 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 			containerExtraSlot = new ContainerExtraSlotLabel(getLocalizedName(),
 				gui -> gui.getGuiWidth() / 2,
-				gui -> 6,
+				gui -> TOP,
 				0x404040, EnumTextAlign.CENTER);
 			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
 			container.addContainerExtraSlot(containerExtraSlot, "labelTileEntity");
 
 			containerExtraSlot = new ContainerExtraSlotLabel(I18n.format("container.inventory"),
-				gui -> 8,
+				gui -> SHIFT,
 				gui -> gui.getGuiHeight() - 96 + 2,
 				0x404040, EnumTextAlign.LEFT);
 			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
 			container.addContainerExtraSlot(containerExtraSlot, "labelInventory");
+		}
+		{
+			ContainerExtraSlotFairyGraph containerExtraSlot = new ContainerExtraSlotFairyGraph(
+				LEFT + 9 * 2, TOP_CHEST, 9 * 2, 9 * 6, inventoryFairy);
+			containerExtraSlot.values[1] = -1;
+			containerExtraSlot.renderer = new RendererFairyGraph();
+			container.addContainerExtraSlot(containerExtraSlot, "labelFairyTypes");
 		}
 
 		InventoryMir51Chain inventoryChest = inventoryChain;
@@ -172,21 +179,21 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		{
 			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
 				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
-					energyTankProcessing, LEFT + 9 * 12 - 24 / 2, TOP_CHEST + 9 * 2 - 17 / 2 - 3, 24, 17);
+					LEFT + 9 * 12 - 24 / 2, TOP_CHEST + 9 * 2 - 17 / 2 - 3, 24, 17, energyTankProcessing);
 			containerExtraSlot.renderer = RendererEnergySlotProgress.instanceLeft;
 			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankProcessing));
 		}
 		{
 			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
 				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
-					energyTankFuel, LEFT + 9 * 9 - 14 / 2, TOP_CHEST + 9 * 3 - 14 / 2, 14, 14);
+					LEFT + 9 * 9 - 14 / 2, TOP_CHEST + 9 * 3 - 14 / 2, 14, 14, energyTankFuel);
 			containerExtraSlot.renderer = rendererFuel;
 			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankFuel));
 		}
 		{
 			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
 				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
-					energyTankHyleon, LEFT + 9 * 12 - 0 / 2, TOP_CHEST + 9 * 4 - 0 / 2 - 3, 0, 0);
+					LEFT + 9 * 12 - 0 / 2, TOP_CHEST + 9 * 4 - 0 / 2 - 3, 0, 0, energyTankHyleon);
 			containerExtraSlot.renderer = RendererEnergySlotMeter.instance;
 			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankHyleon));
 		}
