@@ -3,16 +3,18 @@ package mirrg.mir51.gui.renderers;
 import java.util.ArrayList;
 
 import mirrg.he.math.HelpersCollision;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
-import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
-import mirrg.mir51.datamodels.DatamodelFluid;
+import mirrg.mir50.datamodels.DatamodelFluid;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
+import mirrg.mir50.gui.renderer.HelpersRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import api.mirrg.mir50.gui.renderer.EnumRotate;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -74,12 +76,12 @@ public class RendererFluidSlot implements IRenderer<ContainerExtraSlotDatamodel<
 
 				if (amount.length() >= 4) {
 					HelpersRenderer.drawMirageFontString(gui, amount.substring(0, amount.length() - 3),
-						t.x + t.w - 6 - 1, t.y + t.h / 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
+						t.x + t.w - 6 - 1, t.y + t.h / 2, EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
 					HelpersRenderer.drawMirageFontString(gui, amount.substring(amount.length() - 3),
-						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
+						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
 				} else {
 					HelpersRenderer.drawMirageFontString(gui, amount,
-						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, HelpersRenderer.EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
+						t.x + t.w - 6 - 1, t.y + t.h / 2 + 3 * 4 + 2, EnumTextAlign.RIGHT, EnumRotate.RIGHT90);
 				}
 			}
 		}

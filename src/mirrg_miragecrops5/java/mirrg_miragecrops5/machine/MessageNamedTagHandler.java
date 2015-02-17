@@ -1,7 +1,7 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.gui.container.IContainerExtraSlot;
-import mirrg.mir53.gui.container.ContainerMir53;
+import api.mirrg.mir50.gui.containerextraslot.IContainerExtraSlot;
+import mirrg.mir53.gui.container.ContainerMir52;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import cpw.mods.fml.common.FMLLog;
@@ -19,8 +19,8 @@ public class MessageNamedTagHandler implements IMessageHandler<MessageNamedTag, 
 
 		if (entityclientplayermp.openContainer != null) {
 
-			if (entityclientplayermp.openContainer instanceof ContainerMir53) {
-				ContainerMir53 containerMir53 = (ContainerMir53) entityclientplayermp.openContainer;
+			if (entityclientplayermp.openContainer instanceof ContainerMir52) {
+				ContainerMir52 containerMir53 = (ContainerMir52) entityclientplayermp.openContainer;
 
 				IContainerExtraSlot containerExtraSlot = containerMir53.getContainerExtraSlot(message.name);
 				if (containerExtraSlot != null) {

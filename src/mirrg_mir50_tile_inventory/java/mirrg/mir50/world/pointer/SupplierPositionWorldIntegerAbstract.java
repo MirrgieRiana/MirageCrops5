@@ -1,5 +1,7 @@
 package mirrg.mir50.world.pointer;
 
+import api.mirrg.mir50.world.pointer.ISupplierPositionWorld;
+
 public abstract class SupplierPositionWorldIntegerAbstract implements ISupplierPositionWorld
 {
 

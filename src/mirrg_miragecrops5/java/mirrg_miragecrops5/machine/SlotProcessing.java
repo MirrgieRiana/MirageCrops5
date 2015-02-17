@@ -1,7 +1,7 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.gui.renderer.IRendererProvider;
+import api.mirrg.mir50.gui.renderer.IRenderer;
+import api.mirrg.mir50.gui.renderer.IRendererProvider;
 import mirrg.mir51.gui.renderers.RendererSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

@@ -4,9 +4,20 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import api.mirrg.mir50.world.pointer.ISupplierPositionWorld;
 
 public class HelpersWorld
 {
+
+	public static void dropItemStack(ISupplierPositionWorld supplierPositionWorld, ItemStack itemStack)
+	{
+		dropItemStack(
+			supplierPositionWorld.getWorld(),
+			supplierPositionWorld.getX(),
+			supplierPositionWorld.getY(),
+			supplierPositionWorld.getZ(),
+			itemStack);
+	}
 
 	public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack)
 	{

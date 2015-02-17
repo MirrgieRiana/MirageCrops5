@@ -1,18 +1,21 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
-import mirrg.mir50.tile.inventory.ContainerExtraSlotLabel;
+import mirrg.mir50.datamodels.DatamodelEnergy;
+import mirrg.mir50.gui.container.HelpersContainer;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotLabel;
 import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
-import mirrg.mir51.datamodels.DatamodelEnergy;
 import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
+import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
+import mirrg.mir51.gui.renderers.RendererEnergySlotProgress.EnumProgressAlign;
+import mirrg.mir51.gui.renderers.RendererLabel;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Base;
 import mirrg.mir51.inventory.InventoryMir51Chain;
 import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
-import mirrg.mir53.gui.container.ContainerMir53;
-import mirrg.mir53.gui.container.HelpersContainer;
+import mirrg.mir53.gui.container.ContainerMir52;
 import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -20,6 +23,8 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 
 public class TileEntityMMFFurnace extends TileEntityMMF
 {
@@ -94,7 +99,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	}
 
 	@Override
-	protected ResourceLocation getGuiTexture(ContainerMir53 container)
+	protected ResourceLocation getGuiTexture(ContainerMir52 container)
 	{//machineMirageFairy
 		return new ResourceLocation("miragecrops5" + ":" + "textures/gui/NULL_GUI_TEXTURE.png");
 	}
@@ -105,19 +110,28 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		return true;
 	}
 
+	public final static IRenderer<ContainerExtraSlotDatamodel<DatamodelEnergy>> rendererFuel =
+		new RendererEnergySlotProgress("fuel", EnumProgressAlign.DOWN);
+
 	@Override
-	protected void prepareContainerSlots(ContainerMir53 container)
+	protected void prepareContainerSlots(ContainerMir52 container)
 	{
 		{
-			String s = getLocalizedName();
-			container.addContainerExtraSlot(new ContainerExtraSlotLabel(s,
-				gui -> gui.getGuiWidth() / 2 - gui.getFontRenderer().getStringWidth(s) / 2,
+			ContainerExtraSlotLabel containerExtraSlot;
+
+			containerExtraSlot = new ContainerExtraSlotLabel(getLocalizedName(),
+				gui -> gui.getGuiWidth() / 2,
 				gui -> 6,
-				0x404040), "labelTileEntity");
-			container.addContainerExtraSlot(new ContainerExtraSlotLabel(I18n.format("container.inventory"),
+				0x404040, EnumTextAlign.CENTER);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelTileEntity");
+
+			containerExtraSlot = new ContainerExtraSlotLabel(I18n.format("container.inventory"),
 				gui -> 8,
 				gui -> gui.getGuiHeight() - 96 + 2,
-				0x404040), "labelInventory");
+				0x404040, EnumTextAlign.LEFT);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelInventory");
 		}
 
 		InventoryMir51Chain inventoryChest = inventoryChain;
@@ -156,22 +170,25 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		container.setTransferInventories(inventoryHandle, inventoryFairy, inventoryFairyFuel, inventoryInMaterial, inventoryInFuel);
 
 		{
-			int w = 24, h = 17;
-			container.addContainerExtraSlot(new ContainerExtraSlotDatamodel<DatamodelEnergy>(
-				energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 2 - h / 2 - 3, w, h),
-				getName(energyTankProcessing));
+			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+					energyTankProcessing, LEFT + 9 * 12 - 24 / 2, TOP_CHEST + 9 * 2 - 17 / 2 - 3, 24, 17);
+			containerExtraSlot.renderer = RendererEnergySlotProgress.instanceLeft;
+			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankProcessing));
 		}
 		{
-			int w = 14, h = 14;
-			container.addContainerExtraSlot(new EnergySlotWithRenderer(energyTankFuel, LEFT + 9 * 9 - w / 2, TOP_CHEST + 9 * 3 - h / 2, w, h,
-				EnergySlotWithRenderer.rendererFuel),
-				getName(energyTankFuel));
+			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+					energyTankFuel, LEFT + 9 * 9 - 14 / 2, TOP_CHEST + 9 * 3 - 14 / 2, 14, 14);
+			containerExtraSlot.renderer = rendererFuel;
+			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankFuel));
 		}
 		{
-			int w = 0, h = 0;
-			container.addContainerExtraSlot(new EnergySlotWithRenderer(energyTankHyleon, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 4 - h / 2 - 3, w, h,
-				RendererEnergySlotMeter.instance),
-				getName(energyTankHyleon));
+			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+					energyTankHyleon, LEFT + 9 * 12 - 0 / 2, TOP_CHEST + 9 * 4 - 0 / 2 - 3, 0, 0);
+			containerExtraSlot.renderer = RendererEnergySlotMeter.instance;
+			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankHyleon));
 		}
 
 	}

@@ -3,8 +3,8 @@ package mirrg.mir52.tile;
 import java.util.ArrayList;
 
 import mirrg.h.struct.Tuple;
-import mirrg.mir51.datamodels.DatamodelEnergy;
-import mirrg.mir51.datamodels.DatamodelFluid;
+import mirrg.mir50.datamodels.DatamodelEnergy;
+import mirrg.mir50.datamodels.DatamodelFluid;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Chain;
 import net.minecraft.entity.player.EntityPlayer;

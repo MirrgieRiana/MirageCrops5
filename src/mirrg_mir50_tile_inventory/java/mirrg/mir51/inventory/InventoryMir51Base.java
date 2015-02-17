@@ -1,7 +1,7 @@
 package mirrg.mir51.inventory;
 
-import mirrg.mir50.world.pointer.ISupplierPositionWorld;
-import mirrg.mir51.world.HelpersWorldMir51;
+import api.mirrg.mir50.world.pointer.ISupplierPositionWorld;
+import mirrg.mir50.world.HelpersWorld;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -43,7 +43,7 @@ public class InventoryMir51Base extends InventoryMir51AutonomyAbstract
 	@Override
 	public void drop(int index)
 	{
-		HelpersWorldMir51.dropItemStack(supplierPositionWorld, getStackInSlot(index));
+		HelpersWorld.dropItemStack(supplierPositionWorld, getStackInSlot(index));
 	}
 
 	@Override

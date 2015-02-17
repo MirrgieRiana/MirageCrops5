@@ -9,7 +9,7 @@ import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.gui.GuiMir53;
-import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.ContainerMir52;
 import mirrg_miragecrops5.LoaderTileEntity;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
@@ -85,7 +85,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				}
 
 				@Override
-				public ContainerMir53 createContainer(EntityPlayer player, World world, int x, int y, int z)
+				public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
 				{
 					TileEntity tileEntity = world.getTileEntity(x, y, z);
 					if (tileEntity == null) return null;
@@ -137,7 +137,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				}
 
 				@Override
-				public ContainerMir53 createContainer(EntityPlayer player, World world, int x, int y, int z)
+				public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
 				{
 					TileEntity tileEntity = world.getTileEntity(x, y, z);
 					if (tileEntity == null) return null;

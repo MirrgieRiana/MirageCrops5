@@ -2,13 +2,15 @@ package mirrg.mir51.gui.renderers;
 
 import java.util.ArrayList;
 
+import api.mirrg.mir50.gui.renderer.EnumRotate;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.he.math.HelpersCollision;
 import mirrg.he.math.HelpersString;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumRotate;
-import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
-import mirrg.mir51.datamodels.DatamodelEnergy;
+import mirrg.mir50.datamodels.DatamodelEnergy;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
+import mirrg.mir50.gui.renderer.HelpersRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,7 +32,7 @@ public class RendererEnergySlotMeter implements IRenderer<ContainerExtraSlotData
 	public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
 		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.datamodel.getAmount()) + " H",
-			t.x, t.y, HelpersRenderer.EnumTextAlign.CENTER, EnumRotate.RIGHT0);
+			t.x, t.y, EnumTextAlign.CENTER, EnumRotate.RIGHT0);
 	}
 
 	@Override

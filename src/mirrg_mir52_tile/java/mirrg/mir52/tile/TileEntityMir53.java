@@ -2,7 +2,7 @@ package mirrg.mir52.tile;
 
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir52.gui.GuiMir53;
-import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.ContainerMir52;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -67,15 +67,15 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 	public GuiMir53 createGui(EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (!hasGui()) return null;
-		ContainerMir53 container = createContainer(player, world, x, y, z);
+		ContainerMir52 container = createContainer(player, world, x, y, z);
 		return new GuiMir53(container, getGuiTexture(container));
 	}
 
 	@Override
-	public ContainerMir53 createContainer(EntityPlayer player, World world, int x, int y, int z)
+	public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (!hasGui()) return null;
-		ContainerMir53 container = new ContainerMir53(player, (player2) -> {
+		ContainerMir52 container = new ContainerMir52(player, (player2) -> {
 			TileEntity tileEntity = world.getTileEntity(xCoord, yCoord, zCoord);
 			if (tileEntity != this) return false;
 			return player2.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
@@ -84,7 +84,7 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 		return container;
 	}
 
-	protected ResourceLocation getGuiTexture(ContainerMir53 container)
+	protected ResourceLocation getGuiTexture(ContainerMir52 container)
 	{
 		return null;
 	}
@@ -94,7 +94,7 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 		return false;
 	}
 
-	protected void prepareContainerSlots(ContainerMir53 container)
+	protected void prepareContainerSlots(ContainerMir52 container)
 	{
 
 	}

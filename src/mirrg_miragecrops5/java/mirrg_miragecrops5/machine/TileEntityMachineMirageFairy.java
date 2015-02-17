@@ -1,20 +1,23 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
-import mirrg.mir50.tile.inventory.ContainerExtraSlotLabel;
-import mirrg.mir51.datamodels.DatamodelFluid;
+import mirrg.mir50.datamodels.DatamodelFluid;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotLabel;
+import mirrg.mir51.gui.renderers.RendererFluidSlot;
+import mirrg.mir51.gui.renderers.RendererLabel;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Base;
 import mirrg.mir51.inventory.InventoryMir51Chain;
 import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
-import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.ContainerMir52;
 import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
 
 public class TileEntityMachineMirageFairy extends TileEntityMMF
 {
@@ -52,7 +55,7 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 	}
 
 	@Override
-	protected ResourceLocation getGuiTexture(ContainerMir53 container)
+	protected ResourceLocation getGuiTexture(ContainerMir52 container)
 	{//machineMirageFairy
 		return new ResourceLocation("miragecrops5" + ":" + "textures/gui/NULL_GUI_TEXTURE.png");
 	}
@@ -64,18 +67,24 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 	}
 
 	@Override
-	protected void prepareContainerSlots(ContainerMir53 container)
+	protected void prepareContainerSlots(ContainerMir52 container)
 	{
 		{
-			String s = getLocalizedName();
-			container.addContainerExtraSlot(new ContainerExtraSlotLabel(s,
-				gui -> gui.getGuiWidth() / 2 - gui.getFontRenderer().getStringWidth(s) / 2,
+			ContainerExtraSlotLabel containerExtraSlot;
+
+			containerExtraSlot = new ContainerExtraSlotLabel(getLocalizedName(),
+				gui -> gui.getGuiWidth() / 2,
 				gui -> 6,
-				0x404040), "labelTileEntity");
-			container.addContainerExtraSlot(new ContainerExtraSlotLabel(I18n.format("container.inventory"),
+				0x404040, EnumTextAlign.CENTER);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelTileEntity");
+
+			containerExtraSlot = new ContainerExtraSlotLabel(I18n.format("container.inventory"),
 				gui -> 8,
 				gui -> gui.getGuiHeight() - 96 + 2,
-				0x404040), "labelInventory");
+				0x404040, EnumTextAlign.LEFT);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelInventory");
 		}
 
 		InventoryMir51Chain inventoryChest = inventoryChain;
@@ -95,8 +104,13 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 		container.setTransferInventories(inventoryPlayer, inventoryChest);
 		container.setTransferInventories(inventoryHandle, inventoryChest);
 
-		container.addContainerExtraSlot(new ContainerExtraSlotDatamodel<DatamodelFluid>(fluidTank, 152, 16, 16, 52),
-			getName(fluidTank));
+		{
+			ContainerExtraSlotDatamodel<DatamodelFluid> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelFluid>(fluidTank, 152, 16, 16, 52);
+			containerExtraSlot.renderer = RendererFluidSlot.instance;
+			container.addContainerExtraSlot(containerExtraSlot, getName(fluidTank));
+		}
+
 	}
 
 	@Override

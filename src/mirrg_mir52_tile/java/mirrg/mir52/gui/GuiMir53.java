@@ -2,11 +2,8 @@ package mirrg.mir52.gui;
 
 import java.util.List;
 
-import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.gui.renderer.IRendererProvider;
 import mirrg.mir51.gui.renderers.RendererSlot;
-import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.ContainerMir52;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -17,6 +14,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import api.mirrg.mir50.gui.renderer.EnumRotate;
+import api.mirrg.mir50.gui.renderer.EnumStyleFrame;
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
+import api.mirrg.mir50.gui.renderer.IRendererProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -24,10 +26,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiMir53 extends GuiContainer
 {
 
-	protected final ContainerMir53 container;
+	protected final ContainerMir52 container;
 	protected final ResourceLocation guiTexture;
 
-	public GuiMir53(ContainerMir53 container, ResourceLocation guiTexture)
+	public GuiMir53(ContainerMir52 container, ResourceLocation guiTexture)
 	{
 		super(container);
 		this.container = container;

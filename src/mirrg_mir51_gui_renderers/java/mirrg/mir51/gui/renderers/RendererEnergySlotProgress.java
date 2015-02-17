@@ -3,15 +3,15 @@ package mirrg.mir51.gui.renderers;
 import java.util.ArrayList;
 
 import mirrg.he.math.HelpersCollision;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IRenderer;
-import mirrg.mir50.tile.inventory.ContainerExtraSlotDatamodel;
-import mirrg.mir51.datamodels.DatamodelEnergy;
+import mirrg.mir50.datamodels.DatamodelEnergy;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -1,12 +1,12 @@
 package mirrg.mir51.gui.renderers;
 
-import mirrg.mir50.gui.renderer.IGuiRenderHelper;
-import mirrg.mir50.gui.renderer.IGuiRenderHelper.EnumStyleFrame;
-import mirrg.mir50.gui.renderer.IRenderer;
 import net.minecraft.inventory.Slot;
 
 import org.lwjgl.opengl.GL11;
 
+import api.mirrg.mir50.gui.renderer.EnumStyleFrame;
+import api.mirrg.mir50.gui.renderer.IGuiRenderHelper;
+import api.mirrg.mir50.gui.renderer.IRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
