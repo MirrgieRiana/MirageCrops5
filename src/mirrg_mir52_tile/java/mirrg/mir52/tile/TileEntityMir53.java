@@ -1,6 +1,7 @@
 package mirrg.mir52.tile;
 
 import mirrg.mir50.guihandler.IGuiProvider;
+import mirrg.mir53.gui.container.ContainerMir53;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -14,7 +15,7 @@ import api.mirrg.mir50.net.NBTTypes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityMir53 extends TileEntity implements IGuiProvider, ITileEntityMir53
+public class TileEntityMir53 extends TileEntity implements IGuiProvider
 {
 
 	@Override
@@ -73,7 +74,11 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ITileEn
 	public ContainerMir53 createContainer(EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (!hasGui()) return null;
-		ContainerMir53 container = new ContainerMir53(player, this, new PointerBlock(world, x, y, z));
+		ContainerMir53 container = new ContainerMir53(player, (player2) -> {
+			TileEntity tileEntity = world.getTileEntity(xCoord, yCoord, zCoord);
+			if (tileEntity != this) return false;
+			return player2.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
+		});
 		prepareContainerSlots(container);
 		return container;
 	}
@@ -132,45 +137,40 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider, ITileEn
 		this.customInventoryName = customInventoryName;
 	}
 
-	@Override
-	public boolean hasCustomInventoryName()
-	{
-		return customInventoryName != null;
-	}
-
-	@Override
 	public String getDefaultName()
 	{
 		return "container.mirageMachine";
 	}
 
-	@Override
+	public boolean hasCustomInventoryName()
+	{
+		return customInventoryName != null;
+	}
+
 	public String getInventoryName()
 	{
 		return hasCustomInventoryName() ? customInventoryName : getDefaultName();
 	}
 
-	@Override
 	public String getLocalizedName()
 	{
 		return hasCustomInventoryName() ? getInventoryName() : StatCollector.translateToLocal(getInventoryName());
 	}
 
-	@Override
 	public String getCustomInventoryName()
 	{
 		return customInventoryName;
 	}
 
-	///////////////////////// ITileEntityMirageMachine /////////////////////////
+	/*
+		///////////////////////// ITileEntityMirageMachine /////////////////////////
 
-	@Override
-	public TileEntity getTileEntity()
-	{
-		return this;
-	}
-
-	@Override
+		@Override
+		public TileEntity getTileEntity()
+		{
+			return this;
+		}
+	*/
 	public void onBroken()
 	{
 

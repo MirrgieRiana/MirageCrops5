@@ -1,6 +1,9 @@
 package mirrg.mir50.tile.inventory;
 
-public class FluidSlot
+import mirrg.mir52.tile.IContainerExtraSlot;
+import net.minecraft.nbt.NBTTagCompound;
+
+public class FluidSlot implements IContainerExtraSlot
 {
 
 	public FluidTank fluidTank;
@@ -19,11 +22,24 @@ public class FluidSlot
 		this.h = h;
 	}
 
+	@Override
 	public boolean isDirtyAndSaveSnapshot()
 	{
 		boolean isDirty = !fluidTank.equals(snapshot);
 		snapshot = fluidTank.copy();
 		return isDirty;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		fluidTank.readFromNBT(nbt);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		fluidTank.writeToNBT(nbt);
 	}
 
 }

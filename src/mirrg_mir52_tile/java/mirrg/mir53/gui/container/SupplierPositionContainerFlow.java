@@ -1,11 +1,11 @@
-package mirrg.mir52.tile;
+package mirrg.mir53.gui.container;
 
-public class SupplierPositionFlow implements ISupplierPosition
+public class SupplierPositionContainerFlow implements ISupplierPositionContainer
 {
 
 	private int startX, startY, shiftX, shiftY, lineLength;
 
-	public SupplierPositionFlow(int startX, int startY, int shiftX, int shiftY, int lineLength)
+	public SupplierPositionContainerFlow(int startX, int startY, int shiftX, int shiftY, int lineLength)
 	{
 		this.startX = startX;
 		this.startY = startY;

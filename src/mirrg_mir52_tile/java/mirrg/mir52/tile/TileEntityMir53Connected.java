@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import mirrg.h.struct.Tuple;
 import mirrg.mir50.tile.inventory.EnergyTank;
 import mirrg.mir50.tile.inventory.FluidTank;
-import mirrg.mir51.inventory.ISimpleInventoryMir51;
-import mirrg.mir52.inventories.SimpleInventoryChain;
+import mirrg.mir51.inventory.IInventoryMir51;
+import mirrg.mir51.inventory.InventoryMir51Chain;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	public void writeToNBT(String componentName, NBTTagCompound p_145841_1_)
 	{
 
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().writeToNBT(p_145841_1_);
@@ -58,7 +58,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	public void readFromNBT(String componentName, NBTTagCompound p_145839_1_)
 	{
 
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().readFromNBT(p_145839_1_);
@@ -92,7 +92,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	{
 		super.writeToNBT(p_145841_1_);
 
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 
 			NBTTagCompound tag = new NBTTagCompound();
 			entry.getX().writeToNBT(tag);
@@ -123,14 +123,14 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	{
 		super.readFromNBT(p_145839_1_);
 
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 
 			if (p_145839_1_.hasKey(entry.getY(), NBTTypes.COMPOUND)) {
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
 				entry.getX().readFromNBT(tag);
 			} else {
 				for (int i = 0; i < entry.getX().getSizeInventory(); i++) {
-					entry.getX().getInventoryCell(i).clearInventory();
+					entry.getX().getInventoryCell(i).clear();
 				}
 			}
 
@@ -253,14 +253,20 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 	////////////////////////////// ISidedInventory //////////////////////////////
 
-	public final SimpleInventoryChain inventoryChain = new SimpleInventoryChain(this);
+	public final InventoryMir51Chain inventoryChain = new InventoryMir51Chain();
 
-	protected ArrayList<Tuple<ISimpleInventoryMir51, String>> inventories = new ArrayList<Tuple<ISimpleInventoryMir51, String>>();
+	protected ArrayList<Tuple<IInventoryMir51, String>> inventories = new ArrayList<Tuple<IInventoryMir51, String>>();
 
-	protected <T extends ISimpleInventoryMir51> T add(T inventory, String tagName)
+	protected <T extends IInventoryMir51> T add(T inventory, String tagName)
 	{
-		inventories.add(new Tuple<ISimpleInventoryMir51, String>(inventory, tagName));
+		inventories.add(new Tuple<IInventoryMir51, String>(inventory, tagName));
 		return inventory;
+	}
+
+	@Override
+	public void onBroken()
+	{
+		inventoryChain.onBroken();
 	}
 
 	@Override
@@ -326,17 +332,17 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 	//
 
-	protected ISimpleInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
 	{
 		return null;
 	}
 
-	protected ISimpleInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
 	{
 		return null;
 	}
 
-	protected ISimpleInventoryMir51[] getInventoryAccessible(int side)
+	protected IInventoryMir51[] getInventoryAccessible(int side)
 	{
 		return null;
 	}
@@ -344,7 +350,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side)
 	{
-		ISimpleInventoryMir51[] invenotries = getInventoryAccessible(side);
+		IInventoryMir51[] invenotries = getInventoryAccessible(side);
 		if (invenotries == null) return new int[0];
 		return inventoryChain.getSlotsOfInventory(invenotries);
 	}
@@ -352,11 +358,11 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public boolean canInsertItem(int slot, ItemStack itemStack, int side)
 	{
-		ISimpleInventoryMir51[] invenotries = getInventoryInsert(side, itemStack);
+		IInventoryMir51[] invenotries = getInventoryInsert(side, itemStack);
 		if (invenotries == null) return false;
 
-		ISimpleInventoryMir51 inventoryFromGlobalSlotIndex = inventoryChain.getInventoryFromGlobalSlotIndex(slot);
-		for (ISimpleInventoryMir51 invenotryInChain : invenotries) {
+		IInventoryMir51 inventoryFromGlobalSlotIndex = inventoryChain.getInventoryFromGlobalSlotIndex(slot);
+		for (IInventoryMir51 invenotryInChain : invenotries) {
 			if (inventoryFromGlobalSlotIndex == invenotryInChain) {
 				return true;
 			}
@@ -368,11 +374,11 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side)
 	{
-		ISimpleInventoryMir51[] invenotries = getInventoryExtract(side, itemStack);
+		IInventoryMir51[] invenotries = getInventoryExtract(side, itemStack);
 		if (invenotries == null) return false;
 
-		ISimpleInventoryMir51 inventoryFromGlobalSlotIndex = inventoryChain.getInventoryFromGlobalSlotIndex(slot);
-		for (ISimpleInventoryMir51 invenotryInChain : invenotries) {
+		IInventoryMir51 inventoryFromGlobalSlotIndex = inventoryChain.getInventoryFromGlobalSlotIndex(slot);
+		for (IInventoryMir51 invenotryInChain : invenotries) {
 			if (inventoryFromGlobalSlotIndex == invenotryInChain) {
 				return true;
 			}
@@ -411,9 +417,9 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		return null;
 	}
 
-	public String getName(ISimpleInventoryMir51 inventory)
+	public String getName(IInventoryMir51 inventory)
 	{
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 			if (entry.getX() == inventory) {
 				return entry.getY();
 			}
@@ -441,9 +447,9 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		return null;
 	}
 
-	public ISimpleInventoryMir51 getInventory(String name)
+	public IInventoryMir51 getInventory(String name)
 	{
-		for (Tuple<ISimpleInventoryMir51, String> entry : inventories) {
+		for (Tuple<IInventoryMir51, String> entry : inventories) {
 			if (entry.getY().equals(name)) {
 				return entry.getX();
 			}

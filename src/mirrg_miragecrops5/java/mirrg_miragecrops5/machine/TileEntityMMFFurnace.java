@@ -2,15 +2,17 @@ package mirrg_miragecrops5.machine;
 
 import mirrg.mir50.tile.inventory.EnergySlot;
 import mirrg.mir50.tile.inventory.EnergyTank;
+import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
 import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
-import mirrg.mir51.inventory.ISimpleInventoryMir51;
+import mirrg.mir51.inventory.IInventoryMir51;
+import mirrg.mir51.inventory.InventoryMir51Base;
+import mirrg.mir51.inventory.InventoryMir51Chain;
+import mirrg.mir51.inventory.InventoryMir51FromInventory;
+import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
-import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
-import mirrg.mir52.inventories.SimpleInventoryMir51Base;
-import mirrg.mir52.inventories.SimpleInventoryTrimmer;
-import mirrg.mir52.tile.ContainerMir53;
 import mirrg.mir52.tile.HelpersContainer;
-import mirrg.mir52.tile.SupplierPositionFlow;
+import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -20,13 +22,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMMFFurnace extends TileEntityMMF
 {
 
-	public final ISimpleInventoryMir51 inventoryInMaterial;
-	public final ISimpleInventoryMir51 inventoryInMaterialProcessing;
-	public final ISimpleInventoryMir51 inventoryInFuel;
-	public final ISimpleInventoryMir51 inventoryOut;
-	public final ISimpleInventoryMir51 inventoryOutProcessing;
-	public final ISimpleInventoryMir51 inventoryFairy;
-	public final ISimpleInventoryMir51 inventoryFairyFuel;
+	public final IInventoryMir51 inventoryInMaterial;
+	public final IInventoryMir51 inventoryInMaterialProcessing;
+	public final IInventoryMir51 inventoryInFuel;
+	public final IInventoryMir51 inventoryOut;
+	public final IInventoryMir51 inventoryOutProcessing;
+	public final IInventoryMir51 inventoryFairy;
+	public final IInventoryMir51 inventoryFairyFuel;
 
 	public final EnergyTank energyTankProcessing;
 	public final EnergyTank energyTankFuel;
@@ -36,13 +38,13 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 	public TileEntityMMFFurnace()
 	{
-		inventoryInMaterial = add(new SimpleInventoryMir51Base(this, 2), "inventoryInMaterial");
-		inventoryInMaterialProcessing = add(new SimpleInventoryMir51Base(this, 1), "inventoryInMaterialProcessing");
-		inventoryInFuel = add(new SimpleInventoryMir51Base(this, 3), "inventoryInFuel");
-		inventoryOut = add(new SimpleInventoryMir51Base(this, 4), "inventoryOut");
-		inventoryOutProcessing = add(new SimpleInventoryMir51Base(this, 4), "inventoryOutProcessing");
-		inventoryFairy = add(new SimpleInventoryMir51Base(this, 3), "inventoryFairy");
-		inventoryFairyFuel = add(new SimpleInventoryMir51Base(this, 1), "inventoryFairyFuel");
+		inventoryInMaterial = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 2), "inventoryInMaterial");
+		inventoryInMaterialProcessing = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 1), "inventoryInMaterialProcessing");
+		inventoryInFuel = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 3), "inventoryInFuel");
+		inventoryOut = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOut");
+		inventoryOutProcessing = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOutProcessing");
+		inventoryFairy = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 3), "inventoryFairy");
+		inventoryFairyFuel = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 1), "inventoryFairyFuel");
 
 		inventoryChain.add(inventoryInMaterial);
 		inventoryChain.add(inventoryInMaterialProcessing);
@@ -58,9 +60,9 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryAccessible(int side)
+	protected IInventoryMir51[] getInventoryAccessible(int side)
 	{
-		return new ISimpleInventoryMir51[] {
+		return new IInventoryMir51[] {
 			inventoryOut,
 			inventoryInFuel,
 			inventoryInMaterial,
@@ -68,22 +70,22 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
 	{
-		return new ISimpleInventoryMir51[] {
+		return new IInventoryMir51[] {
 			inventoryOut,
 		};
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
 	{
 		if (side == ForgeDirection.DOWN.ordinal()) {
-			return new ISimpleInventoryMir51[] {
+			return new IInventoryMir51[] {
 				inventoryInFuel,
 			};
 		} else {
-			return new ISimpleInventoryMir51[] {
+			return new IInventoryMir51[] {
 				inventoryInMaterial,
 			};
 		}
@@ -104,30 +106,32 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	@Override
 	protected void prepareContainerSlots(ContainerMir53 container)
 	{
-		ISimpleInventoryMir51 inventory2 = HelpersSimpleInventoryMir51.make(container.getPlayer().inventory, this);
-		SimpleInventoryTrimmer inventoryPlayer = new SimpleInventoryTrimmer(this, inventory2, 9, 27);
-		SimpleInventoryTrimmer inventoryHandle = new SimpleInventoryTrimmer(this, inventory2, 0, 9);
+		InventoryMir51Chain inventoryChest = inventoryChain;
+		IInventoryMir51 inventory2 = new InventoryMir51FromInventory(container.getPlayer().inventory,
+			new SupplierPositionWorldFromTileEntity(this));
+		InventoryMir51Trimmer inventoryPlayer = new InventoryMir51Trimmer(inventory2, 9, 27);
+		InventoryMir51Trimmer inventoryHandle = new InventoryMir51Trimmer(inventory2, 0, 9);
 
 		container.addInventory(inventoryInMaterial,
-			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), true);
 		container.addInventory(inventoryInMaterialProcessing,
 			(inventory, index, x, y) -> new SlotProcessing(inventory, index, x, y),
-			new SupplierPositionFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
+			new SupplierPositionContainerFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryInFuel,
-			new SupplierPositionFlow(LEFT + 9 * 4, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT + 9 * 4, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 9), true);
 		container.addInventory(inventoryOut,
-			new SupplierPositionFlow(LEFT + 9 * 14, TOP_CHEST + 9 * 1, SHIFT, SHIFT, 2), false);
+			new SupplierPositionContainerFlow(LEFT + 9 * 14, TOP_CHEST + 9 * 1, SHIFT, SHIFT, 2), false);
 		container.addInventory(inventoryFairy,
 			(inventory, index, x, y) -> new SlotFairy(inventory, index, x, y),
-			new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 1), false);
+			new SupplierPositionContainerFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 1), false);
 		container.addInventory(inventoryFairyFuel,
 			(inventory, index, x, y) -> new SlotFairyFuel(inventory, index, x, y),
-			new SupplierPositionFlow(LEFT + 9 * 11, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 1), false);
+			new SupplierPositionContainerFlow(LEFT + 9 * 11, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 1), false);
 
 		container.addInventory(inventoryPlayer,
-			new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
 		container.addInventory(inventoryHandle,
-			new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
 
 		container.setTransferInventories(inventoryInMaterial, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryInFuel, inventoryHandle, inventoryPlayer);
@@ -139,17 +143,20 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 		{
 			int w = 24, h = 17;
-			container.addEnergySlot(new EnergySlot(energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 2 - h / 2 - 3, w, h));
+			container.addContainerExtraSlot(new EnergySlot(energyTankProcessing, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 2 - h / 2 - 3, w, h),
+				getName(energyTankProcessing));
 		}
 		{
 			int w = 14, h = 14;
-			container.addEnergySlot(new EnergySlotWithRenderer(energyTankFuel, LEFT + 9 * 9 - w / 2, TOP_CHEST + 9 * 3 - h / 2, w, h,
-				EnergySlotWithRenderer.rendererFuel));
+			container.addContainerExtraSlot(new EnergySlotWithRenderer(energyTankFuel, LEFT + 9 * 9 - w / 2, TOP_CHEST + 9 * 3 - h / 2, w, h,
+				EnergySlotWithRenderer.rendererFuel),
+				getName(energyTankFuel));
 		}
 		{
 			int w = 0, h = 0;
-			container.addEnergySlot(new EnergySlotWithRenderer(energyTankHyleon, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 4 - h / 2 - 3, w, h,
-				RendererEnergySlotMeter.instance));
+			container.addContainerExtraSlot(new EnergySlotWithRenderer(energyTankHyleon, LEFT + 9 * 12 - w / 2, TOP_CHEST + 9 * 4 - h / 2 - 3, w, h,
+				RendererEnergySlotMeter.instance),
+				getName(energyTankHyleon));
 		}
 
 	}
@@ -160,7 +167,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		if (HelpersSide.helper(this).isRemote()) return;
 
 		{
-			ISimpleInventoryMir51 inventory = inventoryInMaterial;
+			IInventoryMir51 inventory = inventoryInMaterial;
 
 			for (int i = inventory.getSizeInventory() - 1; i >= 1; i--) {
 				ItemStack right = inventory.getInventoryCell(i).getStackInSlot();
@@ -177,7 +184,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 
 		{
-			ISimpleInventoryMir51 inventory = inventoryInFuel;
+			IInventoryMir51 inventory = inventoryInFuel;
 
 			for (int i = inventory.getSizeInventory() - 1; i >= 1; i--) {
 				ItemStack right = inventory.getInventoryCell(i).getStackInSlot();
@@ -407,7 +414,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	/**
 	 * @return 全てのアイテムがfromから移動した。
 	 */
-	public static boolean tryMergeInventory(ISimpleInventoryMir51 from, ISimpleInventoryMir51 to, boolean inverse)
+	public static boolean tryMergeInventory(IInventoryMir51 from, IInventoryMir51 to, boolean inverse)
 	{
 		for (int i = 0; i < from.getSizeInventory(); i++) {
 			ItemStack itemStack = from.getInventoryCell(i).getStackInSlot();
@@ -434,19 +441,19 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		return true;
 	}
 
-	public static ItemStack getLastStack(ISimpleInventoryMir51 inventory)
+	public static ItemStack getLastStack(IInventoryMir51 inventory)
 	{
 		return inventory.getInventoryCell(inventory.getSizeInventory() - 1).getStackInSlot();
 	}
 
-	public static void clearInventory(ISimpleInventoryMir51 inventory)
+	public static void clearInventory(IInventoryMir51 inventory)
 	{
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			inventory.getInventoryCell(i).setInventorySlotContents(null);
 		}
 	}
 
-	public static boolean isEmpty(ISimpleInventoryMir51 inventory)
+	public static boolean isEmpty(IInventoryMir51 inventory)
 	{
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			if (inventory.getInventoryCell(i).getStackInSlot() != null) return false;

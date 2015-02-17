@@ -1,5 +1,6 @@
 package mirrg.mir52.tile;
 
+import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -43,7 +44,7 @@ public class HelpersContainer
 		// 既存スタックに重ねる
 		if (stack.isStackable()) {
 			if (stack.stackSize > 0) {
-				ContainerMir53.Range range = new ContainerMir53.Range(start, end - 1, inverse);
+				Range range = new Range(start, end - 1, inverse);
 
 				for (int i : range) {
 					if (getStack.apply(i).get() != null) {
@@ -62,7 +63,7 @@ public class HelpersContainer
 
 		// 空スロットに移動
 		if (stack.stackSize > 0) {
-			ContainerMir53.Range range = new ContainerMir53.Range(start, end - 1, inverse);
+			Range range = new Range(start, end - 1, inverse);
 
 			for (int i : range) {
 				if (getStack.apply(i).get() == null) {
@@ -139,6 +140,58 @@ public class HelpersContainer
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * aからbまでの整数を返す。3と5なら、3,4,5。
+	 */
+	protected static class Range implements Iterable<Integer>
+	{
+
+		int a;
+		int b;
+		boolean bToA;
+
+		public Range(int a, int b)
+		{
+			this(a, b, false);
+		}
+
+		public Range(int a, int b, boolean bToA)
+		{
+			if (a > b) {
+				int tmp = a;
+				a = b;
+				b = tmp;
+				bToA = !bToA;
+			}
+
+			this.a = a;
+			this.b = b;
+			this.bToA = bToA;
+		}
+
+		@Override
+		public Iterator<Integer> iterator()
+		{
+			return new Iterator<Integer>() {
+
+				int next = bToA ? b : a;
+
+				@Override
+				public boolean hasNext()
+				{
+					return bToA ? next >= a : next <= b;
+				}
+
+				@Override
+				public Integer next()
+				{
+					return bToA ? next-- : next++;
+				}
+
+			};
 		}
 	}
 

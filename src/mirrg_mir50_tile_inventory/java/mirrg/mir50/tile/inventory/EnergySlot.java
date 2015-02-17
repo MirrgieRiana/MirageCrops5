@@ -1,6 +1,9 @@
 package mirrg.mir50.tile.inventory;
 
-public class EnergySlot
+import mirrg.mir52.tile.IContainerExtraSlot;
+import net.minecraft.nbt.NBTTagCompound;
+
+public class EnergySlot implements IContainerExtraSlot
 {
 
 	public EnergyTank energyTank;
@@ -19,11 +22,24 @@ public class EnergySlot
 		this.h = h;
 	}
 
+	@Override
 	public boolean isDirtyAndSaveSnapshot()
 	{
 		boolean isDirty = !energyTank.equals(snapshot);
 		snapshot = energyTank.copy();
 		return isDirty;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		energyTank.readFromNBT(nbt);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		energyTank.writeToNBT(nbt);
 	}
 
 }

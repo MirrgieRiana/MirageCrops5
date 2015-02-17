@@ -1,5 +1,6 @@
 package mirrg_miragecrops5.machine;
 
+import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
 import mirrg.mir52.tile.TileEntityMir53Connected;
 import mirrg_miragecrops5.ModMirageCrops;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,13 @@ public class TileEntityMMF extends TileEntityMir53Connected
 		}
 
 		return false;
+	}
+
+	private final SupplierPositionWorldFromTileEntity supplierPosition = new SupplierPositionWorldFromTileEntity(this);
+
+	protected SupplierPositionWorldFromTileEntity getSupplierPosition()
+	{
+		return supplierPosition;
 	}
 
 }

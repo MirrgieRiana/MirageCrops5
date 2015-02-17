@@ -5,15 +5,13 @@ import java.util.List;
 import mirrg.mir50.gui.renderer.IGuiRenderHelper;
 import mirrg.mir50.gui.renderer.IRenderer;
 import mirrg.mir50.gui.renderer.IRendererProvider;
-import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
-import mirrg.mir51.gui.renderers.RendererFluidSlot;
 import mirrg.mir51.gui.renderers.RendererSlot;
+import mirrg.mir53.gui.container.ContainerMir53;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
@@ -26,9 +24,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiMir53 extends GuiContainer
 {
 
-	protected final ResourceLocation guiTexture;
 	protected final ContainerMir53 container;
-	protected final GuiRenderHelperImpl handler = new GuiRenderHelperImpl();
+	protected final ResourceLocation guiTexture;
 
 	public GuiMir53(ContainerMir53 container, ResourceLocation guiTexture)
 	{
@@ -50,34 +47,32 @@ public class GuiMir53 extends GuiContainer
 		return defaultRenderer;
 	}
 
-	public static enum EnumLayer
+	private static enum EnumLayer
 	{
 		Foreground, ToolTip, Background,
 	}
 
+	protected final GuiRenderHelperImpl handler = new GuiRenderHelperImpl();
+
 	protected <T> void drawSlotsLayer(EnumLayer layer, List<T> slots, IRenderer<T> defaultRenderer, int mouseX, int mouseY)
 	{
 		for (T slot : slots) {
-			drawLayer(layer, getRenderer(slot, defaultRenderer), handler, slot, mouseX, mouseY);
-		}
-	}
-
-	public static <T> void drawLayer(EnumLayer layer, IRenderer<T> renderer, IGuiRenderHelper gui, T slot, int mouseX, int mouseY)
-	{
-		switch (layer)
-		{
-			case Background:
-				renderer.drawBackgroundLayer(gui, slot, mouseX, mouseY);
-				break;
-			case ToolTip:
-				renderer.drawToolTip(gui, slot, mouseX, mouseY);
-				RenderHelper.enableGUIStandardItemLighting();
-				break;
-			case Foreground:
-				renderer.drawForegroundLayer(gui, slot, mouseX, mouseY);
-				break;
-			default:
-				break;
+			IRenderer<T> renderer = getRenderer(slot, defaultRenderer);
+			if (renderer != null) {
+				switch (layer) {
+					case Background:
+						renderer.drawBackgroundLayer(handler, slot, mouseX, mouseY);
+						break;
+					case ToolTip:
+						renderer.drawToolTip(handler, slot, mouseX, mouseY);
+						break;
+					case Foreground:
+						renderer.drawForegroundLayer(handler, slot, mouseX, mouseY);
+						break;
+					default:
+						break;
+				}
+			}
 		}
 	}
 
@@ -85,17 +80,21 @@ public class GuiMir53 extends GuiContainer
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 
-		String s = container.getTileEntity().getLocalizedName();
-		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 0x404040);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
+		/*
+				String s = container.getTileEntity().getLocalizedName();
+				this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 0x404040);
+				this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
+		*/
 
-		drawSlotsLayer(EnumLayer.Foreground, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Foreground, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Foreground, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Foreground, container.getInventorySlots(), RendererSlot.instance, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Foreground, container.getContainerExtraSlots(), null, mouseX, mouseY);
 
-		drawSlotsLayer(EnumLayer.ToolTip, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.ToolTip, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.ToolTip, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
+		{
+			drawSlotsLayer(EnumLayer.ToolTip, container.getInventorySlots(), RendererSlot.instance, mouseX, mouseY);
+			drawSlotsLayer(EnumLayer.ToolTip, container.getContainerExtraSlots(), null, mouseX, mouseY);
+
+			RenderHelper.enableGUIStandardItemLighting();
+		}
 
 	}
 
@@ -110,9 +109,8 @@ public class GuiMir53 extends GuiContainer
 			drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
 		}
 
-		drawSlotsLayer(EnumLayer.Background, container.getSlots(), RendererSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Background, container.fluidSlots, RendererFluidSlot.instance, mouseX, mouseY);
-		drawSlotsLayer(EnumLayer.Background, container.energySlots, RendererEnergySlotProgress.instanceLeft, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Background, container.getInventorySlots(), RendererSlot.instance, mouseX, mouseY);
+		drawSlotsLayer(EnumLayer.Background, container.getContainerExtraSlots(), null, mouseX, mouseY);
 
 	}
 

@@ -2,13 +2,13 @@ package mirrg_miragecrops5.machine;
 
 import mirrg.mir50.tile.inventory.FluidSlot;
 import mirrg.mir50.tile.inventory.FluidTank;
-import mirrg.mir51.inventory.ISimpleInventoryMir51;
-import mirrg.mir52.inventories.HelpersSimpleInventoryMir51;
-import mirrg.mir52.inventories.SimpleInventoryChain;
-import mirrg.mir52.inventories.SimpleInventoryMir51Base;
-import mirrg.mir52.inventories.SimpleInventoryTrimmer;
-import mirrg.mir52.tile.ContainerMir53;
-import mirrg.mir52.tile.SupplierPositionFlow;
+import mirrg.mir51.inventory.IInventoryMir51;
+import mirrg.mir51.inventory.InventoryMir51Base;
+import mirrg.mir51.inventory.InventoryMir51Chain;
+import mirrg.mir51.inventory.InventoryMir51FromInventory;
+import mirrg.mir51.inventory.InventoryMir51Trimmer;
+import mirrg.mir53.gui.container.ContainerMir53;
+import mirrg.mir53.gui.container.SupplierPositionContainerFlow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -17,34 +17,34 @@ import net.minecraftforge.fluids.Fluid;
 public class TileEntityMachineMirageFairy extends TileEntityMMF
 {
 
-	public final ISimpleInventoryMir51 inventory;
+	public final IInventoryMir51 inventory;
 
 	public final FluidTank fluidTank;
 
 	public TileEntityMachineMirageFairy()
 	{
-		inventory = add(new SimpleInventoryMir51Base(this, 8 * 3), "inventory");
+		inventory = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 8 * 3), "inventory");
 		inventoryChain.add(inventory);
 
 		fluidTank = add(new FluidTank(this::markDirty, 16 * 1000), "fluidTank");
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryAccessible(int side)
+	protected IInventoryMir51[] getInventoryAccessible(int side)
 	{
-		return new ISimpleInventoryMir51[] {
+		return new IInventoryMir51[] {
 			inventory,
 		};
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
 	{
 		return getInventoryAccessible(side);
 	}
 
 	@Override
-	protected ISimpleInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
+	protected IInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
 	{
 		return getInventoryAccessible(side);
 	}
@@ -64,23 +64,25 @@ public class TileEntityMachineMirageFairy extends TileEntityMMF
 	@Override
 	protected void prepareContainerSlots(ContainerMir53 container)
 	{
-		SimpleInventoryChain inventoryChest = inventoryChain;
-		ISimpleInventoryMir51 inventory = HelpersSimpleInventoryMir51.make(container.getPlayer().inventory, this);
-		SimpleInventoryTrimmer inventoryPlayer = new SimpleInventoryTrimmer(this, inventory, 9, 27);
-		SimpleInventoryTrimmer inventoryHandle = new SimpleInventoryTrimmer(this, inventory, 0, 9);
+		InventoryMir51Chain inventoryChest = inventoryChain;
+		IInventoryMir51 inventory = new InventoryMir51FromInventory(container.getPlayer().inventory,
+			getSupplierPosition());
+		InventoryMir51Trimmer inventoryPlayer = new InventoryMir51Trimmer(inventory, 9, 27);
+		InventoryMir51Trimmer inventoryHandle = new InventoryMir51Trimmer(inventory, 0, 9);
 
 		container.addInventory(inventoryChest,
-			new SupplierPositionFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
+			new SupplierPositionContainerFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 8), false);
 		container.addInventory(inventoryPlayer,
-			new SupplierPositionFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
 		container.addInventory(inventoryHandle,
-			new SupplierPositionFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
 
 		container.setTransferInventories(inventoryChest, inventoryHandle, inventoryPlayer);
 		container.setTransferInventories(inventoryPlayer, inventoryChest);
 		container.setTransferInventories(inventoryHandle, inventoryChest);
 
-		container.addFluidSlot(new FluidSlot(fluidTank, 152, 16, 16, 52));
+		container.addContainerExtraSlot(new FluidSlot(fluidTank, 152, 16, 16, 52),
+			getName(fluidTank));
 	}
 
 	@Override
