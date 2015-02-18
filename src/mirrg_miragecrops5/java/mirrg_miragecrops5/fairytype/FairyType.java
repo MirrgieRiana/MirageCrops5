@@ -25,6 +25,13 @@ public class FairyType
 		return oreMatcher.matches(itemStack);
 	}
 
+	public static int DEFAULT_SKIN_COLOR = 0xFFC9D1;
+
+	/**
+	 * 肌の色
+	 */
+	public int colorS = DEFAULT_SKIN_COLOR;
+
 	/**
 	 * 奥翅の色
 	 */
@@ -41,6 +48,12 @@ public class FairyType
 	public int colorC = 0xffffff;
 
 	public int ph, in, em, lo, ma, tr;
+
+	public void setColors(int s, int a, int b, int c)
+	{
+		colorS = s;
+		setColors(a, b, c);
+	}
 
 	public void setColors(int a, int b, int c)
 	{
