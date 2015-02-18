@@ -2,6 +2,7 @@ package mirrg_miragecrops5.machine;
 
 import mirrg.mir50.block.AdaptorBlockEventsOverriding;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
+import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
@@ -26,7 +27,7 @@ import cpw.mods.fml.relauncher.Side;
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
 
-	public static LoaderGuiHandler loaderGuiHandler = new LoaderGuiHandler();
+	public static LoaderGuiHandler loaderGuiHandler = new LoaderGuiHandler(i -> new GuiHandler(i));
 
 	public static LoaderBlock loaderBlock_machineMirageFairy = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfFurnace = new LoaderBlock();

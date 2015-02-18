@@ -134,14 +134,8 @@ def packageDependancy = [
         fromForge(true),
     ],
 
-    "api_mirrg_mir50_loader": [
-    ],
-
-    "api_mirrg_mir50_worldgen": [
+    "api_mirrg_mir50": [
         fromForge(true),
-    ],
-
-    "api_mirrg_mir50_net": [
     ],
 
     //########################################################################
@@ -149,40 +143,68 @@ def packageDependancy = [
     // ----- Level 0 -----
 
     "mirrg_mir50_block": [
-        fromForge(true),
-        fromSourceSet("mirrg", true),
-    ],
-
-    "mirrg_mir50_render_block": [
-        fromForge(true),
+        fromSourceSet("mirrg", true), // mirrg.p
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     "mirrg_mir50_item": [
-        fromForge(true),
-        fromSourceSet("mirrg", true),
+        fromSourceSet("mirrg", true), // mirrg.p
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_render_block": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     "mirrg_mir50_loader": [
-        fromSourceSet("api_mirrg_mir50_loader", true),
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     "mirrg_mir50_worldgen_ore": [
-        fromSourceSet("mirrg", true),
-        fromSourceSet("api_mirrg_mir50_worldgen", true),
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     "mirrg_mir50_guihandler": [
-        fromForge(true),
-        fromSourceSet("mirrg", true),
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_datamodels": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_world": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_world_pointer": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_inventory": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_gui_containerextraslots": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
+    "mirrg_mir50_gui_container": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     "mirrg_mir50_gui_renderer": [
-        fromForge(true),
-    ],
-
-    "mirrg_mir50_tile_inventory": [
-        fromForge(true),
-        fromSourceSet("api_mirrg_mir50_net", true),
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
     ],
 
     //########################################################################
@@ -198,13 +220,10 @@ def packageDependancy = [
     ],
 
     "mirrg_mir51_loaders": [
-        fromForge(true),
-        fromSourceSet("api_mirrg_mir50_worldgen", true),
         fromSourceSet("mirrg_mir50_loader", true),
     ],
 
     "mirrg_mir51_modding": [
-        fromForge(true),
         fromSourceSet("mirrg_mir50_loader", true),
     ],
 
@@ -214,10 +233,16 @@ def packageDependancy = [
         fromSourceSet("mirrg_mir50_render_block", true),
     ],
 
+    "mirrg_mir51_inventory": [
+        fromSourceSet("mirrg_mir50_inventory", true),
+        fromSourceSet("mirrg_mir50_world", true),
+    ],
+
     "mirrg_mir51_gui_renderers": [
-        fromSourceSet("mirrg", true),
+        fromSourceSet("mirrg", false),
+        fromSourceSet("mirrg_mir50_datamodels", true),
+        fromSourceSet("mirrg_mir50_gui_containerextraslots", true),
         fromSourceSet("mirrg_mir50_gui_renderer", true),
-        fromSourceSet("mirrg_mir50_tile_inventory", true),
     ],
 
     //########################################################################
@@ -229,19 +254,27 @@ def packageDependancy = [
         fromSourceSet("mirrg_mir51_block_multi", true),
     ],
 
-    "mirrg_mir52_tile": [
-        fromSourceSet("ic2_api", true),
-        fromSourceSet("mirrg_mir51_modding", true),
-        fromSourceSet("api_mirrg_mir50_net", true),
-        fromSourceSet("mirrg_mir50_guihandler", true),
-        fromSourceSet("mirrg_mir50_tile_inventory", true),
+    "mirrg_mir52_gui": [
+        fromSourceSet("mirrg_mir50_gui_container", true),
+
+        fromSourceSet("mirrg_mir51_inventory", true),
         fromSourceSet("mirrg_mir51_gui_renderers", true),
     ],
 
     //########################################################################
 
-    // ----- Level Ex -----
+    // ----- Level 2 -----
 
+    "mirrg_mir53_tile": [
+        fromSourceSet("ic2_api", true),
+
+        fromSourceSet("mirrg_mir52_gui", true),
+    ],
+
+    //########################################################################
+
+    // ----- Level Ex -----
+/*
     "mirrg_mir52_example": [
         fromSourceSet("mirrg_mir51_modding"),
         fromSourceSet("mirrg_mir51_loaders"),
@@ -249,6 +282,7 @@ def packageDependancy = [
         fromSourceSet("mirrg_mir51_render_block_multiple"),
         fromSourceSet("mirrg_mir51_item_multi"),
     ],
+
     "mirrg_miragecrops5": [
         fromSourceSet("mirrg_mir51_modding"),
         fromSourceSet("mirrg_mir51_loaders"),
@@ -258,7 +292,7 @@ def packageDependancy = [
         fromSourceSet("mirrg_mir50_worldgen_ore"),
         fromSourceSet("mirrg_mir52_tile"),
     ],
-
+*/
 ]
 
 

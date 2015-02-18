@@ -10,7 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import api.mirrg.mir50.worldgen.ore.IGeneratorOreAtPoint;
-import api.mirrg.mir50.worldgen.ore.XYZConsumer;
+import api.mirrg.mir50.worldgen.ore.IConsumerXYZ;
 import cpw.mods.fml.common.FMLLog;
 
 public class WorldGeneratorMinableExtra extends WorldGenerator implements IGeneratorOreAtPoint
@@ -99,7 +99,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 		world.setBlock(x, y, z, block, meta, 2);
 	}
 
-	public static void generate1(World world, Random random, int x, int y, int z, XYZConsumer xyzConsumer)
+	public static void generate1(World world, Random random, int x, int y, int z, IConsumerXYZ xyzConsumer)
 	{
 		xyzConsumer.accept(x, y, z);
 	}
@@ -114,7 +114,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 		0, 0, 0, 0, 1, -1,
 	};
 
-	public static void generate2(World world, Random random, int x, int y, int z, XYZConsumer xyzConsumer)
+	public static void generate2(World world, Random random, int x, int y, int z, IConsumerXYZ xyzConsumer)
 	{
 		xyzConsumer.accept(x, y, z);
 
@@ -122,7 +122,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 		xyzConsumer.accept(x + TABLE_X[i], y + TABLE_Y[i], z + TABLE_Z[i]);
 	}
 
-	public static void generate3(World world, Random random, int x, int y, int z, XYZConsumer xyzConsumer)
+	public static void generate3(World world, Random random, int x, int y, int z, IConsumerXYZ xyzConsumer)
 	{
 		xyzConsumer.accept(x, y, z);
 
@@ -133,7 +133,7 @@ public class WorldGeneratorMinableExtra extends WorldGenerator implements IGener
 		xyzConsumer.accept(x + TABLE_X[i], y + TABLE_Y[i], z + TABLE_Z[i]);
 	}
 
-	public static void generate4(World world, Random random, int x, int y, int z, int numberOfBlocks, XYZConsumer xyzConsumer)
+	public static void generate4(World world, Random random, int x, int y, int z, int numberOfBlocks, IConsumerXYZ xyzConsumer)
 	{
 		float course = random.nextFloat() * (float) Math.PI;
 		double minX = x + 8 + MathHelper.sin(course) * numberOfBlocks / 8.0F;
