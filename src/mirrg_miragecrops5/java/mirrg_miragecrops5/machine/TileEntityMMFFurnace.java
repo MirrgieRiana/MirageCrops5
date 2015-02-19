@@ -1,5 +1,8 @@
 package mirrg_miragecrops5.machine;
 
+import java.util.function.LongConsumer;
+import java.util.function.ToIntFunction;
+
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.container.HelpersContainer;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
@@ -301,6 +304,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 		*/
 
+		energyTankFuelDecred = 0;
+
 		if (isWaiting()) {
 			tryStartProcess(() -> {
 				energyTankProcessing.setAmount(0);
@@ -322,6 +327,27 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 			energyTankProcessing.setCapacity(0);
 		}
 
+		long cooldown = Math.min(1 - energyTankFuelDecred, energyTankFuel.amount);
+
+		if (cooldown > 0) {
+			long pop = 0;
+			boolean t = true;
+			ContainerExtraSlotFairyGraph c = new ContainerExtraSlotFairyGraph(0, 0, 0, 0, inventoryFairy);
+			c.values[1] = -1;
+			if (c.getFairyValue(0) < 0) t = false;
+			if (c.getFairyValue(1) < 0) t = false;
+			if (c.getFairyValue(2) < 0) t = false;
+			if (c.getFairyValue(3) < 0) t = false;
+			if (c.getFairyValue(4) < 0) t = false;
+			if (c.getFairyValue(5) < 0) t = false;
+			if (t) {
+				pop = popFuel(0, cooldown, i -> {},
+					energyTankHyleon, inventoryFairyFuel, itemStack -> 10000);
+			}
+			cooldown -= pop;
+
+			energyTankFuel.amount -= cooldown;
+		}
 	}
 
 	public boolean isWaiting()
