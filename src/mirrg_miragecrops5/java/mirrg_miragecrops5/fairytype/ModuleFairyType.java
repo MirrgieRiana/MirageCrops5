@@ -117,6 +117,16 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.milk_bucket, 1, 0));
 			fairyType.addValues(0, 0, 2, 0, 0, 0);
 		}));
+		add(new LoaderFairyType("ice", fairyType -> {
+			fairyType.setColors(0xA4DBDB, 0x77A9FF, 0x77A9FF, 0xFFFFFF);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.ice, 1, 0));
+			fairyType.addValues(0, 0, 1, 0, 1, 0);
+		}));
+		add(new LoaderFairyType("stone", fairyType -> {
+			fairyType.setColors(0x808080, 0x8F8F8F, 0x686868);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.stone, 1, 0));
+			fairyType.addValues(18, 0, 0, 0, 0, 0);
+		}));
 
 	}
 
