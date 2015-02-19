@@ -25,11 +25,9 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	}
 
 	public static IFairySkill fairySkillNeg(
-		String name2, double ph, double in, double em, double lo, double ma, double tr)
+		String name, double ph, double in, double em, double lo, double ma, double tr)
 	{
 		return new IFairySkill() {
-
-			String name = name2;
 
 			@Override
 			public String getName()
@@ -60,11 +58,9 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	}
 
 	public static IFairySkill fairySkill(
-		String name2, double ph, double in, double em, double lo, double ma, double tr)
+		String name, double ph, double in, double em, double lo, double ma, double tr)
 	{
 		return new IFairySkill() {
-
-			String name = name2;
 
 			@Override
 			public String getName()
