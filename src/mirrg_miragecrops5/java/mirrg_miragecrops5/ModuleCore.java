@@ -134,12 +134,16 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							};
 
 							strings.add("Values:");
-							strings.add(GRAY + "       Tr " + makeGauge.apply(fairyType.getValue(5)));
-							strings.add(GRAY + "Lo " + makeGauge.apply(fairyType.getValue(3)) +
-								GRAY + " Ma " + makeGauge.apply(fairyType.getValue(4)));
-							strings.add(GRAY + "In " + makeGauge.apply(fairyType.getValue(1)) +
-								GRAY + " Em " + makeGauge.apply(fairyType.getValue(2)));
-							strings.add(GRAY + "       Ph " + makeGauge.apply(fairyType.getValue(0)));
+							{
+								int[] values = fairyType.getValues(tier);
+
+								strings.add(GRAY + "       Tr " + makeGauge.apply(values[5]));
+								strings.add(GRAY + "Lo " + makeGauge.apply(values[3]) +
+									GRAY + " Ma " + makeGauge.apply(values[4]));
+								strings.add(GRAY + "In " + makeGauge.apply(values[1]) +
+									GRAY + " Em " + makeGauge.apply(values[2]));
+								strings.add(GRAY + "       Ph " + makeGauge.apply(values[0]));
+							}
 
 							/*
 							strings.add("");

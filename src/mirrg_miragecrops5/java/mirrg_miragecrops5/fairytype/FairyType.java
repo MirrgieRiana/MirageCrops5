@@ -1,5 +1,8 @@
 package mirrg_miragecrops5.fairytype;
 
+import java.util.ArrayList;
+
+import mirrg.h.struct.Tuple;
 import mirrg_miragecrops5.recipefairy.OreMatcher;
 import net.minecraft.item.ItemStack;
 
@@ -47,8 +50,6 @@ public class FairyType
 	 */
 	public int colorC = 0xffffff;
 
-	private int[] values = new int[6];
-
 	public void setColors(int s, int a, int b, int c)
 	{
 		colorS = s;
@@ -62,30 +63,34 @@ public class FairyType
 		colorC = c;
 	}
 
-	public void setValues(int ph, int in, int em, int lo, int ma, int tr)
+	private ArrayList<Tuple<IFairySkill, Double>> skillEntries = new ArrayList<>();
+
+	private double maxSkillLevel = 0;
+
+	public void addSkill(IFairySkill fairySkill, double level)
 	{
-		this.values[0] = ph;
-		this.values[1] = in;
-		this.values[2] = em;
-		this.values[3] = lo;
-		this.values[4] = ma;
-		this.values[5] = tr;
+		skillEntries.add(new Tuple<>(fairySkill, level));
+		maxSkillLevel = Math.max(maxSkillLevel, level);
 	}
 
-	public void addValues(int ph, int in, int em, int lo, int ma, int tr)
+	public int[] getValues()
 	{
-		this.values[0] += ph;
-		this.values[1] += in;
-		this.values[2] += em;
-		this.values[3] += lo;
-		this.values[4] += ma;
-		this.values[5] += tr;
+		return getValues((int) Math.ceil(maxSkillLevel));
 	}
 
-	public int getValue(int index)
+	public int[] getValues(int tier)
 	{
-		if (index < 6) return values[index];
-		return 0;
+		int[] values = new int[6];
+
+		for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
+			if (skillEntry.getX().isPositive()) {
+				skillEntry.getX().increase(values, Math.min(skillEntry.getY(), tier));
+			} else {
+				skillEntry.getX().increase(values, skillEntry.getY());
+			}
+		}
+
+		return values;
 	}
 
 	public static String getLabel(int index)

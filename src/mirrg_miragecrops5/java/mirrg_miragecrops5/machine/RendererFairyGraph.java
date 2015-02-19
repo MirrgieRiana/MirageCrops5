@@ -36,9 +36,13 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 
 		int lengthMax = 0;
 
+		int[] table = {
+			5, 3, 4, 1, 2, 0,
+		};
+
 		for (int i = 0; i < 6; i++) {
-			if (lengthMax < HelpersMath.log2(Math.abs(t.getFairyValue(i)))) {
-				lengthMax = HelpersMath.log2(Math.abs(t.getFairyValue(i)));
+			if (lengthMax < HelpersMath.log2(Math.abs(t.getFairyValue(table[i])))) {
+				lengthMax = HelpersMath.log2(Math.abs(t.getFairyValue(table[i])));
 			}
 		}
 
@@ -47,7 +51,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 				int x = t.x;
 				int y = t.y + t.h * i / 6;
 				int h = t.h / 6 - 2;
-				int length = t.getFairyValue(i);
+				int length = t.getFairyValue(table[i]);
 				int color = length > 0 ? 0xff00C400 : 0xffFF4242;
 				int w = HelpersMath.log2(Math.abs(length)) * 16 / lengthMax;
 
@@ -74,7 +78,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			int x = t.x;
 			int y = t.y + t.h * i / 6 + 1;
 			int h = t.h / 6 - 2;
-			int length = t.getFairyValue(i);
+			int length = t.getFairyValue(table[i]);
 			int color = length > 0 ? 0xff00C400 : length == 0 ? 0xffaaaaaa : 0xffFF4242;
 
 			GL11.glColor4f(
@@ -101,6 +105,10 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
+		int[] table = {
+			5, 3, 4, 1, 2, 0,
+		};
+
 		for (int i = 0; i < 6; i++) {
 			int x = t.x;
 			int y = t.y + t.h * i / 6;
@@ -110,7 +118,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			if (HelpersCollision.isHit(mouseX, mouseY, xStart + x, yStart + y, xStart + x + w, yStart + y + h) > 0) {
 				ArrayList<String> list = new ArrayList<String>();
 
-				list.add(FairyType.getLabel(i) + ": " + t.getFairyValue(i));
+				list.add(FairyType.getLabel(i) + ": " + t.getFairyValue(table[i]));
 
 				gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 				return true;

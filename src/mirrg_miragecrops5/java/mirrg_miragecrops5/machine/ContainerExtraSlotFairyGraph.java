@@ -39,9 +39,13 @@ class ContainerExtraSlotFairyGraph extends ContainerExtraSlotRectangle
 						if (tag.hasKey("type", NBTTypes.STRING)) {
 							String typeName = tag.getString("type");
 							FairyType fairyType = RegistryFairyType.get(typeName);
+							int tier = 1;
+							if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
+								tier = itemStack.getTagCompound().getInteger("tier");
+							}
 
 							if (fairyType != null) {
-								t += fairyType.getValue(index) * itemStack.stackSize;
+								t += fairyType.getValues(tier)[index] * itemStack.stackSize;
 							}
 						}
 					}
