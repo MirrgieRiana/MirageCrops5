@@ -388,30 +388,46 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 		need = Math.min(1, need);
 
-		long pop = popFuel(0, need);
+		long pop = popFuel(0, need, this::onEnergyTankFuelDecred,
+			energyTankFuel, inventoryInFuel, TileEntityFurnace::getItemBurnTime);
 
 		energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop);
 	}
+
+	private long energyTankFuelDecred;
+
+	private void onEnergyTankFuelDecred(long amount)
+	{
+		energyTankFuelDecred += amount;
+	}
+
+	//
 
 	/**
 	 * 燃料ゲージからmin～maxの量を抽出する。
 	 * maxまで取れない場合、燃料を消費してゲージを増加{@link #tryBurnFuel()}してmaxまで抽出できるようにする。
 	 * それでもmaxまで取れない場合、min以上残っているなら全て抽出し、min未満しか残量がない場合、何も抽出しない。
 	 */
-	protected long popFuel(long min, long max)
+	public static long popFuel(long min, long max,
+		LongConsumer onEnergyTankDecred,
+		DatamodelEnergy energyTank,
+		IInventoryMir51 inventoryFuel,
+		ToIntFunction<ItemStack> getFuelValue)
 	{
-		if (energyTankFuel.getAmount() >= max) {
-			energyTankFuel.setAmount(energyTankFuel.getAmount() - max);
+		if (energyTank.getAmount() >= max) {
+			energyTank.decrAmount(max);
+			onEnergyTankDecred.accept(max);
 			return max;
 		} else {
 			// 燃料が足りない
 
-			if (tryBurnFuel()) {
-				return popFuel(min, max);
+			if (tryBurnFuel(energyTank, inventoryFuel, getFuelValue)) {
+				return popFuel(min, max, onEnergyTankDecred, energyTank, inventoryFuel, getFuelValue);
 			} else {
-				if (energyTankFuel.getAmount() >= min) {
-					long amount = energyTankFuel.getAmount();
-					energyTankFuel.setAmount(energyTankFuel.getAmount() - amount);
+				if (energyTank.getAmount() >= min) {
+					long amount = energyTank.getAmount();
+					energyTank.decrAmount(amount);
+					onEnergyTankDecred.accept(amount);
 					return amount;
 				} else {
 					// 燃料がちっとも足りない
@@ -427,28 +443,27 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	 *
 	 * @return 燃料ゲージの増加が行われた場合。
 	 */
-	protected boolean tryBurnFuel()
+	public static boolean tryBurnFuel(
+		DatamodelEnergy energyTank,
+		IInventoryMir51 inventoryFuel,
+		ToIntFunction<ItemStack> getFuelValue)
 	{
-		ItemStack itemStack = getLastStack(inventoryInFuel);
+		ItemStack itemStack = getLastStack(inventoryFuel);
 
-		if (itemStack != null) {
-			int fuelValue = TileEntityFurnace.getItemBurnTime(itemStack);
-			if (fuelValue > 0) {
+		int fuelValue = getFuelValue.applyAsInt(itemStack);
+		if (fuelValue > 0) {
 
-				inventoryInFuel.getInventoryCell(inventoryInFuel.getSizeInventory() - 1).decrStackSize(1);
+			inventoryFuel.getInventoryCell(inventoryFuel.getSizeInventory() - 1).decrStackSize(1);
 
-				energyTankFuel.setCapacity(energyTankFuel.getAmount());
-				energyTankFuel.setAmount(energyTankFuel.getAmount() + fuelValue);
-				energyTankFuel.setCapacity(energyTankFuel.getCapacity() + fuelValue);
+			energyTank.setCapacity(energyTank.getAmount());
+			energyTank.setAmount(energyTank.getAmount() + fuelValue);
+			energyTank.setCapacity(energyTank.getCapacity() + fuelValue);
 
-				return true;
-			}
+			return true;
 		}
 
 		return false;
 	}
-
-	//
 
 	/**
 	 * @return 全てのアイテムがfromから移動した。
