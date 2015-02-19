@@ -13,65 +13,108 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	@FunctionalInterface
-	interface IConsumerFairyTypeInt
+	interface IFairySkill
 	{
+
+		public String getName();
+
+		public boolean isPositive();
 
 		public void apply(FairyType fairyType, double level);
 
 	}
 
-	public static IConsumerFairyTypeInt fairySkillNeg(
-		double ph, double in, double em, double lo, double ma, double tr)
+	public static IFairySkill fairySkillNeg(
+		String name2, double ph, double in, double em, double lo, double ma, double tr)
 	{
-		return (fairyType, level) -> {
-			level *= Math.pow(0.8, level - 1);
-			fairyType.addValues(
-				(int) (ph * level * 10),
-				(int) (in * level * 10),
-				(int) (em * level * 10),
-				(int) (lo * level * 10),
-				(int) (ma * level * 10),
-				(int) (tr * level * 10));
+		return new IFairySkill() {
+
+			String name = name2;
+
+			@Override
+			public String getName()
+			{
+				return name;
+			}
+
+			@Override
+			public boolean isPositive()
+			{
+				return false;
+			}
+
+			@Override
+			public void apply(FairyType fairyType, double level)
+			{
+				level *= Math.pow(0.8, level - 1);
+				fairyType.addValues(
+					(int) (ph * level * 10),
+					(int) (in * level * 10),
+					(int) (em * level * 10),
+					(int) (lo * level * 10),
+					(int) (ma * level * 10),
+					(int) (tr * level * 10));
+			}
+
 		};
 	}
 
-	public static IConsumerFairyTypeInt fairySkill(
-		double ph, double in, double em, double lo, double ma, double tr)
+	public static IFairySkill fairySkill(
+		String name2, double ph, double in, double em, double lo, double ma, double tr)
 	{
-		return (fairyType, level) -> {
-			level *= Math.pow(1.2, level - 1);
-			fairyType.addValues(
-				(int) (ph * level * 10),
-				(int) (in * level * 10),
-				(int) (em * level * 10),
-				(int) (lo * level * 10),
-				(int) (ma * level * 10),
-				(int) (tr * level * 10));
+		return new IFairySkill() {
+
+			String name = name2;
+
+			@Override
+			public String getName()
+			{
+				return name;
+			}
+
+			@Override
+			public boolean isPositive()
+			{
+				return true;
+			}
+
+			@Override
+			public void apply(FairyType fairyType, double level)
+			{
+				level *= Math.pow(1.2, level - 1);
+				fairyType.addValues(
+					(int) (ph * level * 10),
+					(int) (in * level * 10),
+					(int) (em * level * 10),
+					(int) (lo * level * 10),
+					(int) (ma * level * 10),
+					(int) (tr * level * 10));
+			}
+
 		};
 	}
 
-	public static IConsumerFairyTypeInt SOIL = fairySkillNeg(0, -1, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt MINERAL = fairySkillNeg(-1, 0, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt FARM = fairySkillNeg(0, -0.5, -0.5, 0, 0, 0);
-	public static IConsumerFairyTypeInt ART = fairySkillNeg(0, 0, -1, 0, 0, 0);
+	public static IFairySkill SOIL = fairySkillNeg("soil", 0, -1, 0, 0, 0, 0);
+	public static IFairySkill MINERAL = fairySkillNeg("mineral", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill FARM = fairySkillNeg("farm", 0, -0.5, -0.5, 0, 0, 0);
+	public static IFairySkill ART = fairySkillNeg("art", 0, 0, -1, 0, 0, 0);
 
-	public static IConsumerFairyTypeInt MATERIAL = fairySkill(0, 1, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt FOOD = fairySkill(0, 0, 1, 0, 0, 0);
-	public static IConsumerFairyTypeInt SENSE = fairySkill(0, 0, 0.6, 0, 0.4, 0);
-	public static IConsumerFairyTypeInt PLANT = fairySkill(0, 0, 0.8, 0, 0.2, 0);
-	public static IConsumerFairyTypeInt MONEY = fairySkill(1, 0, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt MYSTERY = fairySkill(0, 0, 0, 0, 1, 0);
-	public static IConsumerFairyTypeInt LOGIC = fairySkill(0, 0, 0, 1, 0, 0);
-	public static IConsumerFairyTypeInt MIRAGE = fairySkill(0, 0, 0, 0.8, 0.2, 0);
-	public static IConsumerFairyTypeInt ORE = fairySkill(1, 0, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt LAND = fairySkill(1, 0, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt WEAPON = fairySkill(0, 0, 0, 0.5, 0.5, 0);
-	public static IConsumerFairyTypeInt ORDER = fairySkill(0, 0, 0, 0.5, 0.4, 0.1);
-	public static IConsumerFairyTypeInt FREEZE = fairySkill(0, 0.5, 0, 0, 0.5, 0);
-	public static IConsumerFairyTypeInt HEAT = fairySkill(0, 0.5, 0, 0, 0.5, 0);
-	public static IConsumerFairyTypeInt FUEL = fairySkill(0, 1, 0, 0, 0, 0);
-	public static IConsumerFairyTypeInt ENTROPY = fairySkill(0, 0, 0.2, 0, 0.7, 0.1);
+	public static IFairySkill MATERIAL = fairySkill("material", 0, 1, 0, 0, 0, 0);
+	public static IFairySkill FOOD = fairySkill("food", 0, 0, 1, 0, 0, 0);
+	public static IFairySkill SENSE = fairySkill("sense", 0, 0, 0.6, 0, 0.4, 0);
+	public static IFairySkill PLANT = fairySkill("plant", 0, 0, 0.8, 0, 0.2, 0);
+	public static IFairySkill MONEY = fairySkill("money", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill MYSTERY = fairySkill("mystery", 0, 0, 0, 0, 1, 0);
+	public static IFairySkill LOGIC = fairySkill("logic", 0, 0, 0, 1, 0, 0);
+	public static IFairySkill MIRAGE = fairySkill("mirage", 0, 0, 0, 0.8, 0.2, 0);
+	public static IFairySkill ORE = fairySkill("ore", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill LAND = fairySkill("land", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill WEAPON = fairySkill("weapon", 0, 0, 0, 0.5, 0.5, 0);
+	public static IFairySkill ORDER = fairySkill("order", 0, 0, 0, 0.5, 0.4, 0.1);
+	public static IFairySkill FREEZE = fairySkill("freeze", 0, 0.5, 0, 0, 0.5, 0);
+	public static IFairySkill HEAT = fairySkill("heat", 0, 0.5, 0, 0, 0.5, 0);
+	public static IFairySkill FUEL = fairySkill("fuel", 0, 1, 0, 0, 0, 0);
+	public static IFairySkill ENTROPY = fairySkill("entropy", 0, 0, 0.2, 0, 0.7, 0.1);
 
 	public ModuleFairyType()
 	{
