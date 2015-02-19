@@ -9,6 +9,12 @@ public class FairySkillNegative extends FairySkillAbstract
 	}
 
 	@Override
+	public boolean isPositive()
+	{
+		return false;
+	}
+
+	@Override
 	public void increase(int[] values, double level)
 	{
 		level *= Math.pow(0.8, level - 1);

@@ -20,10 +20,4 @@ public abstract class FairySkillAbstract implements IFairySkill
 		return name;
 	}
 
-	@Override
-	public boolean isPositive()
-	{
-		return false;
-	}
-
 }
