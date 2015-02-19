@@ -47,7 +47,7 @@ public class FairyType
 	 */
 	public int colorC = 0xffffff;
 
-	public int ph, in, em, lo, ma, tr;
+	private int[] values = new int[6];
 
 	public void setColors(int s, int a, int b, int c)
 	{
@@ -64,32 +64,27 @@ public class FairyType
 
 	public void setValues(int ph, int in, int em, int lo, int ma, int tr)
 	{
-		this.ph = ph;
-		this.in = in;
-		this.em = em;
-		this.lo = lo;
-		this.ma = ma;
-		this.tr = tr;
+		this.values[0] = ph;
+		this.values[1] = in;
+		this.values[2] = em;
+		this.values[3] = lo;
+		this.values[4] = ma;
+		this.values[5] = tr;
 	}
 
 	public void addValues(int ph, int in, int em, int lo, int ma, int tr)
 	{
-		this.ph += ph;
-		this.in += in;
-		this.em += em;
-		this.lo += lo;
-		this.ma += ma;
-		this.tr += tr;
+		this.values[0] += ph;
+		this.values[1] += in;
+		this.values[2] += em;
+		this.values[3] += lo;
+		this.values[4] += ma;
+		this.values[5] += tr;
 	}
 
 	public int getValue(int index)
 	{
-		if (index == 0) return tr;
-		if (index == 1) return lo;
-		if (index == 2) return ma;
-		if (index == 3) return in;
-		if (index == 4) return em;
-		if (index == 5) return ph;
+		if (index < 6) return values[index];
 		return 0;
 	}
 
