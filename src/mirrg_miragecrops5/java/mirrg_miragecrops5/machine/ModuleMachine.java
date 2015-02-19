@@ -1,6 +1,9 @@
 package mirrg_miragecrops5.machine;
 
+import java.util.function.Supplier;
+
 import mirrg.mir50.block.AdaptorBlockEventsOverriding;
+import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
@@ -14,6 +17,8 @@ import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.GuiMir52;
 import mirrg.mir52.gui.MessageNamedTag;
 import mirrg.mir52.gui.MessageNamedTagHandler;
+import mirrg.mir53.tile.TileEntityMir53;
+import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.LoaderTileEntity;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
@@ -43,13 +48,11 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		add(new LoaderMessageHandler(loaderSimpleNetworkWrapper,
 			MessageNamedTagHandler.class, MessageNamedTag.class, loaderSimpleNetworkWrapper_counter++, Side.CLIENT));
 
-		add(new LoaderTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy"));
-		add(new LoaderTileEntity(TileEntityMMFFurnace.class, "MMFFurnace"));
-
 		loaderGuiHandler.guiId = 1;
 		loaderGuiHandler.supplierMod = () -> ModMirageCrops.instance;
 		add(loaderGuiHandler);
 
+		add(new LoaderTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy"));
 		process_loaderBlock(loaderBlock_machineMirageFairy, ModuleCore.loaderCreativeTab, ItemBlock.class, "machineMirageFairy", (blockMir50) -> {
 			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
 
@@ -58,50 +61,14 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
 			blockMir50.virtualClass.override(a);
 
-			blockMir50.virtualClass.override(
-				new AdaptorBlockTileEntityAutonomy(blockMir50, blockMir50, (world, metadata) -> {
-					return new TileEntityMachineMirageFairy();
-				}));
-			blockMir50.virtualClass.override(new AdaptorBlockEventsOverriding(blockMir50, blockMir50) {
-				@Override
-				public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return false;
-					if (tileEntity instanceof TileEntityMachineMirageFairy) {
-						return ((TileEntityMachineMirageFairy) tileEntity).onBlockActivated(world, x, y, z, player, side, x2, y2, z2);
-					}
-					return false;
-				}
-			});
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMachineMirageFairy());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
 
 			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new IGuiProvider() {
-				@Override
-				public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return null;
-					if (tileEntity instanceof TileEntityMachineMirageFairy) {
-						return ((TileEntityMachineMirageFairy) tileEntity).createGui(player, world, x, y, z);
-					}
-					return null;
-				}
-
-				@Override
-				public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return null;
-					if (tileEntity instanceof TileEntityMachineMirageFairy) {
-						return ((TileEntityMachineMirageFairy) tileEntity).createContainer(player, world, x, y, z);
-					}
-					return null;
-				}
-			});
-
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
 		});
 
+		add(new LoaderTileEntity(TileEntityMMFFurnace.class, "MMFFurnace"));
 		process_loaderBlock(loaderBlock_mmfFurnace, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfFurnace", (blockMir50) -> {
 			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
 
@@ -110,49 +77,68 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x990000);
 			blockMir50.virtualClass.override(a);
 
-			blockMir50.virtualClass.override(
-				new AdaptorBlockTileEntityAutonomy(blockMir50, blockMir50, (world, metadata) -> {
-					return new TileEntityMMFFurnace();
-				}));
-			blockMir50.virtualClass.override(new AdaptorBlockEventsOverriding(blockMir50, blockMir50) {
-				@Override
-				public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return false;
-					if (tileEntity instanceof TileEntityMMFFurnace) {
-						return ((TileEntityMMFFurnace) tileEntity).onBlockActivated(world, x, y, z, player, side, x2, y2, z2);
-					}
-					return false;
-				}
-			});
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFFurnace());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
 
 			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new IGuiProvider() {
-				@Override
-				public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return null;
-					if (tileEntity instanceof TileEntityMMFFurnace) {
-						return ((TileEntityMMFFurnace) tileEntity).createGui(player, world, x, y, z);
-					}
-					return null;
-				}
-
-				@Override
-				public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
-				{
-					TileEntity tileEntity = world.getTileEntity(x, y, z);
-					if (tileEntity == null) return null;
-					if (tileEntity instanceof TileEntityMMFFurnace) {
-						return ((TileEntityMMFFurnace) tileEntity).createContainer(player, world, x, y, z);
-					}
-					return null;
-				}
-			});
-
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
 		});
+
+	}
+
+	private void makeBlockHasTileEntity(BlockMir50 blockMir50, Supplier<TileEntity> supplierTileEntity)
+	{
+		blockMir50.virtualClass.override(
+			new AdaptorBlockTileEntityAutonomy(blockMir50, blockMir50, (world, metadata) -> {
+				return supplierTileEntity.get();
+			}));
+	}
+
+	protected static class AdaptorBlockEventsTileEntityMMF extends AdaptorBlockEventsOverriding
+	{
+
+		public AdaptorBlockEventsTileEntityMMF(BlockMir50 owner, IVirtualClass superObject)
+		{
+			super(owner, superObject);
+		}
+
+		@Override
+		public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
+		{
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
+			if (tileEntity == null) return false;
+			if (tileEntity instanceof TileEntityMMF) {
+				return ((TileEntityMMF) tileEntity).onBlockActivated(world, x, y, z, player, side, x2, y2, z2);
+			}
+			return false;
+		}
+
+	}
+
+	protected static class GuiProviderTileEntityMir53 implements IGuiProvider
+	{
+
+		@Override
+		public GuiMir52 createGui(EntityPlayer player, World world, int x, int y, int z)
+		{
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
+			if (tileEntity == null) return null;
+			if (tileEntity instanceof TileEntityMir53) {
+				return ((TileEntityMir53) tileEntity).createGui(player, world, x, y, z);
+			}
+			return null;
+		}
+
+		@Override
+		public ContainerMir52 createContainer(EntityPlayer player, World world, int x, int y, int z)
+		{
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
+			if (tileEntity == null) return null;
+			if (tileEntity instanceof TileEntityMir53) {
+				return ((TileEntityMir53) tileEntity).createContainer(player, world, x, y, z);
+			}
+			return null;
+		}
 
 	}
 
