@@ -4,6 +4,8 @@ import static net.minecraft.util.EnumChatFormatting.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
 import mirrg.he.math.HelpersMath;
@@ -14,6 +16,7 @@ import mirrg.mir50.item.AdaptorItemNameOverriding;
 import mirrg.mir50.item.AdaptorItemSubItemsOverriding;
 import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingTool;
 import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
+import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
 import mirrg.mir51.loaders.LoaderOreDictionary;
@@ -263,7 +266,18 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 		process_loaderItem_multi(loaderItem_craftingTool, loaderCreativeTab, "craftingTool", (itemMir50, metaItemContainer) -> {
 			itemMir50.setTextureName("minecraft:apple");
-			setMetaItem(itemMir50, metaItemContainer, 0, "craftingDallFairy", null, false);
+			{
+				IntFunction<BiConsumer<MetaItem, AdaptorItemIconAutonomy>> b = color -> (metaItem, a) -> {
+					a.appendIcon("miragecrops5:" + "craftingDallFairy" + "_" + 0);
+					a.appendIcon("miragecrops5:" + "craftingDallFairy" + "_" + 1, color);
+				};
+
+				setMetaItem(itemMir50, metaItemContainer, 0, "craftingDallFairyTier1", b.apply(getColorOfTier(1)), true);
+				setMetaItem(itemMir50, metaItemContainer, 6, "craftingDallFairyTier2", b.apply(getColorOfTier(2)), true);
+				setMetaItem(itemMir50, metaItemContainer, 7, "craftingDallFairyTier3", b.apply(getColorOfTier(3)), true);
+				setMetaItem(itemMir50, metaItemContainer, 8, "craftingDallFairyTier4", b.apply(getColorOfTier(4)), true);
+				setMetaItem(itemMir50, metaItemContainer, 9, "craftingDallFairyTier5", b.apply(getColorOfTier(5)), true);
+			}
 			setMetaItem(itemMir50, metaItemContainer, 1, "craftingSpinachiumMold", null, false);
 			setMetaItem(itemMir50, metaItemContainer, 2, "craftingSpinachiumMoldBaked", (metaItem, a) -> {
 				metaItem.virtualClass.override(new AdaptorItemEventsOverriding(itemMir50, metaItem) {
@@ -383,20 +397,32 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldFilled"),
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldBaked"), 5);
 
-			GameRegistry.addRecipe(new RecipeFairy((inventoryCrafting, slotIndexes) -> {
-				ItemStack craftingSpiritFairy = inventoryCrafting.getStackInSlot(slotIndexes[0]);
-				ItemStack craftingToolMirageFairy = HelpersOreDictionary.copyOrThrow("craftingToolMirageFairy");
+			{
+				IntConsumer a = tier -> {
+					GameRegistry.addRecipe(new RecipeFairy((inventoryCrafting, slotIndexes) -> {
+						ItemStack craftingSpiritFairy = inventoryCrafting.getStackInSlot(slotIndexes[0]);
+						ItemStack craftingToolMirageFairy = HelpersOreDictionary.copyOrThrow("craftingToolMirageFairy");
 
-				if (craftingSpiritFairy.hasTagCompound()) {
-					craftingToolMirageFairy.setTagCompound(
-						(NBTTagCompound) craftingSpiritFairy.getTagCompound().copy());
-					return craftingToolMirageFairy;
-				} else {
-					return null;
+						if (craftingSpiritFairy.hasTagCompound()) {
+							NBTTagCompound nbt = (NBTTagCompound) craftingSpiritFairy.getTagCompound().copy();
+							if (nbt == null) {
+								nbt = new NBTTagCompound();
+							}
+							nbt.setInteger("tier", tier);
+							craftingToolMirageFairy.setTagCompound(nbt);
+							return craftingToolMirageFairy;
+						} else {
+							return null;
+						}
+					},
+						new OreMatcher("craftingSpiritFairyTier" + tier),
+						new OreMatcher("craftingDallFairy")));
+				};
+
+				for (int tier = 1; tier <= 5; tier++) {
+					a.accept(tier);
 				}
-			},
-				new OreMatcher("craftingSpiritFairy"),
-				new OreMatcher("craftingDallFairy")));
+			}
 
 		}));
 
