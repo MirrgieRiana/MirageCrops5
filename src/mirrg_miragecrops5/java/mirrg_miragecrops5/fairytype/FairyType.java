@@ -72,6 +72,16 @@ public class FairyType
 		this.tr = tr;
 	}
 
+	public void addValues(int ph, int in, int em, int lo, int ma, int tr)
+	{
+		this.ph += ph;
+		this.in += in;
+		this.em += em;
+		this.lo += lo;
+		this.ma += ma;
+		this.tr += tr;
+	}
+
 	public int getValue(int index)
 	{
 		if (index == 0) return tr;
