@@ -45,6 +45,11 @@ public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 		this.amount = amount;
 	}
 
+	public void decrAmount(long amount)
+	{
+		this.amount -= amount;
+	}
+
 	public void setCapacity(long capacity)
 	{
 		this.capacity = capacity;
