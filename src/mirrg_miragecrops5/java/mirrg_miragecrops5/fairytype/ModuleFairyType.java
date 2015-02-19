@@ -142,6 +142,14 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(MYSTERY, 1);
 			fairyType.addSkill(LOGIC, 2);
 		}));
+		add(new LoaderFairyType("coal", fairyType -> {
+			fairyType.setColors(0x444444, 0x555555, 0x333333);
+			shapes.forEach(shape -> {
+				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
+			});
+			fairyType.addSkill(MINERAL, 1);
+			fairyType.addSkill(FUEL, 1);
+		}));
 		add(new LoaderFairyType("fluorite", fairyType -> {
 			fairyType.setColors(0xA4DBDB, 0x40CA65, 0x8947E0, 0x3A8FC);
 			shapes.forEach(shape -> {
@@ -198,7 +206,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(LAND, 1);
 		}));
 		add(new LoaderFairyType("gravel", fairyType -> {
-			fairyType.setColors(0x918E8E, 0x7A7673, 0xAA9E98);
+			fairyType.setColors(0x7A7673, 0xAA9E98, 0x918E8E);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.gravel, 1, 0));
 			fairyType.addSkill(SOIL, 2);
 			fairyType.addSkill(LAND, 2);
@@ -219,8 +227,8 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 		add(new LoaderFairyType("log", fairyType -> {
 			fairyType.setColors(0x685332, 0xB6935C, 0x372A17);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.log, 1, OreDictionary.WILDCARD_VALUE));
-			fairyType.addSkill(FARM, 2);
-			fairyType.addSkill(MATERIAL, 2);
+			fairyType.addSkill(FARM, 1);
+			fairyType.addSkill(MATERIAL, 1);
 		}));
 		add(new LoaderFairyType("water", fairyType -> {
 			fairyType.setColors(0x0407CE, 0x345FDA, 0x345FDA, 0x2749A5);
@@ -233,7 +241,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.setColors(0x0407CE, 0xDC8638, 0xE4D25C, 0xCC4628);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.lava_bucket, 1, 0));
 			fairyType.addSkill(MINERAL, 2);
-			fairyType.addSkill(WEAPON, 2);
+			fairyType.addSkill(HEAT, 2);
 		}));
 		add(new LoaderFairyType("milk", fairyType -> {
 			fairyType.setColors(0x0407CE, 0xFFFFFF, 0xFFFFFF, 0x3D220F);
