@@ -73,15 +73,18 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 				{
 					for (FairyType fairyType : RegistryFairyType.getFairyTypes()) {
-						ItemStack itemStack = new ItemStack(owner, 1, 0);
-						{
-							NBTTagCompound nbt = new NBTTagCompound();
+						for (int tier = 1; tier <= 5; tier++) {
+							ItemStack itemStack = new ItemStack(owner, 1, 0);
+							{
+								NBTTagCompound nbt = new NBTTagCompound();
 
-							nbt.setString("type", fairyType.typeName);
+								nbt.setString("type", fairyType.typeName);
+								nbt.setInteger("tier", tier);
 
-							itemStack.setTagCompound(nbt);
+								itemStack.setTagCompound(nbt);
+							}
+							itemStacks.add(itemStack);
 						}
-						itemStacks.add(itemStack);
 					}
 				}
 			});
@@ -93,11 +96,16 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					if (itemStack.getTagCompound() != null
 						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
 						String type = itemStack.getTagCompound().getString("type");
+						int tier = 1;
+						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
+							tier = itemStack.getTagCompound().getInteger("tier");
+						}
 
 						FairyType fairyType = RegistryFairyType.get(type);
 
 						if (fairyType != null) {
 							strings.add("Type: " + AQUA + fairyType.typeName);
+							strings.add("Tier: " + tier);
 
 							IntFunction<String> makeGauge = v -> {
 								StringBuffer sb = new StringBuffer();
@@ -182,11 +190,15 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					if (itemStack.getTagCompound() != null
 						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
 						String type = itemStack.getTagCompound().getString("type");
+						int tier = 1;
+						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
+							tier = itemStack.getTagCompound().getInteger("tier");
+						}
 
 						FairyType fairyType = RegistryFairyType.get(type);
 						if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
 						if (pass == 0) return fairyType.colorS;
-						if (pass == 1) return 0xFF78A7;
+						if (pass == 1) return getColorOfTier(tier);
 						if (pass == 2) return fairyType.colorA;
 						if (pass == 3) return fairyType.colorB;
 						if (pass == 4) return fairyType.colorC;
