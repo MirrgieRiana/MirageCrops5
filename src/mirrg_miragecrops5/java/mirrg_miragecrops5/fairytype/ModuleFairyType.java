@@ -13,17 +13,6 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	interface IFairySkill
-	{
-
-		public String getName();
-
-		public boolean isPositive();
-
-		public void apply(FairyType fairyType, double level);
-
-	}
-
 	public static IFairySkill fairySkillNeg(
 		String name, double ph, double in, double em, double lo, double ma, double tr)
 	{
