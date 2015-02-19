@@ -390,4 +390,14 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 	}
 
+	int getColorOfTier(int tier)
+	{
+		if (tier == 1) return 0xff4444;
+		if (tier == 2) return 0x4444ff;
+		if (tier == 3) return 0x009900;
+		if (tier == 4) return 0xbbbb00;
+		if (tier == 5) return 0x00cccc;
+		return 0xffffff;
+	}
+
 }
