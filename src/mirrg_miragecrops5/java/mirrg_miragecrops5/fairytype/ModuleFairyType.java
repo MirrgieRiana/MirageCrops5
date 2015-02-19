@@ -13,91 +13,95 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	public static IFairySkill fairySkillNeg(
-		String name, double ph, double in, double em, double lo, double ma, double tr)
+	public static abstract class FairySkillAbstract implements IFairySkill
 	{
-		return new IFairySkill() {
 
-			@Override
-			public String getName()
-			{
-				return name;
-			}
+		protected String name;
+		protected double[] values;
 
-			@Override
-			public boolean isPositive()
-			{
-				return false;
-			}
+		public FairySkillAbstract(String name, double ph, double in, double em, double lo, double ma, double tr)
+		{
+			this.name = name;
+			values = new double[] {
+				ph, in, em, lo, ma, tr,
+			};
+		}
 
-			@Override
-			public void increase(int[] values, double level)
-			{
-				level *= Math.pow(0.8, level - 1);
-				values[0] += (int) (ph * level * 10);
-				values[1] += (int) (in * level * 10);
-				values[2] += (int) (em * level * 10);
-				values[3] += (int) (lo * level * 10);
-				values[4] += (int) (ma * level * 10);
-				values[5] += (int) (tr * level * 10);
-			}
+		@Override
+		public String getName()
+		{
+			return name;
+		}
 
-		};
+		@Override
+		public boolean isPositive()
+		{
+			return false;
+		}
+
 	}
 
-	public static IFairySkill fairySkill(
-		String name, double ph, double in, double em, double lo, double ma, double tr)
+	public static class FairySkillNegative extends FairySkillAbstract
 	{
-		return new IFairySkill() {
 
-			@Override
-			public String getName()
-			{
-				return name;
+		public FairySkillNegative(String name, double ph, double in, double em, double lo, double ma, double tr)
+		{
+			super(name, ph, in, em, lo, ma, tr);
+		}
+
+		@Override
+		public void increase(int[] values, double level)
+		{
+			level *= Math.pow(0.8, level - 1);
+			level *= 0.7;
+			for (int i = 0; i < 6; i++) {
+				values[i] += (int) (this.values[i] * level * 10);
 			}
+		}
 
-			@Override
-			public boolean isPositive()
-			{
-				return true;
-			}
-
-			@Override
-			public void increase(int[] values, double level)
-			{
-				level *= Math.pow(1.2, level - 1);
-				values[0] += (int) (ph * level * 10);
-				values[1] += (int) (in * level * 10);
-				values[2] += (int) (em * level * 10);
-				values[3] += (int) (lo * level * 10);
-				values[4] += (int) (ma * level * 10);
-				values[5] += (int) (tr * level * 10);
-			}
-
-		};
 	}
 
-	public static IFairySkill SOIL = fairySkillNeg("soil", 0, -1, 0, 0, 0, 0);
-	public static IFairySkill MINERAL = fairySkillNeg("mineral", -1, 0, 0, 0, 0, 0);
-	public static IFairySkill FARM = fairySkillNeg("farm", 0, -0.5, -0.5, 0, 0, 0);
-	public static IFairySkill ART = fairySkillNeg("art", 0, 0, -1, 0, 0, 0);
+	public static class FairySkillPositive extends FairySkillAbstract
+	{
 
-	public static IFairySkill MATERIAL = fairySkill("material", 0, 1, 0, 0, 0, 0);
-	public static IFairySkill FOOD = fairySkill("food", 0, 0, 1, 0, 0, 0);
-	public static IFairySkill SENSE = fairySkill("sense", 0, 0, 0.6, 0, 0.4, 0);
-	public static IFairySkill PLANT = fairySkill("plant", 0, 0, 0.8, 0, 0.2, 0);
-	public static IFairySkill MONEY = fairySkill("money", 1, 0, 0, 0, 0, 0);
-	public static IFairySkill MYSTERY = fairySkill("mystery", 0, 0, 0, 0, 1, 0);
-	public static IFairySkill LOGIC = fairySkill("logic", 0, 0, 0, 1, 0, 0);
-	public static IFairySkill MIRAGE = fairySkill("mirage", 0, 0, 0, 0.8, 0.2, 0);
-	public static IFairySkill ORE = fairySkill("ore", 1, 0, 0, 0, 0, 0);
-	public static IFairySkill LAND = fairySkill("land", 1, 0, 0, 0, 0, 0);
-	public static IFairySkill WEAPON = fairySkill("weapon", 0, 0, 0, 0.5, 0.5, 0);
-	public static IFairySkill ORDER = fairySkill("order", 0, 0, 0, 0.5, 0.4, 0.1);
-	public static IFairySkill FREEZE = fairySkill("freeze", 0, 0.5, 0, 0, 0.5, 0);
-	public static IFairySkill HEAT = fairySkill("heat", 0, 0.5, 0, 0, 0.5, 0);
-	public static IFairySkill FUEL = fairySkill("fuel", 0, 1, 0, 0, 0, 0);
-	public static IFairySkill ENTROPY = fairySkill("entropy", 0, 0, 0.2, 0, 0.7, 0.1);
+		public FairySkillPositive(String name, double ph, double in, double em, double lo, double ma, double tr)
+		{
+			super(name, ph, in, em, lo, ma, tr);
+		}
+
+		@Override
+		public void increase(int[] values, double level)
+		{
+			level *= Math.pow(1.1, level - 1);
+			level *= 1.0;
+			for (int i = 0; i < 6; i++) {
+				values[i] += (int) (this.values[i] * level * 10);
+			}
+		}
+
+	}
+
+	public static IFairySkill SOIL = new FairySkillNegative("soil", 0, -1, 0, 0, 0, 0);
+	public static IFairySkill MINERAL = new FairySkillNegative("mineral", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill FARM = new FairySkillNegative("farm", 0, -0.5, -0.5, 0, 0, 0);
+	public static IFairySkill ART = new FairySkillNegative("art", 0, 0, -1, 0, 0, 0);
+
+	public static IFairySkill MATERIAL = new FairySkillPositive("material", 0, 1, 0, 0, 0, 0);
+	public static IFairySkill FOOD = new FairySkillPositive("food", 0, 0, 1, 0, 0, 0);
+	public static IFairySkill SENSE = new FairySkillPositive("sense", 0, 0, 0.6, 0, 0.4, 0);
+	public static IFairySkill PLANT = new FairySkillPositive("plant", 0, 0, 0.8, 0, 0.2, 0);
+	public static IFairySkill MONEY = new FairySkillPositive("money", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill MYSTERY = new FairySkillPositive("mystery", 0, 0, 0, 0, 1, 0);
+	public static IFairySkill LOGIC = new FairySkillPositive("logic", 0, 0, 0, 1, 0, 0);
+	public static IFairySkill MIRAGE = new FairySkillPositive("mirage", 0, 0, 0, 0.8, 0.2, 0);
+	public static IFairySkill ORE = new FairySkillPositive("ore", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill LAND = new FairySkillPositive("land", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill WEAPON = new FairySkillPositive("weapon", 0, 0, 0, 0.5, 0.5, 0);
+	public static IFairySkill ORDER = new FairySkillPositive("order", 0, 0, 0, 0.5, 0.4, 0.1);
+	public static IFairySkill FREEZE = new FairySkillPositive("freeze", 0, 0.5, 0, 0, 0.5, 0);
+	public static IFairySkill HEAT = new FairySkillPositive("heat", 0, 0.5, 0, 0, 0.5, 0);
+	public static IFairySkill FUEL = new FairySkillPositive("fuel", 0, 1, 0, 0, 0, 0);
+	public static IFairySkill ENTROPY = new FairySkillPositive("entropy", 0, 0, 0.2, 0, 0.7, 0.1);
 
 	public ModuleFairyType()
 	{
