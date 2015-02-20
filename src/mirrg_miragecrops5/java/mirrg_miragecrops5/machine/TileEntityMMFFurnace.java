@@ -1,10 +1,8 @@
 package mirrg_miragecrops5.machine;
 
-import java.util.function.LongConsumer;
-import java.util.function.ToIntFunction;
+import java.util.function.IntConsumer;
 
 import mirrg.mir50.datamodels.DatamodelEnergy;
-import mirrg.mir50.gui.container.HelpersContainer;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotLabel;
 import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
@@ -214,328 +212,73 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	{
 		if (HelpersSide.helper(this).isRemote()) return;
 
-		{
-			IInventoryMir51 inventory = inventoryInMaterial;
+		ProcessingManager.bringRight(inventoryInMaterial);
+		ProcessingManager.bringRight(inventoryInFuel);
 
-			for (int i = inventory.getSizeInventory() - 1; i >= 1; i--) {
-				ItemStack right = inventory.getInventoryCell(i).getStackInSlot();
-				ItemStack left = inventory.getInventoryCell(i - 1).getStackInSlot();
-				if (right == null) {
-					if (left != null) {
-						inventory.getInventoryCell(i - 1).setInventorySlotContents(null);
-						inventory.getInventoryCell(i).setInventorySlotContents(left);
-						//inventory.markDirty();
-						break;
+		int[] energyTankFuelDecred = new int[1];
+
+		new ProcessingManager(
+			energyTankProcessing,
+			inventoryInMaterialProcessing,
+			inventoryOutProcessing,
+			inventoryOut) {
+
+			@Override
+			protected void tryStartProcess(IntConsumer onStart)
+			{
+				ItemStack itemStack = getLastStack(inventoryInMaterial);
+				if (itemStack != null) {
+					ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(itemStack);
+					int cost = 1;
+
+					if (smeltingResult != null) {
+						if (itemStack.stackSize >= cost) {
+							// startable
+
+							// 素材を必要数取り出して進行中スロットに設置する
+							ItemStack copy = itemStack.copy();
+							inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(cost);
+							copy.stackSize = cost;
+							inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(copy);
+
+							// 出力を一時バッファに設置する
+							inventoryOutProcessing.getInventoryCell(0).setInventorySlotContents(smeltingResult.copy());
+
+							onStart.accept(200);
+						}
 					}
-				}
-			}
-		}
 
-		{
-			IInventoryMir51 inventory = inventoryInFuel;
-
-			for (int i = inventory.getSizeInventory() - 1; i >= 1; i--) {
-				ItemStack right = inventory.getInventoryCell(i).getStackInSlot();
-				ItemStack left = inventory.getInventoryCell(i - 1).getStackInSlot();
-				if (right == null) {
-					if (left != null) {
-						inventory.getInventoryCell(i - 1).setInventorySlotContents(null);
-						inventory.getInventoryCell(i).setInventorySlotContents(left);
-						//inventory.markDirty();
-						break;
-					}
-				}
-			}
-		}
-
-		/*
-		if (isProcessing()) {
-
-		} else {
-			tryStartProcess();
-		}
-
-		if (energyTankFuel.amount > 0) {
-			energyTankFuel.amount--;
-			energyTankFuel.setDirty();
-
-			energyTankProcessing.amount++;
-			if (energyTankProcessing.amount >= energyTankProcessing.capacity) {
-				energyTankProcessing.amount = 0;
-				energyTankProcessing.setDirty();
-
-				// slot reset
-				clearInventory(inventoryInMaterialProcessing);
-
-				// output
-				//inventoryOut.;
-				HelpersContainer.mergeItemStack(inventorySlots, stack, start, end, true);
-
-			}
-
-		}
-
-		{
-			ItemStack itemStack = inventoryInMaterial.getStackInSlot(inventoryInMaterial.getSizeInventory() - 1);
-			if (itemStack != null) {
-
-				ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(itemStack);
-				if (smeltingResult != null) {
-					ItemStack copy = itemStack.copy();
-					inventoryInMaterial.decrStackSize(inventoryInMaterial.getSizeInventory() - 1, 1);
-					inventoryInMaterialProcessing.setInventorySlotContents(0, copy);
-				}
-
-				//GameRegistry.addSmelting(itemStack);
-				//FurnaceRecipes.smelting();
-
-			}
-		}
-
-		if (energyTankFuel.amount == 0) {
-
-			ItemStack itemStack = inventoryInFuel.getStackInSlot(inventoryInFuel.getSizeInventory() - 1);
-
-			if (itemStack != null) {
-				int fuelValue = TileEntityFurnace.getItemBurnTime(itemStack);
-				if (fuelValue > 0) {
-
-					inventoryInFuel.decrStackSize(inventoryInFuel.getSizeInventory() - 1, 1);
-
-					energyTankFuel.amount += fuelValue;
-					energyTankFuel.capacity = fuelValue;
 				}
 			}
 
-		}
-		*/
+			@Override
+			protected void processTick(DatamodelEnergy energyTankProcessing)
+			{
+				long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
 
-		energyTankFuelDecred = 0;
+				need = Math.min(1, need);
 
-		if (isWaiting()) {
-			tryStartProcess(() -> {
-				energyTankProcessing.setAmount(0);
-				energyTankProcessing.setCapacity(200);
-			});
-		}
+				long pop = popFuel(0, need, amount -> {
+					energyTankFuelDecred[0] += amount;
+				}, energyTankFuel, inventoryInFuel, TileEntityFurnace::getItemBurnTime);
 
-		if (isProcessing()) {
-			processTick(energyTankProcessing);
-		}
+				energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop);
+			}
 
-		if (isOutputting()) {
-			clearInventory(inventoryInMaterialProcessing);
-			tryMergeInventory(inventoryOutProcessing, inventoryOut, true);
-		}
+		}.tick();
 
-		if (isOutputted()) {
-			energyTankProcessing.setAmount(0);
-			energyTankProcessing.setCapacity(0);
-		}
-
-		long cooldown = Math.min(1 - energyTankFuelDecred, energyTankFuel.amount);
+		long cooldown = Math.min(1 - energyTankFuelDecred[0], energyTankFuel.amount);
 
 		if (cooldown > 0) {
 			long pop = 0;
 			if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
-				pop = popFuel(0, cooldown, i -> {},
+				pop = ProcessingManager.popFuel(0, cooldown, i -> {},
 					energyTankHyleon, inventoryFairyFuel, itemStack -> 10000);
 			}
 			cooldown -= pop;
 
 			energyTankFuel.amount -= cooldown;
 		}
-	}
-
-	public boolean isWaiting()
-	{
-		return energyTankProcessing.getCapacity() <= 0;
-	}
-
-	public boolean isProcessing()
-	{
-		return energyTankProcessing.getCapacity() > 0
-			&& energyTankProcessing.getAmount() < energyTankProcessing.getCapacity();
-	}
-
-	public boolean isOutputting()
-	{
-		return energyTankProcessing.getCapacity() > 0
-			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
-			&& !isEmpty(inventoryOutProcessing);
-	}
-
-	public boolean isOutputted()
-	{
-		return energyTankProcessing.getCapacity() > 0
-			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
-			&& isEmpty(inventoryOutProcessing);
-	}
-
-	/**
-	 * 実行ステート：waiting
-	 */
-	protected void tryStartProcess(Runnable onStart)
-	{
-		ItemStack itemStack = getLastStack(inventoryInMaterial);
-		if (itemStack != null) {
-			ItemStack smeltingResult = FurnaceRecipes.smelting().getSmeltingResult(itemStack);
-			int cost = 1;
-
-			if (smeltingResult != null) {
-				if (itemStack.stackSize >= cost) {
-					// startable
-
-					// 素材を必要数取り出して進行中スロットに設置する
-					ItemStack copy = itemStack.copy();
-					inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(cost);
-					copy.stackSize = cost;
-					inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(copy);
-
-					// 出力を一時バッファに設置する
-					inventoryOutProcessing.getInventoryCell(0).setInventorySlotContents(smeltingResult.copy());
-
-					onStart.run();
-				}
-			}
-
-		}
-	}
-
-	/**
-	 * 実行ステート：isProcessing
-	 */
-	protected void processTick(DatamodelEnergy energyTankProcessing)
-	{
-		long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
-
-		need = Math.min(1, need);
-
-		long pop = popFuel(0, need, this::onEnergyTankFuelDecred,
-			energyTankFuel, inventoryInFuel, TileEntityFurnace::getItemBurnTime);
-
-		energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop);
-	}
-
-	private long energyTankFuelDecred;
-
-	private void onEnergyTankFuelDecred(long amount)
-	{
-		energyTankFuelDecred += amount;
-	}
-
-	//
-
-	/**
-	 * 燃料ゲージからmin～maxの量を抽出する。
-	 * maxまで取れない場合、燃料を消費してゲージを増加{@link #tryBurnFuel()}してmaxまで抽出できるようにする。
-	 * それでもmaxまで取れない場合、min以上残っているなら全て抽出し、min未満しか残量がない場合、何も抽出しない。
-	 */
-	public static long popFuel(long min, long max,
-		LongConsumer onEnergyTankDecred,
-		DatamodelEnergy energyTank,
-		IInventoryMir51 inventoryFuel,
-		ToIntFunction<ItemStack> getFuelValue)
-	{
-		if (energyTank.getAmount() >= max) {
-			energyTank.decrAmount(max);
-			onEnergyTankDecred.accept(max);
-			return max;
-		} else {
-			// 燃料が足りない
-
-			if (tryBurnFuel(energyTank, inventoryFuel, getFuelValue)) {
-				return popFuel(min, max, onEnergyTankDecred, energyTank, inventoryFuel, getFuelValue);
-			} else {
-				if (energyTank.getAmount() >= min) {
-					long amount = energyTank.getAmount();
-					energyTank.decrAmount(amount);
-					onEnergyTankDecred.accept(amount);
-					return amount;
-				} else {
-					// 燃料がちっとも足りない
-
-					return 0;
-				}
-			}
-		}
-	}
-
-	/**
-	 * 燃料スロットの末尾のアイテムが燃料なら、燃料を1個消費して燃料ゲージを増加させる。
-	 *
-	 * @return 燃料ゲージの増加が行われた場合。
-	 */
-	public static boolean tryBurnFuel(
-		DatamodelEnergy energyTank,
-		IInventoryMir51 inventoryFuel,
-		ToIntFunction<ItemStack> getFuelValue)
-	{
-		ItemStack itemStack = getLastStack(inventoryFuel);
-
-		int fuelValue = getFuelValue.applyAsInt(itemStack);
-		if (fuelValue > 0) {
-
-			inventoryFuel.getInventoryCell(inventoryFuel.getSizeInventory() - 1).decrStackSize(1);
-
-			energyTank.setCapacity(energyTank.getAmount());
-			energyTank.setAmount(energyTank.getAmount() + fuelValue);
-			energyTank.setCapacity(energyTank.getCapacity() + fuelValue);
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return 全てのアイテムがfromから移動した。
-	 */
-	public static boolean tryMergeInventory(IInventoryMir51 from, IInventoryMir51 to, boolean inverse)
-	{
-		for (int i = 0; i < from.getSizeInventory(); i++) {
-			ItemStack itemStack = from.getInventoryCell(i).getStackInSlot();
-			if (itemStack != null) {
-
-				HelpersContainer.mergeItemStackIntoInventory(
-					i2 -> () -> to.getInventoryCell(i2).getStackInSlot(),
-					i2 -> s -> to.getInventoryCell(i2).setInventorySlotContents(s),
-					i2 -> s -> to.getInventoryCell(i2).isItemValidForSlot(s),
-					i2 -> to::getInventoryStackLimit,
-					i2 -> to::markDirty,
-					itemStack, 0, to.getSizeInventory(), inverse);
-
-				if (itemStack.stackSize == 0) {
-					from.getInventoryCell(i).setInventorySlotContents(null);
-					//from.markDirty();
-				} else {
-					return false;
-				}
-
-			}
-		}
-
-		return true;
-	}
-
-	public static ItemStack getLastStack(IInventoryMir51 inventory)
-	{
-		return inventory.getInventoryCell(inventory.getSizeInventory() - 1).getStackInSlot();
-	}
-
-	public static void clearInventory(IInventoryMir51 inventory)
-	{
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
-			inventory.getInventoryCell(i).setInventorySlotContents(null);
-		}
-	}
-
-	public static boolean isEmpty(IInventoryMir51 inventory)
-	{
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
-			if (inventory.getInventoryCell(i).getStackInSlot() != null) return false;
-		}
-		return true;
 	}
 
 	@Override
