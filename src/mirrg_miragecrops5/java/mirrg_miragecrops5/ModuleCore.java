@@ -430,8 +430,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							return null;
 						}
 					},
-						new OreMatcher("craftingSpiritFairyTier" + tier),
-						new OreMatcher("craftingDallFairy")));
+						new OreMatcher("craftingSpiritFairy"),
+						new OreMatcher("craftingDallFairyTier" + tier)));
 				};
 
 				for (int tier = 1; tier <= 5; tier++) {
