@@ -171,7 +171,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(ARMER, 3);
 		}));
 		add(new LoaderFairyType("redstone", fairyType -> {
-			fairyType.setColors(0xffffff, 0xA50000, 0xFF0000, 0x490000);
+			fairyType.setColors(bodyColor, 0xA50000, 0xFF0000, 0x490000);
 			shapes.forEach(shape -> {
 				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
 			});
@@ -180,7 +180,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(LOGIC, 2);
 		}));
 		add(new LoaderFairyType("coal", fairyType -> {
-			fairyType.setColors(0xffffff, 0x444444, 0x555555, 0x333333);
+			fairyType.setColors(bodyColor, 0x444444, 0x555555, 0x333333);
 			shapes.forEach(shape -> {
 				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
 			});
@@ -192,7 +192,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 
 	private void addLoaderLiquid()
 	{
-		int bodyColor = 0x0407CE;
+		int bodyColor = 0x8C8CFF;
 
 		add(new LoaderFairyType("water", fairyType -> {
 			fairyType.setColors(bodyColor, 0x345FDA, 0x345FDA, 0x2749A5);
