@@ -249,6 +249,14 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					}
 				}
 			});
+
+			AdaptorItemIconAutonomy icon = new AdaptorItemIconAutonomy(itemMir50, itemMir50);
+			itemMir50.virtualClass.override(icon);
+			icon.appendIcon("miragecrops5:" + "craftingSpiritFairy" + "_" + 0);
+			icon.appendIcon("miragecrops5:" + "craftingSpiritFairy" + "_" + 1);
+			icon.appendIcon("miragecrops5:" + "craftingSpiritFairy" + "_" + 2);
+			icon.appendIcon("miragecrops5:" + "craftingSpiritFairy" + "_" + 3);
+
 			itemMir50.virtualClass.override(new AdaptorItemIconOverriding(itemMir50, itemMir50) {
 				@Override
 				@SideOnly(Side.CLIENT)
@@ -260,7 +268,10 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 						FairyType fairyType = RegistryFairyType.get(type);
 						if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
-						return fairyType.colorB;
+						if (pass == 0) return fairyType.colorB;
+						if (pass == 1) return fairyType.colorS;
+						if (pass == 2) return fairyType.colorA;
+						if (pass == 3) return fairyType.colorC;
 					}
 
 					return super.getColorFromItemStack(itemStack, pass);
