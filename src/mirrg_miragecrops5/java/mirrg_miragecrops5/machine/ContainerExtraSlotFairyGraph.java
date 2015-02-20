@@ -1,59 +1,24 @@
 package mirrg_miragecrops5.machine;
 
+import java.util.function.Consumer;
+
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotRectangle;
-import mirrg.mir51.inventory.IInventoryMir51;
-import mirrg_miragecrops5.ModuleCore;
-import mirrg_miragecrops5.fairytype.FairyType;
-import mirrg_miragecrops5.fairytype.RegistryFairyType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import api.mirrg.mir50.net.NBTTypes;
 
 class ContainerExtraSlotFairyGraph extends ContainerExtraSlotRectangle
 {
 
-	protected IInventoryMir51 inventory;
-	public int[] values = new int[6];
+	public DatamodelFairyValues fairyValues;
 
-	public ContainerExtraSlotFairyGraph(int x, int y, int w, int h, IInventoryMir51 inventory)
+	public ContainerExtraSlotFairyGraph(int x, int y, int w, int h, DatamodelFairyValues fairyValues)
 	{
 		super(x, y, w, h);
-		this.inventory = inventory;
+		this.fairyValues = fairyValues;
 	}
 
-	public int getFairyValue(int index)
+	public Consumer<int[]> getIncreaser()
 	{
-		int t = values[index];
-
-		for (int i2 = 0; i2 < inventory.getSizeInventory(); i2++) {
-			ItemStack itemStack = inventory.getStackInSlot(i2);
-
-			if (itemStack != null) {
-				Item item = itemStack.getItem();
-
-				if (item == ModuleCore.loaderItem_craftingToolMirageFairy.get()) {
-					NBTTagCompound tag = itemStack.getTagCompound();
-
-					if (tag != null) {
-						if (tag.hasKey("type", NBTTypes.STRING)) {
-							String typeName = tag.getString("type");
-							FairyType fairyType = RegistryFairyType.get(typeName);
-							int tier = 1;
-							if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
-								tier = itemStack.getTagCompound().getInteger("tier");
-							}
-
-							if (fairyType != null) {
-								t += fairyType.getValues(tier)[index] * itemStack.stackSize;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return t;
+		return fairyValues.getIncreaser();
 	}
 
 	@Override

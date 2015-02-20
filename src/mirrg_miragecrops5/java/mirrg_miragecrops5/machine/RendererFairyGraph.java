@@ -6,6 +6,7 @@ import mirrg.he.math.HelpersCollision;
 import mirrg.he.math.HelpersMath;
 import mirrg.mir50.gui.renderer.HelpersRenderer;
 import mirrg_miragecrops5.fairytype.FairyType;
+import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;
@@ -40,9 +41,11 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			5, 3, 4, 1, 2, 0,
 		};
 
+		int[] values = HelpersFairyType.getValues(t.getIncreaser());
+
 		for (int i = 0; i < 6; i++) {
-			if (lengthMax < HelpersMath.log2(Math.abs(t.getFairyValue(table[i])))) {
-				lengthMax = HelpersMath.log2(Math.abs(t.getFairyValue(table[i])));
+			if (lengthMax < HelpersMath.log2(Math.abs(values[table[i]]))) {
+				lengthMax = HelpersMath.log2(Math.abs(values[table[i]]));
 			}
 		}
 
@@ -51,7 +54,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 				int x = t.x;
 				int y = t.y + t.h * i / 6;
 				int h = t.h / 6 - 2;
-				int length = t.getFairyValue(table[i]);
+				int length = values[table[i]];
 				int color = length > 0 ? 0xff00C400 : 0xffFF4242;
 				int w = HelpersMath.log2(Math.abs(length)) * 16 / lengthMax;
 
@@ -78,7 +81,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			int x = t.x;
 			int y = t.y + t.h * i / 6 + 1;
 			int h = t.h / 6 - 2;
-			int length = t.getFairyValue(table[i]);
+			int length = values[table[i]];
 			int color = length > 0 ? 0xff00C400 : length == 0 ? 0xffaaaaaa : 0xffFF4242;
 
 			GL11.glColor4f(
@@ -109,6 +112,8 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			5, 3, 4, 1, 2, 0,
 		};
 
+		int[] values = HelpersFairyType.getValues(t.getIncreaser());
+
 		for (int i = 0; i < 6; i++) {
 			int x = t.x;
 			int y = t.y + t.h * i / 6;
@@ -118,7 +123,7 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 			if (HelpersCollision.isHit(mouseX, mouseY, xStart + x, yStart + y, xStart + x + w, yStart + y + h) > 0) {
 				ArrayList<String> list = new ArrayList<String>();
 
-				list.add(FairyType.getLabel(i) + ": " + t.getFairyValue(table[i]));
+				list.add(FairyType.getLabel(i) + ": " + values[table[i]]);
 
 				gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 				return true;

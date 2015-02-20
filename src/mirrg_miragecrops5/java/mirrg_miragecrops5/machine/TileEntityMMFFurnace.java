@@ -20,6 +20,7 @@ import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
+import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -44,6 +45,8 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	public final DatamodelEnergy energyTankFuel;
 	public final DatamodelEnergy energyTankHyleon;
 
+	public final DatamodelFairyValues fairyValues;
+
 	protected int ticker = 0;
 
 	public TileEntityMMFFurnace()
@@ -67,6 +70,10 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		energyTankProcessing = add(new DatamodelEnergy(this::markDirty, 0), "energyTankProcessing");
 		energyTankFuel = add(new DatamodelEnergy(this::markDirty, 0), "energyTankFuel");
 		energyTankHyleon = add(new DatamodelEnergy(this::markDirty, 100000), "energyTankHyleon");
+
+		fairyValues = new DatamodelFairyValues(new int[] {
+			0, 0, 0, -7, 0, 0,
+		}, inventoryFairy);
 	}
 
 	@Override
@@ -138,8 +145,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 		{
 			ContainerExtraSlotFairyGraph containerExtraSlot = new ContainerExtraSlotFairyGraph(
-				LEFT + 9 * 2, TOP_CHEST, 9 * 2, 9 * 6, inventoryFairy);
-			containerExtraSlot.values[3] = -7;
+				LEFT + 9 * 2, TOP_CHEST, 9 * 2, 9 * 6, fairyValues);
 			containerExtraSlot.renderer = new RendererFairyGraph();
 			container.addContainerExtraSlot(containerExtraSlot, "labelFairyTypes");
 		}
@@ -331,16 +337,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 
 		if (cooldown > 0) {
 			long pop = 0;
-			boolean t = true;
-			ContainerExtraSlotFairyGraph c = new ContainerExtraSlotFairyGraph(0, 0, 0, 0, inventoryFairy);
-			c.values[3] = -7;
-			if (c.getFairyValue(0) < 0) t = false;
-			if (c.getFairyValue(1) < 0) t = false;
-			if (c.getFairyValue(2) < 0) t = false;
-			if (c.getFairyValue(3) < 0) t = false;
-			if (c.getFairyValue(4) < 0) t = false;
-			if (c.getFairyValue(5) < 0) t = false;
-			if (t) {
+			if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
 				pop = popFuel(0, cooldown, i -> {},
 					energyTankHyleon, inventoryFairyFuel, itemStack -> 10000);
 			}

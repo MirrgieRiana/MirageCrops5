@@ -1,6 +1,7 @@
 package mirrg_miragecrops5.fairytype;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import mirrg.h.struct.Tuple;
 import mirrg_miragecrops5.recipefairy.OreMatcher;
@@ -80,30 +81,29 @@ public class FairyType
 		}
 	}
 
-	public int[] getValues()
+	public Consumer<int[]> getIncreaser()
 	{
-		return getValues((int) Math.ceil(maxSkillLevel));
+		return getIncreaser((int) Math.ceil(maxSkillLevel));
 	}
 
-	public int[] getValues(int tier)
+	public Consumer<int[]> getIncreaser(int tier)
 	{
-		int[] values = new int[6];
-		double rate = sumSkillLevelPositive > 0
-			? Math.min(1, tier / sumSkillLevelPositive)
-			: 0;
-		double rateN = sumSkillLevelNegative > 0
-			? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
-			: 0;
+		return values -> {
+			double rate = sumSkillLevelPositive > 0
+				? Math.min(1, tier / sumSkillLevelPositive)
+				: 0;
+			double rateN = sumSkillLevelNegative > 0
+				? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
+				: 0;
 
-		for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
-			if (skillEntry.getX().isPositive()) {
-				skillEntry.getX().increase(values, skillEntry.getY() * rate);
-			} else {
-				skillEntry.getX().increase(values, skillEntry.getY() * rateN);
+			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
+				if (skillEntry.getX().isPositive()) {
+					skillEntry.getX().increase(values, skillEntry.getY() * rate);
+				} else {
+					skillEntry.getX().increase(values, skillEntry.getY() * rateN);
+				}
 			}
-		}
-
-		return values;
+		};
 	}
 
 	public static String getLabel(int index)

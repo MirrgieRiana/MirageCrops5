@@ -22,6 +22,7 @@ import mirrg.mir51.loaders.LoaderItem;
 import mirrg.mir51.loaders.LoaderOreDictionary;
 import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg_miragecrops5.fairytype.FairyType;
+import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.recipefairy.OreMatcher;
 import mirrg_miragecrops5.recipefairy.RecipeFairy;
@@ -135,7 +136,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 							strings.add("Values:");
 							{
-								int[] values = fairyType.getValues(tier);
+								int[] values = HelpersFairyType.getValues(fairyType.getIncreaser(tier));
 
 								strings.add(GRAY + "       Tr " + makeGauge.apply(values[5]));
 								strings.add(GRAY + "Lo " + makeGauge.apply(values[3]) +
