@@ -13,27 +13,38 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	public static IFairySkill SOIL = new FairySkillNegative("soil", 0, -1, 0, 0, 0, 0);
-	public static IFairySkill MINERAL = new FairySkillNegative("mineral", -1, 0, 0, 0, 0, 0);
-	public static IFairySkill FARM = new FairySkillNegative("farm", 0, -0.5, -0.5, 0, 0, 0);
+	public static IFairySkill SOIL = new FairySkillNegative("soil", -0.2, 0, 0, 0, 0, 0);
+
+	public static IFairySkill MINERAL = new FairySkillNegative("mineral", 0, -1, 0, 0, 0, 0);
+	public static IFairySkill FARM = new FairySkillNegative("farm", 0, 0, -1, 0, 0, 0);
+	public static IFairySkill FACTORY = new FairySkillNegative("factory", 0, -1, 0, 0, 0, 0);
 	public static IFairySkill ART = new FairySkillNegative("art", 0, 0, -1, 0, 0, 0);
+	public static IFairySkill LABOR = new FairySkillNegative("labor", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill ANIMAL = new FairySkillNegative("animal", 0, 0, -1, 0, 0, 0);
+	public static IFairySkill ADVENTURE = new FairySkillNegative("adventure", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill INTELLIGENCE = new FairySkillNegative("intelligence", 0, 0, 0, -1, 0, 0);
+	public static IFairySkill THAUMATURGY = new FairySkillNegative("thaumaturgy", 0, 0, 0, 0, -1, 0);
 
 	public static IFairySkill MATERIAL = new FairySkillPositive("material", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill FOOD = new FairySkillPositive("food", 0, 0, 1, 0, 0, 0);
-	public static IFairySkill SENSE = new FairySkillPositive("sense", 0, 0, 0.6, 0, 0.4, 0);
-	public static IFairySkill PLANT = new FairySkillPositive("plant", 0, 0, 0.8, 0, 0.2, 0);
+	public static IFairySkill SENSE = new FairySkillPositive("sense", 0, 0, 0.8, 0, 0.2, 0);
+	public static IFairySkill PLANT = new FairySkillPositive("plant", 0, 0, 1, 0, 0, 0);
 	public static IFairySkill MONEY = new FairySkillPositive("money", 1, 0, 0, 0, 0, 0);
 	public static IFairySkill MYSTERY = new FairySkillPositive("mystery", 0, 0, 0, 0, 1, 0);
 	public static IFairySkill LOGIC = new FairySkillPositive("logic", 0, 0, 0, 1, 0, 0);
 	public static IFairySkill MIRAGE = new FairySkillPositive("mirage", 0, 0, 0, 0.8, 0.2, 0);
-	public static IFairySkill ORE = new FairySkillPositive("ore", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill ORE = new FairySkillPositive("ore", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill LAND = new FairySkillPositive("land", 1, 0, 0, 0, 0, 0);
-	public static IFairySkill WEAPON = new FairySkillPositive("weapon", 0, 0, 0, 0.5, 0.5, 0);
+	public static IFairySkill WEAPON = new FairySkillPositive("weapon", 0, 0, 0, 0.6, 0.4, 0);
 	public static IFairySkill ORDER = new FairySkillPositive("order", 0, 0, 0, 0.5, 0.4, 0.1);
 	public static IFairySkill FREEZE = new FairySkillPositive("freeze", 0, 0.5, 0, 0, 0.5, 0);
 	public static IFairySkill HEAT = new FairySkillPositive("heat", 0, 0.5, 0, 0, 0.5, 0);
 	public static IFairySkill FUEL = new FairySkillPositive("fuel", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill ENTROPY = new FairySkillPositive("entropy", 0, 0, 0.2, 0, 0.7, 0.1);
+	public static IFairySkill ARMER = new FairySkillPositive("armer", 0.5, 0, 0.5, 0, 0, 0);
+	public static IFairySkill MOVE = new FairySkillPositive("move", 1, 0, 0, 0, 0, 0);
+	public static IFairySkill HELL = new FairySkillPositive("hell", 0, 0, 0.3, 0.2, 0.5, 0);
+	public static IFairySkill ENDER = new FairySkillPositive("ender", 0, 0, 0, 0, 0.5, 0.5);
 
 	public ModuleFairyType()
 	{
@@ -54,7 +65,8 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
 			});
 			fairyType.addSkill(MINERAL, 4);
-			fairyType.addSkill(SENSE, 4);
+			fairyType.addSkill(SENSE, 2);
+			fairyType.addSkill(MONEY, 2);
 		}));
 		add(new LoaderFairyType("apatite", fairyType -> {
 			fairyType.setColors(0xA4DBDB, 0x22ABFF, 0x5DC8FF, 0x107FCE);
@@ -134,27 +146,27 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 		add(new LoaderFairyType("sand", fairyType -> {
 			fairyType.setColors(0xD2CB95, 0xE0D7A6, 0xB0AA72);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.sand, 1, 0));
-			fairyType.addSkill(SOIL, 1);
-			fairyType.addSkill(LAND, 1);
+			fairyType.addSkill(SOIL, 2);
+			fairyType.addSkill(LAND, 2);
 		}));
 		add(new LoaderFairyType("gravel", fairyType -> {
 			fairyType.setColors(0x7A7673, 0xAA9E98, 0x918E8E);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.gravel, 1, 0));
 			fairyType.addSkill(SOIL, 2);
-			fairyType.addSkill(LAND, 2);
+			fairyType.addSkill(LAND, 1);
+			fairyType.addSkill(ORE, 1);
 		}));
 		add(new LoaderFairyType("stone", fairyType -> {
 			fairyType.setColors(0x808080, 0x8F8F8F, 0x686868);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.stone, 1, 0));
-			fairyType.addSkill(SOIL, 3);
-			fairyType.addSkill(ORE, 2);
-			fairyType.addSkill(MATERIAL, 1);
+			fairyType.addSkill(SOIL, 1);
+			fairyType.addSkill(LAND, 1);
 		}));
 		add(new LoaderFairyType("cobblestone", fairyType -> {
 			fairyType.setColors(0x7F7F7F, 0xBFBFBF, 0x4C4C4C);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.cobblestone, 1, 0));
-			fairyType.addSkill(SOIL, 2);
-			fairyType.addSkill(MATERIAL, 2);
+			fairyType.addSkill(SOIL, 1);
+			fairyType.addSkill(MATERIAL, 1);
 		}));
 		add(new LoaderFairyType("log", fairyType -> {
 			fairyType.setColors(0x685332, 0xB6935C, 0x372A17);
@@ -186,6 +198,174 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.ice, 1, 0));
 			fairyType.addSkill(SOIL, 2);
 			fairyType.addSkill(FREEZE, 2);
+		}));
+		add(new LoaderFairyType("obsidian", fairyType -> {
+			fairyType.setColors(0x433468, 0x482D87, 0x09090E);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.obsidian, 1, 0));
+			fairyType.addSkill(MINERAL, 3);
+			fairyType.addSkill(ARMER, 3);
+		}));
+		add(new LoaderFairyType("emerald", fairyType -> {
+			fairyType.setColors(0xA4DBDB, 0x2CC14C, 0x6EEB91, 0x2FB34B);
+			shapes.forEach(shape -> {
+				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
+			});
+			fairyType.addSkill(MINERAL, 4);
+			fairyType.addSkill(MONEY, 4);
+		}));
+		add(new LoaderFairyType("pickaxe", fairyType -> {
+			fairyType.setColors(0x896727, 0x7F7F7F, 0x898989, 0x494949);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.wooden_pickaxe, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.stone_pickaxe, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.iron_pickaxe, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.golden_pickaxe, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.diamond_pickaxe, 1, 0));
+			fairyType.addSkill(LABOR, 2);
+			fairyType.addSkill(ORE, 2);
+		}));
+		add(new LoaderFairyType("diamond", fairyType -> {
+			fairyType.setColors(0xA4DBDB, 0x2CCDB1, 0xA2F6E7, 0x1A7A6A);
+			shapes.forEach(shape -> {
+				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
+			});
+			fairyType.addSkill(MINERAL, 5);
+			fairyType.addSkill(MATERIAL, 4);
+			fairyType.addSkill(MONEY, 1);
+		}));
+		add(new LoaderFairyType("lapis", fairyType -> {
+			fairyType.setColors(0xA4DBDB, 0x224BAF, 0x5A82E2, 0x0A2B7A);
+			shapes.forEach(shape -> {
+				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
+			});
+			fairyType.addSkill(MINERAL, 4);
+			fairyType.addSkill(SENSE, 4);
+		}));
+		add(new LoaderFairyType("glass", fairyType -> {
+			fairyType.setColors(0xA4DBDB, 0xeeeeee, 0xffffff, 0xdddddd);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.glass, 1, 0));
+			fairyType.addSkill(FACTORY, 2);
+			fairyType.addSkill(SENSE, 2);
+		}));
+		add(new LoaderFairyType("snow", fairyType -> {
+			fairyType.setColors(0xffffff, 0xffffff, 0xffffff);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.snow, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.snowball, 1, 0));
+			fairyType.addSkill(SOIL, 1);
+			fairyType.addSkill(FREEZE, 1);
+		}));
+		add(new LoaderFairyType("sugar", fairyType -> {
+			fairyType.setColors(0xffffff, 0xffffff, 0xffffff);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.sugar, 1, 0));
+			fairyType.addSkill(FACTORY, 2);
+			fairyType.addSkill(FOOD, 2);
+		}));
+		add(new LoaderFairyType("slimeball", fairyType -> {
+			fairyType.setColors(0x895B1E, 0x508049, 0x7DC873, 0x34532F);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.slime_ball, 1, 0));
+			fairyType.addSkill(ANIMAL, 3);
+			fairyType.addSkill(MATERIAL, 3);
+		}));
+		add(new LoaderFairyType("bone", fairyType -> {
+			fairyType.setColors(0x895B1E, 0xEDEBCA, 0xffffff, 0xBCBBAF);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.bone, 1, 0));
+			fairyType.addSkill(ANIMAL, 2);
+			fairyType.addSkill(MATERIAL, 2);
+		}));
+		add(new LoaderFairyType("carrot", fairyType -> {
+			fairyType.setColors(0x60FF60, 0xD36A0D, 0xFFC177, 0xAC3900);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.carrot, 1, 0));
+			fairyType.addSkill(FARM, 3);
+			fairyType.addSkill(FOOD, 2);
+			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType("clay", fairyType -> {
+			fairyType.setColors(0x666B7F, 0xA5A9B9, 0x373944);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.clay_ball, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.clay, 1, 0));
+			fairyType.addSkill(ADVENTURE, 3);
+			fairyType.addSkill(MATERIAL, 3);
+		}));
+		add(new LoaderFairyType("brick", fairyType -> {
+			fairyType.setColors(0x7F3E2C, 0xB75A40, 0x3A1C14);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.brick, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.brick_block, 1, 0));
+			fairyType.addSkill(FACTORY, 3);
+			fairyType.addSkill(ARMER, 2);
+			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType("book", fairyType -> {
+			fairyType.setColors(0xD6D6D6, 0x38280C, 0x654B17, 0x261B08);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.book, 1, 0));
+			fairyType.addSkill(FACTORY, 5);
+			fairyType.addSkill(ORDER, 5);
+		}));
+		add(new LoaderFairyType("writtenbook", fairyType -> {
+			fairyType.setColors(0x111111, 0x38280C, 0x654B17, 0x261B08);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.written_book, 1, 0));
+			fairyType.addSkill(INTELLIGENCE, 5);
+			fairyType.addSkill(LOGIC, 2);
+			fairyType.addSkill(MYSTERY, 2);
+			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType("enchantedbook", fairyType -> {
+			fairyType.setColors(0xAA8CFF, 0x38280C, 0x654B17, 0x261B08);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.enchanted_book, 1, 0));
+			fairyType.addSkill(THAUMATURGY, 5);
+			fairyType.addSkill(LOGIC, 2);
+			fairyType.addSkill(MYSTERY, 2);
+			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType("apple", fairyType -> {
+			fairyType.setColors(0x60FF60, 0xD31623, 0xFFAAAF, 0x54090E);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.apple, 1, 0));
+			fairyType.addSkill(FARM, 4);
+			fairyType.addSkill(FOOD, 3);
+			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType("meat", fairyType -> {
+			fairyType.setColors(0xFF7777, 0xFFE1D4, 0xE24940);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.beef, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.porkchop, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.chicken, 1, 0));
+			fairyType.addSkill(ANIMAL, 3);
+			fairyType.addSkill(FOOD, 3);
+		}));
+		add(new LoaderFairyType("egg", fairyType -> {
+			fairyType.setColors(0xffffff, 0xFFAAAF, 0xDFCE9B);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.egg, 1, 0));
+			fairyType.addSkill(ANIMAL, 2);
+			fairyType.addSkill(FOOD, 2);
+		}));
+		add(new LoaderFairyType("enderperl", fairyType -> {
+			fairyType.setColors(0x349988, 0x8CF4E2, 0x032620);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.ender_pearl, 1, 0));
+			fairyType.addSkill(ANIMAL, 4);
+			fairyType.addSkill(MYSTERY, 1);
+			fairyType.addSkill(ENDER, 2);
+			fairyType.addSkill(MOVE, 1);
+		}));
+		add(new LoaderFairyType("chestplate", fairyType -> {
+			fairyType.setColors(0x896727, 0x7F7F7F, 0x898989, 0x494949);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.leather_chestplate, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.iron_chestplate, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.golden_chestplate, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.diamond_chestplate, 1, 0));
+			fairyType.addSkill(FACTORY, 3);
+			fairyType.addSkill(ARMER, 3);
+		}));
+		add(new LoaderFairyType("netherrack", fairyType -> {
+			fairyType.setColors(0x772828, 0x86413B, 0x482525);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.netherrack, 1, 0));
+			fairyType.addSkill(SOIL, 3);
+			fairyType.addSkill(HELL, 2);
+			fairyType.addSkill(LAND, 1);
+		}));
+		add(new LoaderFairyType("endstone", fairyType -> {
+			fairyType.setColors(0xBCBC89, 0xE9EAB5, 0xC3BD89);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.end_stone, 1, 0));
+			fairyType.addSkill(SOIL, 4);
+			fairyType.addSkill(ENDER, 2);
+			fairyType.addSkill(LAND, 2);
 		}));
 
 	}
