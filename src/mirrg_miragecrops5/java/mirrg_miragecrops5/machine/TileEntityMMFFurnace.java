@@ -139,7 +139,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		{
 			ContainerExtraSlotFairyGraph containerExtraSlot = new ContainerExtraSlotFairyGraph(
 				LEFT + 9 * 2, TOP_CHEST, 9 * 2, 9 * 6, inventoryFairy);
-			containerExtraSlot.values[3] = -10;
+			containerExtraSlot.values[3] = -7;
 			containerExtraSlot.renderer = new RendererFairyGraph();
 			container.addContainerExtraSlot(containerExtraSlot, "labelFairyTypes");
 		}
@@ -333,7 +333,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 			long pop = 0;
 			boolean t = true;
 			ContainerExtraSlotFairyGraph c = new ContainerExtraSlotFairyGraph(0, 0, 0, 0, inventoryFairy);
-			c.values[3] = -10;
+			c.values[3] = -7;
 			if (c.getFairyValue(0) < 0) t = false;
 			if (c.getFairyValue(1) < 0) t = false;
 			if (c.getFairyValue(2) < 0) t = false;
