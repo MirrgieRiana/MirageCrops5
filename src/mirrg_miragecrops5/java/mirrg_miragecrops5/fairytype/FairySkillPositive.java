@@ -17,10 +17,10 @@ public class FairySkillPositive extends FairySkillAbstract
 	@Override
 	public void increase(int[] values, double level)
 	{
-		level *= Math.pow(1.1, level - 1);
+		level *= Math.pow(1.05, level - 1);
 		level *= 1.0;
 		for (int i = 0; i < 6; i++) {
-			values[i] += (int) (this.values[i] * level * 10);
+			values[i] += (int) Math.ceil(this.values[i] * level * 10);
 		}
 	}
 

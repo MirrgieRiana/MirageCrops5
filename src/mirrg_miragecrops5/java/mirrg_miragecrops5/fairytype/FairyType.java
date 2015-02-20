@@ -66,11 +66,18 @@ public class FairyType
 	private ArrayList<Tuple<IFairySkill, Double>> skillEntries = new ArrayList<>();
 
 	private double maxSkillLevel = 0;
+	private double sumSkillLevelPositive = 0;
+	private double sumSkillLevelNegative = 0;
 
 	public void addSkill(IFairySkill fairySkill, double level)
 	{
 		skillEntries.add(new Tuple<>(fairySkill, level));
 		maxSkillLevel = Math.max(maxSkillLevel, level);
+		if (fairySkill.isPositive()) {
+			sumSkillLevelPositive += level;
+		} else {
+			sumSkillLevelNegative += level;
+		}
 	}
 
 	public int[] getValues()
@@ -81,12 +88,18 @@ public class FairyType
 	public int[] getValues(int tier)
 	{
 		int[] values = new int[6];
+		double rate = sumSkillLevelPositive > 0
+			? Math.min(1, tier / sumSkillLevelPositive)
+			: 0;
+		double rateN = sumSkillLevelNegative > 0
+			? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
+			: 0;
 
 		for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
 			if (skillEntry.getX().isPositive()) {
-				skillEntry.getX().increase(values, Math.min(skillEntry.getY(), tier));
+				skillEntry.getX().increase(values, skillEntry.getY() * rate);
 			} else {
-				skillEntry.getX().increase(values, skillEntry.getY());
+				skillEntry.getX().increase(values, skillEntry.getY() * rateN);
 			}
 		}
 
