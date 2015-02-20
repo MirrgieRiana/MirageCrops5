@@ -320,7 +320,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 		}
 
 		if (isProcessing()) {
-			processTick();
+			processTick(energyTankProcessing);
 		}
 
 		if (isOutputting()) {
@@ -405,7 +405,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 	/**
 	 * 実行ステート：isProcessing
 	 */
-	protected void processTick()
+	protected void processTick(DatamodelEnergy energyTankProcessing)
 	{
 		long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
 
