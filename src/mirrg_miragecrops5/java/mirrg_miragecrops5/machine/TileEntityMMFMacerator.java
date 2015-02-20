@@ -1,0 +1,449 @@
+package mirrg_miragecrops5.machine;
+
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.RecipeOutput;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.LongConsumer;
+import java.util.function.ToIntFunction;
+
+import mirrg.mir50.datamodels.DatamodelEnergy;
+import mirrg.mir50.gui.container.HelpersContainer;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
+import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotLabel;
+import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
+import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
+import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
+import mirrg.mir51.gui.renderers.RendererLabel;
+import mirrg.mir51.inventory.IInventoryMir51;
+import mirrg.mir51.inventory.InventoryMir51Base;
+import mirrg.mir51.inventory.InventoryMir51Chain;
+import mirrg.mir51.inventory.InventoryMir51FromInventory;
+import mirrg.mir51.inventory.InventoryMir51Trimmer;
+import mirrg.mir51.modding.HelpersSide;
+import mirrg.mir52.gui.ContainerMir52;
+import mirrg.mir52.gui.SupplierPositionContainerFlow;
+import mirrg_miragecrops5.fairytype.HelpersFairyType;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+
+public class TileEntityMMFMacerator extends TileEntityMMF
+{
+
+	public final IInventoryMir51 inventoryInMaterial;
+	public final IInventoryMir51 inventoryInMaterialProcessing;
+	public final IInventoryMir51 inventoryOut;
+	public final IInventoryMir51 inventoryOutProcessing;
+	public final IInventoryMir51 inventoryFairy;
+	public final IInventoryMir51 inventoryFairyFuel;
+
+	public final DatamodelEnergy energyTankProcessing;
+	public final DatamodelEnergy energyTankHyleon;
+
+	public final DatamodelFairyValues fairyValues;
+
+	protected int ticker = 0;
+
+	public TileEntityMMFMacerator()
+	{
+		inventoryInMaterial = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 2), "inventoryInMaterial");
+		inventoryInMaterialProcessing = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 1), "inventoryInMaterialProcessing");
+		inventoryOut = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOut");
+		inventoryOutProcessing = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOutProcessing");
+		inventoryFairy = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 3), "inventoryFairy");
+		inventoryFairyFuel = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 1), "inventoryFairyFuel");
+
+		inventoryChain.add(inventoryInMaterial);
+		inventoryChain.add(inventoryInMaterialProcessing);
+		inventoryChain.add(inventoryOut);
+		inventoryChain.add(inventoryOutProcessing);
+		inventoryChain.add(inventoryFairy);
+		inventoryChain.add(inventoryFairyFuel);
+
+		energyTankProcessing = add(new DatamodelEnergy(this::markDirty, 0), "energyTankProcessing");
+		energyTankHyleon = add(new DatamodelEnergy(this::markDirty, 100000), "energyTankHyleon");
+
+		fairyValues = new DatamodelFairyValues(new int[] {
+			0, -48, 0, 0, 0, 0,
+		}, inventoryFairy);
+	}
+
+	@Override
+	protected IInventoryMir51[] getInventoryAccessible(int side)
+	{
+		return new IInventoryMir51[] {
+			inventoryOut,
+			inventoryInMaterial,
+		};
+	}
+
+	@Override
+	protected IInventoryMir51[] getInventoryExtract(int side, ItemStack itemStack)
+	{
+		return new IInventoryMir51[] {
+			inventoryOut,
+		};
+	}
+
+	@Override
+	protected IInventoryMir51[] getInventoryInsert(int side, ItemStack itemStack)
+	{
+		return new IInventoryMir51[] {
+			inventoryInMaterial,
+		};
+	}
+
+	@Override
+	protected ResourceLocation getGuiTexture(ContainerMir52 container)
+	{//machineMirageFairy
+		return new ResourceLocation("miragecrops5" + ":" + "textures/gui/NULL_GUI_TEXTURE.png");
+	}
+
+	@Override
+	protected boolean hasGui()
+	{
+		return true;
+	}
+
+	@Override
+	protected void prepareContainerSlots(ContainerMir52 container)
+	{
+		{
+			ContainerExtraSlotLabel containerExtraSlot;
+
+			containerExtraSlot = new ContainerExtraSlotLabel(getLocalizedName(),
+				gui -> gui.getGuiWidth() / 2,
+				gui -> TOP,
+				0x404040, EnumTextAlign.CENTER);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelTileEntity");
+
+			containerExtraSlot = new ContainerExtraSlotLabel(I18n.format("container.inventory"),
+				gui -> SHIFT,
+				gui -> gui.getGuiHeight() - 96 + 2,
+				0x404040, EnumTextAlign.LEFT);
+			containerExtraSlot.renderer = new RendererLabel(containerExtraSlot);
+			container.addContainerExtraSlot(containerExtraSlot, "labelInventory");
+		}
+		{
+			ContainerExtraSlotFairyGraph containerExtraSlot = new ContainerExtraSlotFairyGraph(
+				LEFT + 9 * 2, TOP_CHEST, 9 * 2, 9 * 6, fairyValues);
+			containerExtraSlot.renderer = new RendererFairyGraph();
+			container.addContainerExtraSlot(containerExtraSlot, "labelFairyTypes");
+		}
+
+		InventoryMir51Chain inventoryChest = inventoryChain;
+		IInventoryMir51 inventory2 = new InventoryMir51FromInventory(container.getPlayer().inventory,
+			new SupplierPositionWorldFromTileEntity(this));
+		InventoryMir51Trimmer inventoryPlayer = new InventoryMir51Trimmer(inventory2, 9, 27);
+		InventoryMir51Trimmer inventoryHandle = new InventoryMir51Trimmer(inventory2, 0, 9);
+
+		container.addInventory(inventoryInMaterial,
+			new SupplierPositionContainerFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), true);
+		container.addInventory(inventoryInMaterialProcessing,
+			(inventory, index, x, y) -> new SlotProcessing(inventory, index, x, y),
+			new SupplierPositionContainerFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
+		container.addInventory(inventoryOut,
+			new SupplierPositionContainerFlow(LEFT + 9 * 14, TOP_CHEST + 9 * 1, SHIFT, SHIFT, 2), false);
+		container.addInventory(inventoryFairy,
+			(inventory, index, x, y) -> new SlotFairy(inventory, index, x, y),
+			new SupplierPositionContainerFlow(LEFT, TOP_CHEST, SHIFT, SHIFT, 1), false);
+		container.addInventory(inventoryFairyFuel,
+			(inventory, index, x, y) -> new SlotFairyFuel(inventory, index, x, y),
+			new SupplierPositionContainerFlow(LEFT + 9 * 11, TOP_CHEST + 9 * 4, SHIFT, SHIFT, 1), false);
+
+		container.addInventory(inventoryPlayer,
+			new SupplierPositionContainerFlow(LEFT, TOP_INVENTORY, SHIFT, SHIFT, 9), true);
+		container.addInventory(inventoryHandle,
+			new SupplierPositionContainerFlow(LEFT, TOP_HOLDING, SHIFT, SHIFT, 9), true);
+
+		container.setTransferInventories(inventoryInMaterial, inventoryHandle, inventoryPlayer);
+		container.setTransferInventories(inventoryOut, inventoryHandle, inventoryPlayer);
+		container.setTransferInventories(inventoryFairy, inventoryHandle, inventoryPlayer);
+		container.setTransferInventories(inventoryFairyFuel, inventoryHandle, inventoryPlayer);
+		container.setTransferInventories(inventoryPlayer, inventoryFairy, inventoryFairyFuel, inventoryInMaterial);
+		container.setTransferInventories(inventoryHandle, inventoryFairy, inventoryFairyFuel, inventoryInMaterial);
+
+		{
+			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+					LEFT + 9 * 12 - 24 / 2, TOP_CHEST + 9 * 2 - 17 / 2 - 3, 24, 17, energyTankProcessing);
+			containerExtraSlot.renderer = RendererEnergySlotProgress.instanceLeft;
+			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankProcessing));
+		}
+		{
+			ContainerExtraSlotDatamodel<DatamodelEnergy> containerExtraSlot =
+				new ContainerExtraSlotDatamodel<DatamodelEnergy>(
+					LEFT + 9 * 12 - 0 / 2, TOP_CHEST + 9 * 4 - 0 / 2 - 3, 0, 0, energyTankHyleon);
+			containerExtraSlot.renderer = RendererEnergySlotMeter.instance;
+			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankHyleon));
+		}
+
+	}
+
+	@Override
+	protected void tick()
+	{
+		if (HelpersSide.helper(this).isRemote()) return;
+
+		{
+			IInventoryMir51 inventory = inventoryInMaterial;
+
+			for (int i = inventory.getSizeInventory() - 1; i >= 1; i--) {
+				ItemStack right = inventory.getInventoryCell(i).getStackInSlot();
+				ItemStack left = inventory.getInventoryCell(i - 1).getStackInSlot();
+				if (right == null) {
+					if (left != null) {
+						inventory.getInventoryCell(i - 1).setInventorySlotContents(null);
+						inventory.getInventoryCell(i).setInventorySlotContents(left);
+						//inventory.markDirty();
+						break;
+					}
+				}
+			}
+		}
+
+		if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
+
+			if (isWaiting()) {
+				tryStartProcess(() -> {
+					energyTankProcessing.setAmount(0);
+					energyTankProcessing.setCapacity(200);
+				});
+			}
+
+			if (isProcessing()) {
+				processTick();
+			}
+
+			if (isOutputting()) {
+				clearInventory(inventoryInMaterialProcessing);
+				tryMergeInventory(inventoryOutProcessing, inventoryOut, true);
+			}
+
+			if (isOutputted()) {
+				energyTankProcessing.setAmount(0);
+				energyTankProcessing.setCapacity(0);
+			}
+
+		}
+
+	}
+
+	public boolean isWaiting()
+	{
+		return energyTankProcessing.getCapacity() <= 0;
+	}
+
+	public boolean isProcessing()
+	{
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() < energyTankProcessing.getCapacity();
+	}
+
+	public boolean isOutputting()
+	{
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
+			&& !isEmpty(inventoryOutProcessing);
+	}
+
+	public boolean isOutputted()
+	{
+		return energyTankProcessing.getCapacity() > 0
+			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
+			&& isEmpty(inventoryOutProcessing);
+	}
+
+	/**
+	 * 実行ステート：waiting
+	 */
+	protected void tryStartProcess(Runnable onStart)
+	{
+		ItemStack itemStack = getLastStack(inventoryInMaterial);
+		if (itemStack != null) {
+
+			Entry<IRecipeInput, RecipeOutput> matchingRecipe = null;
+			{
+				Map<IRecipeInput, RecipeOutput> recipes = ic2.api.recipe.Recipes.macerator.getRecipes();
+				for (Entry<IRecipeInput, RecipeOutput> recipe : recipes.entrySet()) {
+
+					if (recipe.getKey().matches(itemStack)) {
+						if (recipe.getKey().getAmount() <= itemStack.stackSize) {
+							matchingRecipe = recipe;
+							break;
+						}
+					}
+
+				}
+			}
+
+			if (matchingRecipe != null) {
+				List<ItemStack> outputs = matchingRecipe.getValue().items;
+				int cost = matchingRecipe.getKey().getAmount();
+
+				if (outputs != null) {
+					if (itemStack.stackSize >= cost) {
+						// startable
+
+						// 素材を必要数取り出して進行中スロットに設置する
+						ItemStack copy = itemStack.copy();
+						inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(cost);
+						copy.stackSize = cost;
+						inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(copy);
+
+						// 出力を一時バッファに設置する
+						for (int i = 0; i < Math.min(inventoryOutProcessing.getSizeInventory(), outputs.size()); i++) {
+							inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
+						}
+
+						onStart.run();
+					}
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * 実行ステート：isProcessing
+	 */
+	protected void processTick()
+	{
+		long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
+
+		need = Math.min(1, need);
+
+		int rate = 20;
+
+		long pop = popFuel(0, need * rate, i -> {},
+			energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 10000 : 0);
+
+		energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop / rate);
+	}
+
+	//
+
+	/**
+	 * 燃料ゲージからmin～maxの量を抽出する。
+	 * maxまで取れない場合、燃料を消費してゲージを増加{@link #tryBurnFuel()}してmaxまで抽出できるようにする。
+	 * それでもmaxまで取れない場合、min以上残っているなら全て抽出し、min未満しか残量がない場合、何も抽出しない。
+	 */
+	public static long popFuel(long min, long max,
+		LongConsumer onEnergyTankDecred,
+		DatamodelEnergy energyTank,
+		IInventoryMir51 inventoryFuel,
+		ToIntFunction<ItemStack> getFuelValue)
+	{
+		if (energyTank.getAmount() >= max) {
+			energyTank.decrAmount(max);
+			onEnergyTankDecred.accept(max);
+			return max;
+		} else {
+			// 燃料が足りない
+
+			if (tryBurnFuel(energyTank, inventoryFuel, getFuelValue)) {
+				return popFuel(min, max, onEnergyTankDecred, energyTank, inventoryFuel, getFuelValue);
+			} else {
+				if (energyTank.getAmount() >= min) {
+					long amount = energyTank.getAmount();
+					energyTank.decrAmount(amount);
+					onEnergyTankDecred.accept(amount);
+					return amount;
+				} else {
+					// 燃料がちっとも足りない
+
+					return 0;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 燃料スロットの末尾のアイテムが燃料なら、燃料を1個消費して燃料ゲージを増加させる。
+	 *
+	 * @return 燃料ゲージの増加が行われた場合。
+	 */
+	public static boolean tryBurnFuel(
+		DatamodelEnergy energyTank,
+		IInventoryMir51 inventoryFuel,
+		ToIntFunction<ItemStack> getFuelValue)
+	{
+		ItemStack itemStack = getLastStack(inventoryFuel);
+
+		int fuelValue = getFuelValue.applyAsInt(itemStack);
+		if (fuelValue > 0) {
+
+			inventoryFuel.getInventoryCell(inventoryFuel.getSizeInventory() - 1).decrStackSize(1);
+
+			energyTank.setCapacity(energyTank.getAmount());
+			energyTank.setAmount(energyTank.getAmount() + fuelValue);
+			energyTank.setCapacity(energyTank.getCapacity() + fuelValue);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return 全てのアイテムがfromから移動した。
+	 */
+	public static boolean tryMergeInventory(IInventoryMir51 from, IInventoryMir51 to, boolean inverse)
+	{
+		for (int i = 0; i < from.getSizeInventory(); i++) {
+			ItemStack itemStack = from.getInventoryCell(i).getStackInSlot();
+			if (itemStack != null) {
+
+				HelpersContainer.mergeItemStackIntoInventory(
+					i2 -> () -> to.getInventoryCell(i2).getStackInSlot(),
+					i2 -> s -> to.getInventoryCell(i2).setInventorySlotContents(s),
+					i2 -> s -> to.getInventoryCell(i2).isItemValidForSlot(s),
+					i2 -> to::getInventoryStackLimit,
+					i2 -> to::markDirty,
+					itemStack, 0, to.getSizeInventory(), inverse);
+
+				if (itemStack.stackSize == 0) {
+					from.getInventoryCell(i).setInventorySlotContents(null);
+					//from.markDirty();
+				} else {
+					return false;
+				}
+
+			}
+		}
+
+		return true;
+	}
+
+	public static ItemStack getLastStack(IInventoryMir51 inventory)
+	{
+		return inventory.getInventoryCell(inventory.getSizeInventory() - 1).getStackInSlot();
+	}
+
+	public static void clearInventory(IInventoryMir51 inventory)
+	{
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			inventory.getInventoryCell(i).setInventorySlotContents(null);
+		}
+	}
+
+	public static boolean isEmpty(IInventoryMir51 inventory)
+	{
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			if (inventory.getInventoryCell(i).getStackInSlot() != null) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String getDefaultName()
+	{
+		return "container.miragecrops5.mmfMacerator";
+	}
+
+}
