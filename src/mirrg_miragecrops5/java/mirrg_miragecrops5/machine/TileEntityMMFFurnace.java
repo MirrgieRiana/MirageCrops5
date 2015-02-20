@@ -273,7 +273,7 @@ public class TileEntityMMFFurnace extends TileEntityMMF
 			long pop = 0;
 			if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
 				pop = ProcessingManager.popFuel(0, cooldown, i -> {},
-					energyTankHyleon, inventoryFairyFuel, itemStack -> 10000);
+					energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 10000 : 0);
 			}
 			cooldown -= pop;
 
