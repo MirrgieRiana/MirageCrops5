@@ -1,8 +1,13 @@
 package mirrg_miragecrops5.fairytype;
 
+import static net.minecraft.util.EnumChatFormatting.*;
+
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 
+import mirrg.he.math.HelpersMath;
+import mirrg.he.math.HelpersString;
 import mirrg_miragecrops5.ModuleCore;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -104,6 +109,35 @@ public class HelpersFairyType
 				values[i] += source[i];
 			}
 		};
+	}
+
+	private static String makeGauge(int index, int value)
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append(value < 0 ? RED : value > 0 ? GREEN : DARK_GRAY);
+		sb.append(FairyType.getLabel(index));
+		sb.append(" ");
+		sb.append(value < 0 ? "-" : value > 0 ? "+" : " ");
+		sb.append(Math.abs(value));
+		sb.append(" ");
+
+		int gauge = HelpersMath.log2(Math.abs(value)) + 1;
+		if (value == 0) gauge = 0;
+		sb.append(HelpersString.rept("|", gauge));
+		sb.append(BLACK);
+		sb.append(HelpersString.rept("|", 10 - gauge));
+
+		return sb.toString();
+	}
+
+	public static void addInformation(List<String> strings, int[] values)
+	{
+		strings.add("       " + GRAY + makeGauge(5, values[5]));
+		strings.add(GRAY + makeGauge(3, values[3]) +
+			" " + GRAY + makeGauge(4, values[4]));
+		strings.add(GRAY + makeGauge(1, values[1]) +
+			" " + GRAY + makeGauge(2, values[2]));
+		strings.add("       " + GRAY + makeGauge(0, values[0]));
 	}
 
 }
