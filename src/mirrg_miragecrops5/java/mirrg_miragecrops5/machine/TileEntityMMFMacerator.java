@@ -141,10 +141,10 @@ public class TileEntityMMFMacerator extends TileEntityMMF
 		InventoryMir51Trimmer inventoryHandle = new InventoryMir51Trimmer(inventory2, 0, 9);
 
 		container.addInventory(inventoryInMaterial,
-			new SupplierPositionContainerFlow(LEFT + 9 * 4, TOP_CHEST, SHIFT, SHIFT, 9), true);
+			new SupplierPositionContainerFlow(LEFT + 9 * 4, TOP_CHEST + 9 * 2, SHIFT, SHIFT, 9), true);
 		container.addInventory(inventoryInMaterialProcessing,
 			(inventory, index, x, y) -> new SlotProcessing(inventory, index, x, y),
-			new SupplierPositionContainerFlow(LEFT + 9 * 8, TOP_CHEST, SHIFT, SHIFT, 9), false);
+			new SupplierPositionContainerFlow(LEFT + 9 * 8, TOP_CHEST + 9 * 2, SHIFT, SHIFT, 9), false);
 		container.addInventory(inventoryOut,
 			new SupplierPositionContainerFlow(LEFT + 9 * 14, TOP_CHEST + 9 * 1, SHIFT, SHIFT, 2), false);
 		container.addInventory(inventoryFairy,
