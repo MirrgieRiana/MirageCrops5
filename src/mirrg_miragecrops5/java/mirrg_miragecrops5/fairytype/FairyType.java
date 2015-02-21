@@ -86,6 +86,30 @@ public class FairyType
 		return skillEntries;
 	}
 
+	public ArrayList<Tuple<IFairySkill, Double>> getSkills(int tier)
+	{
+		double rate = sumSkillLevelPositive > 0
+			? Math.min(1, tier / sumSkillLevelPositive)
+			: 0;
+		double rateN = sumSkillLevelNegative > 0
+			? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
+			: 0;
+
+		{
+			ArrayList<Tuple<IFairySkill, Double>> list = new ArrayList<>();
+
+			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
+				if (skillEntry.getX().isPositive()) {
+					list.add(new Tuple<>(skillEntry.getX(), skillEntry.getY() * rate));
+				} else {
+					list.add(new Tuple<>(skillEntry.getX(), skillEntry.getY() * rateN));
+				}
+			}
+
+			return list;
+		}
+	}
+
 	public Consumer<int[]> getIncreaser()
 	{
 		return getIncreaser((int) Math.ceil(maxSkillLevel));

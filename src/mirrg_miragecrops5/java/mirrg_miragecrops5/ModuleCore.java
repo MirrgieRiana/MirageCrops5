@@ -145,8 +145,11 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							}
 
 							strings.add("Skills:");
-							for (Tuple<IFairySkill, Double> skill : fairyType.getSkills()) {
-								strings.add("    " + AQUA + skill.getX().getName());
+							for (Tuple<IFairySkill, Double> skill : fairyType.getSkills(tier)) {
+								strings.add(String.format("    %s%s %.2f",
+									skill.getX().isPositive() ? AQUA : YELLOW,
+									skill.getX().getName(),
+									skill.getY()));
 							}
 
 							/*
