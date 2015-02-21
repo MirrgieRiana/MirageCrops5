@@ -32,6 +32,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -94,6 +95,31 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 			});
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
 				@Override
+				public String getItemStackDisplayName(ItemStack itemStack)
+				{
+					if (itemStack.getTagCompound() != null
+						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
+						String typeName = itemStack.getTagCompound().getString("type");
+						int tier = 1;
+						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
+							tier = itemStack.getTagCompound().getInteger("tier");
+						}
+
+						FairyType fairyType = RegistryFairyType.get(typeName);
+						if (fairyType != null) {
+
+							String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + "Tier" + tier + ".format";
+							String format = StatCollector.translateToLocal(unlocalizedName).trim();
+							String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+
+							return String.format(format, fairyTypeLocalizedName).trim();
+						}
+					}
+
+					return super.getItemStackDisplayName(itemStack);
+				}
+
+				@Override
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
@@ -108,7 +134,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 						FairyType fairyType = RegistryFairyType.get(type);
 
 						if (fairyType != null) {
-							strings.add("Type: " + AQUA + fairyType.typeName);
+							strings.add("Type: " + AQUA + HelpersFairyType.getLocalizedName(fairyType) + "(" + fairyType.typeName + ")");
 							strings.add("Tier: " + tier);
 
 							strings.add("Values:");
@@ -118,7 +144,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							for (Tuple<IFairySkill, Double> skill : fairyType.getSkills(tier)) {
 								strings.add(String.format("    %s%s %.2f",
 									skill.getX().isPositive() ? AQUA : YELLOW,
-									skill.getX().getName(),
+									HelpersFairyType.getLocalizedName(skill.getX()),
 									skill.getY()));
 							}
 
@@ -213,6 +239,27 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				}
 			});
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
+				@Override
+				public String getItemStackDisplayName(ItemStack itemStack)
+				{
+					if (itemStack.getTagCompound() != null
+						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
+						String typeName = itemStack.getTagCompound().getString("type");
+
+						FairyType fairyType = RegistryFairyType.get(typeName);
+						if (fairyType != null) {
+
+							String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + ".format";
+							String format = StatCollector.translateToLocal(unlocalizedName).trim();
+							String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+
+							return String.format(format, fairyTypeLocalizedName).trim();
+						}
+					}
+
+					return super.getItemStackDisplayName(itemStack);
+				}
+
 				@Override
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
