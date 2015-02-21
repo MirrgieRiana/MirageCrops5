@@ -81,6 +81,11 @@ public class FairyType
 		}
 	}
 
+	public ArrayList<Tuple<IFairySkill, Double>> getSkills()
+	{
+		return skillEntries;
+	}
+
 	public Consumer<int[]> getIncreaser()
 	{
 		return getIncreaser((int) Math.ceil(maxSkillLevel));
