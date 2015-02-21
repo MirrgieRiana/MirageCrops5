@@ -13,6 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import api.mirrg.mir50.net.NBTTypes;
 
 public class HelpersFairyType
@@ -149,6 +150,18 @@ public class HelpersFairyType
 		if (index == 2) return "Em";
 		if (index == 0) return "Ph";
 		return "ER";
+	}
+
+	public static String getLocalizedName(FairyType fairyType)
+	{
+		return StatCollector.translateToLocal(
+			"fairytype." + (fairyType != null ? fairyType.typeName : "null") + ".name");
+	}
+
+	public static String getLocalizedName(IFairySkill fairySkill)
+	{
+		return StatCollector.translateToLocal(
+			"fairyskill." + (fairySkill != null ? fairySkill.getName() : "null") + ".name");
 	}
 
 }
