@@ -138,6 +138,9 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 			container.addContainerExtraSlot(containerExtraSlot, getName(energyTankHyleon));
 		}
 
+		container.setTransferInventories(inventoryOut, inventoryHandle.get(), inventoryPlayer.get());
+		container.setTransferInventories(inventoryFairy, inventoryHandle.get(), inventoryPlayer.get());
+		container.setTransferInventories(inventoryFairyFuel, inventoryHandle.get(), inventoryPlayer.get());
 	}
 
 }

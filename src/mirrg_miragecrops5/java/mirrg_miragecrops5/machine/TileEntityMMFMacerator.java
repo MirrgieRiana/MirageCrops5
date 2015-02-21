@@ -75,9 +75,6 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 			new SupplierPositionContainerFlow(LEFT + 9 * 8, TOP_CHEST + 9 * 2, SHIFT, SHIFT, 9), false);
 
 		container.setTransferInventories(inventoryInMaterial, inventoryHandle.get(), inventoryPlayer.get());
-		container.setTransferInventories(inventoryOut, inventoryHandle.get(), inventoryPlayer.get());
-		container.setTransferInventories(inventoryFairy, inventoryHandle.get(), inventoryPlayer.get());
-		container.setTransferInventories(inventoryFairyFuel, inventoryHandle.get(), inventoryPlayer.get());
 		container.setTransferInventories(inventoryPlayer.get(), inventoryFairy, inventoryFairyFuel, inventoryInMaterial);
 		container.setTransferInventories(inventoryHandle.get(), inventoryFairy, inventoryFairyFuel, inventoryInMaterial);
 	}
