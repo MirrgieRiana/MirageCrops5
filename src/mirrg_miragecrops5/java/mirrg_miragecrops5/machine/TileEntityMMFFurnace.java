@@ -148,7 +148,7 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 							// 出力を一時バッファに設置する
 							inventoryOutProcessing.getInventoryCell(0).setInventorySlotContents(smeltingResult.copy());
 
-							onStart.accept(200);
+							onStart.accept(200 * 1000);
 						}
 					}
 
@@ -160,24 +160,24 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 			{
 				long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
 
-				need = Math.min(1, need);
+				need = Math.min(1000, need);
 
 				long pop = popFuel(0, need, amount -> {
 					energyTankFuelDecred[0] += amount;
-				}, energyTankFuel, inventoryInFuel, TileEntityFurnace::getItemBurnTime);
+				}, energyTankFuel, inventoryInFuel, itemStack -> TileEntityFurnace.getItemBurnTime(itemStack) * 1000);
 
 				energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop);
 			}
 
 		}.tick();
 
-		long cooldown = Math.min(1 - energyTankFuelDecred[0], energyTankFuel.amount);
+		long cooldown = Math.min(100 - energyTankFuelDecred[0], energyTankFuel.amount);
 
 		if (cooldown > 0) {
 			long pop = 0;
 			if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
 				pop = ProcessingManager.popFuel(0, cooldown, i -> {},
-					energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 10000 : 0);
+					energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 1000 * 1000 : 0);
 			}
 			cooldown -= pop;
 

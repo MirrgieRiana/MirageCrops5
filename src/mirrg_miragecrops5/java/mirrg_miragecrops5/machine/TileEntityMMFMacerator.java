@@ -137,7 +137,7 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 										inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
 									}
 
-									onStart.accept(200);
+									onStart.accept(100 * 1000);
 								}
 							}
 						}
@@ -150,12 +150,12 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 				{
 					long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
 
-					need = Math.min(1, need);
+					need = Math.min(200, need);
 
-					int rate = 20;
+					int rate = 1;
 
 					long pop = popFuel(0, need * rate, i -> {},
-						energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 10000 : 0);
+						energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 1000 * 1000 : 0);
 
 					energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop / rate);
 				}

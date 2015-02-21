@@ -3,7 +3,6 @@ package mirrg.mir51.gui.renderers;
 import java.util.ArrayList;
 
 import mirrg.he.math.HelpersCollision;
-import mirrg.he.math.HelpersString;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import mirrg.mir50.gui.renderer.HelpersRenderer;
@@ -31,7 +30,7 @@ public class RendererEnergySlotMeter implements IRenderer<ContainerExtraSlotData
 	@SideOnly(Side.CLIENT)
 	public void drawForegroundLayer(IGuiRenderHelper gui, ContainerExtraSlotDatamodel<DatamodelEnergy> t, int mouseX, int mouseY)
 	{
-		HelpersRenderer.drawMirageFontString(gui, HelpersString.getSeparatedString(t.datamodel.getAmount()) + " H",
+		HelpersRenderer.drawMirageFontString(gui, String.format("%,.3f H", t.datamodel.getAmount() * 0.001),
 			t.x, t.y, EnumTextAlign.CENTER, EnumRotate.RIGHT0);
 	}
 
@@ -44,7 +43,7 @@ public class RendererEnergySlotMeter implements IRenderer<ContainerExtraSlotData
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.datamodel.getAmount() + " / " + t.datamodel.getCapacity());
+			list.add(String.format("%.3f / %.3f", t.datamodel.getAmount() * 0.001, t.datamodel.getCapacity() * 0.001));
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}

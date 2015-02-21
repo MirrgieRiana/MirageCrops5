@@ -7,8 +7,16 @@ import api.mirrg.mir50.net.NBTTypes;
 public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 {
 
+	/**
+	 * 単位は1/1000。
+	 */
 	public long amount;
+
+	/**
+	 * 単位は1/1000。
+	 */
 	public long capacity;
+
 	public final long defaultCapacity;
 	protected Runnable runnableMarkDirty;
 

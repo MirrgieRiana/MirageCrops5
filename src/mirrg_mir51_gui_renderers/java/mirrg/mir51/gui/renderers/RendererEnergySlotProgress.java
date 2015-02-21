@@ -142,7 +142,7 @@ public class RendererEnergySlotProgress implements IRenderer<ContainerExtraSlotD
 
 		if (hit(gui, t, mouseX, mouseY)) {
 			ArrayList<String> list = new ArrayList<String>();
-			list.add("" + t.datamodel.getAmount() + " / " + t.datamodel.getCapacity());
+			list.add(String.format("%.3f / %.3f", t.datamodel.getAmount() * 0.001, t.datamodel.getCapacity() * 0.001));
 			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 			return true;
 		}
