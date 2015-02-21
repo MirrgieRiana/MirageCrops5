@@ -16,7 +16,7 @@ public class SlotFairy extends Slot
 	@Override
 	public boolean isItemValid(ItemStack itemStack)
 	{
-		return itemStack.getItem() == ModuleCore.loaderItem_craftingToolMirageFairy.get();
+		return itemStack.getItem() == ModuleCore.loaderItem_craftingMirageFairy.get();
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class HelpersFairyType
 		if (fairy == null) return values -> {};
 
 		Item item = fairy.getItem();
-		if (item != ModuleCore.loaderItem_craftingToolMirageFairy.get()) return values -> {};
+		if (item != ModuleCore.loaderItem_craftingMirageFairy.get()) return values -> {};
 
 		NBTTagCompound tag = fairy.getTagCompound();
 		if (tag == null) return values -> {};

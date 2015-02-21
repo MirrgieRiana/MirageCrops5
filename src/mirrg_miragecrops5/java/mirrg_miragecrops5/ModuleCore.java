@@ -48,13 +48,13 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 	//public static LoaderBlock loaderBlock_blockTest = new LoaderBlock();
 	public static LoaderItem loaderItem_craftingToolHardHammerSpinachium = new LoaderItem();
 	public static LoaderItem loaderItem_craftingTool = new LoaderItem();
-	public static LoaderItem loaderItem_craftingToolMirageFairy = new LoaderItem();
+	public static LoaderItem loaderItem_craftingMirageFairy = new LoaderItem();
 	public static LoaderItem loaderItem_craftingSpiritFairy = new LoaderItem();
 
 	public ModuleCore()
 	{
 
-		loaderCreativeTab.init(() -> loaderItem_craftingToolMirageFairy.get(), "miragecrops5_core");
+		loaderCreativeTab.init(() -> loaderItem_craftingMirageFairy.get(), "miragecrops5_core");
 		add(loaderCreativeTab);
 
 		/*
@@ -70,7 +70,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		add(loaderBlock_blockTest);
 		*/
 
-		process_loaderItem(loaderItem_craftingToolMirageFairy, loaderCreativeTab, "craftingToolMirageFairy", (itemMir50) -> {
+		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTab, "craftingMirageFairy", (itemMir50) -> {
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
 				@Override
 				@SideOnly(Side.CLIENT)
@@ -144,11 +144,11 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 			AdaptorItemIconAutonomy icon = new AdaptorItemIconAutonomy(itemMir50, itemMir50);
 			itemMir50.virtualClass.override(icon);
-			icon.appendIcon("miragecrops5:" + "craftingToolMirageFairy" + "_" + 0, 0xFFC9D1);
-			icon.appendIcon("miragecrops5:" + "craftingToolMirageFairy" + "_" + 1);
-			icon.appendIcon("miragecrops5:" + "craftingToolMirageFairy" + "_" + 2);
-			icon.appendIcon("miragecrops5:" + "craftingToolMirageFairy" + "_" + 3);
-			icon.appendIcon("miragecrops5:" + "craftingToolMirageFairy" + "_" + 4);
+			icon.appendIcon("miragecrops5:" + "craftingMirageFairy" + "_" + 0, 0xFFC9D1);
+			icon.appendIcon("miragecrops5:" + "craftingMirageFairy" + "_" + 1);
+			icon.appendIcon("miragecrops5:" + "craftingMirageFairy" + "_" + 2);
+			icon.appendIcon("miragecrops5:" + "craftingMirageFairy" + "_" + 3);
+			icon.appendIcon("miragecrops5:" + "craftingMirageFairy" + "_" + 4);
 
 			itemMir50.virtualClass.override(new AdaptorItemIconOverriding(itemMir50, itemMir50) {
 				@Override
@@ -393,7 +393,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				IntConsumer a = tier -> {
 					GameRegistry.addRecipe(new RecipeFairy((inventoryCrafting, slotIndexes) -> {
 						ItemStack craftingSpiritFairy = inventoryCrafting.getStackInSlot(slotIndexes[0]);
-						ItemStack craftingToolMirageFairy = HelpersOreDictionary.copyOrThrow("craftingToolMirageFairy");
+						ItemStack craftingMirageFairy = HelpersOreDictionary.copyOrThrow("craftingMirageFairy");
 
 						if (craftingSpiritFairy.hasTagCompound()) {
 							NBTTagCompound nbt = (NBTTagCompound) craftingSpiritFairy.getTagCompound().copy();
@@ -401,8 +401,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								nbt = new NBTTagCompound();
 							}
 							nbt.setInteger("tier", tier);
-							craftingToolMirageFairy.setTagCompound(nbt);
-							return craftingToolMirageFairy;
+							craftingMirageFairy.setTagCompound(nbt);
+							return craftingMirageFairy;
 						} else {
 							return null;
 						}
