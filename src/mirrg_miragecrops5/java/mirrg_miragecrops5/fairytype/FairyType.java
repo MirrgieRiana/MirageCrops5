@@ -135,15 +135,4 @@ public class FairyType
 		};
 	}
 
-	public static String getLabel(int index)
-	{
-		if (index == 0) return "Tr";
-		if (index == 1) return "Lo";
-		if (index == 2) return "Ma";
-		if (index == 3) return "In";
-		if (index == 4) return "Em";
-		if (index == 5) return "Ph";
-		return "ER";
-	}
-
 }

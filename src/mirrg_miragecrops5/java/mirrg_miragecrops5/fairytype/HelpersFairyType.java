@@ -115,7 +115,7 @@ public class HelpersFairyType
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(value < 0 ? RED : value > 0 ? GREEN : DARK_GRAY);
-		sb.append(FairyType.getLabel(index));
+		sb.append(HelpersFairyType.getLabel(index));
 		sb.append(" ");
 		sb.append(value < 0 ? "-" : value > 0 ? "+" : " ");
 		sb.append(Math.abs(value));
@@ -138,6 +138,17 @@ public class HelpersFairyType
 		strings.add(GRAY + makeGauge(1, values[1]) +
 			" " + GRAY + makeGauge(2, values[2]));
 		strings.add("       " + GRAY + makeGauge(0, values[0]));
+	}
+
+	public static String getLabel(int index)
+	{
+		if (index == 0) return "Tr";
+		if (index == 1) return "Lo";
+		if (index == 2) return "Ma";
+		if (index == 3) return "In";
+		if (index == 4) return "Em";
+		if (index == 5) return "Ph";
+		return "ER";
 	}
 
 }

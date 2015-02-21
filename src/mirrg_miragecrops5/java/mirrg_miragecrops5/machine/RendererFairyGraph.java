@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import mirrg.he.math.HelpersCollision;
 import mirrg.he.math.HelpersMath;
 import mirrg.mir50.gui.renderer.HelpersRenderer;
-import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import net.minecraft.client.renderer.OpenGlHelper;
 
@@ -108,27 +107,12 @@ public class RendererFairyGraph implements IRenderer<ContainerExtraSlotFairyGrap
 		int xStart = (gui.getScreenWidth() - gui.getGuiWidth()) / 2;
 		int yStart = (gui.getScreenHeight() - gui.getGuiHeight()) / 2;
 
-		int[] table = {
-			5, 3, 4, 1, 2, 0,
-		};
+		if (HelpersCollision.isHit(mouseX, mouseY, xStart + t.x, yStart + t.y, xStart + t.x + t.w, yStart + t.y + t.h) > 0) {
+			ArrayList<String> list = new ArrayList<String>();
+			HelpersFairyType.addInformation(list, HelpersFairyType.getValues(t.getIncreaser()));
+			gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
 
-		int[] values = HelpersFairyType.getValues(t.getIncreaser());
-
-		for (int i = 0; i < 6; i++) {
-			int x = t.x;
-			int y = t.y + t.h * i / 6;
-			int w = 16;
-			int h = t.h / 6 - 2;
-
-			if (HelpersCollision.isHit(mouseX, mouseY, xStart + x, yStart + y, xStart + x + w, yStart + y + h) > 0) {
-				ArrayList<String> list = new ArrayList<String>();
-
-				list.add(FairyType.getLabel(i) + ": " + values[table[i]]);
-
-				gui.drawHoveringText(list, mouseX - xStart, mouseY - yStart, gui.getFontRenderer());
-				return true;
-			}
-
+			return true;
 		}
 
 		return false;
