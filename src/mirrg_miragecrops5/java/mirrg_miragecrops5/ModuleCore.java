@@ -8,6 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
+import mirrg.h.struct.Tuple;
 import mirrg.he.math.HelpersMath;
 import mirrg.he.math.HelpersString;
 import mirrg.mir50.item.AdaptorItemEventsOverriding;
@@ -23,6 +24,7 @@ import mirrg.mir51.loaders.LoaderOreDictionary;
 import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
+import mirrg_miragecrops5.fairytype.IFairySkill;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.recipefairy.OreMatcher;
 import mirrg_miragecrops5.recipefairy.RecipeFairy;
@@ -50,6 +52,25 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 	public static LoaderItem loaderItem_craftingTool = new LoaderItem();
 	public static LoaderItem loaderItem_craftingToolMirageFairy = new LoaderItem();
 	public static LoaderItem loaderItem_craftingSpiritFairy = new LoaderItem();
+
+	String makeGauge(int index, int value)
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append(value < 0 ? RED : value > 0 ? GREEN : DARK_GRAY);
+		sb.append(FairyType.getLabel(index));
+		sb.append(" ");
+		sb.append(value < 0 ? "-" : value > 0 ? "+" : " ");
+		sb.append(Math.abs(value));
+		sb.append(" ");
+
+		int gauge = HelpersMath.log2(Math.abs(value)) + 1;
+		if (value == 0) gauge = 0;
+		sb.append(HelpersString.rept("|", gauge));
+		sb.append(BLACK);
+		sb.append(HelpersString.rept("|", 10 - gauge));
+
+		return sb.toString();
+	}
 
 	public ModuleCore()
 	{
@@ -111,39 +132,21 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							strings.add("Type: " + AQUA + fairyType.typeName);
 							strings.add("Tier: " + tier);
 
-							IntFunction<String> makeGauge = v -> {
-								StringBuffer sb = new StringBuffer();
-								if (v < 0) {
-									sb.append(RED);
-									sb.append("-");
-								} else if (v > 0) {
-									sb.append(GREEN);
-									sb.append("+");
-								} else {
-									sb.append(DARK_GRAY);
-									sb.append(" ");
-								}
-								sb.append(Math.abs(v));
-								sb.append(" ");
-
-								int gauge = HelpersMath.log2(Math.abs(v)) + 1;
-								if (v == 0) gauge = 0;
-								sb.append(HelpersString.rept("|", gauge));
-								sb.append(BLACK);
-								sb.append(HelpersString.rept("|", 10 - gauge));
-								return sb.toString();
-							};
-
 							strings.add("Values:");
 							{
 								int[] values = HelpersFairyType.getValues(fairyType.getIncreaser(tier));
 
-								strings.add(GRAY + "       Tr " + makeGauge.apply(values[5]));
-								strings.add(GRAY + "Lo " + makeGauge.apply(values[3]) +
-									GRAY + " Ma " + makeGauge.apply(values[4]));
-								strings.add(GRAY + "In " + makeGauge.apply(values[1]) +
-									GRAY + " Em " + makeGauge.apply(values[2]));
-								strings.add(GRAY + "       Ph " + makeGauge.apply(values[0]));
+								strings.add("       " + GRAY + makeGauge(5, values[5]));
+								strings.add(GRAY + makeGauge(3, values[3]) +
+									" " + GRAY + makeGauge(4, values[4]));
+								strings.add(GRAY + makeGauge(1, values[1]) +
+									" " + GRAY + makeGauge(2, values[2]));
+								strings.add("       " + GRAY + makeGauge(0, values[0]));
+							}
+
+							strings.add("Skills:");
+							for (Tuple<IFairySkill, Double> skill : fairyType.getSkills()) {
+								strings.add("    " + AQUA + skill.getX().getName());
 							}
 
 							/*
