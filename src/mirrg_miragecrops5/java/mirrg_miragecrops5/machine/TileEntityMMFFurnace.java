@@ -120,7 +120,9 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 
 		new ProcessingManager(
 			energyTankProcessing,
-			inventoryInMaterialProcessing,
+			new IInventoryMir51[] {
+				inventoryInMaterialProcessing,
+			},
 			inventoryOutProcessing,
 			inventoryOut) {
 

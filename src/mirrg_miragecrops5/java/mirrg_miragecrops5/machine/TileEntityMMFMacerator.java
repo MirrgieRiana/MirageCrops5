@@ -90,7 +90,9 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 
 			new ProcessingManager(
 				energyTankProcessing,
-				inventoryInMaterialProcessing,
+				new IInventoryMir51[] {
+					inventoryInMaterialProcessing,
+				},
 				inventoryOutProcessing,
 				inventoryOut) {
 

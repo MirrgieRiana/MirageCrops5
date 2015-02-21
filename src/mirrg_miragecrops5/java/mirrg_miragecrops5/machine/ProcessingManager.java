@@ -13,18 +13,18 @@ public abstract class ProcessingManager
 {
 
 	private DatamodelEnergy energyTankProcessing;
-	private IInventoryMir51 inventoryInMaterialProcessing;
+	private IInventoryMir51[] inventoriesInMaterialProcessing;
 	private IInventoryMir51 inventoryOutProcessing;
 	private IInventoryMir51 inventoryOut;
 
 	public ProcessingManager(
 		DatamodelEnergy energyTankProcessing,
-		IInventoryMir51 inventoryInMaterialProcessing,
+		IInventoryMir51[] inventoriesInMaterialProcessing,
 		IInventoryMir51 inventoryOutProcessing,
 		IInventoryMir51 inventoryOut)
 	{
 		this.energyTankProcessing = energyTankProcessing;
-		this.inventoryInMaterialProcessing = inventoryInMaterialProcessing;
+		this.inventoriesInMaterialProcessing = inventoriesInMaterialProcessing;
 		this.inventoryOutProcessing = inventoryOutProcessing;
 		this.inventoryOut = inventoryOut;
 	}
@@ -44,7 +44,9 @@ public abstract class ProcessingManager
 		}
 
 		if (isOutputting()) {
-			clearInventory(inventoryInMaterialProcessing);
+			for (IInventoryMir51 inventory : inventoriesInMaterialProcessing) {
+				clearInventory(inventory);
+			}
 			tryMergeInventory(inventoryOutProcessing, inventoryOut, true);
 		}
 
