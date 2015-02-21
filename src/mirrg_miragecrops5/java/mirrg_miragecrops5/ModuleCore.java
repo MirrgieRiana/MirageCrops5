@@ -184,7 +184,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					FairyType fairyType = RegistryFairyType.get("apatite");
 					if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
 					if (pass == 0) return fairyType.colorS;
-					if (pass == 1) return 0xFF78A7;
+					if (pass == 1) return getColorOfTier(1);
 					if (pass == 2) return fairyType.colorA;
 					if (pass == 3) return fairyType.colorB;
 					if (pass == 4) return fairyType.colorC;
