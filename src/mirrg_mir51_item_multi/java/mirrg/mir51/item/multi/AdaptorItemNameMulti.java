@@ -38,6 +38,14 @@ public class AdaptorItemNameMulti extends AdaptorItemNameOverriding
 	}
 
 	@Override
+	public String getItemStackDisplayName(ItemStack itemStack)
+	{
+		MetaItem metaItem = containerMetaItem.get(itemStack);
+		if (metaItem == null) return super.getItemStackDisplayName(itemStack);
+		return metaItem.accessor_IAdaptorItemName.get().getItemStackDisplayName(itemStack);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 	{

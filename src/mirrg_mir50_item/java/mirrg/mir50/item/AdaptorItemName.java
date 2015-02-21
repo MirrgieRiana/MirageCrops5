@@ -45,6 +45,12 @@ public class AdaptorItemName extends Adaptor<ItemMir50> implements IAdaptorItemN
 	}
 
 	@Override
+	public String getItemStackDisplayName(ItemStack itemStack)
+	{
+		return ("" + StatCollector.translateToLocal(owner.getUnlocalizedNameInefficiently(itemStack) + ".name")).trim();
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 	{

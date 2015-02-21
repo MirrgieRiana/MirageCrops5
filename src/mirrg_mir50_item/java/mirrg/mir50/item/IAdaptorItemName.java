@@ -19,6 +19,8 @@ public interface IAdaptorItemName
 
 	public String getUnlocalizedName(ItemStack itemStack);
 
+	public String getItemStackDisplayName(ItemStack itemStack);
+
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift);
 

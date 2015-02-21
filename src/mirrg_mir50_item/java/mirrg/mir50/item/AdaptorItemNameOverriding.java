@@ -45,6 +45,12 @@ public class AdaptorItemNameOverriding extends AdaptorItemName
 	}
 
 	@Override
+	public String getItemStackDisplayName(ItemStack itemStack)
+	{
+		return _super_IAdaptorItemName.getItemStackDisplayName(itemStack);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 	{

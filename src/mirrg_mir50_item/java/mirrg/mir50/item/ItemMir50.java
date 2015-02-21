@@ -182,6 +182,12 @@ public class ItemMir50 extends Item implements IVirtualClass
 	}
 
 	@Override
+	public String getItemStackDisplayName(ItemStack itemStack)
+	{
+		return accessor_IAdaptorItemName.get().getItemStackDisplayName(itemStack);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List strings, boolean shift)
 	{
