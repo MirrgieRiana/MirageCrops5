@@ -93,14 +93,14 @@ public class FairyType
 
 	public Consumer<int[]> getIncreaser(int tier)
 	{
-		return values -> {
-			double rate = sumSkillLevelPositive > 0
-				? Math.min(1, tier / sumSkillLevelPositive)
-				: 0;
-			double rateN = sumSkillLevelNegative > 0
-				? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
-				: 0;
+		double rate = sumSkillLevelPositive > 0
+			? Math.min(1, tier / sumSkillLevelPositive)
+			: 0;
+		double rateN = sumSkillLevelNegative > 0
+			? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
+			: 0;
 
+		return values -> {
 			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
 				if (skillEntry.getX().isPositive()) {
 					skillEntry.getX().increase(values, skillEntry.getY() * rate);
