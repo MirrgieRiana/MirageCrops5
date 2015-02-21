@@ -32,6 +32,7 @@ tile.blockMiragium.name=ミラジウムブロック
 
 container.miragecrops5.mmfFurnace=保温炉
 container.miragecrops5.mmfMacerator=妖力物理粉砕機
+container.miragecrops5.mmfSpiritDeveloper=妖精霊錬成機
 
 item.craftingSpiritFairy.format=%sの妖精霊
 item.craftingMirageFairyTier1.format=%sの初級妖精

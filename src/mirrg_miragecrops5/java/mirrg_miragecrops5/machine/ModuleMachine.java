@@ -37,6 +37,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public static LoaderBlock loaderBlock_machineMirageFairy = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfFurnace = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfMacerator = new LoaderBlock();
+	public static LoaderBlock loaderBlock_mmfSpiritDeveloper = new LoaderBlock();
 
 	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
 	public static int loaderSimpleNetworkWrapper_counter = 0;
@@ -95,6 +96,22 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			blockMir50.virtualClass.override(a);
 
 			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFMacerator());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+
+			blockMir50.virtualClass.register(IGuiProvider.class);
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
+		});
+
+		add(new LoaderTileEntity(TileEntityMMFSpiritDeveloper.class, "MMFSpiritDeveloper"));
+		process_loaderBlock(loaderBlock_mmfSpiritDeveloper, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfSpiritDeveloper", (blockMir50) -> {
+			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+
+			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
+			a.appendIcon("miragecrops5:machineMirageFairy_0_3");
+			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x264797);
+			blockMir50.virtualClass.override(a);
+
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFSpiritDeveloper());
 			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
 
 			blockMir50.virtualClass.register(IGuiProvider.class);
