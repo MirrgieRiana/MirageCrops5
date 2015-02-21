@@ -274,7 +274,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(ANIMAL, 2);
 			fairyType.addSkill(FOOD, 2);
 		}));
-		add(new LoaderFairyType("enderperl", fairyType -> {
+		add(new LoaderFairyType("enderpearl", fairyType -> {
 			fairyType.setColors(bodyColor, 0x349988, 0x8CF4E2, 0x032620);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.ender_pearl, 1, 0));
 			fairyType.addSkill(ANIMAL, 4);
