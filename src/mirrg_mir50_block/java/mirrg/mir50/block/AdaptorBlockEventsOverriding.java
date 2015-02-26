@@ -135,4 +135,10 @@ public class AdaptorBlockEventsOverriding extends AdaptorBlockEvents
 		_super_IAdaptorBlockEvents.breakBlock(world, x, y, z, block, metadata);
 	}
 
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int metadata)
+	{
+		_super_IAdaptorBlockEvents.harvestBlock(world, player, x, y, z, metadata);
+	}
+
 }

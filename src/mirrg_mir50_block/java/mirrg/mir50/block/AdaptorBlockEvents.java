@@ -1,14 +1,19 @@
 package mirrg.mir50.block;
 
+import java.util.ArrayList;
+
 import mirrg.p.adaptor.Adaptor;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class AdaptorBlockEvents extends Adaptor<BlockMir50> implements IAdaptorBlockEvents
 {
@@ -136,6 +141,30 @@ public class AdaptorBlockEvents extends Adaptor<BlockMir50> implements IAdaptorB
 	{
 		if (owner.hasTileEntity(metadata)) {// && !(this instanceof BlockContainer)) {
 			world.removeTileEntity(x, y, z);
+		}
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int metadata)
+	{
+		player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(owner)], 1);
+		player.addExhaustion(0.025F);
+
+		if (owner.canSilkHarvest(world, player, x, y, z, metadata) && EnchantmentHelper.getSilkTouchModifier(player)) {
+			ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+			ItemStack itemstack = owner.createStackedBlock(metadata);
+
+			if (itemstack != null) items.add(itemstack);
+
+			ForgeEventFactory.fireBlockHarvesting(items, world, owner, x, y, z, metadata, 0, 1.0f, true, player);
+			for (ItemStack is : items) {
+				owner.dropBlockAsItem(world, x, y, z, is);
+			}
+		} else {
+			owner.getField_harvesters().set(player);
+			int i1 = EnchantmentHelper.getFortuneModifier(player);
+			owner.dropBlockAsItem(world, x, y, z, metadata, i1);
+			owner.getField_harvesters().set(null);
 		}
 	}
 

@@ -50,4 +50,6 @@ public interface IAdaptorBlockEvents
 
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata);
 
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int metadata);
+
 }

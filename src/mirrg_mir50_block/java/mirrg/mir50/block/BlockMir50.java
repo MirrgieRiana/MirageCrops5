@@ -381,6 +381,22 @@ public class BlockMir50 extends Block implements IVirtualClass
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockEvents> accessor_IAdaptorBlockEvents;
 
+	public final void setField_harvesters(ThreadLocal<EntityPlayer> harvesters)
+	{
+		this.harvesters = harvesters;
+	}
+
+	public final ThreadLocal<EntityPlayer> getField_harvesters()
+	{
+		return harvesters;
+	}
+
+	@Override
+	public void dropBlockAsItem(World p_149642_1_, int p_149642_2_, int p_149642_3_, int p_149642_4_, ItemStack p_149642_5_)
+	{
+		super.dropBlockAsItem(p_149642_1_, p_149642_2_, p_149642_3_, p_149642_4_, p_149642_5_);
+	}
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
 	{
@@ -493,6 +509,12 @@ public class BlockMir50 extends Block implements IVirtualClass
 	public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
 	{
 		accessor_IAdaptorBlockEvents.get().breakBlock(world, x, y, z, block, metadata);
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int metadata)
+	{
+		accessor_IAdaptorBlockEvents.get().harvestBlock(world, player, x, y, z, metadata);
 	}
 
 }
