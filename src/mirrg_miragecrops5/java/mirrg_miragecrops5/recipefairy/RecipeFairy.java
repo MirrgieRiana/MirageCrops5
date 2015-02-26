@@ -2,6 +2,7 @@ package mirrg_miragecrops5.recipefairy;
 
 import java.util.function.Predicate;
 
+import mirrg.mir50.oredictionary.OreMatcher;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;

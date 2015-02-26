@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.recipefairy;
+package mirrg.mir50.oredictionary;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import mirrg.h.struct.Tuple;
-import mirrg_miragecrops5.recipefairy.OreMatcher;
+import mirrg.mir50.oredictionary.OreMatcher;
 import net.minecraft.item.ItemStack;
 
 public class FairyType

@@ -8,13 +8,13 @@ import java.util.function.Supplier;
 import mirrg.h.struct.Tuple;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
+import mirrg.mir50.oredictionary.OreMatcher;
 import mirrg.mir51.inventory.IInventoryMir51;
 import mirrg.mir51.inventory.InventoryMir51Base;
 import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
-import mirrg_miragecrops5.recipefairy.OreMatcher;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
