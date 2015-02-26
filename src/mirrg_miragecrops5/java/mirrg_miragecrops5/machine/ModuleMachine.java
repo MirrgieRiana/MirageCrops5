@@ -10,7 +10,9 @@ import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
 import mirrg.mir51.loaders.LoaderMessageHandler;
+import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
+import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.gui.ContainerMir52;
@@ -19,7 +21,6 @@ import mirrg.mir52.gui.MessageNamedTag;
 import mirrg.mir52.gui.MessageNamedTagHandler;
 import mirrg.mir53.tile.TileEntityMir53;
 import mirrg.p.virtualclass.IVirtualClass;
-import mirrg_miragecrops5.LoaderTileEntity;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
@@ -38,6 +39,9 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public static LoaderBlock loaderBlock_mmfFurnace = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfMacerator = new LoaderBlock();
 	public static LoaderBlock loaderBlock_mmfSpiritDeveloper = new LoaderBlock();
+	public static LoaderBlock loaderBlock_mmfCarbonizationFurnace = new LoaderBlock();
+	public static LoaderBlock loaderBlock_mmfDigestionMachine = new LoaderBlock();
+	public static LoaderBlock loaderBlock_writingDesk = new LoaderBlock();
 
 	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
 	public static int loaderSimpleNetworkWrapper_counter = 0;
@@ -117,6 +121,63 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			blockMir50.virtualClass.register(IGuiProvider.class);
 			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
 		});
+
+		add(new LoaderTileEntity(TileEntityMMFCarbonizationFurnace.class, "MMFCarbonizationFurnace"));
+		process_loaderBlock(loaderBlock_mmfCarbonizationFurnace, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfCarbonizationFurnace", (blockMir50) -> {
+			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+
+			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
+			a.appendIcon("miragecrops5:machineMirageFairy_0_2");
+			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x3468F3);
+			blockMir50.virtualClass.override(a);
+
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFCarbonizationFurnace());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+
+			blockMir50.virtualClass.register(IGuiProvider.class);
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
+		});
+
+		add(new LoaderTileEntity(TileEntityMMFDigestionMachine.class, "MMFDigestionMachine"));
+		process_loaderBlock(loaderBlock_mmfDigestionMachine, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfDigestionMachine", (blockMir50) -> {
+			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+
+			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
+			a.appendIcon("miragecrops5:machineMirageFairy_0_2");
+			a.appendIcon("miragecrops5:machineMirageFairy_1", 0xF87B60);
+			blockMir50.virtualClass.override(a);
+
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFDigestionMachine());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+
+			blockMir50.virtualClass.register(IGuiProvider.class);
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
+		});
+
+		add(new LoaderTileEntity(TileEntityWritingDesk.class, "WritingDesk"));
+		process_loaderBlock(loaderBlock_writingDesk, ModuleCore.loaderCreativeTab, ItemBlock.class, "writingDesk", (blockMir50) -> {
+			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
+
+			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
+			a.appendIcon("miragecrops5:machineMirageFairy_0_0");
+			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
+			blockMir50.virtualClass.override(a);
+
+			makeBlockHasTileEntity(blockMir50, () -> new TileEntityWritingDesk());
+			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+
+			blockMir50.virtualClass.register(IGuiProvider.class);
+			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
+		});
+
+		add(new LoaderRecipe(() -> {
+
+			RegistryFairyFuel.register("gemCalcite", 1000);
+			RegistryFairyFuel.register("dustCalcite", 1000);
+			RegistryFairyFuel.register("dustSmallCalcite", 250);
+			RegistryFairyFuel.register("dustTinyCalcite", 111);
+
+		}));
 
 	}
 
