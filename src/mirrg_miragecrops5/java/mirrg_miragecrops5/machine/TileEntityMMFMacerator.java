@@ -153,8 +153,7 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 
 					int rate = 1;
 
-					long pop = popFuel(0, need * rate, i -> {},
-						energyTankHyleon, inventoryFairyFuel, itemStack -> itemStack != null ? 1000 * 1000 : 0);
+					long pop = popFairyFuel(0, need * rate);
 
 					energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop / rate);
 				}

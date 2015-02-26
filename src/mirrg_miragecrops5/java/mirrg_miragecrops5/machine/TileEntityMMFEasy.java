@@ -143,4 +143,11 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 		container.setTransferInventories(inventoryFairyFuel, inventoryHandle.get(), inventoryPlayer.get());
 	}
 
+	protected long popFairyFuel(long min, long max)
+	{
+		return ProcessingManager.popFuel(min, max, i -> {},
+			energyTankHyleon, inventoryFairyFuel,
+			itemStack -> RegistryFairyFuel.getFairyFuelValue(itemStack) * 1000);
+	}
+
 }
