@@ -15,7 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	public static IFairySkill SOIL = new FairySkillNegative("soil", -0.2, 0, 0, 0, 0, 0);
+	public static IFairySkill SOIL = new FairySkillNegative("soil", -0.5, 0, 0, 0, 0, 0);
 
 	public static IFairySkill MINERAL = new FairySkillNegative("mineral", 0, -1, 0, 0, 0, 0);
 	public static IFairySkill FARM = new FairySkillNegative("farm", 0, 0, -1, 0, 0, 0);

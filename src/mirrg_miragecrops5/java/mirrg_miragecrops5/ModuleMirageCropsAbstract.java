@@ -197,22 +197,4 @@ public abstract class ModuleMirageCropsAbstract extends ModuleAbstract
 		}).dependsOn(loaderBlock));
 	}
 
-	protected void aLOG(Supplier<IGeneratorOreInChunk> supplier)
-	{
-		add(new LoaderOreGenerator(loaderModule, supplier));
-	}
-
-	protected IGeneratorOreInChunk cGOIC(
-		int density, double numberOfBlocks, int heightMin, int heightMax, Block block, int meta, String... filterBiomeNames)
-	{
-		WorldGeneratorMinableExtra worldGenerator = new WorldGeneratorMinableExtra(block, meta, numberOfBlocks, Blocks.stone);
-
-		for (String filterBiomeName : filterBiomeNames) {
-			worldGenerator.addFilter(new FilterBiome(filterBiomeName));
-		}
-
-		return GeneratorOreInChunkBridge.createFromMinMax(
-			density, IGeneratorOreAtPoint.Helpers.fromWorldGenerator(worldGenerator), heightMin, heightMax);
-	}
-
 }
