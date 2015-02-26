@@ -3,18 +3,27 @@ package mirrg_miragecrops5;
 import static net.minecraft.util.EnumChatFormatting.*;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
 import mirrg.h.struct.Tuple;
+import mirrg.he.math.HelpersColor;
+import mirrg.he.math.HelpersString;
 import mirrg.mir50.item.AdaptorItemEventsOverriding;
 import mirrg.mir50.item.AdaptorItemIconOverriding;
 import mirrg.mir50.item.AdaptorItemNameOverriding;
 import mirrg.mir50.item.AdaptorItemSubItemsOverriding;
-import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingTool;
+import mirrg.mir50.item.adaptors.AdaptorItemContainerItemAutonomy;
+import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingToolInfinite;
+import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingToolNBT;
+import mirrg.mir50.item.adaptors.AdaptorItemContainerItemMaxStackSize;
 import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
+import mirrg.mir50.item.adaptors.AdaptorItemNameInformation;
+import mirrg.mir50.item.adaptors.AdaptorItemNameInformationCraftingToolNBT;
+import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
@@ -27,7 +36,10 @@ import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.recipefairy.OreMatcher;
 import mirrg_miragecrops5.recipefairy.RecipeFairy;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,7 +49,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import api.mirrg.mir50.net.NBTTypes;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,10 +58,10 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 	public static LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
 	//public static LoaderBlock loaderBlock_blockTest = new LoaderBlock();
-	public static LoaderItem loaderItem_craftingToolHardHammerSpinachium = new LoaderItem();
 	public static LoaderItem loaderItem_craftingTool = new LoaderItem();
 	public static LoaderItem loaderItem_craftingMirageFairy = new LoaderItem();
 	public static LoaderItem loaderItem_craftingSpiritFairy = new LoaderItem();
+	public static LoaderItem loaderItem_craftingPickaxeApatite = new LoaderItem();
 
 	public ModuleCore()
 	{
@@ -70,6 +81,15 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		loaderBlock_blockTest.setCreativeTab(loaderCreativeTab);
 		add(loaderBlock_blockTest);
 		*/
+
+		loaderItem_craftingPickaxeApatite.init(() -> {
+			ItemCraftingPickaxeApatite item = new ItemCraftingPickaxeApatite();
+			item.setCreativeTab(loaderCreativeTab.get());
+			item.setTextureName("miragecrops5:craftingPickaxeApatite");
+			item.setUnlocalizedName("craftingPickaxeApatite");
+			return item;
+		}, "craftingPickaxeApatite", ModMirageCrops.MODID);
+		add(loaderItem_craftingPickaxeApatite);
 
 		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTab, "craftingMirageFairy", (itemMir50) -> {
 			itemMir50.setHasSubtypes(true);
@@ -205,6 +225,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					});
 				}
 			});
+			itemMir50.virtualClass.override(new AdaptorItemContainerItemCraftingToolInfinite(itemMir50, itemMir50));
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
@@ -340,7 +361,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								player.posY + 0.5,
 								player.posZ + 0.5,
 								"ambient.cave.cave",
-								0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+								1.0F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 						}
 
 						return crafted[1];
@@ -350,15 +371,76 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 			setMetaItem(itemMir50, metaItemContainer, 5, "ingotSpinachium", (metaItem, a) -> {
 				a.appendIcon("minecraft:iron_ingot", 0x22cc00);
 			}, true);
-		});
 
-		process_loaderItem(loaderItem_craftingToolHardHammerSpinachium, loaderCreativeTab, "craftingToolHardHammerSpinachium", (itemMir50) -> {
-			itemMir50.setTextureName("miragecrops5:craftingToolHardHammerSpinachium");
-			itemMir50.setFull3D();
+			setMetaItem(itemMir50, metaItemContainer, 10, "craftingCoke", null, false);
 
-			itemMir50.setMaxStackSize(1);
-			itemMir50.setMaxDamage(20 - 1);
-			itemMir50.virtualClass.override(new AdaptorItemContainerItemCraftingTool(itemMir50, itemMir50));
+			setMetaItem(itemMir50, metaItemContainer, 11, "craftingFairyWastesTier1", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:" + "craftingFairyWastes");
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 12, "craftingBookMirage", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:" + "craftingBookMirage", HelpersColor.multiplicate(0x654B17, 255.0 / 138));
+				metaItem.virtualClass.override(new AdaptorItemContainerItemCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemNameInformationCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemContainerItemMaxStackSize(itemMir50, metaItem, 1));
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 13, "craftingMonolithMirage", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:" + "craftingMonolithMirage", 0xAADDFF);
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 14, "craftingStoneMirageFairy", (metaItem, a) -> {
+				{
+					AdaptorItemContainerItemAutonomy b = new AdaptorItemContainerItemAutonomy(itemMir50, metaItem);
+					b.functionContainerItem = itemStack -> itemStack;
+					b.doesContainerItemLeaveCraftingGrid = false;
+					b.maxStackSize = 1;
+					metaItem.virtualClass.override(b);
+				}
+				metaItem.virtualClass.override(new AdaptorItemNameInformation(itemMir50, metaItem,
+					(itemStack, player, strings, shift) -> {
+						strings.add(StatCollector.translateToLocal("item.craftingStoneMirageFairy.information"));
+					}));
+			}, false);
+
+			setMetaItem(itemMir50, metaItemContainer, 15, "craftingBookMirageToolIndustrial", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:" + "craftingBookMirage", 0x3232FF);
+				metaItem.virtualClass.override(new AdaptorItemContainerItemCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemNameInformationCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemContainerItemMaxStackSize(itemMir50, metaItem, 1));
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 16, "craftingClayMold", null, false);
+
+			setMetaItem(itemMir50, metaItemContainer, 17, "craftingBrickMold", null, false);
+			setMetaItem(itemMir50, metaItemContainer, 18, "craftingBrickMoldBaked", (metaItem, a) -> {
+				metaItem.virtualClass.override(new AdaptorItemEventsOverriding(itemMir50, metaItem) {
+					@Override
+					public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+					{
+						return HelpersItemUse.craft(itemStack, world, player, () -> {
+							world.playSoundEffect(
+								player.posX + 0.5,
+								player.posY + 0.5,
+								player.posZ + 0.5,
+								"random.break",
+								1.0F, 1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F);
+						}, () -> 1, (outputs) -> {
+							outputs.add(HelpersOreDictionary.copyOrThrow("craftingDallFairyTier1"));
+						}, true);
+					}
+				});
+			}, false);
+			setMetaItem(itemMir50, metaItemContainer, 19, "craftingBrickMoldFilled", null, false);
+
+			setMetaItem(itemMir50, metaItemContainer, 20, "craftingBookMirageFairy", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:" + "craftingBookMirage", 0x26A1FF);
+				metaItem.virtualClass.override(new AdaptorItemContainerItemCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemNameInformationCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+				metaItem.virtualClass.override(new AdaptorItemContainerItemMaxStackSize(itemMir50, metaItem, 1));
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 21, "craftingStoneMirageFairyBaked", null, false);
 
 		});
 
@@ -380,39 +462,115 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		add(new LoaderRecipe(() -> {
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(
-				HelpersOreDictionary.getOrThrow("ingotIron"),
-				"X",
-				"Y",
-				'X', "craftingToolHardHammer",
-				'Y', "oreIron"));
+				HelpersOreDictionary.getOrThrow("writingDesk"),
+				"BST",
+				"HHH",
+				"P P",
+				'B', "craftingBookMirageFairy",
+				'S', Blocks.bookshelf,
+				'T', Blocks.torch,
+				'P', "plankWood",
+				'H', "slabWood"));
+
+			GameRegistry.addSmelting(
+				HelpersOreDictionary.getOrThrow("craftingStoneMirageFairy"),
+				HelpersOreDictionary.getOrThrow("craftingStoneMirageFairyBaked"), 5);
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingMirageFairyCobblestoneTier1"),
+				"craftingStoneMirageFairyBaked",
+				"craftingDallFairyTier1"));
+
+			GameRegistry.addSmelting(
+				HelpersOreDictionary.getOrThrow("craftingBrickMoldFilled"),
+				HelpersOreDictionary.getOrThrow("craftingBrickMoldBaked"), 5);
+
+			GameRegistry.addSmelting(
+				HelpersOreDictionary.getOrThrow("craftingClayMold"),
+				HelpersOreDictionary.getOrThrow("craftingBrickMold"), 5);
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(
-				HelpersOreDictionary.getOrThrow("craftingToolHardHammerSpinachium"),
-				"XX ",
-				"XXY",
-				"XX ",
-				'X', "ingotSpinachium",
-				'Y', "stickWood"));
+				HelpersOreDictionary.getOrThrow("craftingClayMold"),
+				"B  ",
+				"C C",
+				"CCC",
+				'B', "craftingBookMirageFairy",
+				'C', Items.clay_ball));
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingBookMirageFairy"),
+				"craftingStoneMirageFairy",
+				Items.writable_book));
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingBookMirage"),
+				"craftingMirageFairyRedstone",
+				Items.writable_book));
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMold"),
-				"X X",
+				"B  ",
+				"XCX",
 				"XXX",
+				'B', "craftingBookMirageToolIndustrial",
+				'C', "craftingToolChisel",
 				'X', "ingotSpinachium"));
+
+			{
+				ItemStack itemStack = new ItemStack(loaderItem_craftingPickaxeApatite.get());
+				{
+					Hashtable<Integer, Integer> hash = new Hashtable<>();
+					hash.put(Enchantment.fortune.effectId, 1);
+					EnchantmentHelper.setEnchantments(hash, itemStack);
+				}
+				GameRegistry.addRecipe(new ShapedOreRecipe(
+					itemStack,
+					"FFF",
+					" A ",
+					" A ",
+					'A', "gemApatite",
+					'F', "gemFluorite"));
+			}
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingBrickMoldFilled"),
+				"craftingBookMirageFairy",
+				"craftingBrickMold",
+				Items.rotten_flesh,
+				Items.bone,
+				Items.leather,
+				"dustRedstone",
+				"treeLeaves",
+				"gemApatite",
+				"ingotSpinachium"));
 
 			GameRegistry.addRecipe(new ShapelessOreRecipe(
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldFilled"),
+				"craftingBookMirageFairy",
 				"craftingSpinachiumMold",
 				Items.rotten_flesh,
 				Items.bone,
 				Items.leather,
-				Items.string,
 				"dustRedstone",
-				"treeLeaves"));
+				"treeLeaves",
+				"gemApatite",
+				"nuggetSpinachium"));
 
 			GameRegistry.addSmelting(
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldFilled"),
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldBaked"), 5);
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("dustMirage"),
+				"dustTinyMiragium",
+				"dustTinyMiragium",
+				"dustTinyMiragium",
+				"dustTinyApatite",
+				"dustTinyApatite",
+				"dustTinyApatite",
+				"dustTinyFluorite",
+				"dustTinyFluorite",
+				"dustTinyFluorite"));
 
 			{
 				IntConsumer a = tier -> {
@@ -440,6 +598,10 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					a.accept(tier);
 				}
 			}
+
+			GameRegistry.registerFuelHandler(
+				itemStack -> OreDictionary.itemMatches(
+					new ItemStack(loaderItem_craftingTool.get(), 1, 10), itemStack, false) ? 1600 * 2 : 0);
 
 		}));
 
