@@ -1,5 +1,6 @@
 package mirrg_miragecrops5.machine;
 
+import java.util.ArrayList;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 import java.util.function.ToIntFunction;
@@ -14,8 +15,16 @@ public abstract class ProcessingManager
 
 	private DatamodelEnergy energyTankProcessing;
 	private IInventoryMir51[] inventoriesInMaterialProcessing;
-	private IInventoryMir51 inventoryOutProcessing;
-	private IInventoryMir51 inventoryOut;
+	private ArrayList<IInventoryMir51> inventoriesOutProcessing = new ArrayList<>();
+	private ArrayList<IInventoryMir51> inventoriesOut = new ArrayList<>();
+
+	public ProcessingManager(
+		DatamodelEnergy energyTankProcessing,
+		IInventoryMir51[] inventoriesInMaterialProcessing)
+	{
+		this.energyTankProcessing = energyTankProcessing;
+		this.inventoriesInMaterialProcessing = inventoriesInMaterialProcessing;
+	}
 
 	public ProcessingManager(
 		DatamodelEnergy energyTankProcessing,
@@ -25,8 +34,13 @@ public abstract class ProcessingManager
 	{
 		this.energyTankProcessing = energyTankProcessing;
 		this.inventoriesInMaterialProcessing = inventoriesInMaterialProcessing;
-		this.inventoryOutProcessing = inventoryOutProcessing;
-		this.inventoryOut = inventoryOut;
+		addOut(inventoryOutProcessing, inventoryOut);
+	}
+
+	public void addOut(IInventoryMir51 inventoryOutProcessing, IInventoryMir51 inventoryOut)
+	{
+		inventoriesOutProcessing.add(inventoryOutProcessing);
+		inventoriesOut.add(inventoryOut);
 	}
 
 	public void tick()
@@ -47,7 +61,9 @@ public abstract class ProcessingManager
 			for (IInventoryMir51 inventory : inventoriesInMaterialProcessing) {
 				clearInventory(inventory);
 			}
-			tryMergeInventory(inventoryOutProcessing, inventoryOut, true);
+			for (int i = 0; i < inventoriesOutProcessing.size(); i++) {
+				tryMergeInventory(inventoriesOutProcessing.get(i), inventoriesOut.get(i), true);
+			}
 		}
 
 		if (isOutputted()) {
@@ -70,16 +86,35 @@ public abstract class ProcessingManager
 
 	public boolean isOutputting()
 	{
-		return energyTankProcessing.getCapacity() > 0
-			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
-			&& !isEmpty(inventoryOutProcessing);
+		if (energyTankProcessing.getCapacity() > 0) {
+			if (energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()) {
+
+				for (int i = 0; i < inventoriesOutProcessing.size(); i++) {
+					if (!isEmpty(inventoriesOutProcessing.get(i))) {
+						return true;
+					}
+				}
+
+			}
+		}
+		return false;
 	}
 
 	public boolean isOutputted()
 	{
-		return energyTankProcessing.getCapacity() > 0
-			&& energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()
-			&& isEmpty(inventoryOutProcessing);
+		if (energyTankProcessing.getCapacity() > 0) {
+			if (energyTankProcessing.getAmount() >= energyTankProcessing.getCapacity()) {
+
+				for (int i = 0; i < inventoriesOutProcessing.size(); i++) {
+					if (!isEmpty(inventoriesOutProcessing.get(i))) {
+						return false;
+					}
+				}
+				return true;
+
+			}
+		}
+		return false;
 	}
 
 	/**
