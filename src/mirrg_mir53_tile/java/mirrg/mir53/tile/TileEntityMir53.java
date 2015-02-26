@@ -1,6 +1,7 @@
 package mirrg.mir53.tile;
 
 import mirrg.mir50.guihandler.IGuiProvider;
+import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.GuiMir52;
 import mirrg_miragecrops5.machine.ModuleMachine;
@@ -176,6 +177,13 @@ public class TileEntityMir53 extends TileEntity implements IGuiProvider
 	public void onBroken()
 	{
 
+	}
+
+	private final SupplierPositionWorldFromTileEntity supplierPosition = new SupplierPositionWorldFromTileEntity(this);
+
+	protected SupplierPositionWorldFromTileEntity getSupplierPosition()
+	{
+		return supplierPosition;
 	}
 
 }

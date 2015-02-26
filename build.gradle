@@ -278,6 +278,7 @@ def packageDependancy = [
     "mirrg_mir53_tile": [
         fromSourceSet("ic2_api", true),
 
+        fromSourceSet("mirrg_mir50_world_pointer", true),
         fromSourceSet("mirrg_mir52_gui", true),
     ],
 
