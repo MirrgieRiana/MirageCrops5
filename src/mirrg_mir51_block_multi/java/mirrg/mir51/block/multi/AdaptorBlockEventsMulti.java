@@ -234,4 +234,22 @@ public class AdaptorBlockEventsMulti extends AdaptorBlockEventsOverriding
 		metaBlock.accessor_IAdaptorBlockEvents.get().harvestBlock(world, player, x, y, z, metadata);
 	}
 
+	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
+	{
+		MetaBlock metaBlock = this.containerMetaBlock.get(world, x, y, z);
+		if (metaBlock == null) return super.removedByPlayer(world, player, x, y, z, willHarvest);
+		return metaBlock.accessor_IAdaptorBlockEvents.get().removedByPlayer(world, player, x, y, z, willHarvest);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@Deprecated
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
+	{
+		MetaBlock metaBlock = this.containerMetaBlock.get(world, x, y, z);
+		if (metaBlock == null) return super.removedByPlayer(world, player, x, y, z);
+		return metaBlock.accessor_IAdaptorBlockEvents.get().removedByPlayer(world, player, x, y, z);
+	}
+
 }

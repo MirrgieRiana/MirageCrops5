@@ -517,4 +517,18 @@ public class BlockMir50 extends Block implements IVirtualClass
 		accessor_IAdaptorBlockEvents.get().harvestBlock(world, player, x, y, z, metadata);
 	}
 
+	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
+	{
+		return accessor_IAdaptorBlockEvents.get().removedByPlayer(world, player, x, y, z, willHarvest);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@Deprecated
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
+	{
+		return accessor_IAdaptorBlockEvents.get().removedByPlayer(world, player, x, y, z);
+	}
+
 }

@@ -168,4 +168,19 @@ public class AdaptorBlockEvents extends Adaptor<BlockMir50> implements IAdaptorB
 		}
 	}
 
+	@Override
+	@SuppressWarnings("deprecation")
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
+	{
+		return owner.removedByPlayer(world, player, x, y, z);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@Deprecated
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
+	{
+		return world.setBlockToAir(x, y, z);
+	}
+
 }

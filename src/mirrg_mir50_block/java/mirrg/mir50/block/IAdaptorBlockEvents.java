@@ -52,4 +52,9 @@ public interface IAdaptorBlockEvents
 
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int metadata);
 
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest);
+
+	@Deprecated
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z);
+
 }
