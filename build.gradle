@@ -212,6 +212,11 @@ def packageDependancy = [
         fromSourceSet("api_mirrg_mir50", true),
     ],
 
+    "mirrg_mir50_instanceregistry": [
+        fromSourceSet("mirrg", false),
+        fromSourceSet("api_mirrg_mir50", true),
+    ],
+
     //########################################################################
 
     // ----- Level 1 -----
