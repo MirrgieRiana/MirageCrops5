@@ -1,44 +1,57 @@
 package mirrg_miragecrops5.fairytype;
 
-import java.util.Collection;
-import java.util.Hashtable;
+import java.util.ArrayList;
 
+import mirrg.mir50.instanceregistry.IInstanceRegistry;
+import mirrg.mir50.instanceregistry.InstanceRegistryArray;
 import net.minecraft.item.ItemStack;
 
 public class RegistryFairyType
 {
 
-	protected static Hashtable<String, FairyType> hash = new Hashtable<>();
+	/**
+	 * 有効添え字：　0～3199<br>
+	 * 予約済み：　0～1499
+	 */
+	public static IInstanceRegistry<FairyType> registry = new InstanceRegistryArray<>(new FairyType[3200]);
 
-	public static FairyType register(String typeName)
+	public static ArrayList<FairyType> getFromItemStack(ItemStack itemStack)
 	{
-		FairyType value = new FairyType(typeName);
-		hash.put(typeName, value);
-		return value;
+		ArrayList<FairyType> fairyTypes = new ArrayList<>();
+
+		registry.forEach((index, name, fairyType) -> {
+			if (fairyType.matches(itemStack)) fairyTypes.add(fairyType);
+		});
+
+		return fairyTypes;
 	}
 
-	public static FairyType get(String typeName)
-	{
-		return hash.get(typeName);
-	}
-
-	public static FairyType get(ItemStack itemStack)
-	{
-		for (FairyType fairyType : hash.values()) {
-			if (fairyType.matches(itemStack)) return fairyType;
+	/*
+		public static FairyType register(String typeName)
+		{
+			FairyType value = new FairyType(typeName);
+			registry.put(typeName, value);
+			return value;
 		}
 
-		return null;
-	}
+		public static FairyType get(String typeName)
+		{
+			return registry.get(typeName);
+		}
 
-	public static boolean matches(String typeName, ItemStack itemStack)
-	{
-		return get(typeName).matches(itemStack);
-	}
+		public static FairyType get(ItemStack itemStack)
+		{
+		}
 
-	public static Collection<FairyType> getFairyTypes()
-	{
-		return hash.values();
-	}
+		public static boolean matches(String typeName, ItemStack itemStack)
+		{
+			return get(typeName).matches(itemStack);
+		}
+
+		public static Collection<FairyType> getFairyTypes()
+		{
+			return registry.values();
+		}
+	*/
 
 }

@@ -72,48 +72,34 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		*/
 
 		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTab, "craftingMirageFairy", (itemMir50) -> {
+			itemMir50.setHasSubtypes(true);
+
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
 				@Override
 				@SideOnly(Side.CLIENT)
 				public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 				{
-					for (FairyType fairyType : RegistryFairyType.getFairyTypes()) {
-						for (int tier = 1; tier <= 5; tier++) {
-							ItemStack itemStack = new ItemStack(owner, 1, 0);
-							{
-								NBTTagCompound nbt = new NBTTagCompound();
-
-								nbt.setString("type", fairyType.typeName);
-								nbt.setInteger("tier", tier);
-
-								itemStack.setTagCompound(nbt);
-							}
-							itemStacks.add(itemStack);
+					RegistryFairyType.registry.forEach((index, name, fairyType) -> {
+						for (int tier = 1; tier <= fairyType.getMaxTier(); tier++) {
+							itemStacks.add(new ItemStack(owner, 1, index * 10 + (tier - 1)));
 						}
-					}
+					});
 				}
 			});
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String typeName = itemStack.getTagCompound().getString("type");
-						int tier = 1;
-						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
-							tier = itemStack.getTagCompound().getInteger("tier");
-						}
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					int tier = (damage % 10) + 1;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-						FairyType fairyType = RegistryFairyType.get(typeName);
-						if (fairyType != null) {
-
-							String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + "Tier" + tier + ".format";
-							String format = StatCollector.translateToLocal(unlocalizedName).trim();
-							String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
-
-							return String.format(format, fairyTypeLocalizedName).trim();
-						}
+					if (fairyType != null) {
+						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + "Tier" + tier + ".format";
+						String format = StatCollector.translateToLocal(unlocalizedName).trim();
+						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+						return String.format(format, fairyTypeLocalizedName).trim();
 					}
 
 					return super.getItemStackDisplayName(itemStack);
@@ -123,45 +109,36 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String type = itemStack.getTagCompound().getString("type");
-						int tier = 1;
-						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
-							tier = itemStack.getTagCompound().getInteger("tier");
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					int tier = (damage % 10) + 1;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+
+					if (fairyType != null) {
+						strings.add("Type: " + AQUA + HelpersFairyType.getLocalizedName(fairyType) + "(" + fairyType.typeName + ")");
+						strings.add("Tier: " + tier);
+
+						strings.add("Values:");
+						HelpersFairyType.addInformation(strings, HelpersFairyType.getValues(fairyType.getIncreaser(tier)));
+
+						strings.add("Skills:");
+						for (Tuple<IFairySkill, Double> skill : fairyType.getSkills(tier)) {
+							strings.add(String.format("    %s%s %.2f",
+								skill.getX().isPositive() ? AQUA : YELLOW,
+								HelpersFairyType.getLocalizedName(skill.getX()),
+								skill.getY()));
 						}
 
-						FairyType fairyType = RegistryFairyType.get(type);
-
-						if (fairyType != null) {
-							strings.add("Type: " + AQUA + HelpersFairyType.getLocalizedName(fairyType) + "(" + fairyType.typeName + ")");
-							strings.add("Tier: " + tier);
-
-							strings.add("Values:");
-							HelpersFairyType.addInformation(strings, HelpersFairyType.getValues(fairyType.getIncreaser(tier)));
-
-							strings.add("Skills:");
-							for (Tuple<IFairySkill, Double> skill : fairyType.getSkills(tier)) {
-								strings.add(String.format("    %s%s %.2f",
-									skill.getX().isPositive() ? AQUA : YELLOW,
-									HelpersFairyType.getLocalizedName(skill.getX()),
-									skill.getY()));
-							}
-
-							/*
-							strings.add("");
-							strings.add(GRAY + "Heat " + makeGauge.apply(41));
-							strings.add("");
-							strings.add("Effects:");
-							strings.add("    Right: 攻撃力増加");
-							strings.add("    Left : 防御力増加");
-							strings.add("    Chest: 自動整列");
-							strings.add("    植物成長効率増加");
-							*/
-						} else {
-							strings.add("Type: " + RED + type);
-						}
-
+						/*
+						strings.add("");
+						strings.add(GRAY + "Heat " + makeGauge.apply(41));
+						strings.add("");
+						strings.add("Effects:");
+						strings.add("    Right: 攻撃力増加");
+						strings.add("    Left : 防御力増加");
+						strings.add("    Chest: 自動整列");
+						strings.add("    植物成長効率増加");
+						*/
 					} else {
 						strings.add("Type: " + RED + "Undefined!!");
 					}
@@ -181,7 +158,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					FairyType fairyType = RegistryFairyType.get("apatite");
+					FairyType fairyType = RegistryFairyType.registry.get("apatite");
 					if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
 					if (pass == 0) return fairyType.colorS;
 					if (pass == 1) return getColorOfTier(1);
@@ -197,16 +174,12 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String type = itemStack.getTagCompound().getString("type");
-						int tier = 1;
-						if (itemStack.getTagCompound().hasKey("tier", NBTTypes.INT)) {
-							tier = itemStack.getTagCompound().getInteger("tier");
-						}
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					int tier = (damage % 10) + 1;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-						FairyType fairyType = RegistryFairyType.get(type);
-						if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
+					if (fairyType != null) {
 						if (pass == 0) return fairyType.colorS;
 						if (pass == 1) return getColorOfTier(tier);
 						if (pass == 2) return fairyType.colorA;
@@ -220,41 +193,33 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		});
 
 		process_loaderItem(loaderItem_craftingSpiritFairy, loaderCreativeTab, "craftingSpiritFairy", (itemMir50) -> {
+			itemMir50.setHasSubtypes(true);
+
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
 				@Override
 				@SideOnly(Side.CLIENT)
 				public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 				{
-					for (FairyType fairyType : RegistryFairyType.getFairyTypes()) {
-						ItemStack itemStack = new ItemStack(owner, 1, 0);
-						{
-							NBTTagCompound nbt = new NBTTagCompound();
-
-							nbt.setString("type", fairyType.typeName);
-
-							itemStack.setTagCompound(nbt);
-						}
-						itemStacks.add(itemStack);
-					}
+					RegistryFairyType.registry.forEach((index, name, fairyType) -> {
+						itemStacks.add(new ItemStack(owner, 1, index * 10));
+					});
 				}
 			});
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String typeName = itemStack.getTagCompound().getString("type");
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-						FairyType fairyType = RegistryFairyType.get(typeName);
-						if (fairyType != null) {
+					if (fairyType != null) {
 
-							String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + ".format";
-							String format = StatCollector.translateToLocal(unlocalizedName).trim();
-							String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + ".format";
+						String format = StatCollector.translateToLocal(unlocalizedName).trim();
+						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
 
-							return String.format(format, fairyTypeLocalizedName).trim();
-						}
+						return String.format(format, fairyTypeLocalizedName);
 					}
 
 					return super.getItemStackDisplayName(itemStack);
@@ -264,10 +229,12 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String type = itemStack.getTagCompound().getString("type");
-						strings.add("Type: " + AQUA + type);
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+
+					if (fairyType != null) {
+						strings.add("Type: " + AQUA + fairyType.typeName);
 					} else {
 						strings.add("Type: " + RED + "Undefined!!");
 					}
@@ -286,12 +253,11 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					if (itemStack.getTagCompound() != null
-						&& itemStack.getTagCompound().hasKey("type", NBTTypes.STRING)) {
-						String type = itemStack.getTagCompound().getString("type");
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-						FairyType fairyType = RegistryFairyType.get(type);
-						if (fairyType == null) return super.getColorFromItemStack(itemStack, pass);
+					if (fairyType != null) {
 						if (pass == 0) return fairyType.colorB;
 						if (pass == 1) return fairyType.colorS;
 						if (pass == 2) return fairyType.colorA;
@@ -332,7 +298,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 						}, () -> 1, (outputs) -> {
 							outputs.add(HelpersOreDictionary.copyOrThrow("craftingSpinachiumMold"));
-							outputs.add(HelpersOreDictionary.copyOrThrow("craftingDallFairy"));
+							outputs.add(HelpersOreDictionary.copyOrThrow("craftingDallFairyTier1"));
 						}, true);
 					}
 				});
@@ -357,8 +323,9 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								if (drops == null || drops.size() == 0) return;
 								ItemStack drop = drops.get(world.rand.nextInt(drops.size()));
 
-								FairyType fairyType = RegistryFairyType.get(drop);
-								if (fairyType == null) return;
+								ArrayList<FairyType> fairyTypes = RegistryFairyType.getFromItemStack(drop);
+								if (fairyTypes.size() == 0) return;
+								FairyType fairyType = fairyTypes.get(world.rand.nextInt(fairyTypes.size()));
 								nbt.setString("type", fairyType.typeName);
 
 								output.setTagCompound(nbt);
@@ -396,8 +363,19 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		});
 
 		add(new LoaderOreDictionary(() -> {
-			OreDictionary.registerOre("craftingToolHardHammer", loaderItem_craftingToolHardHammerSpinachium.get());
-		}).dependsOn(loaderItem_craftingToolHardHammerSpinachium));
+
+			RegistryFairyType.registry.forEach((index, name, fairyType) -> {
+				OreDictionary.registerOre("craftingSpiritFairy" + HelpersString.toUpperCaseHead(name),
+					new ItemStack(loaderItem_craftingSpiritFairy.get(), 1, index * 10));
+				for (int tier = 1; tier <= fairyType.getMaxTier(); tier++) {
+					OreDictionary.registerOre("craftingMirageFairy" + HelpersString.toUpperCaseHead(name) + "Tier" + tier,
+						new ItemStack(loaderItem_craftingMirageFairy.get(), 1, index * 10 + (tier - 1)));
+					OreDictionary.registerOre("craftingMirageFairy" + HelpersString.toUpperCaseHead(name),
+						new ItemStack(loaderItem_craftingMirageFairy.get(), 1, index * 10 + (tier - 1)));
+				}
+			});
+
+		}));
 
 		add(new LoaderRecipe(() -> {
 

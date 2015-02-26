@@ -131,8 +131,9 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasy
 					if (!HelpersOreDictionary.isOre(itemStack1, "dustMirage")) return;
 
 					if (itemStack2 == null) return;
-					FairyType fairyType = RegistryFairyType.get(itemStack2);
-					if (fairyType == null) return;
+					ArrayList<FairyType> fairyTypes = RegistryFairyType.getFromItemStack(itemStack2);
+					if (fairyTypes.size() == 0) return;
+					FairyType fairyType = fairyTypes.get(getWorldObj().rand.nextInt(fairyTypes.size()));
 
 					//
 

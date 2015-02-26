@@ -72,7 +72,7 @@ public class HelpersFairyType
 		if (!tag.hasKey("type", NBTTypes.STRING)) return values -> {};
 
 		String typeName = tag.getString("type");
-		FairyType fairyType = RegistryFairyType.get(typeName);
+		FairyType fairyType = RegistryFairyType.registry.get(typeName);
 		if (fairyType == null) return values -> {};
 
 		int tier = 1;
