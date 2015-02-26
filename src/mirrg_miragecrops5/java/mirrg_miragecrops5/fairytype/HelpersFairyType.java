@@ -155,13 +155,13 @@ public class HelpersFairyType
 	public static String getLocalizedName(FairyType fairyType)
 	{
 		return StatCollector.translateToLocal(
-			"fairytype." + (fairyType != null ? fairyType.typeName : "null") + ".name");
+			"fairytype." + (fairyType != null ? fairyType.typeName : "null") + ".name").trim();
 	}
 
 	public static String getLocalizedName(IFairySkill fairySkill)
 	{
 		return StatCollector.translateToLocal(
-			"fairyskill." + (fairySkill != null ? fairySkill.getName() : "null") + ".name");
+			"fairyskill." + (fairySkill != null ? fairySkill.getName() : "null") + ".name").trim();
 	}
 
 }
