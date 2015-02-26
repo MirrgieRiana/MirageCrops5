@@ -3,6 +3,7 @@ package mirrg_miragecrops5;
 import mirrg.mir51.modding.ModAbstract;
 import mirrg_miragecrops5.fairytype.ModuleFairyType;
 import mirrg_miragecrops5.machine.ModuleMachine;
+import mirrg_miragecrops5.material.ModuleMaterials;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
