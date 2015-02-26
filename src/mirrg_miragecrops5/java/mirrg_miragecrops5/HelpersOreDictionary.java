@@ -82,6 +82,7 @@ public class HelpersOreDictionary
 
 	public static boolean isOre(ItemStack itemStack, String oreName)
 	{
+		if (itemStack == null) return false;
 		for (ItemStack ore : OreDictionary.getOres(oreName)) {
 			if (OreDictionary.itemMatches(ore, itemStack, false)) {
 				return true;
