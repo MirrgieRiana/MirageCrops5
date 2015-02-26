@@ -82,7 +82,7 @@ public class TileEntityMMFCarbonizationFurnace extends TileEntityMMFEasy
 
 	protected static ArrayList<Tuple<Tuple<OreMatcher, Integer>, Supplier<ItemStack>>> recipes = new ArrayList<>();
 	static {
-		recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.coal), 1), () -> HelpersOreDictionary.copyOrThrow("craftingCoke")));
+		recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(new ItemStack(Items.coal)), 1), () -> HelpersOreDictionary.copyOrThrow("craftingCoke")));
 		recipes.add(new Tuple<>(new Tuple<>(new OreMatcher("logWood"), 1), () -> new ItemStack(Items.coal, 1, 1)));
 		recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(new ItemStack(Items.coal, 1, 1)), 4), () -> HelpersOreDictionary.copyOrThrow("craftingCoke")));
 	}

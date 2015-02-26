@@ -12,52 +12,56 @@ public class OreMatcher implements Predicate<ItemStack>
 
 	protected ArrayList<Predicate<ItemStack>> matchers = new ArrayList<>();
 
-	@SuppressWarnings("unchecked")
-	public OreMatcher(Object... objects)
+	public OreMatcher()
 	{
-		for (Object object : objects) {
-			if (object instanceof ItemStack) {
-				addMatcher(((ItemStack) object).copy());
-			} else if (object instanceof Item) {
-				addMatcher(new ItemStack((Item) object));
-			} else if (object instanceof Block) {
-				addMatcher(new ItemStack((Block) object));
-			} else if (object instanceof String) {
-				addMatcher((String) object);
-			} else if (object instanceof Predicate) {
-				addMatcher((Predicate<ItemStack>) object);
-			} else {
-				throw new RuntimeException("Invalid shapeless ore recipe: " + object);
-			}
-		}
+
+	}
+
+	public OreMatcher(String... oreNames)
+	{
+		addMatcher(oreNames);
+	}
+
+	public OreMatcher(ItemStack... matchers)
+	{
+		addMatcher(matchers);
+	}
+
+	public OreMatcher(ItemStack matcher, boolean strict)
+	{
+		addMatcher(matcher, strict);
 	}
 
 	public OreMatcher addMatcher(String... oreNames)
 	{
 		for (String oreName : oreNames) {
-			addMatcher(oreName);
+			addMatcher(new PredicateOreName(oreName));
 		}
 		return this;
 	}
 
-	public OreMatcher addMatcher(String oreName)
+	public OreMatcher addMatcher(Item... matchers)
 	{
-		return addMatcher(new PredicateOreName(oreName));
+		for (Item matcher : matchers) {
+			addMatcher(new ItemStack(matcher));
+		}
+		return this;
 	}
 
-	public OreMatcher addMatcher(Item matcher)
+	public OreMatcher addMatcher(Block... matchers)
 	{
-		return addMatcher(new ItemStack(matcher));
+		for (Block matcher : matchers) {
+			addMatcher(new ItemStack(matcher));
+		}
+		return this;
 	}
 
-	public OreMatcher addMatcher(Block matcher)
+	public OreMatcher addMatcher(ItemStack... matchers)
 	{
-		return addMatcher(new ItemStack(matcher));
-	}
-
-	public OreMatcher addMatcher(ItemStack matcher)
-	{
-		return addMatcher(matcher, false);
+		for (ItemStack matcher : matchers) {
+			addMatcher(matcher, false);
+		}
+		return this;
 	}
 
 	public OreMatcher addMatcher(ItemStack matcher, boolean strict)
