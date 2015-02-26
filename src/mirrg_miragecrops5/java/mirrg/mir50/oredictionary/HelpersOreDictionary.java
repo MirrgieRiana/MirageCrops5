@@ -1,4 +1,4 @@
-package mirrg_miragecrops5;
+package mirrg.mir50.oredictionary;
 
 import java.util.ArrayList;
 
