@@ -1,6 +1,5 @@
 package mirrg_miragecrops5.machine;
 
-import mirrg_miragecrops5.HelpersOreDictionary;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,7 @@ public class SlotFairyFuel extends Slot
 	@Override
 	public boolean isItemValid(ItemStack itemStack)
 	{
-		return HelpersOreDictionary.isOre(itemStack, "dustMirage");
+		return RegistryFairyFuel.getFairyFuelValue(itemStack) > 0;
 	}
 
 }
