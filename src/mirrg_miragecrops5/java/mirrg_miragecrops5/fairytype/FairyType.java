@@ -70,6 +70,11 @@ public class FairyType
 	private double sumSkillLevelPositive = 0;
 	private double sumSkillLevelNegative = 0;
 
+	public int getMaxTier()
+	{
+		return (int) Math.ceil(Math.max(sumSkillLevelPositive, sumSkillLevelNegative));
+	}
+
 	public void addSkill(IFairySkill fairySkill, double level)
 	{
 		skillEntries.add(new Tuple<>(fairySkill, level));
