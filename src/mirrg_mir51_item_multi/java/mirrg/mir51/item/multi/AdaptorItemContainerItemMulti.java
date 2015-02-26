@@ -56,4 +56,12 @@ public class AdaptorItemContainerItemMulti extends AdaptorItemContainerItemOverr
 		return metaItem.accessor_IAdaptorItemContainerItem.get().showDurabilityBar(itemStack);
 	}
 
+	@Override
+	public int getItemStackLimit(ItemStack itemStack)
+	{
+		MetaItem metaItem = containerMetaItem.get(itemStack);
+		if (metaItem == null) return super.getItemStackLimit(itemStack);
+		return metaItem.accessor_IAdaptorItemContainerItem.get().getItemStackLimit(itemStack);
+	}
+
 }

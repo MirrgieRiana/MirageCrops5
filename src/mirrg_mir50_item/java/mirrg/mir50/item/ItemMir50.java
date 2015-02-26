@@ -208,6 +208,16 @@ public class ItemMir50 extends Item implements IVirtualClass
 		setContainerItem(containerItem);
 	}
 
+	public final int getField_maxStackSize()
+	{
+		return maxStackSize;
+	}
+
+	public final void setField_maxStackSize(int maxStackSize)
+	{
+		this.maxStackSize = maxStackSize;
+	}
+
 	@Override
 	public boolean hasContainerItem(ItemStack itemStack)
 	{
@@ -236,6 +246,26 @@ public class ItemMir50 extends Item implements IVirtualClass
 	public boolean showDurabilityBar(ItemStack itemStack)
 	{
 		return accessor_IAdaptorItemContainerItem.get().showDurabilityBar(itemStack);
+	}
+
+	@Override
+	public int getItemStackLimit(ItemStack itemStack)
+	{
+		return accessor_IAdaptorItemContainerItem.get().getItemStackLimit(itemStack);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	@Deprecated
+	public int getItemStackLimit()
+	{
+		return accessor_IAdaptorItemContainerItem.get().getItemStackLimit();
+	}
+
+	@Override
+	public Item setMaxStackSize(int maxStackSize)
+	{
+		return accessor_IAdaptorItemContainerItem.get().setMaxStackSize(maxStackSize);
 	}
 
 	/////////////////////////////////////////////////////////////////////

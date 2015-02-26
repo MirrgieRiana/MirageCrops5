@@ -1,6 +1,7 @@
 package mirrg.mir50.item;
 
 import mirrg.p.adaptor.Adaptor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class AdaptorItemContainerItem extends Adaptor<ItemMir50> implements IAdaptorItemContainerItem
@@ -43,6 +44,28 @@ public class AdaptorItemContainerItem extends Adaptor<ItemMir50> implements IAda
 	public boolean showDurabilityBar(ItemStack itemStack)
 	{
 		return itemStack.isItemDamaged();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public int getItemStackLimit(ItemStack itemStack)
+	{
+		return owner.getItemStackLimit();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	@Override
+	public int getItemStackLimit()
+	{
+		return owner.getField_maxStackSize();
+	}
+
+	@Override
+	public Item setMaxStackSize(int maxStackSize)
+	{
+		owner.setField_maxStackSize(maxStackSize);
+		return owner;
 	}
 
 }

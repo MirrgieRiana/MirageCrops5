@@ -1,6 +1,7 @@
 package mirrg.mir50.item;
 
 import mirrg.p.virtualclass.IVirtualClass;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class AdaptorItemContainerItemOverriding extends AdaptorItemContainerItem
@@ -42,6 +43,26 @@ public class AdaptorItemContainerItemOverriding extends AdaptorItemContainerItem
 	public boolean showDurabilityBar(ItemStack itemStack)
 	{
 		return _super_IAdaptorItemContainerItem.showDurabilityBar(itemStack);
+	}
+
+	@Override
+	public int getItemStackLimit(ItemStack itemStack)
+	{
+		return _super_IAdaptorItemContainerItem.getItemStackLimit(itemStack);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	@Override
+	public int getItemStackLimit()
+	{
+		return _super_IAdaptorItemContainerItem.getItemStackLimit();
+	}
+
+	@Override
+	public Item setMaxStackSize(int maxStackSize)
+	{
+		return _super_IAdaptorItemContainerItem.setMaxStackSize(maxStackSize);
 	}
 
 }
