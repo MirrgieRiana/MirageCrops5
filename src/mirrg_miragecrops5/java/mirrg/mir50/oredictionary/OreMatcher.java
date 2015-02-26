@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class OreMatcher implements Predicate<ItemStack>
 {
@@ -43,13 +42,7 @@ public class OreMatcher implements Predicate<ItemStack>
 
 	public OreMatcher addMatcher(String oreName)
 	{
-		return addMatcher(itemStack -> {
-			ArrayList<ItemStack> ores = OreDictionary.getOres(oreName);
-			for (ItemStack ore : ores) {
-				if (OreDictionary.itemMatches(ore, itemStack, false)) return true;
-			}
-			return false;
-		});
+		return addMatcher(new PredicateOreName(oreName));
 	}
 
 	public OreMatcher addMatcher(Item matcher)
@@ -69,7 +62,7 @@ public class OreMatcher implements Predicate<ItemStack>
 
 	public OreMatcher addMatcher(ItemStack matcher, boolean strict)
 	{
-		return addMatcher(itemStack -> OreDictionary.itemMatches(matcher, itemStack, strict));
+		return addMatcher(new PredicateItemMatches(matcher, strict));
 	}
 
 	public OreMatcher addMatcher(Predicate<ItemStack> matcher)
