@@ -11,4 +11,8 @@ public interface IAdaptorItemContainerItem
 
 	public ItemStack getContainerItem(ItemStack itemStack);
 
+	public double getDurabilityForDisplay(ItemStack itemStack);
+
+	public boolean showDurabilityBar(ItemStack itemStack);
+
 }

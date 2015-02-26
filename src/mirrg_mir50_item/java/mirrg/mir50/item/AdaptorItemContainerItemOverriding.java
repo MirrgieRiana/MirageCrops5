@@ -32,4 +32,16 @@ public class AdaptorItemContainerItemOverriding extends AdaptorItemContainerItem
 		return _super_IAdaptorItemContainerItem.getContainerItem(itemStack);
 	}
 
+	@Override
+	public double getDurabilityForDisplay(ItemStack itemStack)
+	{
+		return _super_IAdaptorItemContainerItem.getDurabilityForDisplay(itemStack);
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack itemStack)
+	{
+		return _super_IAdaptorItemContainerItem.showDurabilityBar(itemStack);
+	}
+
 }

@@ -40,4 +40,20 @@ public class AdaptorItemContainerItemMulti extends AdaptorItemContainerItemOverr
 		return metaItem.accessor_IAdaptorItemContainerItem.get().getContainerItem(itemStack);
 	}
 
+	@Override
+	public double getDurabilityForDisplay(ItemStack itemStack)
+	{
+		MetaItem metaItem = containerMetaItem.get(itemStack);
+		if (metaItem == null) return super.getDurabilityForDisplay(itemStack);
+		return metaItem.accessor_IAdaptorItemContainerItem.get().getDurabilityForDisplay(itemStack);
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack itemStack)
+	{
+		MetaItem metaItem = containerMetaItem.get(itemStack);
+		if (metaItem == null) return super.showDurabilityBar(itemStack);
+		return metaItem.accessor_IAdaptorItemContainerItem.get().showDurabilityBar(itemStack);
+	}
+
 }

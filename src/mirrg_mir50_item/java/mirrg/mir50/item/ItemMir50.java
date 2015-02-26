@@ -226,6 +226,18 @@ public class ItemMir50 extends Item implements IVirtualClass
 		return accessor_IAdaptorItemContainerItem.get().getContainerItem(itemStack);
 	}
 
+	@Override
+	public double getDurabilityForDisplay(ItemStack itemStack)
+	{
+		return accessor_IAdaptorItemContainerItem.get().getDurabilityForDisplay(itemStack);
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack itemStack)
+	{
+		return accessor_IAdaptorItemContainerItem.get().showDurabilityBar(itemStack);
+	}
+
 	/////////////////////////////////////////////////////////////////////
 
 	public final IVirtualImplementationAccessor<IAdaptorItemEvents> accessor_IAdaptorItemEvents;

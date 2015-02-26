@@ -33,4 +33,16 @@ public class AdaptorItemContainerItem extends Adaptor<ItemMir50> implements IAda
 		return new ItemStack(this.owner.getContainerItem());
 	}
 
+	@Override
+	public double getDurabilityForDisplay(ItemStack itemStack)
+	{
+		return (double) itemStack.getItemDamageForDisplay() / (double) itemStack.getMaxDamage();
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack itemStack)
+	{
+		return itemStack.isItemDamaged();
+	}
+
 }
