@@ -7,7 +7,7 @@ public class ModuleAbstract
 
 	public LoaderModule loaderModule = new LoaderModule();
 
-	protected void add(Loader<?> loader)
+	protected void add(Loader<?>... loader)
 	{
 		this.loaderModule.dependsOn(loader);
 	}
