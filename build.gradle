@@ -267,6 +267,7 @@ def packageDependancy = [
     "mirrg_mir52_gui": [
         fromSourceSet("mirrg_mir50_gui_container", true),
 
+        fromSourceSet("mirrg_mir51_loaders", true),
         fromSourceSet("mirrg_mir51_inventory", true),
         fromSourceSet("mirrg_mir51_gui_renderers", true),
     ],
@@ -278,8 +279,10 @@ def packageDependancy = [
     "mirrg_mir53_tile": [
         fromSourceSet("ic2_api", true),
 
+        fromSourceSet("mirrg", true), // mirrg.h
         fromSourceSet("mirrg_mir50_world_pointer", true),
         fromSourceSet("mirrg_mir52_gui", true),
+        fromSourceSet("mirrg_mir50_guihandler", true),
     ],
 
     //########################################################################

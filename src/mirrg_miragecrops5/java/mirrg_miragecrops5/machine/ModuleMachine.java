@@ -9,7 +9,6 @@ import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
-import mirrg.mir51.loaders.LoaderMessageHandler;
 import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.loaders.LoaderTileEntity;
@@ -17,8 +16,7 @@ import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.GuiMir52;
-import mirrg.mir52.gui.MessageNamedTag;
-import mirrg.mir52.gui.MessageNamedTagHandler;
+import mirrg.mir52.gui.HelpersContainerMir52;
 import mirrg.mir53.tile.TileEntityMir53;
 import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.ModMirageCrops;
@@ -36,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -59,8 +56,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		loaderSimpleNetworkWrapper.channelName = ModMirageCrops.MODID;
 		add(loaderSimpleNetworkWrapper);
-		add(new LoaderMessageHandler(loaderSimpleNetworkWrapper,
-			MessageNamedTagHandler.class, MessageNamedTag.class, loaderSimpleNetworkWrapper_counter++, Side.CLIENT));
+
+		add(HelpersContainerMir52.init());
 
 		loaderGuiHandler.guiId = 1;
 		loaderGuiHandler.supplierMod = () -> ModMirageCrops.instance;
