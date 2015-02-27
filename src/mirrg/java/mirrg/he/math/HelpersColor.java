@@ -3,12 +3,6 @@ package mirrg.he.math;
 public class HelpersColor
 {
 
-	@Deprecated
-	public static int color(int r, int g, int b) // TODO
-	{
-		return ib3(r, g, b);
-	}
-
 	public static int ib3(int r, int g, int b)
 	{
 		return (HelpersMath.trim(r, 0, 255) << 16)
