@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import java.util.function.Consumer;
 

@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import mirrg.mir50.datamodels.DatamodelFluid;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;

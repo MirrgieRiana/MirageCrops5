@@ -24,6 +24,14 @@ import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
+import mirrg_miragecrops5.machine.tile.TileEntityMMF;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFCarbonizationFurnace;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFFurnace;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFMacerator;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
+import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
+import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -203,7 +211,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			TileEntity tileEntity = world.getTileEntity(x, y, z);
 			if (tileEntity == null) return false;
 			if (tileEntity instanceof TileEntityMMF) {
-				return ((TileEntityMMF) tileEntity).onBlockActivated(world, x, y, z, player, side, x2, y2, z2);
+				return ((TileEntityMMF) tileEntity).onActivated(world, x, y, z, player, side, x2, y2, z2);
 			}
 			return false;
 		}

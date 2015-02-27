@@ -1,5 +1,6 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.container;
 
+import mirrg_miragecrops5.machine.RegistryFairyFuel;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

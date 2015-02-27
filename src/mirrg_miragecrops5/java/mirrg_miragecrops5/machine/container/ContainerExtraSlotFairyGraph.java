@@ -1,11 +1,12 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.container;
 
 import java.util.function.Consumer;
 
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotRectangle;
+import mirrg_miragecrops5.machine.tile.DatamodelFairyValues;
 import net.minecraft.nbt.NBTTagCompound;
 
-class ContainerExtraSlotFairyGraph extends ContainerExtraSlotRectangle
+public class ContainerExtraSlotFairyGraph extends ContainerExtraSlotRectangle
 {
 
 	public DatamodelFairyValues fairyValues;

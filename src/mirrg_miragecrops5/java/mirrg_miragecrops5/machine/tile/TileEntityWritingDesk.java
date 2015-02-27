@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import java.util.function.IntConsumer;
 
@@ -17,6 +17,10 @@ import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
+import mirrg_miragecrops5.machine.RegistryFairyFuel;
+import mirrg_miragecrops5.machine.container.SlotFairy;
+import mirrg_miragecrops5.machine.container.SlotFairyFuel;
+import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

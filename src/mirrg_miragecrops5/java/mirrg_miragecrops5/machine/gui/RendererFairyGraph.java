@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.gui;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import mirrg.he.math.HelpersCollision;
 import mirrg.he.math.HelpersMath;
 import mirrg.mir50.gui.renderer.HelpersRenderer;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
+import mirrg_miragecrops5.machine.container.ContainerExtraSlotFairyGraph;
 import net.minecraft.client.renderer.OpenGlHelper;
 
 import org.lwjgl.opengl.GL11;

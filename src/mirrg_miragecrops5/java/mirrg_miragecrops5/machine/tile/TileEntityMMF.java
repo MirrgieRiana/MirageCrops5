@@ -1,7 +1,8 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import mirrg.mir53.tile.TileEntityMir53Connected;
 import mirrg_miragecrops5.ModMirageCrops;
+import mirrg_miragecrops5.machine.ModuleMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,7 +17,7 @@ public class TileEntityMMF extends TileEntityMir53Connected
 	protected int TOP_HOLDING = 142;
 	protected int SHIFT = 18;
 
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
+	public boolean onActivated(World world, int x, int y, int z, EntityPlayer player, int side, float x2, float y2, float z2)
 	{
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity == null) return false;

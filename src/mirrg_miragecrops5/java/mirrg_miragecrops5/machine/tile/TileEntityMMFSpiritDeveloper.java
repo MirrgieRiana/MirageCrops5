@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import mirrg.mir52.gui.SupplierPositionContainerFlow;
 import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
+import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;

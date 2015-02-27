@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.tile;
 
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
@@ -13,6 +13,11 @@ import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
+import mirrg_miragecrops5.machine.RegistryFairyFuel;
+import mirrg_miragecrops5.machine.container.ContainerExtraSlotFairyGraph;
+import mirrg_miragecrops5.machine.container.SlotFairy;
+import mirrg_miragecrops5.machine.container.SlotFairyFuel;
+import mirrg_miragecrops5.machine.gui.RendererFairyGraph;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

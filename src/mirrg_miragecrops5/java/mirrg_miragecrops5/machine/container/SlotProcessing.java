@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.container;
 
 import api.mirrg.mir50.gui.renderer.IRenderer;
 import api.mirrg.mir50.gui.renderer.IRendererProvider;

@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.container;
 
 import mirrg_miragecrops5.ModuleCore;
 import net.minecraft.inventory.IInventory;
