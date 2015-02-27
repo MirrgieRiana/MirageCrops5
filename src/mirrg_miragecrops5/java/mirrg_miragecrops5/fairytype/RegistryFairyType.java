@@ -26,32 +26,4 @@ public class RegistryFairyType
 		return fairyTypes;
 	}
 
-	/*
-		public static FairyType register(String typeName)
-		{
-			FairyType value = new FairyType(typeName);
-			registry.put(typeName, value);
-			return value;
-		}
-
-		public static FairyType get(String typeName)
-		{
-			return registry.get(typeName);
-		}
-
-		public static FairyType get(ItemStack itemStack)
-		{
-		}
-
-		public static boolean matches(String typeName, ItemStack itemStack)
-		{
-			return get(typeName).matches(itemStack);
-		}
-
-		public static Collection<FairyType> getFairyTypes()
-		{
-			return registry.values();
-		}
-	*/
-
 }
