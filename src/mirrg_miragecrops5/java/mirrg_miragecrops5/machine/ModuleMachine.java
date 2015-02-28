@@ -34,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -53,6 +54,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 	public ModuleMachine()
 	{
+
+		APIRegistryRecipeFairyFuel.set(new RegistryRecipeFairyFuel());
 
 		loaderSimpleNetworkWrapper.channelName = ModMirageCrops.MODID;
 		add(loaderSimpleNetworkWrapper);
@@ -177,10 +180,10 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		add(new LoaderRecipe(() -> {
 
-			RegistryFairyFuel.register("gemCalcite", 1000);
-			RegistryFairyFuel.register("dustCalcite", 1000);
-			RegistryFairyFuel.register("dustSmallCalcite", 250);
-			RegistryFairyFuel.register("dustTinyCalcite", 111);
+			APIRegistryRecipeFairyFuel.registry.addRecipe("gemCalcite", 1000);
+			APIRegistryRecipeFairyFuel.registry.addRecipe("dustCalcite", 1000);
+			APIRegistryRecipeFairyFuel.registry.addRecipe("dustSmallCalcite", 250);
+			APIRegistryRecipeFairyFuel.registry.addRecipe("dustTinyCalcite", 111);
 
 		}));
 

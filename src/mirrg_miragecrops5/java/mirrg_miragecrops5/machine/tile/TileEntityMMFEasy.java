@@ -13,7 +13,6 @@ import mirrg.mir51.inventory.InventoryMir51FromInventory;
 import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
-import mirrg_miragecrops5.machine.RegistryFairyFuel;
 import mirrg_miragecrops5.machine.container.ContainerExtraSlotFairyGraph;
 import mirrg_miragecrops5.machine.container.SlotFairy;
 import mirrg_miragecrops5.machine.container.SlotFairyFuel;
@@ -22,6 +21,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import api.mirrg.mir50.gui.renderer.EnumTextAlign;
+import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
 
 public abstract class TileEntityMMFEasy extends TileEntityMMF
 {
@@ -152,7 +153,9 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 	{
 		return ProcessingManager.popFuel(min, max, i -> {},
 			energyTankHyleon, inventoryFairyFuel,
-			itemStack -> RegistryFairyFuel.getFairyFuelValue(itemStack) * 1000);
+			itemStack -> APIRegistryRecipeFairyFuel.registry.matcher(itemStack)
+				.map(IMatcherFairyFuel::getOutput)
+				.orElse(0) * 1000);
 	}
 
 }
