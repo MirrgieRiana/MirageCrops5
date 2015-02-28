@@ -1,6 +1,10 @@
 package mirrg.mir50.oredictionary;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -89,6 +93,16 @@ public class HelpersOreDictionary
 			}
 		}
 		return false;
+	}
+
+	public static Stream<ItemStack> getOresStream(String oreName)
+	{
+		// wait for Forge for Java1.8
+		ArrayList<ItemStack> ores = OreDictionary.getOres(oreName);
+		Iterator<ItemStack> iterator = ores.iterator();
+		return ((Function<Supplier<ItemStack>, Stream<ItemStack>>) Stream::generate)
+			.apply(iterator::next)
+			.limit(ores.size());
 	}
 
 }
