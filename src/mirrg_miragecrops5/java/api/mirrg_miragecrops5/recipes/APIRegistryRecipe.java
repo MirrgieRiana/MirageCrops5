@@ -5,9 +5,16 @@ public class APIRegistryRecipe
 
 	public static RecipeFuel.IRegistryRecipeFuel registryRecipeFairyFuel;
 
-	public static void set(RecipeFuel.IRegistryRecipeFuel registryRecipeFairyFuel)
+	public static void registryRecipeFairyFuel(RecipeFuel.IRegistryRecipeFuel registryRecipeFairyFuel)
 	{
 		APIRegistryRecipe.registryRecipeFairyFuel = registryRecipeFairyFuel;
+	}
+
+	public static RecipeFuel.IRegistryRecipeFuel registryRecipeFoodValue;
+
+	public static void registryRecipeFoodValue(RecipeFuel.IRegistryRecipeFuel registryRecipeFoodValue)
+	{
+		APIRegistryRecipe.registryRecipeFoodValue = registryRecipeFoodValue;
 	}
 
 }
