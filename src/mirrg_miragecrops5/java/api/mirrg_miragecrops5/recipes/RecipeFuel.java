@@ -28,7 +28,7 @@ public class RecipeFuel
 
 	}
 
-	public interface IRecipeFuel
+	public static interface IRecipeFuel
 	{
 
 		public Stream<ItemStack> getInputs();
