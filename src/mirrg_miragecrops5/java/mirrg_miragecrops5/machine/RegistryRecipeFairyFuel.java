@@ -5,10 +5,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IHandlerRecipeFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IRecipeFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IHandlerRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRegistryRecipeFairyFuel;
 
 public class RegistryRecipeFairyFuel implements IRegistryRecipeFairyFuel
 {

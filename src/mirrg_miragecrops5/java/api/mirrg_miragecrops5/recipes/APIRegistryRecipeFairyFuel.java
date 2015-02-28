@@ -1,4 +1,4 @@
-package api.mirrg_miragecrops5;
+package api.mirrg_miragecrops5.recipes;
 
 import java.util.stream.Stream;
 

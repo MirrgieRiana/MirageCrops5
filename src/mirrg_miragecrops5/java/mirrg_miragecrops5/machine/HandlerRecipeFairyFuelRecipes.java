@@ -6,9 +6,9 @@ import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IHandlerRecipeFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IHandlerRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFairyFuel;
 
 public class HandlerRecipeFairyFuelRecipes extends ArrayList<IRecipeFairyFuel> implements IHandlerRecipeFairyFuel
 {

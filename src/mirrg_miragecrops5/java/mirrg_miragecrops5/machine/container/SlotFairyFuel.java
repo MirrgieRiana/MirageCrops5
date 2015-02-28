@@ -3,7 +3,7 @@ package mirrg_miragecrops5.machine.container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel;
 
 public class SlotFairyFuel extends Slot
 {

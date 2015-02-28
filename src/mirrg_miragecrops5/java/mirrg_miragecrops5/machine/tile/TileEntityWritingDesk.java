@@ -26,8 +26,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg.mir50.gui.renderer.EnumTextAlign;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel;
-import api.mirrg_miragecrops5.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
 
 public class TileEntityWritingDesk extends TileEntityMMF
 {
