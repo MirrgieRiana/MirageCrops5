@@ -8,13 +8,9 @@ import java.util.function.IntFunction;
 
 import mirrg.he.math.HelpersMath;
 import mirrg.he.math.HelpersString;
-import mirrg_miragecrops5.ModuleCore;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
-import api.mirrg.mir50.net.NBTTypes;
 
 public class HelpersFairyType
 {
@@ -64,21 +60,12 @@ public class HelpersFairyType
 	{
 		if (fairy == null) return values -> {};
 
-		Item item = fairy.getItem();
-		if (item != ModuleCore.loaderItem_craftingMirageFairy.get()) return values -> {};
+		int damage = fairy.getItemDamage();
+		int indexFairyType = damage / 10;
+		int tier = (damage % 10) + 1;
+		FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-		NBTTagCompound tag = fairy.getTagCompound();
-		if (tag == null) return values -> {};
-		if (!tag.hasKey("type", NBTTypes.STRING)) return values -> {};
-
-		String typeName = tag.getString("type");
-		FairyType fairyType = RegistryFairyType.registry.get(typeName);
 		if (fairyType == null) return values -> {};
-
-		int tier = 1;
-		if (fairy.getTagCompound().hasKey("tier", NBTTypes.INT)) {
-			tier = fairy.getTagCompound().getInteger("tier");
-		}
 
 		return getMultiplicative(fairy.stackSize, fairyType.getIncreaser(tier));
 	}
