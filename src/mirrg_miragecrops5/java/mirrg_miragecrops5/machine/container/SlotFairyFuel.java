@@ -16,7 +16,7 @@ public class SlotFairyFuel extends Slot
 	@Override
 	public boolean isItemValid(ItemStack itemStack)
 	{
-		return APIRegistryRecipeFairyFuel.registry.matcher(itemStack).isPresent();
+		return APIRegistryRecipeFairyFuel.registryRecipeFairyFuel.matcher(itemStack).isPresent();
 	}
 
 }

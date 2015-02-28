@@ -10,18 +10,18 @@ import api.mirrg.mir50.registry.recipe.IRegistryRecipeMir50;
 public class APIRegistryRecipeFairyFuel
 {
 
-	public static IRegistryRecipeFairyFuel registry;
+	public static IRegistryRecipeFuel registryRecipeFairyFuel;
 
-	public static void set(IRegistryRecipeFairyFuel registry)
+	public static void set(IRegistryRecipeFuel registryRecipeFairyFuel)
 	{
-		APIRegistryRecipeFairyFuel.registry = registry;
+		APIRegistryRecipeFairyFuel.registryRecipeFairyFuel = registryRecipeFairyFuel;
 	}
 
-	public static interface IRegistryRecipeFairyFuel
-		extends IRegistryRecipeMir50<IHandlerRecipeFairyFuel, IRecipeFairyFuel, IMatcherFairyFuel, ItemStack, Integer>
+	public static interface IRegistryRecipeFuel
+		extends IRegistryRecipeMir50<IHandlerRecipeFuel, IRecipeFuel, IMatcherFuel, ItemStack, Integer>
 	{
 
-		public void addRecipe(IRecipeFairyFuel recipe);
+		public void addRecipe(IRecipeFuel recipe);
 
 		public void addRecipe(String oreName, int fuelValue);
 
@@ -29,13 +29,13 @@ public class APIRegistryRecipeFairyFuel
 
 	}
 
-	public static interface IHandlerRecipeFairyFuel
-		extends IHandlerRecipeMir50<IRecipeFairyFuel, IMatcherFairyFuel, ItemStack, Integer>
+	public static interface IHandlerRecipeFuel
+		extends IHandlerRecipeMir50<IRecipeFuel, IMatcherFuel, ItemStack, Integer>
 	{
 
 	}
 
-	public interface IRecipeFairyFuel
+	public interface IRecipeFuel
 	{
 
 		public Stream<ItemStack> getInputs();
@@ -44,7 +44,7 @@ public class APIRegistryRecipeFairyFuel
 
 	}
 
-	public static interface IMatcherFairyFuel extends IMatcherMir50<ItemStack, Integer>
+	public static interface IMatcherFuel extends IMatcherMir50<ItemStack, Integer>
 	{
 
 	}

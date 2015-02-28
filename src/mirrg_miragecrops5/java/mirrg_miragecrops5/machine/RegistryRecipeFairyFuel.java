@@ -5,15 +5,15 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IHandlerRecipeFairyFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFairyFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IHandlerRecipeFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRegistryRecipeFuel;
 
-public class RegistryRecipeFairyFuel implements IRegistryRecipeFairyFuel
+public class RegistryRecipeFairyFuel implements IRegistryRecipeFuel
 {
 
-	private ArrayList<IHandlerRecipeFairyFuel> handlers = new ArrayList<>();
+	private ArrayList<IHandlerRecipeFuel> handlers = new ArrayList<>();
 
 	private HandlerRecipeFairyFuelRecipes recipes = new HandlerRecipeFairyFuelRecipes();
 
@@ -23,19 +23,19 @@ public class RegistryRecipeFairyFuel implements IRegistryRecipeFairyFuel
 	}
 
 	@Override
-	public Stream<IHandlerRecipeFairyFuel> getHandlers()
+	public Stream<IHandlerRecipeFuel> getHandlers()
 	{
 		return handlers.stream();
 	}
 
 	@Override
-	public void addHandler(IHandlerRecipeFairyFuel handler)
+	public void addHandler(IHandlerRecipeFuel handler)
 	{
 		handlers.add(handler);
 	}
 
 	@Override
-	public Optional<IMatcherFairyFuel> matcher(ItemStack input)
+	public Optional<IMatcherFuel> matcher(ItemStack input)
 	{
 		return getHandlers()
 			.map(handler -> handler.matcher(input))
@@ -45,13 +45,13 @@ public class RegistryRecipeFairyFuel implements IRegistryRecipeFairyFuel
 	}
 
 	@Override
-	public Stream<IRecipeFairyFuel> getRecipesToShow()
+	public Stream<IRecipeFuel> getRecipesToShow()
 	{
 		return getHandlers().flatMap(handler -> handler.getRecipesToShow());
 	}
 
 	@Override
-	public void addRecipe(IRecipeFairyFuel recipe)
+	public void addRecipe(IRecipeFuel recipe)
 	{
 		recipes.add(recipe);
 	}

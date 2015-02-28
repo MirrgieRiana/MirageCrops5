@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg.mir50.gui.renderer.EnumTextAlign;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFuel;
 
 public class TileEntityWritingDesk extends TileEntityMMF
 {
@@ -272,8 +272,8 @@ public class TileEntityWritingDesk extends TileEntityMMF
 	{
 		return ProcessingManager.popFuel(min, max, i -> {},
 			energyTankHyleon, inventoryFairyFuel,
-			itemStack -> APIRegistryRecipeFairyFuel.registry.matcher(itemStack)
-				.map(IMatcherFairyFuel::getOutput)
+			itemStack -> APIRegistryRecipeFairyFuel.registryRecipeFairyFuel.matcher(itemStack)
+				.map(IMatcherFuel::getOutput)
 				.orElse(0) * 1000);
 	}
 
