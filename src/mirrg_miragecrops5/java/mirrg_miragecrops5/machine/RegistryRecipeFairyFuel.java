@@ -5,15 +5,12 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IHandlerRecipeFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IMatcherFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFuel;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRegistryRecipeFuel;
+import api.mirrg_miragecrops5.recipes.RecipeFuel;
 
-public class RegistryRecipeFairyFuel implements IRegistryRecipeFuel
+public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
 {
 
-	private ArrayList<IHandlerRecipeFuel> handlers = new ArrayList<>();
+	private ArrayList<RecipeFuel.IHandlerRecipeFuel> handlers = new ArrayList<>();
 
 	private HandlerRecipeFairyFuelRecipes recipes = new HandlerRecipeFairyFuelRecipes();
 
@@ -23,19 +20,19 @@ public class RegistryRecipeFairyFuel implements IRegistryRecipeFuel
 	}
 
 	@Override
-	public Stream<IHandlerRecipeFuel> getHandlers()
+	public Stream<RecipeFuel.IHandlerRecipeFuel> getHandlers()
 	{
 		return handlers.stream();
 	}
 
 	@Override
-	public void addHandler(IHandlerRecipeFuel handler)
+	public void addHandler(RecipeFuel.IHandlerRecipeFuel handler)
 	{
 		handlers.add(handler);
 	}
 
 	@Override
-	public Optional<IMatcherFuel> matcher(ItemStack input)
+	public Optional<RecipeFuel.IMatcherFuel> matcher(ItemStack input)
 	{
 		return getHandlers()
 			.map(handler -> handler.matcher(input))
@@ -45,13 +42,13 @@ public class RegistryRecipeFairyFuel implements IRegistryRecipeFuel
 	}
 
 	@Override
-	public Stream<IRecipeFuel> getRecipesToShow()
+	public Stream<RecipeFuel.IRecipeFuel> getRecipesToShow()
 	{
 		return getHandlers().flatMap(handler -> handler.getRecipesToShow());
 	}
 
 	@Override
-	public void addRecipe(IRecipeFuel recipe)
+	public void addRecipe(RecipeFuel.IRecipeFuel recipe)
 	{
 		recipes.add(recipe);
 	}

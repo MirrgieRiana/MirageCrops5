@@ -4,9 +4,9 @@ import java.util.stream.Stream;
 
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.RecipeFuel;
 
-public class RecipeOreFairyFuel implements IRecipeFuel
+public class RecipeOreFairyFuel implements RecipeFuel.IRecipeFuel
 {
 
 	public String oreName;

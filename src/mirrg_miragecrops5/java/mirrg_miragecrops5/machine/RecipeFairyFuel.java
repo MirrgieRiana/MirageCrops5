@@ -4,9 +4,9 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.RecipeFuel;
 
-public class RecipeFairyFuel implements IRecipeFuel
+public class RecipeFairyFuel implements RecipeFuel.IRecipeFuel
 {
 
 	public ItemStack input;
