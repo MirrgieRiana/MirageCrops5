@@ -3,7 +3,7 @@ package mirrg_miragecrops5.machine.container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 
 public class SlotFairyFuel extends Slot
 {
@@ -16,7 +16,7 @@ public class SlotFairyFuel extends Slot
 	@Override
 	public boolean isItemValid(ItemStack itemStack)
 	{
-		return APIRegistryRecipeFairyFuel.registryRecipeFairyFuel.matcher(itemStack).isPresent();
+		return APIRegistryRecipe.registryRecipeFairyFuel.matcher(itemStack).isPresent();
 	}
 
 }

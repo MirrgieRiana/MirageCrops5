@@ -21,7 +21,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import api.mirrg.mir50.gui.renderer.EnumTextAlign;
-import api.mirrg_miragecrops5.recipes.APIRegistryRecipeFairyFuel;
+import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.RecipeFuel;
 
 public abstract class TileEntityMMFEasy extends TileEntityMMF
@@ -153,7 +153,7 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 	{
 		return ProcessingManager.popFuel(min, max, i -> {},
 			energyTankHyleon, inventoryFairyFuel,
-			itemStack -> APIRegistryRecipeFairyFuel.registryRecipeFairyFuel.matcher(itemStack)
+			itemStack -> APIRegistryRecipe.registryRecipeFairyFuel.matcher(itemStack)
 				.map(RecipeFuel.IMatcherFuel::getOutput)
 				.orElse(0) * 1000);
 	}
