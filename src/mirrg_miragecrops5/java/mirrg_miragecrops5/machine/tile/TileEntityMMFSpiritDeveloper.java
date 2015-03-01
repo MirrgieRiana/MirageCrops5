@@ -16,7 +16,6 @@ import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasy
@@ -141,11 +140,7 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasy
 					List<ItemStack> outputs = new ArrayList<>();
 					{
 						ItemStack output = HelpersOreDictionary.copyOrThrow("craftingSpiritFairy");
-						{
-							NBTTagCompound nbt = new NBTTagCompound();
-							nbt.setString("type", fairyType.typeName);
-							output.setTagCompound(nbt);
-						}
+						output.setItemDamage(RegistryFairyType.registry.getIndexFromItem(fairyType) * 10);
 						outputs.add(output);
 					}
 
