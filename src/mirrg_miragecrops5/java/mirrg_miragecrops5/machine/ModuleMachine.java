@@ -27,6 +27,7 @@ import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
+import mirrg_miragecrops5.machine.recipefuel.RegistryRecipeFuel;
 import mirrg_miragecrops5.machine.tile.TileEntityMMF;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFCarbonizationFurnace;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;

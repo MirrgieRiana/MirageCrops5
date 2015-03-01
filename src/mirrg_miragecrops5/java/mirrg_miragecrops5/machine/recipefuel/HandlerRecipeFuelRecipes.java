@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.recipefuel;
 
 import java.util.ArrayList;
 import java.util.Optional;

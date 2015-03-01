@@ -1,22 +1,22 @@
-package mirrg_miragecrops5.machine;
+package mirrg_miragecrops5.machine.recipefuel;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import mirrg.h.struct.Tuple;
-import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 
-public class RecipeOreFuel implements InterfacesRecipeFuel.IRecipeFuel
+public class RecipeFuel implements InterfacesRecipeFuel.IRecipeFuel
 {
 
-	public String oreName;
+	public ItemStack input;
 	public int stackSize;
 	public int fuelValue;
 
-	public RecipeOreFuel(String oreName, int stackSize, int fuelValue)
+	public RecipeFuel(ItemStack input, int stackSize, int fuelValue)
 	{
-		this.oreName = oreName;
+		this.input = input;
 		this.stackSize = stackSize;
 		this.fuelValue = fuelValue;
 	}
@@ -24,9 +24,10 @@ public class RecipeOreFuel implements InterfacesRecipeFuel.IRecipeFuel
 	@Override
 	public Tuple<Stream<ItemStack>, Integer> getInputs()
 	{
+		// wait for ASM5 TODO
 		return new Tuple<>(
-			HelpersOreDictionary.getOresStream(oreName)
-			, stackSize);
+			((Function<ItemStack, Stream<ItemStack>>) Stream::of).apply(input),
+			stackSize);
 	}
 
 	@Override
