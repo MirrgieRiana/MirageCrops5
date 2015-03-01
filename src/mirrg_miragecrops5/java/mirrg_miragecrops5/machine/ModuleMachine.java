@@ -34,6 +34,8 @@ import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
 import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -43,6 +45,7 @@ import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.RecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.RecipeFuel.IMatcherFuel;
 import api.mirrg_miragecrops5.recipes.RecipeFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.RecipeFuel.IRegistryRecipeFuel;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -113,35 +116,75 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFairyFuel());
 
-		APIRegistryRecipe.registryRecipeFoodValue.addHandler(new IHandlerRecipeFuel() {
-			@Override
-			public Optional<IMatcherFuel> matcher(ItemStack input)
-			{
-				if (input == null) return Optional.empty();
-				if (!(input.getItem() instanceof ItemFood)) return Optional.empty();
+		add(new LoaderRecipe(() -> {
 
-				return Optional.of(new IMatcherFuel() {
-					@Override
-					public Integer getOutput()
-					{
-						return ((ItemFood) input.getItem()).func_150905_g(input);
-					}
+			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("gemCalcite", 1000);
+			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustCalcite", 1000);
+			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustSmallCalcite", 250);
+			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustTinyCalcite", 111);
 
-					@Override
-					public ItemStack consume()
-					{
-						input.stackSize--;
-						return input;
-					}
-				});
-			}
+		}));
 
-			@Override
-			public Stream<IRecipeFuel> getRecipesToShow()
-			{
-				return new ArrayList<IRecipeFuel>().stream();
-			}
-		});
+		{
+			IRegistryRecipeFuel rrfv = APIRegistryRecipe.registryRecipeFoodValue;
+
+			rrfv.addHandler(new IHandlerRecipeFuel() {
+				@Override
+				public Optional<IMatcherFuel> matcher(ItemStack input)
+				{
+					if (input == null) return Optional.empty();
+					if (!(input.getItem() instanceof ItemFood)) return Optional.empty();
+
+					return Optional.of(new IMatcherFuel() {
+						@Override
+						public Integer getOutput()
+						{
+							return ((ItemFood) input.getItem()).func_150905_g(input);
+						}
+
+						@Override
+						public ItemStack consume()
+						{
+							input.stackSize--;
+							ItemStack cost = input.copy();
+							cost.stackSize = 1;
+							return cost;
+						}
+					});
+				}
+
+				@Override
+				public Stream<IRecipeFuel> getRecipesToShow()
+				{
+					return new ArrayList<IRecipeFuel>().stream();
+				}
+			});
+
+			rrfv.addRecipe(new ItemStack(Items.nether_wart), 3, 1);
+			rrfv.addRecipe(new ItemStack(Items.fermented_spider_eye), 3, 1);
+
+			rrfv.addRecipe(new ItemStack(Items.pumpkin_seeds), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.melon_seeds), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.wheat_seeds), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.dye, 1, 3), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.wheat), 2, 1);
+			rrfv.addRecipe(new ItemStack(Blocks.hay_block), 2, 9);
+			rrfv.addRecipe(new ItemStack(Items.egg), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.reeds), 2, 1);
+			rrfv.addRecipe(new ItemStack(Items.dye, 1, 0), 2, 1);
+
+			rrfv.addRecipe(new ItemStack(Blocks.cactus), 1);
+			rrfv.addRecipe(new ItemStack(Items.dye, 1, 2), 1);
+
+			rrfv.addRecipe(new ItemStack(Items.speckled_melon), 2);
+			rrfv.addRecipe(new ItemStack(Blocks.melon_block), 18);
+
+			rrfv.addRecipe(new ItemStack(Items.milk_bucket), 2);
+			rrfv.addRecipe(new ItemStack(Items.carrot_on_a_stick), 4);
+			rrfv.addRecipe(new ItemStack(Items.cake), 12);
+			rrfv.addRecipe(new ItemStack(Blocks.pumpkin), 5);
+			rrfv.addRecipe(new ItemStack(Blocks.lit_pumpkin), 5);
+		}
 
 		loaderSimpleNetworkWrapper.channelName = ModMirageCrops.MODID;
 		add(loaderSimpleNetworkWrapper);
@@ -263,15 +306,6 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			blockMir50.virtualClass.register(IGuiProvider.class);
 			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
 		});
-
-		add(new LoaderRecipe(() -> {
-
-			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("gemCalcite", 1000);
-			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustCalcite", 1000);
-			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustSmallCalcite", 250);
-			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustTinyCalcite", 111);
-
-		}));
 
 	}
 
