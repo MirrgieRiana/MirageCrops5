@@ -57,6 +57,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 {
 
 	public static LoaderCreativeTab loaderCreativeTab = new LoaderCreativeTab();
+	public static LoaderCreativeTab loaderCreativeTabFairy = new LoaderCreativeTab();
 	//public static LoaderBlock loaderBlock_blockTest = new LoaderBlock();
 	public static LoaderItem loaderItem_craftingTool = new LoaderItem();
 	public static LoaderItem loaderItem_craftingMirageFairy = new LoaderItem();
@@ -68,6 +69,9 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 		loaderCreativeTab.init(() -> loaderItem_craftingMirageFairy.get(), "miragecrops5_core");
 		add(loaderCreativeTab);
+
+		loaderCreativeTabFairy.init(() -> loaderItem_craftingMirageFairy.get(), "miragecrops5_fairy");
+		add(loaderCreativeTabFairy);
 
 		/*
 		loaderBlock_blockTest.init(() -> {
@@ -91,7 +95,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		}, "craftingPickaxeApatite", ModMirageCrops.MODID);
 		add(loaderItem_craftingPickaxeApatite);
 
-		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTab, "craftingMirageFairy", (itemMir50) -> {
+		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTabFairy, "craftingMirageFairy", (itemMir50) -> {
 			itemMir50.setHasSubtypes(true);
 
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
@@ -212,7 +216,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 			});
 		});
 
-		process_loaderItem(loaderItem_craftingSpiritFairy, loaderCreativeTab, "craftingSpiritFairy", (itemMir50) -> {
+		process_loaderItem(loaderItem_craftingSpiritFairy, loaderCreativeTabFairy, "craftingSpiritFairy", (itemMir50) -> {
 			itemMir50.setHasSubtypes(true);
 
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
