@@ -6,19 +6,19 @@ import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import api.mirrg_miragecrops5.recipes.RecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 
-public class HandlerRecipeFairyFuelRecipes extends ArrayList<RecipeFuel.IRecipeFuel> implements RecipeFuel.IHandlerRecipeFuel
+public class HandlerRecipeFuelRecipes extends ArrayList<InterfacesRecipeFuel.IRecipeFuel> implements InterfacesRecipeFuel.IHandlerRecipeFuel
 {
 
 	@Override
-	public Optional<RecipeFuel.IMatcherFuel> matcher(ItemStack input)
+	public Optional<InterfacesRecipeFuel.IMatcherFuel> matcher(ItemStack input)
 	{
 		return stream()
 			.filter(recipe -> recipe.getInputs().getX().anyMatch(ore -> OreDictionary.itemMatches(ore, input, false)))
 			.filter(recipe -> recipe.getInputs().getY() <= input.stackSize)
 			.findFirst()
-			.<RecipeFuel.IMatcherFuel> map(recipe -> new RecipeFuel.IMatcherFuel() {
+			.<InterfacesRecipeFuel.IMatcherFuel> map(recipe -> new InterfacesRecipeFuel.IMatcherFuel() {
 				@Override
 				public ItemStack consume()
 				{
@@ -37,7 +37,7 @@ public class HandlerRecipeFairyFuelRecipes extends ArrayList<RecipeFuel.IRecipeF
 	}
 
 	@Override
-	public Stream<RecipeFuel.IRecipeFuel> getRecipesToShow()
+	public Stream<InterfacesRecipeFuel.IRecipeFuel> getRecipesToShow()
 	{
 		return stream();
 	}

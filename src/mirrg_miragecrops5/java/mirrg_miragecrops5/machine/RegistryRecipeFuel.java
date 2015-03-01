@@ -5,34 +5,34 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.RecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 
-public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
+public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeFuel
 {
 
-	private ArrayList<RecipeFuel.IHandlerRecipeFuel> handlers = new ArrayList<>();
+	private ArrayList<InterfacesRecipeFuel.IHandlerRecipeFuel> handlers = new ArrayList<>();
 
-	private HandlerRecipeFairyFuelRecipes recipes = new HandlerRecipeFairyFuelRecipes();
+	private HandlerRecipeFuelRecipes recipes = new HandlerRecipeFuelRecipes();
 
-	public RegistryRecipeFairyFuel()
+	public RegistryRecipeFuel()
 	{
 		addHandler(recipes);
 	}
 
 	@Override
-	public Stream<RecipeFuel.IHandlerRecipeFuel> getHandlers()
+	public Stream<InterfacesRecipeFuel.IHandlerRecipeFuel> getHandlers()
 	{
 		return handlers.stream();
 	}
 
 	@Override
-	public void addHandler(RecipeFuel.IHandlerRecipeFuel handler)
+	public void addHandler(InterfacesRecipeFuel.IHandlerRecipeFuel handler)
 	{
 		handlers.add(handler);
 	}
 
 	@Override
-	public Optional<RecipeFuel.IMatcherFuel> matcher(ItemStack input)
+	public Optional<InterfacesRecipeFuel.IMatcherFuel> matcher(ItemStack input)
 	{
 		return getHandlers()
 			.map(handler -> handler.matcher(input))
@@ -42,13 +42,13 @@ public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
 	}
 
 	@Override
-	public Stream<RecipeFuel.IRecipeFuel> getRecipesToShow()
+	public Stream<InterfacesRecipeFuel.IRecipeFuel> getRecipesToShow()
 	{
 		return getHandlers().flatMap(handler -> handler.getRecipesToShow());
 	}
 
 	@Override
-	public void addRecipe(RecipeFuel.IRecipeFuel recipe)
+	public void addRecipe(InterfacesRecipeFuel.IRecipeFuel recipe)
 	{
 		recipes.add(recipe);
 	}
@@ -56,7 +56,7 @@ public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
 	@Override
 	public void addRecipe(String oreName, int stackSize, int fuelValue)
 	{
-		recipes.add(new RecipeOreFairyFuel(oreName, stackSize, fuelValue));
+		recipes.add(new RecipeOreFuel(oreName, stackSize, fuelValue));
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
 	@Override
 	public void addRecipe(ItemStack itemStack, int stackSize, int fuelValue)
 	{
-		recipes.add(new RecipeFairyFuel(itemStack, stackSize, fuelValue));
+		recipes.add(new RecipeFuel(itemStack, stackSize, fuelValue));
 	}
 
 	@Override

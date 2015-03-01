@@ -16,7 +16,7 @@ import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
-import api.mirrg_miragecrops5.recipes.RecipeFuel.IMatcherFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
 
 public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
 {

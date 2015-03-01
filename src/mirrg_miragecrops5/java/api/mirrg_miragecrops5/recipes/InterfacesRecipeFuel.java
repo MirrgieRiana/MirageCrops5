@@ -8,14 +8,14 @@ import api.mirrg.mir50.registry.recipe.IHandlerRecipeMir50;
 import api.mirrg.mir50.registry.recipe.IMatcherMir50;
 import api.mirrg.mir50.registry.recipe.IRegistryRecipeMir50;
 
-public class RecipeFuel
+public class InterfacesRecipeFuel
 {
 
 	public static interface IRegistryRecipeFuel
-		extends IRegistryRecipeMir50<RecipeFuel.IHandlerRecipeFuel, RecipeFuel.IRecipeFuel, RecipeFuel.IMatcherFuel, ItemStack, Integer>
+		extends IRegistryRecipeMir50<InterfacesRecipeFuel.IHandlerRecipeFuel, InterfacesRecipeFuel.IRecipeFuel, InterfacesRecipeFuel.IMatcherFuel, ItemStack, Integer>
 	{
 
-		public void addRecipe(RecipeFuel.IRecipeFuel recipe);
+		public void addRecipe(InterfacesRecipeFuel.IRecipeFuel recipe);
 
 		public void addRecipe(String oreName, int stackSize, int fuelValue);
 
@@ -28,7 +28,7 @@ public class RecipeFuel
 	}
 
 	public static interface IHandlerRecipeFuel
-		extends IHandlerRecipeMir50<RecipeFuel.IRecipeFuel, RecipeFuel.IMatcherFuel, ItemStack, Integer>
+		extends IHandlerRecipeMir50<InterfacesRecipeFuel.IRecipeFuel, InterfacesRecipeFuel.IMatcherFuel, ItemStack, Integer>
 	{
 
 	}

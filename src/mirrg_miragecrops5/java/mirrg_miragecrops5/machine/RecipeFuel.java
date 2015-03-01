@@ -5,16 +5,16 @@ import java.util.stream.Stream;
 
 import mirrg.h.struct.Tuple;
 import net.minecraft.item.ItemStack;
-import api.mirrg_miragecrops5.recipes.RecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 
-public class RecipeFairyFuel implements RecipeFuel.IRecipeFuel
+public class RecipeFuel implements InterfacesRecipeFuel.IRecipeFuel
 {
 
 	public ItemStack input;
 	public int stackSize;
 	public int fuelValue;
 
-	public RecipeFairyFuel(ItemStack input, int stackSize, int fuelValue)
+	public RecipeFuel(ItemStack input, int stackSize, int fuelValue)
 	{
 		this.input = input;
 		this.stackSize = stackSize;

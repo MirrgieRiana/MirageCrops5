@@ -44,10 +44,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
-import api.mirrg_miragecrops5.recipes.RecipeFuel.IHandlerRecipeFuel;
-import api.mirrg_miragecrops5.recipes.RecipeFuel.IMatcherFuel;
-import api.mirrg_miragecrops5.recipes.RecipeFuel.IRecipeFuel;
-import api.mirrg_miragecrops5.recipes.RecipeFuel.IRegistryRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -120,8 +120,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			{
 				if (loadEvent == EnumLoadEventTiming.Created) {
 
-					APIRegistryRecipe.registryRecipeFairyFuel(new RegistryRecipeFairyFuel());
-					APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFairyFuel());
+					APIRegistryRecipe.registryRecipeFairyFuel(new RegistryRecipeFuel());
+					APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFuel());
 
 					loadCompleted();
 				}
