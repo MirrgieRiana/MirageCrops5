@@ -2,23 +2,35 @@ package mirrg_miragecrops5.machine;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import mirrg.h.struct.Tuple;
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.adaptors.AdaptorBlockNameAutonomy;
+import mirrg.mir50.block.adaptors.AdaptorBlockNameExtra;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
+import mirrg.mir50.block.adaptors.IAdaptorBlockNameExtra;
 import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir50.loader.EnumLoadEventTiming;
 import mirrg.mir50.loader.Loader;
+import mirrg.mir51.block.multi.AdaptorBlockHarvestMetaBlock;
+import mirrg.mir51.block.multi.AdaptorBlockSubBlocksMetaBlock;
+import mirrg.mir51.block.multi.ContainerMetaBlock;
+import mirrg.mir51.block.multi.ItemBlockMulti;
+import mirrg.mir51.block.multi.MetaBlock;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
+import mirrg.mir51.loaders.LoaderOreDictionary;
 import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.gui.HelpersContainerMir52;
+import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
@@ -32,10 +44,10 @@ import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
@@ -48,15 +60,14 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public static LoaderGuiHandler loaderGuiHandler = new LoaderGuiHandler(i -> new GuiHandler(i));
 
 	public static LoaderBlock loaderBlock_machineMirageFairy = new LoaderBlock();
-	public static LoaderBlock loaderBlock_mmfFurnace = new LoaderBlock();
-	public static LoaderBlock loaderBlock_mmfMacerator = new LoaderBlock();
-	public static LoaderBlock loaderBlock_mmfSpiritDeveloper = new LoaderBlock();
-	public static LoaderBlock loaderBlock_mmfCarbonizationFurnace = new LoaderBlock();
-	public static LoaderBlock loaderBlock_mmfDigestionMachine = new LoaderBlock();
-	public static LoaderBlock loaderBlock_writingDesk = new LoaderBlock();
 
 	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
 	public static int loaderSimpleNetworkWrapper_counter = 0;
+
+	//
+
+	protected ArrayList<Tuple<String, Supplier<ItemStack>>> scheduleRegisterOreDictionary = new ArrayList<>();
+	protected ArrayList<Runnable> scheduleRegisterRecipe = new ArrayList<>();
 
 	public ModuleMachine()
 	{
@@ -158,123 +169,105 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		add(loaderGuiHandler);
 
 		add(new LoaderTileEntity(TileEntityMachineMirageFairy.class, "MachineMirageFairy"));
-		process_loaderBlock(loaderBlock_machineMirageFairy, ModuleCore.loaderCreativeTab, ItemBlock.class, "machineMirageFairy", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_3");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMachineMirageFairy());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityMMFFurnace.class, "MMFFurnace"));
-		process_loaderBlock(loaderBlock_mmfFurnace, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfFurnace", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_1");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x990000);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFFurnace());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityMMFMacerator.class, "MMFMacerator"));
-		process_loaderBlock(loaderBlock_mmfMacerator, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfMacerator", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_2");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0xD8A817);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFMacerator());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityMMFSpiritDeveloper.class, "MMFSpiritDeveloper"));
-		process_loaderBlock(loaderBlock_mmfSpiritDeveloper, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfSpiritDeveloper", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_3");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x264797);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFSpiritDeveloper());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityMMFCarbonizationFurnace.class, "MMFCarbonizationFurnace"));
-		process_loaderBlock(loaderBlock_mmfCarbonizationFurnace, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfCarbonizationFurnace", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_2");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x3468F3);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFCarbonizationFurnace());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityMMFDigestionMachine.class, "MMFDigestionMachine"));
-		process_loaderBlock(loaderBlock_mmfDigestionMachine, ModuleCore.loaderCreativeTab, ItemBlock.class, "mmfDigestionMachine", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
-
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_2");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0xF87B60);
-			blockMir50.virtualClass.override(a);
-
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityMMFDigestionMachine());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
-
-			blockMir50.virtualClass.register(IGuiProvider.class);
-			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
-		});
-
 		add(new LoaderTileEntity(TileEntityWritingDesk.class, "WritingDesk"));
-		process_loaderBlock(loaderBlock_writingDesk, ModuleCore.loaderCreativeTab, ItemBlock.class, "writingDesk", (blockMir50) -> {
-			HelpersBlockMultipleRendering.make(blockMir50, blockMir50);
 
-			AdaptorBlockMultipleRenderingAutonomy a = new AdaptorBlockMultipleRenderingAutonomy(blockMir50, blockMir50);
-			a.appendIcon("miragecrops5:machineMirageFairy_0_0");
-			a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
-			blockMir50.virtualClass.override(a);
+		process_loaderBlock_multi(loaderBlock_machineMirageFairy, ModuleCore.loaderCreativeTab, "machineMirageFairy", ItemBlockMulti.class, null, (blockMir50, containerMetaBlock) -> {
 
-			makeBlockHasTileEntity(blockMir50, () -> new TileEntityWritingDesk());
-			blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+			blockMir50.setBlockTextureName("minecraft:stone");
+
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 0, "machineMirageFairy",
+				() -> new TileEntityMachineMirageFairy(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_3");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "mmfFurnace",
+				() -> new TileEntityMMFFurnace(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_1");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x990000);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 2, "mmfMacerator",
+				() -> new TileEntityMMFMacerator(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xD8A817);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 3, "mmfSpiritDeveloper",
+				() -> new TileEntityMMFSpiritDeveloper(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_3");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x264797);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 4, "mmfCarbonizationFurnace",
+				() -> new TileEntityMMFCarbonizationFurnace(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x3468F3);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
+				() -> new TileEntityMMFDigestionMachine(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xF87B60);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 6, "writingDesk",
+				() -> new TileEntityWritingDesk(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
+				}));
+
+			//
 
 			blockMir50.virtualClass.register(IGuiProvider.class);
 			blockMir50.virtualClass.override(new GuiProviderTileEntityMir53());
 		});
+
+		add(new LoaderOreDictionary(() -> {
+			for (Tuple<String, Supplier<ItemStack>> entry : scheduleRegisterOreDictionary) {
+				OreDictionary.registerOre(entry.getX(), entry.getY().get());
+			}
+		}));
+
+		add(new LoaderRecipe(() -> {
+			scheduleRegisterRecipe.forEach(r -> r.run());
+		}));
 
 	}
 
-	private void makeBlockHasTileEntity(BlockMir50 blockMir50, Supplier<TileEntity> supplierTileEntity)
+	private static void addMetaBlock(ContainerMetaBlock containerMetaBlock, MetaBlock metaBlock)
 	{
-		blockMir50.virtualClass.override(
-			new AdaptorBlockTileEntityAutonomy(blockMir50, blockMir50, (world, metadata) -> {
+		containerMetaBlock.add(metaBlock.getMeta(), metaBlock);
+	}
+
+	private MetaBlock createMetaBlock(
+		BlockMir50 blockMir50,
+		int metaId,
+		String unlocalizedName,
+		Supplier<TileEntity> supplierTileEntity,
+		Consumer<AdaptorBlockMultipleRenderingAutonomy> consumerA)
+	{
+		MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
+
+		metaBlock.virtualClass.override(new AdaptorBlockSubBlocksMetaBlock(blockMir50, metaBlock, metaBlock));
+		metaBlock.virtualClass.override(new AdaptorBlockHarvestMetaBlock(blockMir50, metaBlock));
+
+		metaBlock.virtualClass.override(new AdaptorBlockNameAutonomy(blockMir50, metaBlock, unlocalizedName));
+		metaBlock.virtualClass.register(IAdaptorBlockNameExtra.class, new AdaptorBlockNameExtra(blockMir50, metaBlock));
+
+		consumerA.accept(HelpersBlockMultipleRendering.makeAutonomy(metaBlock, blockMir50));
+
+		makeMetaBlockHasTileEntity(metaBlock, blockMir50, supplierTileEntity);
+		blockMir50.virtualClass.override(new AdaptorBlockEventsTileEntityMMF(blockMir50, blockMir50));
+
+		scheduleRegisterOreDictionary.add(new Tuple<>(unlocalizedName, () -> new ItemStack(blockMir50, 1, metaId)));
+
+		return metaBlock;
+	}
+
+	private void makeMetaBlockHasTileEntity(IVirtualClass virtualClass, BlockMir50 blockMir50, Supplier<TileEntity> supplierTileEntity)
+	{
+		virtualClass.getVirtualClass().override(
+			new AdaptorBlockTileEntityAutonomy(blockMir50, virtualClass, (world, metadata) -> {
 				return supplierTileEntity.get();
 			}));
 	}
