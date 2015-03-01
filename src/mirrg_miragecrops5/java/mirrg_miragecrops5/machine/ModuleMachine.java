@@ -85,6 +85,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		add(new LoaderRecipe(() -> {
 
+			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("blockCalcite", 9000);
 			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("gemCalcite", 1000);
 			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustCalcite", 1000);
 			APIRegistryRecipe.registryRecipeFairyFuel.addRecipe("dustSmallCalcite", 250);
