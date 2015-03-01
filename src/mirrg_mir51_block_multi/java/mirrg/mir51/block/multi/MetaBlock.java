@@ -51,6 +51,16 @@ public class MetaBlock implements IVirtualClass
 
 	}
 
+	public BlockMir50 getBlockMir50()
+	{
+		return blockMir50;
+	}
+
+	public int getMeta()
+	{
+		return meta;
+	}
+
 	public final IVirtualImplementationAccessor<IAdaptorBlockSubBlocks> accessor_IAdaptorBlockSubBlocks;
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockIcon> accessor_IAdaptorBlockIcon;
