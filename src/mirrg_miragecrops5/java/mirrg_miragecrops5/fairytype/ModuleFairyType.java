@@ -60,7 +60,8 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 		};
 		int bodyColor = 0xAAAAAA;
 
-		add(new LoaderFairyType(toFairyIndex.applyAsInt(0), "iron", fairyType -> {
+		// null: 0
+		add(new LoaderFairyType(toFairyIndex.applyAsInt(1), "iron", fairyType -> {
 			fairyType.setColors(bodyColor, 0x969696, 0xD8D8D8, 0x727272);
 			shapes.forEach(shape -> {
 				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
@@ -68,7 +69,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(MINERAL, 3);
 			fairyType.addSkill(MATERIAL, 3);
 		}));
-		add(new LoaderFairyType(toFairyIndex.applyAsInt(1), "gold", fairyType -> {
+		add(new LoaderFairyType(toFairyIndex.applyAsInt(2), "gold", fairyType -> {
 			fairyType.setColors(bodyColor, 0xDEDE00, 0xFFFF8B, 0xDC7613);
 			shapes.forEach(shape -> {
 				fairyType.getOreMatcher().addMatcher(shape + HelpersString.toUpperCaseHead(fairyType.typeName));
