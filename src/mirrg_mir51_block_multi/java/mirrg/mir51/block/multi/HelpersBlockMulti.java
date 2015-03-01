@@ -15,6 +15,7 @@ public class HelpersBlockMulti
 		virtualClass.getVirtualClass().override(new AdaptorBlockHarvestMulti(blockMir50, virtualClass, containerMetaBlock));
 		virtualClass.getVirtualClass().register(IAdaptorBlockNameExtra.class, new AdaptorBlockNameExtra(blockMir50, virtualClass));
 		virtualClass.getVirtualClass().override(new AdaptorBlockNameExtraMulti(blockMir50, virtualClass, containerMetaBlock));
+		virtualClass.getVirtualClass().override(new AdaptorBlockTileEntityMulti(blockMir50, virtualClass, containerMetaBlock));
 		virtualClass.getVirtualClass().override(new AdaptorBlockEventsMulti(blockMir50, virtualClass, containerMetaBlock));
 	}
 

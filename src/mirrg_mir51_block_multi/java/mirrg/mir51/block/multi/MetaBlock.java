@@ -6,6 +6,7 @@ import mirrg.mir50.block.AdaptorBlockIcon;
 import mirrg.mir50.block.AdaptorBlockName;
 import mirrg.mir50.block.AdaptorBlockRender;
 import mirrg.mir50.block.AdaptorBlockSubBlocks;
+import mirrg.mir50.block.AdaptorBlockTileEntity;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.IAdaptorBlockEvents;
 import mirrg.mir50.block.IAdaptorBlockHarvest;
@@ -13,6 +14,7 @@ import mirrg.mir50.block.IAdaptorBlockIcon;
 import mirrg.mir50.block.IAdaptorBlockName;
 import mirrg.mir50.block.IAdaptorBlockRender;
 import mirrg.mir50.block.IAdaptorBlockSubBlocks;
+import mirrg.mir50.block.IAdaptorBlockTileEntity;
 import mirrg.p.virtualclass.IVirtualClass;
 import mirrg.p.virtualclass.IVirtualImplementationAccessor;
 import mirrg.p.virtualclass.VirtualClass;
@@ -46,6 +48,8 @@ public class MetaBlock implements IVirtualClass
 		accessor_IAdaptorBlockName = virtualClass.cast(IAdaptorBlockName.class);
 		virtualClass.register(IAdaptorBlockRender.class, new AdaptorBlockRender(blockMir50));
 		accessor_IAdaptorBlockRender = virtualClass.cast(IAdaptorBlockRender.class);
+		virtualClass.register(IAdaptorBlockTileEntity.class, new AdaptorBlockTileEntity(blockMir50));
+		accessor_IAdaptorBlockTileEntity = virtualClass.cast(IAdaptorBlockTileEntity.class);
 		virtualClass.register(IAdaptorBlockEvents.class, new AdaptorBlockEvents(blockMir50));
 		accessor_IAdaptorBlockEvents = virtualClass.cast(IAdaptorBlockEvents.class);
 
@@ -70,6 +74,8 @@ public class MetaBlock implements IVirtualClass
 	public final IVirtualImplementationAccessor<IAdaptorBlockName> accessor_IAdaptorBlockName;
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockRender> accessor_IAdaptorBlockRender;
+
+	public final IVirtualImplementationAccessor<IAdaptorBlockTileEntity> accessor_IAdaptorBlockTileEntity;
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockEvents> accessor_IAdaptorBlockEvents;
 
