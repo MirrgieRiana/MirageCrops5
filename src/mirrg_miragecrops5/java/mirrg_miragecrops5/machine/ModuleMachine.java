@@ -10,6 +10,8 @@ import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
+import mirrg.mir50.loader.EnumLoadEventTiming;
+import mirrg.mir50.loader.Loader;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
 import mirrg.mir51.loaders.LoaderRecipe;
@@ -112,9 +114,19 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public ModuleMachine()
 	{
 
-		APIRegistryRecipe.registryRecipeFairyFuel(new RegistryRecipeFairyFuel());
+		add(new Loader<Void>() {
+			@Override
+			protected void loadThisLoader(EnumLoadEventTiming loadEvent)
+			{
+				if (loadEvent == EnumLoadEventTiming.Created) {
 
-		APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFairyFuel());
+					APIRegistryRecipe.registryRecipeFairyFuel(new RegistryRecipeFairyFuel());
+					APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFairyFuel());
+
+					loadCompleted();
+				}
+			}
+		});
 
 		add(new LoaderRecipe(() -> {
 
@@ -125,7 +137,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		}));
 
-		{
+		add(new LoaderRecipe(() -> {
+
 			IRegistryRecipeFuel rrfv = APIRegistryRecipe.registryRecipeFoodValue;
 
 			rrfv.addHandler(new IHandlerRecipeFuel() {
@@ -184,7 +197,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			rrfv.addRecipe(new ItemStack(Items.cake), 12);
 			rrfv.addRecipe(new ItemStack(Blocks.pumpkin), 5);
 			rrfv.addRecipe(new ItemStack(Blocks.lit_pumpkin), 5);
-		}
+
+		}));
 
 		loaderSimpleNetworkWrapper.channelName = ModMirageCrops.MODID;
 		add(loaderSimpleNetworkWrapper);
