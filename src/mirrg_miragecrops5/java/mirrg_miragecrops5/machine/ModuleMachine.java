@@ -65,52 +65,6 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
 	public static int loaderSimpleNetworkWrapper_counter = 0;
 
-	/*
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.apple), 1), 9));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.baked_potato), 1), 9));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.beef), 1), 9));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.bread), 1), 9));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cake), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.carrot), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.carrot_on_a_stick), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.chicken), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cooked_beef), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cooked_chicken), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cooked_fished), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cooked_porkchop), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.cookie), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.egg), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.fish), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.ghast_tear), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.golden_apple), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.golden_carrot), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.melon), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.melon_seeds), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.milk_bucket), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.mushroom_stew), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.nether_wart), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.poisonous_potato), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.porkchop), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.potato), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.pumpkin_pie), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.pumpkin_seeds), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.reeds), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.rotten_flesh), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.speckled_melon), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.sugar), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.wheat), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Items.wheat_seeds), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.brown_mushroom), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.brown_mushroom_block), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.cactus), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.cake), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.carrots), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.dragon_egg), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.melon_block), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(Blocks.pumpkin), 1), () -> new ItemStack(Blocks.dirt)));
-	recipes.add(new Tuple<>(new Tuple<>(new OreMatcher(new ItemStack(Items.dye, 1, 3)), 1), () -> new ItemStack(Blocks.dirt)));
-	*/
-
 	public ModuleMachine()
 	{
 
