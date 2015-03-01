@@ -2,6 +2,7 @@ package mirrg_miragecrops5.machine.tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.IntConsumer;
 
 import mirrg.mir50.datamodels.DatamodelEnergy;
@@ -102,30 +103,31 @@ public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
 					ItemStack itemStack = getLastStack(inventoryInMaterial);
 					if (itemStack == null) return;
 
-					int foodValue = APIRegistryRecipe.registryRecipeFoodValue.matcher(itemStack).map(IMatcherFuel::getOutput).orElse(0);
+					Optional<IMatcherFuel> optionalMatcher = APIRegistryRecipe.registryRecipeFoodValue.matcher(itemStack);
+					if (!optionalMatcher.isPresent()) return;
+					IMatcherFuel matcher = optionalMatcher.get();
+
+					int foodValue = matcher.getOutput();
 					if (foodValue <= 0) return;
 
 					List<ItemStack> outputs = new ArrayList<>();
 					outputs.add(HelpersOreDictionary.copyOrThrow("craftingFairyWastesTier1", foodValue));
-					int cost = 1;
 
-					if (outputs != null) {
-						if (itemStack.stackSize >= cost) {
-							// startable
+					{
+						// startable
 
-							// 素材を必要数取り出して進行中スロットに設置する
-							ItemStack copy = itemStack.copy();
-							inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(cost);
-							copy.stackSize = cost;
-							inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(copy);
+						// 素材を必要数取り出して進行中スロットに設置する
+						ItemStack out = matcher.consume();
 
-							// 出力を一時バッファに設置する
-							for (int i = 0; i < Math.min(inventoryOutProcessing.getSizeInventory(), outputs.size()); i++) {
-								inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
-							}
+						inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(0);
+						inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(out);
 
-							onStart.accept((40 * foodValue) * 1000);
+						// 出力を一時バッファに設置する
+						for (int i = 0; i < Math.min(inventoryOutProcessing.getSizeInventory(), outputs.size()); i++) {
+							inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
 						}
+
+						onStart.accept((40 * foodValue) * 1000);
 					}
 				}
 

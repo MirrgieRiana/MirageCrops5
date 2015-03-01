@@ -54,15 +54,27 @@ public class RegistryRecipeFairyFuel implements RecipeFuel.IRegistryRecipeFuel
 	}
 
 	@Override
+	public void addRecipe(String oreName, int stackSize, int fuelValue)
+	{
+		recipes.add(new RecipeOreFairyFuel(oreName, stackSize, fuelValue));
+	}
+
+	@Override
 	public void addRecipe(String oreName, int fuelValue)
 	{
-		recipes.add(new RecipeOreFairyFuel(oreName, fuelValue));
+		addRecipe(oreName, 1, fuelValue);
+	}
+
+	@Override
+	public void addRecipe(ItemStack itemStack, int stackSize, int fuelValue)
+	{
+		recipes.add(new RecipeFairyFuel(itemStack, stackSize, fuelValue));
 	}
 
 	@Override
 	public void addRecipe(ItemStack itemStack, int fuelValue)
 	{
-		recipes.add(new RecipeFairyFuel(itemStack, fuelValue));
+		addRecipe(itemStack, 1, fuelValue);
 	}
 
 }

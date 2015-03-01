@@ -3,6 +3,7 @@ package mirrg_miragecrops5.machine;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import mirrg.h.struct.Tuple;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.RecipeFuel;
 
@@ -10,18 +11,23 @@ public class RecipeFairyFuel implements RecipeFuel.IRecipeFuel
 {
 
 	public ItemStack input;
+	public int stackSize;
 	public int fuelValue;
 
-	public RecipeFairyFuel(ItemStack input, int fuelValue)
+	public RecipeFairyFuel(ItemStack input, int stackSize, int fuelValue)
 	{
 		this.input = input;
+		this.stackSize = stackSize;
 		this.fuelValue = fuelValue;
 	}
 
 	@Override
-	public Stream<ItemStack> getInputs()
+	public Tuple<Stream<ItemStack>, Integer> getInputs()
 	{
-		return ((Function<ItemStack, Stream<ItemStack>>) Stream::of).apply(input); // wait for ASM5 TODO
+		// wait for ASM5 TODO
+		return new Tuple<>(
+			((Function<ItemStack, Stream<ItemStack>>) Stream::of).apply(input),
+			stackSize);
 	}
 
 	@Override

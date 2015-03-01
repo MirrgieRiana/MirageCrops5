@@ -2,6 +2,7 @@ package api.mirrg_miragecrops5.recipes;
 
 import java.util.stream.Stream;
 
+import mirrg.h.struct.Tuple;
 import net.minecraft.item.ItemStack;
 import api.mirrg.mir50.registry.recipe.IHandlerRecipeMir50;
 import api.mirrg.mir50.registry.recipe.IMatcherMir50;
@@ -16,7 +17,11 @@ public class RecipeFuel
 
 		public void addRecipe(RecipeFuel.IRecipeFuel recipe);
 
+		public void addRecipe(String oreName, int stackSize, int fuelValue);
+
 		public void addRecipe(String oreName, int fuelValue);
+
+		public void addRecipe(ItemStack itemStack, int stackSize, int fuelValue);
 
 		public void addRecipe(ItemStack itemStack, int fuelValue);
 
@@ -31,7 +36,7 @@ public class RecipeFuel
 	public static interface IRecipeFuel
 	{
 
-		public Stream<ItemStack> getInputs();
+		public Tuple<Stream<ItemStack>, Integer> getInputs();
 
 		public int getFuelValue();
 

@@ -15,14 +15,17 @@ public class HandlerRecipeFairyFuelRecipes extends ArrayList<RecipeFuel.IRecipeF
 	public Optional<RecipeFuel.IMatcherFuel> matcher(ItemStack input)
 	{
 		return stream()
-			.filter(recipe -> recipe.getInputs().anyMatch(ore -> OreDictionary.itemMatches(ore, input, false)))
+			.filter(recipe -> recipe.getInputs().getX().anyMatch(ore -> OreDictionary.itemMatches(ore, input, false)))
+			.filter(recipe -> recipe.getInputs().getY() <= input.stackSize)
 			.findFirst()
 			.<RecipeFuel.IMatcherFuel> map(recipe -> new RecipeFuel.IMatcherFuel() {
 				@Override
 				public ItemStack consume()
 				{
-					input.stackSize--;
-					return input;
+					input.stackSize -= recipe.getInputs().getY();
+					ItemStack cost = input.copy();
+					cost.stackSize = recipe.getInputs().getY();
+					return cost;
 				}
 
 				@Override
