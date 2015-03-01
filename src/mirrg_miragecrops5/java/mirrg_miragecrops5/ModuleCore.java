@@ -67,7 +67,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 	public ModuleCore()
 	{
 
-		loaderCreativeTab.init(() -> loaderItem_craftingMirageFairy.get(), "miragecrops5_core");
+		loaderCreativeTab.init(() -> loaderItem_craftingTool.get(), "miragecrops5_core");
 		add(loaderCreativeTab);
 
 		loaderCreativeTabFairy.init(() -> loaderItem_craftingMirageFairy.get(), "miragecrops5_fairy");
