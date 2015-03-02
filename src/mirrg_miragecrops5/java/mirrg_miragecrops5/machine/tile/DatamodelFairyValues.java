@@ -60,4 +60,10 @@ public class DatamodelFairyValues implements IDatamodel<DatamodelFairyValues>
 		return this;
 	}
 
+	@Override
+	public void reset()
+	{
+
+	}
+
 }
