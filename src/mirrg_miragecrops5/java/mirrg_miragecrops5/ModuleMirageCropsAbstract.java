@@ -39,9 +39,9 @@ public abstract class ModuleMirageCropsAbstract extends ModuleAbstract
 
 		metaItem.virtualClass.override(new AdaptorItemSubItemsMetaItem(itemMir50, metaItem, metaItem));
 		AdaptorItemIconAutonomy a = new AdaptorItemIconAutonomy(itemMir50, metaItem);
+		metaItem.virtualClass.override(a);
 		if (!iconAppendCancel) a.appendIcon("miragecrops5:" + unlocalizedName);
 		if (setter != null) setter.accept(metaItem, a);
-		metaItem.virtualClass.override(a);
 
 		OreDictionary.registerOre(unlocalizedName, new ItemStack(itemMir50, 1, metaId));
 
