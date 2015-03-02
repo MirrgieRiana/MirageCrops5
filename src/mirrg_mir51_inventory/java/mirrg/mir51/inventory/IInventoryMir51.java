@@ -82,4 +82,9 @@ public interface IInventoryMir51 extends IInventory
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack itemStack);
 
+	public default void reset()
+	{
+		clear();
+	}
+
 }

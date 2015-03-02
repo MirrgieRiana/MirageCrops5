@@ -17,4 +17,6 @@ public interface IDatamodel<SELF>
 
 	public SELF copy();
 
+	public void reset();
+
 }

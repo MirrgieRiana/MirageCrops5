@@ -17,6 +17,7 @@ public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 
 	public DatamodelFluid(Runnable runnableMarkDirty, int capacity)
 	{
+		reset();
 		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
 	}
@@ -167,6 +168,12 @@ public class DatamodelFluid implements IFluidTank, IDatamodel<DatamodelFluid>
 		if (fluidStack == null) return other.fluidStack == null;
 		return fluidStack.isFluidEqual(other.fluidStack)
 			&& fluidStack.amount == other.fluidStack.amount;
+	}
+
+	@Override
+	public void reset()
+	{
+		fluidStack = null;
 	}
 
 }

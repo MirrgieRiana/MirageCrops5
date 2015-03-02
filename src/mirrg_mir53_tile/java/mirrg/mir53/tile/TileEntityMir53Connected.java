@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import api.mirrg.mir50.datamodel.IDatamodel;
 import api.mirrg.mir50.net.NBTTypes;
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile.PipeType;
@@ -45,6 +46,15 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 		}
 
 		for (Tuple<DatamodelEnergy, String> entry : energyTanks) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().writeToNBT(p_145841_1_);
+				return;
+			}
+
+		}
+
+		for (Tuple<IDatamodel<?>, String> entry : datamodels) {
 
 			if (entry.getY().equals(componentName)) {
 				entry.getX().writeToNBT(p_145841_1_);
@@ -85,6 +95,15 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
+		for (Tuple<IDatamodel<?>, String> entry : datamodels) {
+
+			if (entry.getY().equals(componentName)) {
+				entry.getX().readFromNBT(p_145839_1_);
+				return;
+			}
+
+		}
+
 	}
 
 	@Override
@@ -116,6 +135,14 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 
 		}
 
+		for (Tuple<IDatamodel<?>, String> entry : datamodels) {
+
+			NBTTagCompound tag = new NBTTagCompound();
+			entry.getX().writeToNBT(tag);
+			p_145841_1_.setTag(entry.getY(), tag);
+
+		}
+
 	}
 
 	@Override
@@ -129,9 +156,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
 				entry.getX().readFromNBT(tag);
 			} else {
-				for (int i = 0; i < entry.getX().getSizeInventory(); i++) {
-					entry.getX().getInventoryCell(i).clear();
-				}
+				entry.getX().reset();
 			}
 
 		}
@@ -142,7 +167,7 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
 				entry.getX().readFromNBT(tag);
 			} else {
-				entry.getX().fluidStack = null;
+				entry.getX().reset();
 			}
 
 		}
@@ -153,8 +178,18 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
 				entry.getX().readFromNBT(tag);
 			} else {
-				entry.getX().setAmount(0);
-				entry.getX().setCapacity(entry.getX().getDefaultCapacity());
+				entry.getX().reset();
+			}
+
+		}
+
+		for (Tuple<IDatamodel<?>, String> entry : datamodels) {
+
+			if (p_145839_1_.hasKey(entry.getY(), NBTTypes.COMPOUND)) {
+				NBTTagCompound tag = p_145839_1_.getCompoundTag(entry.getY());
+				entry.getX().readFromNBT(tag);
+			} else {
+				entry.getX().reset();
 			}
 
 		}
@@ -455,6 +490,16 @@ public class TileEntityMir53Connected extends TileEntityMir53 implements IPipeCo
 			}
 		}
 		return null;
+	}
+
+	//////////////////////////////////// Other Datamodels ////////////////////////////////////
+
+	protected ArrayList<Tuple<IDatamodel<?>, String>> datamodels = new ArrayList<Tuple<IDatamodel<?>, String>>();
+
+	protected <T extends IDatamodel<?>> T add(T datamodel, String tagName)
+	{
+		datamodels.add(new Tuple<>(datamodel, tagName));
+		return datamodel;
 	}
 
 }

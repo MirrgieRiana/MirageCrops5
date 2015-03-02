@@ -22,6 +22,7 @@ public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 
 	public DatamodelEnergy(Runnable runnableMarkDirty, long capacity)
 	{
+		reset();
 		this.runnableMarkDirty = runnableMarkDirty;
 		this.capacity = capacity;
 		this.defaultCapacity = capacity;
@@ -108,6 +109,13 @@ public class DatamodelEnergy implements IDatamodel<DatamodelEnergy>
 	{
 		if (other == null) return false;
 		return amount == other.amount && capacity == other.capacity;
+	}
+
+	@Override
+	public void reset()
+	{
+		setAmount(0);
+		setCapacity(getDefaultCapacity());
 	}
 
 }
