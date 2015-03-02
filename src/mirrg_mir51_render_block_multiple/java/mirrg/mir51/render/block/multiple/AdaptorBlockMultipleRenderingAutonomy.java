@@ -1,11 +1,12 @@
 package mirrg.mir51.render.block.multiple;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 
 import mirrg.mir50.block.AdaptorBlockIconOverriding;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.p.virtualclass.IVirtualClass;
-import mirrg.p.virtualclass.IVirtualImplementationAccessor;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -26,7 +27,6 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	public AdaptorBlockMultipleRenderingAutonomy(BlockMir50 owner, IVirtualClass superObject)
 	{
 		super(owner, superObject);
-		accessor_IBlockMultipleRendering = superObject.getVirtualClass().cast(IBlockMultipleRendering.class);
 	}
 
 	public void appendIcon(String iconString)
@@ -42,90 +42,26 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 
 	///////////////////////////////////////////////////////////
 
-	protected final IVirtualImplementationAccessor<IBlockMultipleRendering> accessor_IBlockMultipleRendering;
-
-	///////////////////////////////////////////////////////////
-
-	@SideOnly(Side.CLIENT)
-	public int pass;
-
-	@SideOnly(Side.CLIENT)
-	public boolean isInMultipleRendering;
-
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering)
+	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		this.isInMultipleRendering = isInMultipleRendering;
+		return consumer -> {
+			for (int i = 0; i < blockIcons.size(); i++) {
+				consumer.accept(blockIcons.get(i), iconColors.get(i));
+			}
+		};
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(int metadata, boolean isInMultipleRendering)
+	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
 	{
-		this.isInMultipleRendering = isInMultipleRendering;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass)
-	{
-		this.pass = pass;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(int metadata, int pass)
-	{
-		this.pass = pass;
-	}
-
-	//
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderPasses(IBlockAccess blockAccess, int x, int y, int z)
-	{
-		return this.blockIcons.size();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderPasses(int metadata)
-	{
-		return this.blockIcons.size();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
-	{
-		accessor_IBlockMultipleRendering.get().setMultipleRenderPass(blockAccess, x, y, z, pass);
-		return this.owner.getIcon(blockAccess, x, y, z, side);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
-	{
-		accessor_IBlockMultipleRendering.get().setMultipleRenderPass(metadata, pass);
-		return this.owner.getIcon(side, metadata);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)
-	{
-		accessor_IBlockMultipleRendering.get().setMultipleRenderPass(blockAccess, x, y, z, pass);
-		return this.owner.colorMultiplier(blockAccess, x, y, z);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderColor(int metadata, int pass)
-	{
-		accessor_IBlockMultipleRendering.get().setMultipleRenderPass(metadata, pass);
-		return this.owner.getRenderColor(metadata);
+		return consumer -> {
+			for (int i = 0; i < blockIcons.size(); i++) {
+				consumer.accept(blockIcons.get(i), iconColors.get(i));
+			}
+		};
 	}
 
 	///////////////////////////////////////////////////////////
@@ -134,32 +70,40 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		if (!this.isInMultipleRendering) return this.blockIcons.get(0);
-		return this.blockIcons.get(this.pass);
+		if (!HelpersBlockMultipleRendering.enabled) return this.blockIcons.get(0);
+		return HelpersBlockMultipleRendering.icons[side];
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		if (!this.isInMultipleRendering) return this.blockIcons.get(0);
-		return this.blockIcons.get(this.pass);
+		if (!HelpersBlockMultipleRendering.enabled) return this.blockIcons.get(0);
+		return HelpersBlockMultipleRendering.icons[side];
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
 	{
-		if (!this.isInMultipleRendering) return this.iconColors.get(0);
-		return this.iconColors.get(this.pass);
+		if (!HelpersBlockMultipleRendering.enabled) return this.iconColors.get(0);
+		return HelpersBlockMultipleRendering.color;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int meta)
 	{
-		if (!this.isInMultipleRendering) return this.iconColors.get(0);
-		return this.iconColors.get(this.pass);
+		if (!HelpersBlockMultipleRendering.enabled) return this.iconColors.get(0);
+		return HelpersBlockMultipleRendering.color;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
+	{
+		if (!HelpersBlockMultipleRendering.enabled) return true;
+		return HelpersBlockMultipleRendering.visibles[side];
 	}
 
 	@Override

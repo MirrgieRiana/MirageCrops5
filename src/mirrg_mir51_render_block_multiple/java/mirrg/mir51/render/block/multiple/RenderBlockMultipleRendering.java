@@ -3,11 +3,21 @@ package mirrg.mir51.render.block.multiple;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
+import java.util.function.IntFunction;
+import java.util.function.ObjIntConsumer;
 
+import mirrg.h.struct.Tuple;
 import mirrg.mir50.render.block.RenderBlockAbstract;
+import mirrg.numberreave.NumberReave;
+import mirrg.numberreave.Storage;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
@@ -100,66 +110,126 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		}
 
 		GL11.glPushAttrib(8192);
-		//GL11.glEnable(GL11.GL_TEXTURE_2D);
-		//GL11.glEnable(GL11.GL_ALPHA_TEST);
-		//GL11.glDisable(GL11.GL_BLEND);
-		//GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
-		//GL11.glEnable(GL11.GL_BLEND);
-		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		{
+			renderImpl(blockMultipleRendering,
+				side -> blockMultipleRendering.getMultipleRendering(metadata, side), color -> {
+					renderCubeInInventory(block, metadata, renderer, color);
+				});
 
-		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		/*TODO
-		 GL_ZERO	(0,0,0,0)
-		GL_ONE	(1,1,1,1)
-		GL_SRC_COLOR	(Rs/kR ,Gs/kG,Bs/kB,As/kA)
-		GL_ONE_MINUS_SRC_COLOR	(1,1,1,1)-(Rs/kR,Gs/kG,Bs/kB,As/kA)
-		GL_DST_COLOR	(Rd/kR,Gd/kG,Bd/kB,Ad/kA)
-		GL_ONE_MINUS_DST_COLOR	(1,1,1,1)-(Rd/kR,Gd/kG,Bd/kB,Ad/kA)
-		GL_SRC_ALPHA	(As/kA,As/kA,As/kA,As/kA)
-		GL_ONE_MINUS_SRC_ALPHA	(1,1,1,1)-(As/kA,As/kA,As/kA,As/kA)
-		GL_DST_ALPHA	(Ad/kA,Ad/kA,Ad/kA,Ad/kA)
-		GL_ONE_MINUS_DST_ALPHA	(1,1,1,1)-(Ad/kA,Ad/kA,Ad/kA,Ad/kA)
-		GL_SRC_ALPHA_SATURATE	(i,i,i,1)
-		 */
-
-		blockMultipleRendering.setMultipleRendering(metadata, true);
-		for (int i = 0; i < blockMultipleRendering.getMultipleRenderPasses(metadata); i++) {
-			blockMultipleRendering.setMultipleRenderPass(metadata, i);
-
-			int color = blockMultipleRendering.getMultipleRenderColor(metadata, i);
-			renderCubeInInventory(block, metadata, renderer, color);
-
-			//GL11.glColor4f(1, 1, 1, 1);
-			/*
-			GL11.glColor4f(
-				r * ((color >> 16) & 0xff) / 255.0f,
-				g * ((color >> 8) & 0xff) / 255.0f,
-				b * (color & 0xff) / 255.0f,
-				a);
-				*/
-
-			//Tessellator.instance.setColorOpaque_F(((color >> 16) & 0xff) / 255.0f, ((color >> 8) & 0xff) / 255.0f, (color & 0xff) / 255.0f);
-
+			GL11.glColor4f(r, g, b, a);
 		}
-		blockMultipleRendering.setMultipleRendering(metadata, false);
-
-		GL11.glColor4f(r, g, b, a);
-
 		GL11.glPopAttrib();
+	}
+
+	public static void renderCubeInInventory(Block block, int metadata, RenderBlocks renderer, int color)
+	{
+		Tessellator t = Tessellator.instance;
+
+		if (HelpersBlockMultipleRendering.visibles[0]) {
+			t.startDrawingQuads();
+			t.setNormal(0.0F, -1.0F, 0.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
+			t.draw();
+		}
+
+		if (HelpersBlockMultipleRendering.visibles[1]) {
+			t.startDrawingQuads();
+			t.setNormal(0.0F, 1.0F, 0.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
+			t.draw();
+		}
+
+		if (HelpersBlockMultipleRendering.visibles[2]) {
+			t.startDrawingQuads();
+			t.setNormal(0.0F, 0.0F, -1.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
+			t.draw();
+		}
+
+		if (HelpersBlockMultipleRendering.visibles[3]) {
+			t.startDrawingQuads();
+			t.setNormal(0.0F, 0.0F, 1.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
+			t.draw();
+		}
+
+		if (HelpersBlockMultipleRendering.visibles[4]) {
+			t.startDrawingQuads();
+			t.setNormal(-1.0F, 0.0F, 0.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
+			t.draw();
+		}
+
+		if (HelpersBlockMultipleRendering.visibles[5]) {
+			t.startDrawingQuads();
+			t.setNormal(1.0F, 0.0F, 0.0F);
+			Tessellator.instance.setColorOpaque_I(color);
+			renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
+			t.draw();
+		}
+
 	}
 
 	public static void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
 		Block block, IBlockMultipleRendering blockMultipleRendering, RenderBlocks renderer)
 	{
-		blockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, true);
-		for (int i = 0; i < blockMultipleRendering.getMultipleRenderPasses(blockAccess, x, y, z); i++) {
-			blockMultipleRendering.setMultipleRenderPass(blockAccess, x, y, z, i);
+		renderImpl(blockMultipleRendering,
+			side -> blockMultipleRendering.getMultipleRendering(blockAccess, x, y, z, side), color -> {
+				renderer.renderStandardBlock(block, x, y, z);
+			});
+	}
 
-			renderer.renderStandardBlock(block, x, y, z);
+	protected static void renderImpl(
+		IBlockMultipleRendering blockMultipleRendering,
+		IntFunction<Consumer<ObjIntConsumer<IIcon>>> sideToMultipleRendering,
+		IntConsumer handlerRenderCube)
+	{
+		ArrayList<ArrayList<Tuple<IIcon, Integer>>> listListIconAndColor = new ArrayList<>();
+		for (int side = 0; side < 6; side++) {
+			ArrayList<Tuple<IIcon, Integer>> listIconAndColor = new ArrayList<>();
 
+			sideToMultipleRendering.apply(side).accept((icon, color) -> {
+				listIconAndColor.add(new Tuple<>(icon, color));
+			});
+
+			listListIconAndColor.add(listIconAndColor);
 		}
-		blockMultipleRendering.setMultipleRendering(blockAccess, x, y, z, false);
+
+		ArrayList<Tuple<Integer, boolean[]>> listColorAndMask = NumberReave.allReaveShort(new Storage(
+			(side, pass) -> listListIconAndColor.get(side).get(pass).getY(),
+			side -> listListIconAndColor.get(side).size(),
+			listListIconAndColor.size()));
+
+		//
+
+		HelpersBlockMultipleRendering.enabled = true;
+
+		int[] currentLayer = new int[6];
+
+		for (int layer = 0; layer < listColorAndMask.size(); layer++) {
+			Tuple<Integer, boolean[]> colorAndMask = listColorAndMask.get(layer);
+
+			for (int side = 0; side < colorAndMask.getY().length; side++) {
+				if (colorAndMask.getY()[side]) {
+					HelpersBlockMultipleRendering.visibles[side] = true;
+					HelpersBlockMultipleRendering.icons[side] = listListIconAndColor.get(side).get(currentLayer[side]).getX();
+					HelpersBlockMultipleRendering.color = colorAndMask.getX();
+
+					currentLayer[side]++;
+				} else {
+					HelpersBlockMultipleRendering.visibles[side] = false;
+				}
+			}
+
+			handlerRenderCube.accept(colorAndMask.getX());
+		}
+
+		HelpersBlockMultipleRendering.enabled = false;
 	}
 
 }

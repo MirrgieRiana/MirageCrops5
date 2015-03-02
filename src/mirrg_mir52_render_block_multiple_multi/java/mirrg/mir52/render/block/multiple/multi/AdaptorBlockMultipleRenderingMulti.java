@@ -1,5 +1,8 @@
 package mirrg.mir52.render.block.multiple.multi;
 
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
+
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir51.block.multi.ContainerMetaBlock;
 import mirrg.mir51.block.multi.MetaBlock;
@@ -26,106 +29,20 @@ public class AdaptorBlockMultipleRenderingMulti extends AdaptorBlockMultipleRend
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, boolean isInMultipleRendering)
+	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
 		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
-		if (metaBlock == null) {
-			super.setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
-			return;
-		}
-		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRendering(blockAccess, x, y, z, isInMultipleRendering);
+		if (metaBlock == null) return super.getMultipleRendering(blockAccess, x, y, z, side);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRendering(blockAccess, x, y, z, side);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setMultipleRendering(int metadata, boolean isInMultipleRendering)
+	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
 	{
 		MetaBlock metaBlock = this.containerMetaBlock.get(metadata);
-		if (metaBlock == null) {
-			super.setMultipleRendering(metadata, isInMultipleRendering);
-			return;
-		}
-		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRendering(metadata, isInMultipleRendering);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(IBlockAccess blockAccess, int x, int y, int z, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
-		if (metaBlock == null) {
-			super.setMultipleRenderPass(blockAccess, x, y, z, pass);
-			return;
-		}
-		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRenderPass(blockAccess, x, y, z, pass);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void setMultipleRenderPass(int metadata, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(metadata);
-		if (metaBlock == null) {
-			super.setMultipleRenderPass(metadata, pass);
-			return;
-		}
-		metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().setMultipleRenderPass(metadata, pass);
-	}
-
-	///////////////////////////////////////////////////////////
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderPasses(IBlockAccess blockAccess, int x, int y, int z)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
-		if (metaBlock == null) return super.getMultipleRenderPasses(blockAccess, x, y, z);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderPasses(blockAccess, x, y, z);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderPasses(int metadata)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(metadata);
-		if (metaBlock == null) return super.getMultipleRenderPasses(metadata);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderPasses(metadata);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(IBlockAccess blockAccess, int x, int y, int z, int side, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
-		if (metaBlock == null) return super.getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderIcon(blockAccess, x, y, z, side, pass);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getMultipleRenderIcon(int metadata, int side, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(metadata);
-		if (metaBlock == null) return super.getMultipleRenderIcon(metadata, side, pass);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderIcon(metadata, side, pass);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderColor(IBlockAccess blockAccess, int x, int y, int z, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
-		if (metaBlock == null) return super.getMultipleRenderColor(blockAccess, x, y, z, pass);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderColor(blockAccess, x, y, z, pass);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getMultipleRenderColor(int metadata, int pass)
-	{
-		MetaBlock metaBlock = this.containerMetaBlock.get(metadata);
-		if (metaBlock == null) return super.getMultipleRenderColor(metadata, pass);
-		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRenderColor(metadata, pass);
+		if (metaBlock == null) return super.getMultipleRendering(metadata, side);
+		return metaBlock.virtualClass.cast(IBlockMultipleRendering.class).get().getMultipleRendering(metadata, side);
 	}
 
 }
