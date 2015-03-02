@@ -3,11 +3,14 @@ package mirrg_miragecrops5.machine;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import mirrg.h.struct.Tuple;
+import mirrg.he.math.HelpersColor;
 import mirrg.mir50.block.BlockMir50;
+import mirrg.mir50.block.adaptors.AdaptorBlockIconRegister;
 import mirrg.mir50.block.adaptors.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.adaptors.AdaptorBlockNameExtra;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
@@ -28,6 +31,7 @@ import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
+import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingOverriding;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
 import mirrg.mir52.gui.HelpersContainerMir52;
 import mirrg.p.virtualclass.IVirtualClass;
@@ -42,17 +46,23 @@ import mirrg_miragecrops5.machine.tile.TileEntityMMFMacerator;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
 import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
+import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -185,11 +195,63 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					a.appendIcon("miragecrops5:machineMirageFairy_0_3");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
 				}));
-			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "mmfFurnace",
-				() -> new TileEntityMMFFurnace(), a -> {
-					a.appendIcon("miragecrops5:machineMirageFairy_0_1");
-					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x990000);
+			{
+				MetaBlock metaBlock = createMetaBlock(blockMir50, 1, "mmfFurnace",
+					() -> new TileEntityMMFFurnace(), a -> {});
+
+				IIcon[] icons = new IIcon[5];
+				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
+					icons[0] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_0_1");
+					icons[1] = iconRegister.registerIcon("miragecrops5:blockCalcite");
+					icons[2] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
+					icons[3] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
+					icons[4] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
 				}));
+				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
+
+					@Override
+					@SideOnly(Side.CLIENT)
+					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+					{
+						return handler -> {
+							if (side == ForgeDirection.UP.ordinal()) {
+								handler.accept(icons[0], 0xFFFFFF);
+							} else {
+								handler.accept(icons[1], 0xFFFFFF);
+							}
+							handler.accept(icons[2], HelpersColor.multiplicate(
+								HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+							if (side == ForgeDirection.EAST.ordinal()) {
+								handler.accept(icons[3], 0xFFFFFF);
+								handler.accept(icons[4], HelpersColor.multiplicate(
+									HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+							}
+						};
+					}
+
+					@Override
+					@SideOnly(Side.CLIENT)
+					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+					{
+						return handler -> {
+							if (side == ForgeDirection.UP.ordinal()) {
+								handler.accept(icons[0], 0xFFFFFF);
+							} else {
+								handler.accept(icons[1], 0xFFFFFF);
+							}
+							handler.accept(icons[2], HelpersColor.multiplicate(
+								HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+							if (side == ForgeDirection.EAST.ordinal()) {
+								handler.accept(icons[3], 0xFFFFFF);
+								handler.accept(icons[4], HelpersColor.multiplicate(
+									HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+							}
+						};
+					}
+
+				});
+				addMetaBlock(containerMetaBlock, metaBlock);
+			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 2, "mmfMacerator",
 				() -> new TileEntityMMFMacerator(), a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
