@@ -253,11 +253,11 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 								handler.accept(icons[1], 0xFFFFFF);
 							}
 							handler.accept(icons[2], HelpersColor.multiplicate(
-								HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+								HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
 							if (side == ForgeDirection.EAST.ordinal()) {
 								handler.accept(icons[3], 0xFFFFFF);
 								handler.accept(icons[4], HelpersColor.multiplicate(
-									HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
+									HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
 							}
 						};
 					}
