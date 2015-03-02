@@ -103,6 +103,66 @@ public class BlockMir50 extends Block implements IVirtualClass
 		return super.getUnlocalizedName().substring(5);
 	}
 
+	public final void setField_minX(double minX)
+	{
+		this.minX = minX;
+	}
+
+	public final double getField_minX()
+	{
+		return minX;
+	}
+
+	public final void setField_maxX(double maxX)
+	{
+		this.maxX = maxX;
+	}
+
+	public final double getField_maxX()
+	{
+		return maxX;
+	}
+
+	public final void setField_minY(double minY)
+	{
+		this.minY = minY;
+	}
+
+	public final double getField_minY()
+	{
+		return minY;
+	}
+
+	public final void setField_maxY(double maxY)
+	{
+		this.maxY = maxY;
+	}
+
+	public final double getField_maxY()
+	{
+		return maxY;
+	}
+
+	public final void setField_minZ(double minZ)
+	{
+		this.minZ = minZ;
+	}
+
+	public final double getField_minZ()
+	{
+		return minZ;
+	}
+
+	public final void setField_maxZ(double maxZ)
+	{
+		this.maxZ = maxZ;
+	}
+
+	public final double getField_maxZ()
+	{
+		return maxZ;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
@@ -156,6 +216,13 @@ public class BlockMir50 extends Block implements IVirtualClass
 	public Block setBlockTextureName(String textureName)
 	{
 		return accessor_IAdaptorBlockIcon.get().setBlockTextureName(textureName);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
+	{
+		return accessor_IAdaptorBlockIcon.get().shouldSideBeRendered(blockAccess, x, y, z, side);
 	}
 
 	/////////////////////////////////////////////////////////////////////

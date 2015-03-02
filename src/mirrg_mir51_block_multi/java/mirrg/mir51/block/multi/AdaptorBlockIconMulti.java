@@ -92,4 +92,13 @@ public class AdaptorBlockIconMulti extends AdaptorBlockIconOverriding
 		return super.setBlockTextureName(textureName);
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
+	{
+		MetaBlock metaBlock = this.containerMetaBlock.get(blockAccess, x, y, z);
+		if (metaBlock == null) return super.shouldSideBeRendered(blockAccess, x, y, z, side);
+		return metaBlock.accessor_IAdaptorBlockIcon.get().shouldSideBeRendered(blockAccess, x, y, z, side);
+	}
+
 }

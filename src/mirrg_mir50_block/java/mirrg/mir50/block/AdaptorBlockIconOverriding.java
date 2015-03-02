@@ -74,4 +74,11 @@ public class AdaptorBlockIconOverriding extends AdaptorBlockIcon
 		return this._super_IAdaptorBlockIcon.setBlockTextureName(textureName);
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
+	{
+		return this._super_IAdaptorBlockIcon.shouldSideBeRendered(blockAccess, x, y, z, side);
+	}
+
 }

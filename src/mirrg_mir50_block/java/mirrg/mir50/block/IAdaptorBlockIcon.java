@@ -33,4 +33,7 @@ public interface IAdaptorBlockIcon
 
 	public Block setBlockTextureName(String textureName);
 
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side);
+
 }
