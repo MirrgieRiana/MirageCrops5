@@ -25,6 +25,7 @@ import mirrg.mir50.item.adaptors.AdaptorItemNameInformation;
 import mirrg.mir50.item.adaptors.AdaptorItemNameInformationCraftingToolNBT;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg.mir50.oredictionary.OreMatcher;
+import mirrg.mir51.icon.multi.MultipleIconShapes;
 import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderCreativeTab;
 import mirrg.mir51.loaders.LoaderItem;
@@ -34,6 +35,7 @@ import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.IFairySkill;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
+import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import mirrg_miragecrops5.recipefairy.RecipeFairy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -372,9 +374,6 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					}
 				});
 			}, false);
-			setMetaItem(itemMir50, metaItemContainer, 5, "ingotSpinachium", (metaItem, a) -> {
-				a.appendIcon("minecraft:iron_ingot", 0x22cc00);
-			}, true);
 
 			setMetaItem(itemMir50, metaItemContainer, 10, "craftingCoke", null, false);
 
@@ -446,6 +445,16 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 			setMetaItem(itemMir50, metaItemContainer, 21, "craftingStoneMirageFairyBaked", null, false);
 
+			setMetaItem(itemMir50, metaItemContainer, 5, "craftingMachineHullStoneTier1", (metaItem, a) -> {
+				a.appendIcon("minecraft:iron_ingot", 0x22cc00);
+
+				HelpersModuleMaterial.applyMultipleIcon(itemMir50, metaItem,
+					HelpersModuleMaterial.createMultipleIcon(MultipleIconShapes.MACHINE_HULL, "calcite"));
+
+				metaItem.virtualClass.override(new AdaptorItemNameInformationCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
+
+			}, true);
+
 		});
 
 		add(new LoaderOreDictionary(() -> {
@@ -464,6 +473,24 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		}));
 
 		add(new LoaderRecipe(() -> {
+
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+				HelpersOreDictionary.getOrThrow("mmfFurnace"),
+				" P ",
+				"PHP",
+				" F ",
+				'H', "craftingMachineHullStoneTier1",
+				'F', Blocks.furnace,
+				'P', "plateApatite"));
+
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingMachineHullStoneTier1"),
+				"RPR",
+				"PBP",
+				"RPR",
+				'B', "craftingBookMirageToolIndustrial",
+				'R', "rodIron",
+				'P', "plateCalcite"));
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 				HelpersOreDictionary.getOrThrow("writingDesk"),

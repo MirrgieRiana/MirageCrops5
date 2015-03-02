@@ -52,6 +52,7 @@ item.craftingFairyWastesTier1.name=初級妖精の厩肥
 item.craftingBookMirageToolIndustrial.name=妖精の工具図面
 item.craftingBookMirageFairy.name=妖精の手引書
 item.craftingMonolithMirage.name=妖精のモノリス
+item.craftingMachineHullStoneTier1.name=初級石のマシン外装
 
 container.miragecrops5.mmfFurnace=妖力保温炉
 container.miragecrops5.mmfMacerator=妖力物理粉砕機
