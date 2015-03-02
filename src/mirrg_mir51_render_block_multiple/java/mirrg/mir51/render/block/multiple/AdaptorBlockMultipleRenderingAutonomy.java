@@ -8,6 +8,7 @@ import mirrg.mir50.block.AdaptorBlockIconOverriding;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.p.virtualclass.IVirtualClass;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
@@ -70,7 +71,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
-		if (!HelpersBlockMultipleRendering.enabled) return this.blockIcons.get(0);
+		if (!HelpersBlockMultipleRendering.enabled) return Blocks.stone.getIcon(blockAccess, x, y, z, side);
 		return HelpersBlockMultipleRendering.icons[side];
 	}
 
@@ -78,7 +79,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		if (!HelpersBlockMultipleRendering.enabled) return this.blockIcons.get(0);
+		if (!HelpersBlockMultipleRendering.enabled) return Blocks.stone.getIcon(side, meta);
 		return HelpersBlockMultipleRendering.icons[side];
 	}
 
@@ -86,7 +87,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
 	{
-		if (!HelpersBlockMultipleRendering.enabled) return this.iconColors.get(0);
+		if (!HelpersBlockMultipleRendering.enabled) return 0xffffff;
 		return HelpersBlockMultipleRendering.color;
 	}
 
@@ -94,7 +95,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int meta)
 	{
-		if (!HelpersBlockMultipleRendering.enabled) return this.iconColors.get(0);
+		if (!HelpersBlockMultipleRendering.enabled) return 0xffffff;
 		return HelpersBlockMultipleRendering.color;
 	}
 
