@@ -3,7 +3,9 @@ package mirrg_miragecrops5.machine.tile;
 import mirrg.mir53.tile.TileEntityMir53Connected;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.machine.ModuleMachine;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -26,6 +28,11 @@ public class TileEntityMMF extends TileEntityMir53Connected
 			player.openGui(ModMirageCrops.instance, ModuleMachine.loaderGuiHandler.guiId, world, x, y, z);
 		}
 		return true;
+	}
+
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
+	{
+
 	}
 
 }

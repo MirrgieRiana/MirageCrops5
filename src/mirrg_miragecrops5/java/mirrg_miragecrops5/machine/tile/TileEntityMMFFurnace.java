@@ -2,6 +2,7 @@ package mirrg_miragecrops5.machine.tile;
 
 import java.util.function.IntConsumer;
 
+import mirrg.mir50.datamodels.DatamodelDirection;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
@@ -13,9 +14,12 @@ import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg.mir50.gui.renderer.IRenderer;
 
@@ -28,6 +32,8 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 
 	public final DatamodelEnergy energyTankFuel;
 
+	public final DatamodelDirection direction;
+
 	public TileEntityMMFFurnace()
 	{
 		inventoryInMaterial = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 2), "inventoryInMaterial");
@@ -39,6 +45,7 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 		inventoryChain.add(inventoryInFuel);
 
 		energyTankFuel = add(new DatamodelEnergy(this::markDirty, 0), "energyTankFuel");
+		direction = add(new DatamodelDirection(this::markDirty, ForgeDirection.EAST.ordinal()), "direction");
 	}
 
 	@Override
@@ -182,6 +189,20 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 
 			energyTankFuel.amount -= cooldown;
 		}
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
+	{
+		if (itemStack.hasDisplayName()) setCustomInventoryName(itemStack.getDisplayName());
+
+		int l = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+		if (l == 0) direction.direction = 2;
+		else if (l == 1) direction.direction = 5;
+		else if (l == 2) direction.direction = 3;
+		else if (l == 3) direction.direction = 4;
+
 	}
 
 }

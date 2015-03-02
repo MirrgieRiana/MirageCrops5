@@ -4,7 +4,9 @@ import mirrg.mir50.block.AdaptorBlockEventsOverriding;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.machine.tile.TileEntityMMF;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -25,6 +27,17 @@ public class AdaptorBlockEventsTileEntityMMF extends AdaptorBlockEventsOverridin
 			return ((TileEntityMMF) tileEntity).onActivated(world, x, y, z, player, side, x2, y2, z2);
 		}
 		return false;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
+	{
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
+		if (tileEntity instanceof TileEntityMMF) {
+			((TileEntityMMF) tileEntity).onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
+		}
+
+		super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 	}
 
 }

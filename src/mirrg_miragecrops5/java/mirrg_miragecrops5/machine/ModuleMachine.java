@@ -38,6 +38,7 @@ import mirrg.p.virtualclass.IVirtualClass;
 import mirrg_miragecrops5.ModMirageCrops;
 import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
+import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.recipefuel.RegistryRecipeFuel;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFCarbonizationFurnace;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;
@@ -213,20 +214,32 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					@SideOnly(Side.CLIENT)
 					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 					{
-						return handler -> {
-							if (side == ForgeDirection.UP.ordinal()) {
-								handler.accept(icons[0], 0xFFFFFF);
-							} else {
-								handler.accept(icons[1], 0xFFFFFF);
+						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
+						if (tileEntity != null) {
+							if (tileEntity instanceof TileEntityMMFFurnace) {
+								TileEntityMMFFurnace tileEntityMMFFurnace = (TileEntityMMFFurnace) tileEntity;
+								int direction = tileEntityMMFFurnace.direction.direction;
+
+								return handler -> {
+									if (side == ForgeDirection.UP.ordinal()) {
+										handler.accept(icons[0], 0xFFFFFF);
+									} else {
+										handler.accept(icons[1], 0xFFFFFF);
+									}
+									handler.accept(icons[2], HelpersColor.multiplicate(
+										HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
+									if (side == direction) {
+										handler.accept(icons[3], 0xFFFFFF);
+										handler.accept(icons[4], HelpersColor.multiplicate(
+											HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
+									}
+								};
+
 							}
-							handler.accept(icons[2], HelpersColor.multiplicate(
-								HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
-							if (side == ForgeDirection.EAST.ordinal()) {
-								handler.accept(icons[3], 0xFFFFFF);
-								handler.accept(icons[4], HelpersColor.multiplicate(
-									HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.8));
-							}
-						};
+						}
+
+						return handler -> handler.accept(Blocks.stone.getIcon(blockAccess, x, y, z, side), 0xFFFFFF);
+
 					}
 
 					@Override
@@ -267,11 +280,74 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x3468F3);
 				}));
-			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
-				() -> new TileEntityMMFDigestionMachine(), a -> {
-					a.appendIcon("miragecrops5:machineMirageFairy_0_2");
-					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xF87B60);
+			{
+				MetaBlock metaBlock = createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
+					() -> new TileEntityMMFDigestionMachine(), a -> {});
+
+				IIcon[] icons = new IIcon[5];
+				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
+					icons[0] = iconRegister.registerIcon("minecraft:pumpkin_top");
+					icons[1] = iconRegister.registerIcon("minecraft:pumpkin_side");
+					icons[2] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
+					icons[3] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
+					icons[4] = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
 				}));
+				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
+
+					@Override
+					@SideOnly(Side.CLIENT)
+					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+					{
+						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
+						if (tileEntity != null) {
+							if (tileEntity instanceof TileEntityMMFDigestionMachine) {
+								TileEntityMMFDigestionMachine tileEntityMMFFurnace = (TileEntityMMFDigestionMachine) tileEntity;
+								int direction = tileEntityMMFFurnace.direction.direction;
+
+								return handler -> {
+									if (side == ForgeDirection.UP.ordinal()) {
+										handler.accept(icons[0], 0xFFFFFF);
+									} else {
+										handler.accept(icons[1], 0xFFFFFF);
+									}
+									handler.accept(icons[2], HelpersColor.multiplicate(
+										RegistryFairyType.registry.get("wood").colorB, 1.0));
+									if (side == direction) {
+										handler.accept(icons[3], 0xFFFFFF);
+										handler.accept(icons[4], HelpersColor.multiplicate(
+											RegistryFairyType.registry.get("wood").colorB, 1.0));
+									}
+								};
+
+							}
+						}
+
+						return handler -> handler.accept(Blocks.stone.getIcon(blockAccess, x, y, z, side), 0xFFFFFF);
+					}
+
+					@Override
+					@SideOnly(Side.CLIENT)
+					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+					{
+						return handler -> {
+							if (side == ForgeDirection.UP.ordinal()) {
+								handler.accept(icons[0], 0xFFFFFF);
+							} else {
+								handler.accept(icons[1], 0xFFFFFF);
+							}
+							handler.accept(icons[2], HelpersColor.multiplicate(
+								RegistryFairyType.registry.get("wood").colorB, 1.0));
+							if (side == ForgeDirection.EAST.ordinal()) {
+								handler.accept(icons[3], 0xFFFFFF);
+								handler.accept(icons[4], HelpersColor.multiplicate(
+									RegistryFairyType.registry.get("wood").colorB, 1.0));
+							}
+						};
+					}
+
+				});
+				addMetaBlock(containerMetaBlock, metaBlock);
+			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 6, "writingDesk",
 				() -> new TileEntityWritingDesk(), a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
