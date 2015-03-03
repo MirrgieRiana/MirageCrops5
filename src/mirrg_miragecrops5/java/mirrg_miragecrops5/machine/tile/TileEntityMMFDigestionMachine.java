@@ -21,7 +21,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
-import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 
 public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
 {
@@ -112,9 +112,9 @@ public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
 					ItemStack itemStack = getLastStack(inventoryInMaterial);
 					if (itemStack == null) return;
 
-					Optional<IMatcherFuel> optionalMatcher = APIRegistryRecipe.registryRecipeFoodValue.matcher(itemStack);
+					Optional<IMatcherRecipeFuel> optionalMatcher = APIRegistryRecipe.registryRecipeFoodValue.matcher(itemStack);
 					if (!optionalMatcher.isPresent()) return;
-					IMatcherFuel matcher = optionalMatcher.get();
+					IMatcherRecipeFuel matcher = optionalMatcher.get();
 
 					int foodValue = matcher.getOutput();
 					if (foodValue <= 0) return;

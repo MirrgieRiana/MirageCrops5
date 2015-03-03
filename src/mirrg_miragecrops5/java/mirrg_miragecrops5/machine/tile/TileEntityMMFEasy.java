@@ -154,7 +154,7 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 		return ProcessingManager.popFuel(min, max, i -> {},
 			energyTankHyleon, inventoryFairyFuel,
 			itemStack -> APIRegistryRecipe.registryRecipeFairyFuel.matcher(itemStack)
-				.map(InterfacesRecipeFuel.IMatcherFuel::getOutput)
+				.map(InterfacesRecipeFuel.IMatcherRecipeFuel::getOutput)
 				.orElse(0) * 1000);
 	}
 

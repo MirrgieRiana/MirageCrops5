@@ -59,7 +59,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
-import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
 import cpw.mods.fml.relauncher.Side;
@@ -113,12 +113,12 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 			rrfv.addHandler(new IHandlerRecipeFuel() {
 				@Override
-				public Optional<IMatcherFuel> matcher(ItemStack input)
+				public Optional<IMatcherRecipeFuel> matcher(ItemStack input)
 				{
 					if (input == null) return Optional.empty();
 					if (!(input.getItem() instanceof ItemFood)) return Optional.empty();
 
-					return Optional.of(new IMatcherFuel() {
+					return Optional.of(new IMatcherRecipeFuel() {
 						@Override
 						public Integer getOutput()
 						{

@@ -2,10 +2,15 @@ package mirrg_miragecrops5.machine.recipefuel;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
+import mirrg.h.struct.Tuple;
+import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 
 public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeFuel
 {
@@ -32,7 +37,7 @@ public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeF
 	}
 
 	@Override
-	public Optional<InterfacesRecipeFuel.IMatcherFuel> matcher(ItemStack input)
+	public Optional<IMatcherRecipeFuel> matcher(ItemStack input)
 	{
 		return getHandlers()
 			.map(handler -> handler.matcher(input))

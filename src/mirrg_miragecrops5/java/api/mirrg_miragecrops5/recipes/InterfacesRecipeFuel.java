@@ -12,7 +12,7 @@ public class InterfacesRecipeFuel
 {
 
 	public static interface IRegistryRecipeFuel
-		extends IRegistryRecipeMir50<InterfacesRecipeFuel.IHandlerRecipeFuel, InterfacesRecipeFuel.IRecipeFuel, InterfacesRecipeFuel.IMatcherFuel, ItemStack, Integer>
+		extends IRegistryRecipeMir50<IHandlerRecipeFuel, IRecipeFuel, IMatcherRecipeFuel, ItemStack, Integer>
 	{
 
 		public void addRecipe(InterfacesRecipeFuel.IRecipeFuel recipe);
@@ -28,7 +28,7 @@ public class InterfacesRecipeFuel
 	}
 
 	public static interface IHandlerRecipeFuel
-		extends IHandlerRecipeMir50<InterfacesRecipeFuel.IRecipeFuel, InterfacesRecipeFuel.IMatcherFuel, ItemStack, Integer>
+		extends IHandlerRecipeMir50<IRecipeFuel, IMatcherRecipeFuel, ItemStack, Integer>
 	{
 
 	}
@@ -42,7 +42,7 @@ public class InterfacesRecipeFuel
 
 	}
 
-	public static interface IMatcherFuel extends IMatcherMir50<ItemStack, Integer>
+	public static interface IMatcherRecipeFuel extends IMatcherMir50<ItemStack, Integer>
 	{
 
 	}
