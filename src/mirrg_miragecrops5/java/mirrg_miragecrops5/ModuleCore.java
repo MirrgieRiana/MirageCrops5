@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
 import mirrg.h.struct.Tuple;
@@ -24,7 +23,6 @@ import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
 import mirrg.mir50.item.adaptors.AdaptorItemNameInformation;
 import mirrg.mir50.item.adaptors.AdaptorItemNameInformationCraftingToolNBT;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
-import mirrg.mir50.oredictionary.OreMatcher;
 import mirrg.mir51.icon.multi.MultipleIconShapes;
 import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderCreativeTab;
@@ -37,7 +35,6 @@ import mirrg_miragecrops5.fairytype.IFairySkill;
 import mirrg_miragecrops5.fairytype.IItemFairy;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.material.HelpersModuleMaterial;
-import mirrg_miragecrops5.recipefairy.RecipeFairy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -46,7 +43,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -344,9 +340,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 							crafted[0] = true;
 						}, () -> 1, (outputs) -> {
 							ItemStack output = HelpersOreDictionary.copyOrThrow("craftingSpiritFairy");
-							{
-								NBTTagCompound nbt = new NBTTagCompound();
 
+							{
 								ArrayList<ItemStack> drops = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 								if (drops == null || drops.size() == 0) return;
 								ItemStack drop = drops.get(world.rand.nextInt(drops.size()));
@@ -354,9 +349,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								ArrayList<FairyType> fairyTypes = RegistryFairyType.getFromMaterial(drop);
 								if (fairyTypes.size() == 0) return;
 								FairyType fairyType = fairyTypes.get(world.rand.nextInt(fairyTypes.size()));
-								nbt.setString("type", fairyType.typeName);
 
-								output.setTagCompound(nbt);
+								output.setItemDamage(RegistryFairyType.registry.getIndexFromItem(fairyType) * 10);
 							}
 							crafted[1] = true;
 							outputs.add(output);
@@ -610,32 +604,13 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				"dustTinyFluorite",
 				"dustTinyFluorite"));
 
-			{
-				IntConsumer a = tier -> {
-					GameRegistry.addRecipe(new RecipeFairy((inventoryCrafting, slotIndexes) -> {
-						ItemStack craftingSpiritFairy = inventoryCrafting.getStackInSlot(slotIndexes[0]);
-						ItemStack craftingMirageFairy = HelpersOreDictionary.copyOrThrow("craftingMirageFairy");
-
-						if (craftingSpiritFairy.hasTagCompound()) {
-							NBTTagCompound nbt = (NBTTagCompound) craftingSpiritFairy.getTagCompound().copy();
-							if (nbt == null) {
-								nbt = new NBTTagCompound();
-							}
-							nbt.setInteger("tier", tier);
-							craftingMirageFairy.setTagCompound(nbt);
-							return craftingMirageFairy;
-						} else {
-							return null;
-						}
-					},
-						new OreMatcher("craftingSpiritFairy"),
-						new OreMatcher("craftingDallFairyTier" + tier)));
-				};
-
-				for (int tier = 1; tier <= 5; tier++) {
-					a.accept(tier);
-				}
-			}
+			RegistryFairyType.registry.forEach((index, name, fairyType) -> {
+				GameRegistry.addRecipe(new ShapelessOreRecipe(
+					HelpersOreDictionary.copyOrThrow(
+						"craftingMirageFairy" + HelpersString.toUpperCaseHead(name) + "Tier1"),
+					"craftingSpiritFairy" + HelpersString.toUpperCaseHead(name),
+					"craftingDallFairyTier1"));
+			});
 
 			GameRegistry.registerFuelHandler(
 				itemStack -> OreDictionary.itemMatches(
