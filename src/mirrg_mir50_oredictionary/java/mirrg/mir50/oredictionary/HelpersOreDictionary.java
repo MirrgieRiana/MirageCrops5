@@ -53,13 +53,6 @@ public class HelpersOreDictionary
 		return itemStack;
 	}
 
-	public static ItemStack getOrThrow(String name, int stackSize)
-	{
-		ItemStack itemStack = getOrThrow(name);
-		itemStack.stackSize = stackSize;
-		return itemStack;
-	}
-
 	public static ItemStack copyOrThrow(String name, int stackSize)
 	{
 		ItemStack itemStack = copyOrThrow(name);

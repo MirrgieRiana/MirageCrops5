@@ -593,7 +593,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				HelpersOreDictionary.getOrThrow("craftingSpinachiumMoldBaked"), 5);
 
 			GameRegistry.addRecipe(new ShapelessOreRecipe(
-				HelpersOreDictionary.getOrThrow("dustMirage", 9),
+				HelpersOreDictionary.copyOrThrow("dustMirage", 9),
 				"dustMiragium",
 				"dustMiragium",
 				"dustMiragium",
