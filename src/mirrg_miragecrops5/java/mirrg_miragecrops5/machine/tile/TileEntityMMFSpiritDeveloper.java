@@ -49,7 +49,7 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasy
 	protected int[] getFairyValues()
 	{
 		return new int[] {
-			-3, 0, -3, 0, -1, 0,
+			-3, 0, -8, 0, 0, 0,
 		};
 	}
 

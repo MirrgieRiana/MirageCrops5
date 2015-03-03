@@ -44,7 +44,7 @@ public class TileEntityMMFCarbonizationFurnace extends TileEntityMMFEasy
 	protected int[] getFairyValues()
 	{
 		return new int[] {
-			0, -26, 0, 0, -38, 0,
+			0, -8, 0, 0, -8, 0,
 		};
 	}
 

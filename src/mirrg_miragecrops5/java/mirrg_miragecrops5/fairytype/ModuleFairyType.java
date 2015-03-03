@@ -15,8 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	public static IFairySkill SOIL = new FairySkillNegative("soil", -0.5, 0, 0, 0, 0, 0);
-
+	public static IFairySkill SOIL = new FairySkillNegative("soil", -1, 0, 0, 0, 0, 0);
 	public static IFairySkill MINERAL = new FairySkillNegative("mineral", 0, -1, 0, 0, 0, 0);
 	public static IFairySkill FARM = new FairySkillNegative("farm", 0, 0, -1, 0, 0, 0);
 	public static IFairySkill FACTORY = new FairySkillNegative("factory", 0, -1, 0, 0, 0, 0);
@@ -26,6 +25,9 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	public static IFairySkill ADVENTURE = new FairySkillNegative("adventure", -1, 0, 0, 0, 0, 0);
 	public static IFairySkill INTELLIGENCE = new FairySkillNegative("intelligence", 0, 0, 0, -1, 0, 0);
 	public static IFairySkill THAUMATURGY = new FairySkillNegative("thaumaturgy", 0, 0, 0, 0, -1, 0);
+	public static IFairySkill PHENOMENON = new FairySkillNegative("phenomenon", -1, 0, 0, 0, 0, 0);
+
+	public static IFairySkill LAND = new FairySkillPositive("land", 2, 0, 0, 0, 0, 0);
 
 	public static IFairySkill MATERIAL = new FairySkillPositive("material", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill FOOD = new FairySkillPositive("food", 0, 0, 1, 0, 0, 0);
@@ -36,7 +38,6 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	public static IFairySkill LOGIC = new FairySkillPositive("logic", 0, 0, 0, 1, 0, 0);
 	public static IFairySkill MIRAGE = new FairySkillPositive("mirage", 0, 0, 0, 0.8, 0.2, 0);
 	public static IFairySkill ORE = new FairySkillPositive("ore", 0, 1, 0, 0, 0, 0);
-	public static IFairySkill LAND = new FairySkillPositive("land", 1, 0, 0, 0, 0, 0);
 	public static IFairySkill WEAPON = new FairySkillPositive("weapon", 0, 0, 0, 0.6, 0.4, 0);
 	public static IFairySkill ORDER = new FairySkillPositive("order", 0, 0, 0, 0.5, 0.4, 0.1);
 	public static IFairySkill FREEZE = new FairySkillPositive("freeze", 0, 0.5, 0, 0, 0.5, 0);
@@ -466,6 +467,14 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(FACTORY, 3);
 			fairyType.addSkill(ARMER, 2);
 			fairyType.addSkill(SENSE, 1);
+		}));
+		add(new LoaderFairyType(toFairyIndex.applyAsInt(7), "fire", fairyType -> {
+			fairyType.setColors(0xFF1F00, 0xBD5400, 0xD17F07, 0xF5E28C);
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.fire_charge, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Items.flint_and_steel, 1, 0));
+			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.fire, 1, 0));
+			fairyType.addSkill(PHENOMENON, 2);
+			fairyType.addSkill(HEAT, 2);
 		}));
 
 	}

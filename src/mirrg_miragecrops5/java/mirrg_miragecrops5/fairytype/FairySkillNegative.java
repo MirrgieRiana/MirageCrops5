@@ -19,8 +19,7 @@ public class FairySkillNegative extends FairySkillAbstract
 	{
 		double rate = level * 10;
 		rate *= Math.pow(4, tier - 1);
-		rate *= Math.pow(0.95, level - 1);
-		rate *= 0.9;
+		rate *= Math.pow(0.99, level - 1);
 		for (int i = 0; i < 6; i++) {
 			values[i] += (int) Math.ceil(this.values[i] * rate);
 		}

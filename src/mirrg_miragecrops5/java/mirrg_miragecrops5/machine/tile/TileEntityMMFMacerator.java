@@ -46,7 +46,7 @@ public class TileEntityMMFMacerator extends TileEntityMMFEasy
 	protected int[] getFairyValues()
 	{
 		return new int[] {
-			0, -48, 0, 0, 0, 0,
+			0, -12, 0, 0, 0, 0,
 		};
 	}
 

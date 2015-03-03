@@ -58,7 +58,7 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 	protected int[] getFairyValues()
 	{
 		return new int[] {
-			0, 0, 0, 0, -4, 0,
+			0, -3, 0, 0, -3, 0,
 		};
 	}
 

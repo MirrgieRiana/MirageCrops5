@@ -208,10 +208,10 @@ fairytype.book.name=本
 fairytype.writtenbook.name=著書
 fairytype.enchantedbook.name=エンチャントの本
 fairytype.brick.name=レンガ
+fairytype.fire.name=火
 
 
 fairyskill.soil.name=土壌
-
 fairyskill.mineral.name=鉱物
 fairyskill.farm.name=農業
 fairyskill.factory.name=工業
@@ -221,6 +221,9 @@ fairyskill.animal.name=動物
 fairyskill.adventure.name=冒険
 fairyskill.intelligence.name=知能
 fairyskill.thaumaturgy.name=魔導
+fairyskill.phenomenon.name=現象
+
+fairyskill.land.name=地面
 
 fairyskill.material.name=材料
 fairyskill.food.name=食物
@@ -231,7 +234,6 @@ fairyskill.mystery.name=神秘
 fairyskill.logic.name=論理
 fairyskill.mirage.name=ミラージュ
 fairyskill.ore.name=鉱石
-fairyskill.land.name=地面
 fairyskill.weapon.name=攻撃
 fairyskill.order.name=秩序
 fairyskill.freeze.name=冷凍

@@ -52,7 +52,7 @@ public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
 	protected int[] getFairyValues()
 	{
 		return new int[] {
-			-19, 0, -43, 0, 0, 0,
+			0, 0, -7, 0, 0, 0,
 		};
 	}
 
