@@ -50,14 +50,16 @@ public class MaterialMetal extends MaterialSolid
 	@Override
 	public Runnable isExistAndGetRecipeSetter(ShapeMirageCrops5 shape, Item item, int metaId)
 	{
-		if (dust.is(shape)) return () -> {
+		Runnable runner = null;
+
+		if (dust.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"I",
 				"M",
 				'I', ingot.getOreName(),
 				'M', "craftingToolMortar"));
 		};
-		if (ingot.is(shape)) return () -> {
+		if (ingot.is(shape)) runner = () -> {
 
 			for (ItemStack ore : OreDictionary.getOres(dust.getOreName())) {
 				GameRegistry.addSmelting(ore, new ItemStack(item, 1, metaId), 0);
@@ -80,7 +82,7 @@ public class MaterialMetal extends MaterialSolid
 				"A",
 				'A', block.getOreName()));
 		};
-		if (plate.is(shape)) return () -> {
+		if (plate.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"H",
 				"I",
@@ -88,18 +90,18 @@ public class MaterialMetal extends MaterialSolid
 				'I', ingot.getOreName(),
 				'H', "craftingToolHardHammer"));
 		};
-		if (rod.is(shape)) return () -> {
+		if (rod.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"PF",
 				'P', plate.getOreName(),
 				'F', "craftingToolFile"));
 		};
-		if (nugget.is(shape)) return () -> {
+		if (nugget.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 9, metaId),
 				"I",
 				'I', ingot.getOreName()));
 		};
-		if (wire.is(shape)) return () -> {
+		if (wire.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 2, metaId),
 				"P",
 				"C",
@@ -107,7 +109,7 @@ public class MaterialMetal extends MaterialSolid
 				'C', "craftingToolCutter"));
 		};
 
-		if (craftingToolHardHammer.is(shape)) return () -> {
+		if (craftingToolHardHammer.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"IIB",
 				"IIS",
@@ -116,7 +118,7 @@ public class MaterialMetal extends MaterialSolid
 				'I', ingot.getOreName(),
 				'S', "stickWood"));
 		};
-		if (craftingToolChisel.is(shape)) return () -> {
+		if (craftingToolChisel.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"FR",
 				"BS",
@@ -125,7 +127,7 @@ public class MaterialMetal extends MaterialSolid
 				'F', "craftingToolFile",
 				'S', "stickWood"));
 		};
-		if (craftingToolCutter.is(shape)) return () -> {
+		if (craftingToolCutter.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"PFP",
 				"BI ",
@@ -137,7 +139,7 @@ public class MaterialMetal extends MaterialSolid
 				'F', "craftingToolFile",
 				'S', "stickWood"));
 		};
-		if (craftingToolFile.is(shape)) return () -> {
+		if (craftingToolFile.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"HP",
 				"BS",
@@ -146,7 +148,7 @@ public class MaterialMetal extends MaterialSolid
 				'H', "craftingToolHardHammer",
 				'S', "stickWood"));
 		};
-		if (craftingToolMortar.is(shape)) return () -> {
+		if (craftingToolMortar.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"BI ",
 				"AIA",
@@ -155,7 +157,7 @@ public class MaterialMetal extends MaterialSolid
 				'I', ingot.getOreName(),
 				'A', new ItemStack(Blocks.stonebrick)));
 		};
-		if (craftingToolSaw.is(shape)) return () -> {
+		if (craftingToolSaw.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"SSS",
 				"PPS",
@@ -166,7 +168,7 @@ public class MaterialMetal extends MaterialSolid
 				'F', "craftingToolFile",
 				'S', "stickWood"));
 		};
-		if (craftingToolScythe.is(shape)) return () -> {
+		if (craftingToolScythe.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"FPI",
 				"PHS",
@@ -178,7 +180,7 @@ public class MaterialMetal extends MaterialSolid
 				'F', "craftingToolFile",
 				'S', "stickWood"));
 		};
-		if (craftingToolWrench.is(shape)) return () -> {
+		if (craftingToolWrench.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"IHI",
 				"III",
@@ -187,7 +189,7 @@ public class MaterialMetal extends MaterialSolid
 				'I', ingot.getOreName(),
 				'H', "craftingToolHardHammer"));
 		};
-		if (craftingToolPlateMold.is(shape)) return () -> {
+		if (craftingToolPlateMold.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 1, metaId),
 				"BI ",
 				"ICI",
@@ -197,7 +199,12 @@ public class MaterialMetal extends MaterialSolid
 				'C', "craftingToolChisel"));
 		};
 
-		return super.isExistAndGetRecipeSetter(shape, item, metaId);
+		Runnable runner2 = runner;
+		return () -> {
+			if (runner2 != null) runner2.run();
+			Runnable runner3 = super.isExistAndGetRecipeSetter(shape, item, metaId);
+			if (runner3 != null) runner3.run();
+		};
 	}
 
 }

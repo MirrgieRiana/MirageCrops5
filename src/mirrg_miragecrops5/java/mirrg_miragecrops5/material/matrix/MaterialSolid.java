@@ -63,7 +63,9 @@ public class MaterialSolid extends MaterialMirageCrops5
 		Item item,
 		int metaId)
 	{
-		if (dust.is(shape)) return () -> {
+		Runnable runner = null;
+
+		if (dust.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(item, 1, metaId),
 				dustSmall.getOreName(),
 				dustSmall.getOreName(),
@@ -75,20 +77,25 @@ public class MaterialSolid extends MaterialMirageCrops5
 				"AAA",
 				'A', dustTiny.getOreName()));
 		};
-		if (dustSmall.is(shape)) return () -> {
+		if (dustSmall.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 4, metaId),
 				false,
 				" A",
 				'A', dust.getOreName()));
 		};
-		if (dustTiny.is(shape)) return () -> {
+		if (dustTiny.is(shape)) runner = () -> {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item, 9, metaId),
 				false,
 				"A ",
 				'A', dust.getOreName()));
 		};
 
-		return super.isExistAndGetRecipeSetter(shape, item, metaId);
+		Runnable runner2 = runner;
+		return () -> {
+			if (runner2 != null) runner2.run();
+			Runnable runner3 = super.isExistAndGetRecipeSetter(shape, item, metaId);
+			if (runner3 != null) runner3.run();
+		};
 	}
 
 }
