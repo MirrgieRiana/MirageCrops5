@@ -3,11 +3,14 @@ package mirrg_miragecrops5.fairytype;
 import static net.minecraft.util.EnumChatFormatting.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 
+import mirrg.h.struct.Tuple;
 import mirrg.he.math.HelpersMath;
 import mirrg.he.math.HelpersString;
+import mirrg.p.virtualclass.HelpersVirtualClass;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -60,14 +63,10 @@ public class HelpersFairyType
 	{
 		if (fairy == null) return values -> {};
 
-		int damage = fairy.getItemDamage();
-		int indexFairyType = damage / 10;
-		int tier = (damage % 10) + 1;
-		FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
-
+		Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(fairy);
 		if (fairyType == null) return values -> {};
 
-		return getMultiplicative(fairy.stackSize, fairyType.getIncreaser(tier));
+		return getMultiplicative(fairy.stackSize, fairyType.getX().getIncreaser(fairyType.getY()));
 	}
 
 	public static Consumer<int[]> getIncreaser(IInventory inventory)
@@ -149,6 +148,16 @@ public class HelpersFairyType
 	{
 		return StatCollector.translateToLocal(
 			"fairyskill." + (fairySkill != null ? fairySkill.getName() : "null") + ".name").trim();
+	}
+
+	public static Tuple<FairyType, Integer> getFairyType(ItemStack itemStack)
+	{
+		if (itemStack == null) return null;
+
+		Optional<IItemFairy> itemFairy = HelpersVirtualClass.cast(itemStack.getItem(), IItemFairy.class);
+		if (!itemFairy.isPresent()) return null;
+
+		return itemFairy.get().getFairyType(itemStack);
 	}
 
 }

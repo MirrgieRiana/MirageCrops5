@@ -34,6 +34,7 @@ import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.IFairySkill;
+import mirrg_miragecrops5.fairytype.IItemFairy;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import mirrg_miragecrops5.recipefairy.RecipeFairy;
@@ -100,6 +101,14 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		process_loaderItem(loaderItem_craftingMirageFairy, loaderCreativeTabFairy, "craftingMirageFairy", (itemMir50) -> {
 			itemMir50.setHasSubtypes(true);
 
+			itemMir50.virtualClass.register(IItemFairy.class, itemStack -> null);
+			itemMir50.virtualClass.override((IItemFairy) itemStack -> {
+				int damage = itemStack.getItemDamage();
+				int indexFairyType = damage / 10;
+				int tier = (damage % 10) + 1;
+				return new Tuple<>(RegistryFairyType.registry.get(indexFairyType), tier);
+			});
+
 			itemMir50.virtualClass.override(new AdaptorItemSubItemsOverriding(itemMir50, itemMir50) {
 				@Override
 				@SideOnly(Side.CLIENT)
@@ -116,15 +125,12 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					int tier = (damage % 10) + 1;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
-						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + "Tier" + tier + ".format";
+						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + "Tier" + fairyType.getY() + ".format";
 						String format = StatCollector.translateToLocal(unlocalizedName).trim();
-						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType.getX());
 						return String.format(format, fairyTypeLocalizedName).trim();
 					}
 
@@ -135,20 +141,17 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					int tier = (damage % 10) + 1;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
-						strings.add("Type: " + AQUA + HelpersFairyType.getLocalizedName(fairyType) + "(" + fairyType.typeName + ")");
-						strings.add("Tier: " + tier);
+						strings.add("Type: " + AQUA + HelpersFairyType.getLocalizedName(fairyType.getX()) + "(" + fairyType.getX().typeName + ")");
+						strings.add("Tier: " + fairyType.getY());
 
 						strings.add("Values:");
-						HelpersFairyType.addInformation(strings, HelpersFairyType.getValues(fairyType.getIncreaser(tier)));
+						HelpersFairyType.addInformation(strings, HelpersFairyType.getValues(fairyType.getX().getIncreaser(fairyType.getY())));
 
 						strings.add("Skills:");
-						for (Tuple<IFairySkill, Double> skill : fairyType.getSkills(tier)) {
+						for (Tuple<IFairySkill, Double> skill : fairyType.getX().getSkills(fairyType.getY())) {
 							strings.add(String.format("    %s%s %.2f",
 								skill.getX().isPositive() ? AQUA : YELLOW,
 								HelpersFairyType.getLocalizedName(skill.getX()),
@@ -200,17 +203,14 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					int tier = (damage % 10) + 1;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
-						if (pass == 0) return fairyType.colorS;
-						if (pass == 1) return getColorOfTier(tier);
-						if (pass == 2) return fairyType.colorA;
-						if (pass == 3) return fairyType.colorB;
-						if (pass == 4) return fairyType.colorC;
+						if (pass == 0) return fairyType.getX().colorS;
+						if (pass == 1) return getColorOfTier(fairyType.getY());
+						if (pass == 2) return fairyType.getX().colorA;
+						if (pass == 3) return fairyType.getX().colorB;
+						if (pass == 4) return fairyType.getX().colorC;
 					}
 
 					return super.getColorFromItemStack(itemStack, pass);
@@ -236,15 +236,13 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
 
 						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + ".format";
 						String format = StatCollector.translateToLocal(unlocalizedName).trim();
-						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
+						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType.getX());
 
 						return String.format(format, fairyTypeLocalizedName);
 					}
@@ -256,12 +254,10 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
-						strings.add("Type: " + AQUA + fairyType.typeName);
+						strings.add("Type: " + AQUA + fairyType.getX().typeName);
 					} else {
 						strings.add("Type: " + RED + "Undefined!!");
 					}
@@ -280,15 +276,13 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					int damage = itemStack.getItemDamage();
-					int indexFairyType = damage / 10;
-					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
 
 					if (fairyType != null) {
-						if (pass == 0) return fairyType.colorB;
-						if (pass == 1) return fairyType.colorS;
-						if (pass == 2) return fairyType.colorA;
-						if (pass == 3) return fairyType.colorC;
+						if (pass == 0) return fairyType.getX().colorB;
+						if (pass == 1) return fairyType.getX().colorS;
+						if (pass == 2) return fairyType.getX().colorA;
+						if (pass == 3) return fairyType.getX().colorC;
 					}
 
 					return super.getColorFromItemStack(itemStack, pass);

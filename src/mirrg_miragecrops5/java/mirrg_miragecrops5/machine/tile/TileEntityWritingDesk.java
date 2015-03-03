@@ -20,9 +20,8 @@ import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
-import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.fairytype.FairyType;
-import mirrg_miragecrops5.fairytype.RegistryFairyType;
+import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.machine.container.SlotFairy;
 import mirrg_miragecrops5.machine.container.SlotFairyFuel;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
@@ -212,16 +211,13 @@ public class TileEntityWritingDesk extends TileEntityMMF
 				ItemStack itemStack = getLastStack(inventoryInMaterial);
 
 				ItemStack itemStackFairy = getLastStack(inventoryInFairy);
-				if (itemStackFairy == null) return;
-				if (itemStackFairy.getItem() != ModuleCore.loaderItem_craftingMirageFairy.get()) return;
-				int damage = itemStackFairy.getItemDamage();
-				int indexFairyType = damage / 10;
-				int tier = (damage % 10) + 1;
-				FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
+				Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStackFairy);
+				if (fairyType == null) return;
 
 				//
 
-				Optional<IMatcherRecipeWritingDesk> optionalMatcher = APIRegistryRecipe.registryRecipeWritingDesk.matcher(new Tuple<>(itemStack, fairyType));
+				Optional<IMatcherRecipeWritingDesk> optionalMatcher =
+					APIRegistryRecipe.registryRecipeWritingDesk.matcher(new Tuple<>(itemStack, fairyType.getX()));
 				if (!optionalMatcher.isPresent()) return;
 				IMatcherRecipeWritingDesk matcher = optionalMatcher.get();
 
