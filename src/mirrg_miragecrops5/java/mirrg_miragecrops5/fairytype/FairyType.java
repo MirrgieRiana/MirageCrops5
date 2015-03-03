@@ -132,9 +132,9 @@ public class FairyType
 		return values -> {
 			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
 				if (skillEntry.getX().isPositive()) {
-					skillEntry.getX().increase(values, skillEntry.getY() * rate);
+					skillEntry.getX().increase(values, tier, skillEntry.getY() * rate);
 				} else {
-					skillEntry.getX().increase(values, skillEntry.getY() * rateN);
+					skillEntry.getX().increase(values, tier, skillEntry.getY() * rateN);
 				}
 			}
 		};

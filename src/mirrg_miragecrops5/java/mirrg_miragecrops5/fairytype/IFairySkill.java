@@ -7,6 +7,6 @@ public interface IFairySkill
 
 	public boolean isPositive();
 
-	public void increase(int[] values, double level);
+	public void increase(int[] values, int tier, double level);
 
 }

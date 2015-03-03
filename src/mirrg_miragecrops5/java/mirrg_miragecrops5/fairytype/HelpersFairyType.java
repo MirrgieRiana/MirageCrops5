@@ -5,7 +5,6 @@ import static net.minecraft.util.EnumChatFormatting.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 
 import mirrg.h.struct.Tuple;
 import mirrg.he.math.HelpersMath;
@@ -52,11 +51,6 @@ public class HelpersFairyType
 	public static Consumer<int[]> getIncreaser(FairyType fairyType, int tier)
 	{
 		return fairyType.getIncreaser(tier);
-	}
-
-	public static IntFunction<Consumer<int[]>> getIncreaser(IFairySkill fairySkill)
-	{
-		return level -> values -> fairySkill.increase(values, level);
 	}
 
 	public static Consumer<int[]> getIncreaser(ItemStack fairy)
@@ -112,7 +106,7 @@ public class HelpersFairyType
 		if (value == 0) gauge = 0;
 		sb.append(HelpersString.rept("|", gauge));
 		sb.append(BLACK);
-		sb.append(HelpersString.rept("|", 10 - gauge));
+		sb.append(HelpersString.rept("|", Math.max(0, 10 - gauge)));
 
 		return sb.toString();
 	}

@@ -15,12 +15,14 @@ public class FairySkillNegative extends FairySkillAbstract
 	}
 
 	@Override
-	public void increase(int[] values, double level)
+	public void increase(int[] values, int tier, double level)
 	{
-		level *= Math.pow(0.95, level - 1);
-		level *= 0.5;
+		double rate = level * 10;
+		rate *= Math.pow(4, tier - 1);
+		rate *= Math.pow(0.95, level - 1);
+		rate *= 0.9;
 		for (int i = 0; i < 6; i++) {
-			values[i] += (int) Math.ceil(this.values[i] * level * 10);
+			values[i] += (int) Math.ceil(this.values[i] * rate);
 		}
 	}
 
