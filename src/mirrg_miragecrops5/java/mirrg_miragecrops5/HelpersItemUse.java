@@ -18,12 +18,14 @@ public class HelpersItemUse
 		int cost = supplierCost.getAsInt();
 
 		if (holding.stackSize < cost) return holding;
-		holding.stackSize -= cost;
-
-		onCrafted.run();
 
 		ArrayList<ItemStack> outputs = new ArrayList<>();
 		createChangedItem.accept(outputs);
+		if (outputs.size() == 0) return holding;
+
+		holding.stackSize -= cost;
+
+		onCrafted.run();
 
 		if (useHoldingItemSlot) {
 			return spawnOutputs(holding, player, outputs);
