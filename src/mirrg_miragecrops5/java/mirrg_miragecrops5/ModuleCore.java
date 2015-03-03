@@ -350,7 +350,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 								if (drops == null || drops.size() == 0) return;
 								ItemStack drop = drops.get(world.rand.nextInt(drops.size()));
 
-								ArrayList<FairyType> fairyTypes = RegistryFairyType.getFromItemStack(drop);
+								ArrayList<FairyType> fairyTypes = RegistryFairyType.getFromMaterial(drop);
 								if (fairyTypes.size() == 0) return;
 								FairyType fairyType = fairyTypes.get(world.rand.nextInt(fairyTypes.size()));
 								nbt.setString("type", fairyType.typeName);

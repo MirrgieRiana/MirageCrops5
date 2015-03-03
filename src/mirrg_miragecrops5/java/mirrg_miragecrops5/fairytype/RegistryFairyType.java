@@ -15,7 +15,7 @@ public class RegistryFairyType
 	 */
 	public static IInstanceRegistry<FairyType> registry = new InstanceRegistryArray<>(new FairyType[3200]);
 
-	public static ArrayList<FairyType> getFromItemStack(ItemStack itemStack)
+	public static ArrayList<FairyType> getFromMaterial(ItemStack itemStack)
 	{
 		ArrayList<FairyType> fairyTypes = new ArrayList<>();
 
