@@ -6,10 +6,11 @@ import java.util.stream.Stream;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 
-public class HandlerRecipeFuelRecipes extends ArrayList<InterfacesRecipeFuel.IRecipeFuel> implements InterfacesRecipeFuel.IHandlerRecipeFuel
+public class HandlerRecipeFuelRecipes extends ArrayList<IRecipeFuel> implements IHandlerRecipeFuel
 {
 
 	@Override
@@ -38,7 +39,7 @@ public class HandlerRecipeFuelRecipes extends ArrayList<InterfacesRecipeFuel.IRe
 	}
 
 	@Override
-	public Stream<InterfacesRecipeFuel.IRecipeFuel> getRecipesToShow()
+	public Stream<IRecipeFuel> getRecipesToShow()
 	{
 		return stream();
 	}

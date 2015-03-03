@@ -9,13 +9,15 @@ import mirrg.h.struct.Tuple;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
 
-public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeFuel
+public class RegistryRecipeFuel implements IRegistryRecipeFuel
 {
 
-	private ArrayList<InterfacesRecipeFuel.IHandlerRecipeFuel> handlers = new ArrayList<>();
+	private ArrayList<IHandlerRecipeFuel> handlers = new ArrayList<>();
 
 	private HandlerRecipeFuelRecipes recipes = new HandlerRecipeFuelRecipes();
 
@@ -25,13 +27,13 @@ public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeF
 	}
 
 	@Override
-	public Stream<InterfacesRecipeFuel.IHandlerRecipeFuel> getHandlers()
+	public Stream<IHandlerRecipeFuel> getHandlers()
 	{
 		return handlers.stream();
 	}
 
 	@Override
-	public void addHandler(InterfacesRecipeFuel.IHandlerRecipeFuel handler)
+	public void addHandler(IHandlerRecipeFuel handler)
 	{
 		handlers.add(handler);
 	}
