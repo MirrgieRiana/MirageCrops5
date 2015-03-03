@@ -165,9 +165,13 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasy
 			@Override
 			protected void processTick(DatamodelEnergy energyTankProcessing)
 			{
-				long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
+				long need = 1000;
 
-				need = Math.min(1000, need);
+				if (HelpersFairyType.isNotNegative(fairyValues.getIncreaser())) {
+					need *= 2;
+				}
+
+				need = Math.min(energyTankProcessing.getCapacity() - energyTankProcessing.getAmount(), need);
 
 				long pop = popFuel(0, need, amount -> {
 					energyTankFuelDecred[0] += amount;
