@@ -1,11 +1,14 @@
 package mirrg_miragecrops5.machine.tile;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.IntConsumer;
 
+import mirrg.h.struct.Tuple;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotDatamodel;
 import mirrg.mir50.gui.containerextraslots.ContainerExtraSlotLabel;
-import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg.mir50.world.pointer.SupplierPositionWorldFromTileEntity;
 import mirrg.mir51.gui.renderers.RendererEnergySlotMeter;
 import mirrg.mir51.gui.renderers.RendererEnergySlotProgress;
@@ -17,17 +20,19 @@ import mirrg.mir51.inventory.InventoryMir51Trimmer;
 import mirrg.mir51.modding.HelpersSide;
 import mirrg.mir52.gui.ContainerMir52;
 import mirrg.mir52.gui.SupplierPositionContainerFlow;
+import mirrg_miragecrops5.ModuleCore;
+import mirrg_miragecrops5.fairytype.FairyType;
+import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.container.SlotFairy;
 import mirrg_miragecrops5.machine.container.SlotFairyFuel;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg.mir50.gui.renderer.EnumTextAlign;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
+import api.mirrg_miragecrops5.recipes.InterfacesRecipeWritingDesk.IMatcherRecipeWritingDesk;
 
 public class TileEntityWritingDesk extends TileEntityMMF
 {
@@ -204,46 +209,51 @@ public class TileEntityWritingDesk extends TileEntityMMF
 			@Override
 			protected void tryStartProcess(IntConsumer onStart)
 			{
+				ItemStack itemStack = getLastStack(inventoryInMaterial);
+
 				ItemStack itemStackFairy = getLastStack(inventoryInFairy);
-				if (HelpersOreDictionary.isOre(itemStackFairy, "craftingMirageFairyCobblestone")) {
-					int costFairy = 1;
+				if (itemStackFairy.getItem() != ModuleCore.loaderItem_craftingMirageFairy.get()) return;
 
-					ItemStack itemStack = getLastStack(inventoryInMaterial);
-					if (itemStack == null) return;
-					if (OreDictionary.itemMatches(new ItemStack(Items.writable_book), itemStack, true)) {
-						int cost = 1;
+				int damage = itemStackFairy.getItemDamage();
+				int indexFairyType = damage / 10;
+				int tier = (damage % 10) + 1;
+				FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
-						ItemStack output = HelpersOreDictionary.getOrThrow("craftingBookMirageToolIndustrial");
+				//
 
-						if (output != null) {
-							if (itemStack.stackSize >= cost) {
-								// startable
+				Optional<IMatcherRecipeWritingDesk> optionalMatcher = APIRegistryRecipe.registryRecipeWritingDesk.matcher(new Tuple<>(itemStack, fairyType));
+				if (!optionalMatcher.isPresent()) return;
+				IMatcherRecipeWritingDesk matcher = optionalMatcher.get();
 
-								{
-									// 素材を必要数取り出して進行中スロットに設置する
-									ItemStack copy = itemStack.copy();
-									inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(cost);
-									copy.stackSize = cost;
-									inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(copy);
+				List<ItemStack> outputs = new ArrayList<>();
+				outputs.add(matcher.getOutput());
 
-									// 出力を一時バッファに設置する
-									inventoryOutProcessing.getInventoryCell(0).setInventorySlotContents(output.copy());
-								}
+				{
+					// startable
 
-								{
-									// 素材を必要数取り出して進行中スロットに設置する
-									ItemStack copy = itemStackFairy.copy();
-									inventoryInFairy.getInventoryCell(inventoryInFairy.getSizeInventory() - 1).decrStackSize(costFairy);
-									copy.stackSize = costFairy;
-									inventoryInFairyProcessing.getInventoryCell(0).setInventorySlotContents(copy);
-								}
-
-								onStart.accept(1000 * 1000);
-							}
-						}
-
+					{
+						// 素材を必要数取り出して進行中スロットに設置する
+						Tuple<ItemStack, FairyType> out = matcher.consume();
+						inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(0);
+						inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(out.getX());
 					}
 
+					{
+						// 素材を必要数取り出して進行中スロットに設置する
+						ItemStack copy = itemStackFairy.copy();
+						inventoryInFairy.getInventoryCell(inventoryInFairy.getSizeInventory() - 1).decrStackSize(1);
+						copy.stackSize = 1;
+						inventoryInFairyProcessing.getInventoryCell(0).setInventorySlotContents(copy);
+					}
+
+					{
+						// 出力を一時バッファに設置する
+						for (int i = 0; i < Math.min(inventoryOutProcessing.getSizeInventory(), outputs.size()); i++) {
+							inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
+						}
+					}
+
+					onStart.accept(1000 * 1000);
 				}
 			}
 

@@ -20,4 +20,11 @@ public class APIRegistryRecipe
 		APIRegistryRecipe.registryRecipeFoodValue = registryRecipeFoodValue;
 	}
 
+	public static IRegistryRecipeWritingDesk registryRecipeWritingDesk;
+
+	public static void registryRecipeWritingDesk(IRegistryRecipeWritingDesk registryRecipeWritingDesk)
+	{
+		APIRegistryRecipe.registryRecipeWritingDesk = registryRecipeWritingDesk;
+	}
+
 }

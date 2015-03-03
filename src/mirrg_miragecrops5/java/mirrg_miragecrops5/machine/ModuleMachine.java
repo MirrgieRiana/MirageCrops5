@@ -21,6 +21,7 @@ import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
 import mirrg.mir50.loader.EnumLoadEventTiming;
 import mirrg.mir50.loader.Loader;
+import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg.mir51.block.multi.AdaptorBlockHarvestMetaBlock;
 import mirrg.mir51.block.multi.AdaptorBlockSubBlocksMetaBlock;
 import mirrg.mir51.block.multi.ContainerMetaBlock;
@@ -42,6 +43,7 @@ import mirrg_miragecrops5.ModuleCore;
 import mirrg_miragecrops5.ModuleMirageCropsAbstract;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.recipefuel.RegistryRecipeFuel;
+import mirrg_miragecrops5.machine.recipewritingdesk.RegistryRecipeWritingDesk;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFCarbonizationFurnace;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFFurnace;
@@ -93,6 +95,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 					APIRegistryRecipe.registryRecipeFairyFuel(new RegistryRecipeFuel());
 					APIRegistryRecipe.registryRecipeFoodValue(new RegistryRecipeFuel());
+					APIRegistryRecipe.registryRecipeWritingDesk(new RegistryRecipeWritingDesk());
 
 					loadCompleted();
 				}
@@ -169,6 +172,20 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			rrfv.addRecipe(new ItemStack(Items.cake), 12);
 			rrfv.addRecipe(new ItemStack(Blocks.pumpkin), 5);
 			rrfv.addRecipe(new ItemStack(Blocks.lit_pumpkin), 5);
+
+		}));
+
+		add(new LoaderRecipe(() -> {
+
+			APIRegistryRecipe.registryRecipeWritingDesk.addRecipe(
+				new ItemStack(Items.writable_book),
+				RegistryFairyType.registry.get("cobblestone"),
+				HelpersOreDictionary.copyOrThrow("craftingBookMirageToolIndustrial"));
+
+			APIRegistryRecipe.registryRecipeWritingDesk.addRecipe(
+				new ItemStack(Items.writable_book),
+				RegistryFairyType.registry.get("stone"),
+				HelpersOreDictionary.copyOrThrow("craftingBookMirageFairy"));
 
 		}));
 
