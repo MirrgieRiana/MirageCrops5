@@ -191,6 +191,9 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 		process_loaderBlock_multi(loaderBlock_machineMirageFairy, ModuleCore.loaderCreativeTab, "machineMirageFairy", ItemBlockMulti.class, null, (blockMir50, containerMetaBlock) -> {
 
+			blockMir50.setHardness(1.5F);
+			blockMir50.setResistance(10.0F);
+
 			blockMir50.setBlockTextureName("minecraft:stone");
 
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 0, "machineMirageFairy",
