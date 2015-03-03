@@ -106,6 +106,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				int damage = itemStack.getItemDamage();
 				int indexFairyType = damage / 10;
 				int tier = (damage % 10) + 1;
+				if (RegistryFairyType.registry.get(indexFairyType) == null) return null;
 				return new Tuple<>(RegistryFairyType.registry.get(indexFairyType), tier);
 			});
 
