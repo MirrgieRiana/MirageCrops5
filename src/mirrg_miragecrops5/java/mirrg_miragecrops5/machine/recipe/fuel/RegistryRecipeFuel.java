@@ -1,12 +1,11 @@
 package mirrg_miragecrops5.machine.recipe.fuel;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import mirrg.h.struct.Tuple;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
+import mirrg_miragecrops5.machine.recipe.RegistryRecipeAbstract;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
@@ -14,45 +13,12 @@ import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
 
-public class RegistryRecipeFuel implements IRegistryRecipeFuel
+public class RegistryRecipeFuel
+	extends RegistryRecipeAbstract<IHandlerRecipeFuel, IRecipeFuel, IMatcherRecipeFuel, ItemStack, Integer>
+	implements IRegistryRecipeFuel
 {
 
-	private ArrayList<IHandlerRecipeFuel> handlers = new ArrayList<>();
-
-	private HandlerRecipeFuelRecipes recipes = new HandlerRecipeFuelRecipes();
-
-	public RegistryRecipeFuel()
-	{
-		addHandler(recipes);
-	}
-
-	@Override
-	public Stream<IHandlerRecipeFuel> getHandlers()
-	{
-		return handlers.stream();
-	}
-
-	@Override
-	public void addHandler(IHandlerRecipeFuel handler)
-	{
-		handlers.add(handler);
-	}
-
-	@Override
-	public Optional<IMatcherRecipeFuel> matcher(ItemStack input)
-	{
-		return getHandlers()
-			.map(handler -> handler.matcher(input))
-			.filter(Optional::isPresent)
-			.map(Optional::get)
-			.findFirst();
-	}
-
-	@Override
-	public Stream<InterfacesRecipeFuel.IRecipeFuel> getRecipesToShow()
-	{
-		return getHandlers().flatMap(handler -> handler.getRecipesToShow());
-	}
+	private HandlerRecipeFuelRecipes recipes = add(new HandlerRecipeFuelRecipes());
 
 	@Override
 	public void addRecipe(InterfacesRecipeFuel.IRecipeFuel recipe)

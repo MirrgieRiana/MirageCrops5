@@ -1,58 +1,24 @@
 package mirrg_miragecrops5.machine.recipe.writingdesk;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import mirrg.h.struct.Tuple;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg_miragecrops5.fairytype.FairyType;
+import mirrg_miragecrops5.machine.recipe.RegistryRecipeAbstract;
 import net.minecraft.item.ItemStack;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeWritingDesk.IHandlerRecipeWritingDesk;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeWritingDesk.IMatcherRecipeWritingDesk;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeWritingDesk.IRecipeWritingDesk;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeWritingDesk.IRegistryRecipeWritingDesk;
 
-public class RegistryRecipeWritingDesk implements IRegistryRecipeWritingDesk
+public class RegistryRecipeWritingDesk
+	extends RegistryRecipeAbstract<IHandlerRecipeWritingDesk, IRecipeWritingDesk, IMatcherRecipeWritingDesk, Tuple<ItemStack, FairyType>, ItemStack>
+	implements IRegistryRecipeWritingDesk
 {
 
-	private ArrayList<IHandlerRecipeWritingDesk> handlers = new ArrayList<>();
-
-	private HandlerRecipeWritingDesk recipes = new HandlerRecipeWritingDesk();
-
-	public RegistryRecipeWritingDesk()
-	{
-		addHandler(recipes);
-	}
-
-	@Override
-	public Stream<IHandlerRecipeWritingDesk> getHandlers()
-	{
-		return handlers.stream();
-	}
-
-	@Override
-	public void addHandler(IHandlerRecipeWritingDesk handler)
-	{
-		handlers.add(handler);
-	}
-
-	@Override
-	public Optional<IMatcherRecipeWritingDesk> matcher(Tuple<ItemStack, FairyType> input)
-	{
-		return getHandlers()
-			.map(handler -> handler.matcher(input))
-			.filter(Optional::isPresent)
-			.map(Optional::get)
-			.findFirst();
-	}
-
-	@Override
-	public Stream<IRecipeWritingDesk> getRecipesToShow()
-	{
-		return getHandlers().flatMap(handler -> handler.getRecipesToShow());
-	}
+	private HandlerRecipeWritingDesk recipes = add(new HandlerRecipeWritingDesk());
 
 	@Override
 	public void addRecipe(IRecipeWritingDesk recipe)
