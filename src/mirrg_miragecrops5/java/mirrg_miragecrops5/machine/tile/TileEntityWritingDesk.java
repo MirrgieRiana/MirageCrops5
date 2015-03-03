@@ -212,8 +212,8 @@ public class TileEntityWritingDesk extends TileEntityMMF
 				ItemStack itemStack = getLastStack(inventoryInMaterial);
 
 				ItemStack itemStackFairy = getLastStack(inventoryInFairy);
+				if (itemStackFairy == null) return;
 				if (itemStackFairy.getItem() != ModuleCore.loaderItem_craftingMirageFairy.get()) return;
-
 				int damage = itemStackFairy.getItemDamage();
 				int indexFairyType = damage / 10;
 				int tier = (damage % 10) + 1;
