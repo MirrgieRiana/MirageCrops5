@@ -332,10 +332,16 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world,
 						int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 					{
-						boolean[] crafted = new boolean[2];
+						boolean[] crafted = new boolean[1];
 
 						HelpersItemUse.craft(itemStack, world, player, () -> {
 							crafted[0] = true;
+							world.playSoundEffect(
+								player.posX + 0.5,
+								player.posY + 0.5,
+								player.posZ + 0.5,
+								"ambient.cave.cave",
+								1.0F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 						}, () -> 1, (outputs) -> {
 							ItemStack output = HelpersOreDictionary.copyOrThrow("craftingSpiritFairy");
 
@@ -350,20 +356,11 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 								output.setItemDamage(RegistryFairyType.registry.getIndexFromItem(fairyType) * 10);
 							}
-							crafted[1] = true;
+
 							outputs.add(output);
 						}, false);
 
-						if (crafted[1]) {
-							world.playSoundEffect(
-								player.posX + 0.5,
-								player.posY + 0.5,
-								player.posZ + 0.5,
-								"ambient.cave.cave",
-								1.0F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-						}
-
-						return crafted[1];
+						return crafted[0];
 					}
 				});
 			}, false);
