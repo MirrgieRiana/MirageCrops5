@@ -18,7 +18,7 @@ public class HandlerRecipeWritingDesk extends ArrayList<IRecipeWritingDesk> impl
 	@Override
 	public Optional<IMatcherRecipeWritingDesk> matcher(Tuple<ItemStack, FairyType> input)
 	{
-		stream()
+		return stream()
 			.filter(recipe -> recipe.getInputBook().getX().anyMatch(ore -> OreDictionary.itemMatches(ore, input.getX(), false)))
 			.filter(recipe -> recipe.getInputBook().getY() <= input.getX().stackSize)
 			.filter(recipe -> recipe.getInputFairy().anyMatch(fairyType -> fairyType.typeName.equals(input.getY().typeName)))
@@ -40,7 +40,6 @@ public class HandlerRecipeWritingDesk extends ArrayList<IRecipeWritingDesk> impl
 					return recipe.getOutput();
 				}
 			});
-		return null;
 	}
 
 	@Override
