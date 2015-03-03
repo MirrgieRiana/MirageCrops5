@@ -1,6 +1,7 @@
 package mirrg_miragecrops5.fairytype;
 
 import static net.minecraft.util.EnumChatFormatting.*;
+import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -152,6 +153,50 @@ public class HelpersFairyType
 		if (!itemFairy.isPresent()) return null;
 
 		return itemFairy.get().getFairyType(itemStack);
+	}
+
+	private static final int[] RISE_TO_CYCLE = {
+		0, 1, 5, 2, 4, 3,
+	}; // ph in em lo ma tr -> ph in lo tr ma em
+
+	public static int getDistance(int i, int j)
+	{
+		return 3 - Math.abs(3 - Math.abs(RISE_TO_CYCLE[i] - RISE_TO_CYCLE[j]));
+	}
+
+	public void test_getDistance()
+	{
+		a(0, 0, 0);
+		a(0, 1, 1);
+		a(0, 2, 2);
+		a(0, 3, 3);
+		a(0, 4, 4);
+		a(0, 5, 5);
+		a(0, 0, 0);
+
+		a(1, 0, 1);
+		a(1, 1, 3);
+		a(1, 3, 5);
+		a(1, 5, 4);
+		a(1, 4, 2);
+		a(1, 2, 0);
+
+		a(2, 0, 3);
+		a(2, 3, 4);
+		a(2, 4, 0);
+		a(2, 1, 2);
+		a(2, 2, 5);
+		a(2, 5, 1);
+
+		a(3, 0, 5);
+		a(3, 1, 4);
+		a(3, 3, 2);
+	}
+
+	private void a(int a, int b, int c)
+	{
+		assertEquals(a, getDistance(b, c));
+		assertEquals(a, getDistance(c, b));
 	}
 
 }
