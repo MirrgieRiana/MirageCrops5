@@ -15,16 +15,16 @@ public class HandlerRecipeFuelRecipes extends ArrayList<InterfacesRecipeFuel.IRe
 	public Optional<InterfacesRecipeFuel.IMatcherFuel> matcher(ItemStack input)
 	{
 		return stream()
-			.filter(recipe -> recipe.getInputs().getX().anyMatch(ore -> OreDictionary.itemMatches(ore, input, false)))
-			.filter(recipe -> recipe.getInputs().getY() <= input.stackSize)
+			.filter(recipe -> recipe.getInput().getX().anyMatch(ore -> OreDictionary.itemMatches(ore, input, false)))
+			.filter(recipe -> recipe.getInput().getY() <= input.stackSize)
 			.findFirst()
 			.<InterfacesRecipeFuel.IMatcherFuel> map(recipe -> new InterfacesRecipeFuel.IMatcherFuel() {
 				@Override
 				public ItemStack consume()
 				{
-					input.stackSize -= recipe.getInputs().getY();
+					input.stackSize -= recipe.getInput().getY();
 					ItemStack cost = input.copy();
-					cost.stackSize = recipe.getInputs().getY();
+					cost.stackSize = recipe.getInput().getY();
 					return cost;
 				}
 

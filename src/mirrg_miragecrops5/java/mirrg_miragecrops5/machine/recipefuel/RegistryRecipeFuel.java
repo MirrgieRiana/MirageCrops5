@@ -56,7 +56,7 @@ public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeF
 	@Override
 	public void addRecipe(String oreName, int stackSize, int fuelValue)
 	{
-		recipes.add(new RecipeOreFuel(oreName, stackSize, fuelValue));
+		recipes.add(createRecipeOreFuel(oreName, stackSize, fuelValue));
 	}
 
 	@Override
@@ -68,13 +68,56 @@ public class RegistryRecipeFuel implements InterfacesRecipeFuel.IRegistryRecipeF
 	@Override
 	public void addRecipe(ItemStack itemStack, int stackSize, int fuelValue)
 	{
-		recipes.add(new RecipeFuel(itemStack, stackSize, fuelValue));
+		recipes.add(createRecipeFuel(itemStack, stackSize, fuelValue));
 	}
 
 	@Override
 	public void addRecipe(ItemStack itemStack, int fuelValue)
 	{
 		addRecipe(itemStack, 1, fuelValue);
+	}
+
+	public static IRecipeFuel createRecipeFuel(ItemStack input, int stackSize, int fuelValue)
+	{
+		return new IRecipeFuel() {
+
+			@Override
+			public Tuple<Stream<ItemStack>, Integer> getInput()
+			{
+				// wait for ASM5 TODO
+				return new Tuple<>(
+					((Function<ItemStack, Stream<ItemStack>>) Stream::of).apply(input),
+					stackSize);
+			}
+
+			@Override
+			public int getFuelValue()
+			{
+				return fuelValue;
+			}
+
+		};
+	}
+
+	public static IRecipeFuel createRecipeOreFuel(String oreName, int stackSize, int fuelValue)
+	{
+		return new IRecipeFuel() {
+
+			@Override
+			public Tuple<Stream<ItemStack>, Integer> getInput()
+			{
+				return new Tuple<>(
+					HelpersOreDictionary.getOresStream(oreName)
+					, stackSize);
+			}
+
+			@Override
+			public int getFuelValue()
+			{
+				return fuelValue;
+			}
+
+		};
 	}
 
 }

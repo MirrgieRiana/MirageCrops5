@@ -36,7 +36,7 @@ public class InterfacesRecipeFuel
 	public static interface IRecipeFuel
 	{
 
-		public Tuple<Stream<ItemStack>, Integer> getInputs();
+		public Tuple<Stream<ItemStack>, Integer> getInput();
 
 		public int getFuelValue();
 
