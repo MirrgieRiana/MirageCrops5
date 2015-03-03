@@ -237,13 +237,15 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
 				{
-					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
 					if (fairyType != null) {
 
 						String unlocalizedName = owner.getUnlocalizedNameInefficiently(itemStack) + ".format";
 						String format = StatCollector.translateToLocal(unlocalizedName).trim();
-						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType.getX());
+						String fairyTypeLocalizedName = HelpersFairyType.getLocalizedName(fairyType);
 
 						return String.format(format, fairyTypeLocalizedName);
 					}
@@ -255,10 +257,12 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> strings, boolean shift)
 				{
-					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
 					if (fairyType != null) {
-						strings.add("Type: " + AQUA + fairyType.getX().typeName);
+						strings.add("Type: " + AQUA + fairyType.typeName);
 					} else {
 						strings.add("Type: " + RED + "Undefined!!");
 					}
@@ -277,13 +281,15 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				@SideOnly(Side.CLIENT)
 				public int getColorFromItemStack(ItemStack itemStack, int pass)
 				{
-					Tuple<FairyType, Integer> fairyType = HelpersFairyType.getFairyType(itemStack);
+					int damage = itemStack.getItemDamage();
+					int indexFairyType = damage / 10;
+					FairyType fairyType = RegistryFairyType.registry.get(indexFairyType);
 
 					if (fairyType != null) {
-						if (pass == 0) return fairyType.getX().colorB;
-						if (pass == 1) return fairyType.getX().colorS;
-						if (pass == 2) return fairyType.getX().colorA;
-						if (pass == 3) return fairyType.getX().colorC;
+						if (pass == 0) return fairyType.colorB;
+						if (pass == 1) return fairyType.colorS;
+						if (pass == 2) return fairyType.colorA;
+						if (pass == 3) return fairyType.colorC;
 					}
 
 					return super.getColorFromItemStack(itemStack, pass);
