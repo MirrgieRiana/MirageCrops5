@@ -16,7 +16,6 @@ import mirrg.mir50.item.AdaptorItemIconOverriding;
 import mirrg.mir50.item.AdaptorItemNameOverriding;
 import mirrg.mir50.item.AdaptorItemSubItemsOverriding;
 import mirrg.mir50.item.adaptors.AdaptorItemContainerItemAutonomy;
-import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingToolInfinite;
 import mirrg.mir50.item.adaptors.AdaptorItemContainerItemCraftingToolNBT;
 import mirrg.mir50.item.adaptors.AdaptorItemContainerItemMaxStackSize;
 import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
@@ -228,7 +227,6 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 					});
 				}
 			});
-			itemMir50.virtualClass.override(new AdaptorItemContainerItemCraftingToolInfinite(itemMir50, itemMir50));
 			itemMir50.virtualClass.override(new AdaptorItemNameOverriding(itemMir50, itemMir50) {
 				@Override
 				public String getItemStackDisplayName(ItemStack itemStack)
