@@ -1,4 +1,4 @@
-package mirrg_miragecrops5.machine.recipewritingdesk;
+package mirrg_miragecrops5.machine.recipe.writingdesk;
 
 import java.util.ArrayList;
 import java.util.Optional;
