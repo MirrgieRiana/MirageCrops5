@@ -146,6 +146,8 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 						strings.add("Values:");
 						HelpersFairyType.addInformation(strings, HelpersFairyType.getValues(fairyType.getX().getIncreaser(fairyType.getY())));
 
+						strings.add(String.format("Rate: x %.2f", fairyType.getX().getTransportAttenuation(fairyType.getY())));
+
 						strings.add("Skills:");
 						for (Tuple<IFairySkill, Double> skill : fairyType.getX().getSkills(fairyType.getY())) {
 							strings.add(String.format("    %s%s %.2f",

@@ -120,7 +120,7 @@ public class FairyType
 		return getIncreaser((int) Math.ceil(maxSkillLevel));
 	}
 
-	public Consumer<int[]> getIncreaser(int tier)
+	protected Tuple<int[], int[]> getPosNeg(int tier)
 	{
 		double rate = sumSkillLevelPositive > 0
 			? Math.min(1, tier / sumSkillLevelPositive)
@@ -129,47 +129,65 @@ public class FairyType
 			? Math.min(1, (((tier / sumSkillLevelNegative) - 1) / 2) + 1)
 			: 0;
 
+		int[] pos = new int[6];
+		for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
+			if (skillEntry.getX().isPositive()) {
+				skillEntry.getX().increase(pos, tier, skillEntry.getY() * rate);
+			}
+		}
+
+		int[] neg = new int[6];
+		for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
+			if (!skillEntry.getX().isPositive()) {
+				skillEntry.getX().increase(neg, tier, skillEntry.getY() * rateN);
+			}
+		}
+
+		return new Tuple<>(pos, neg);
+	}
+
+	public double getTransportAttenuation(Tuple<int[], int[]> tuplePosNeg)
+	{
+		double rateSum = 0;
+		double rateCount = 0;
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				int weight = Math.abs(tuplePosNeg.getY()[i] * tuplePosNeg.getX()[j]);
+
+				int distance = HelpersFairyType.getDistance(i, j);
+				if (distance == 0) rateSum += 2 * weight;
+				else if (distance == 1) rateSum += 1 * weight;
+				else if (distance == 2) rateSum += 0.5 * weight;
+				else if (distance == 3) rateSum += 0.25 * weight;
+
+				rateCount += weight;
+			}
+		}
+
+		double rate2;
+		if (rateCount != 0) {
+			rate2 = rateSum / rateCount;
+		} else {
+			rate2 = 1;
+		}
+
+		return rate2;
+	}
+
+	public double getTransportAttenuation(int tier)
+	{
+		return getTransportAttenuation(getPosNeg(tier));
+	}
+
+	public Consumer<int[]> getIncreaser(int tier)
+	{
 		return values -> {
-			int[] neg = new int[6];
-			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
-				if (!skillEntry.getX().isPositive()) {
-					skillEntry.getX().increase(neg, tier, skillEntry.getY() * rateN);
-				}
-			}
-
-			int[] pos = new int[6];
-			for (Tuple<IFairySkill, Double> skillEntry : skillEntries) {
-				if (skillEntry.getX().isPositive()) {
-					skillEntry.getX().increase(pos, tier, skillEntry.getY() * rate);
-				}
-			}
-
-			double rateSum = 0;
-			double rateCount = 0;
+			Tuple<int[], int[]> tuplePosNeg = getPosNeg(tier);
+			double rate2 = getTransportAttenuation(tuplePosNeg);
 
 			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 6; j++) {
-					int weight = Math.abs(neg[i] * pos[j]);
-
-					int distance = HelpersFairyType.getDistance(i, j);
-					if (distance == 0) rateSum += 1.5 * weight;
-					else if (distance == 1) rateSum += 1 * weight;
-					else if (distance == 2) rateSum += 0.5 * weight;
-					else if (distance == 3) rateSum += 0.25 * weight;
-
-					rateCount += weight;
-				}
-			}
-
-			double rate2;
-			if (rateCount != 0) {
-				rate2 = rateSum / rateCount;
-			} else {
-				rate2 = 1;
-			}
-
-			for (int i = 0; i < 6; i++) {
-				values[i] += (neg[i] + pos[i]) * rate2;
+				values[i] += (tuplePosNeg.getY()[i] + tuplePosNeg.getX()[i]) * rate2;
 			}
 		};
 	}
