@@ -599,9 +599,15 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				"dustFluorite"));
 
 			GameRegistry.addRecipe(new ShapelessOreRecipe(
-				HelpersOreDictionary.copyOrThrow("dustTinyMirage", 3),
+				HelpersOreDictionary.getOrThrow("dustMirage"),
+				"dustTinyMiragium",
+				"dustTinyMiragium",
 				"dustTinyMiragium",
 				"dustTinyApatite",
+				"dustTinyApatite",
+				"dustTinyApatite",
+				"dustTinyFluorite",
+				"dustTinyFluorite",
 				"dustTinyFluorite"));
 
 			{
