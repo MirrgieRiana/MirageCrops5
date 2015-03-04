@@ -90,11 +90,13 @@ public class MaterialSolid extends MaterialMirageCrops5
 				'A', dust.getOreName()));
 		};
 
+		Runnable runnerSuper = super.isExistAndGetRecipeSetter(shape, item, metaId);
+		if (runner == null && runnerSuper == null) return null;
+
 		Runnable runner2 = runner;
 		return () -> {
 			if (runner2 != null) runner2.run();
-			Runnable runner3 = super.isExistAndGetRecipeSetter(shape, item, metaId);
-			if (runner3 != null) runner3.run();
+			if (runnerSuper != null) runnerSuper.run();
 		};
 	}
 

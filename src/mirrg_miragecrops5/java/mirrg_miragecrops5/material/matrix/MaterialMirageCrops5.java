@@ -24,6 +24,9 @@ public class MaterialMirageCrops5
 		return null;
 	}
 
+	/**
+	 * @return null: この形状は存在しない。
+	 */
 	public Runnable isExistAndGetRecipeSetter(ShapeMirageCrops5 shape, Item item, int metaId)
 	{
 		return null;
