@@ -15,7 +15,9 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ModuleFairyType extends ModuleMirageCropsAbstract
 {
 
-	public static IFairySkill SOIL = new FairySkillNegative("soil", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill EARTH = new FairySkillNegative("earth", -0.2, 0, 0, 0, 0, 0);
+
+	public static IFairySkill SOIL = new FairySkillPositive("soil", -1, 0, 0, 0, 0, 0);
 	public static IFairySkill MINERAL = new FairySkillNegative("mineral", 0, -1, 0, 0, 0, 0);
 	public static IFairySkill FARM = new FairySkillNegative("farm", 0, 0, -1, 0, 0, 0);
 	public static IFairySkill FACTORY = new FairySkillNegative("factory", 0, -1, 0, 0, 0, 0);
@@ -27,9 +29,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	public static IFairySkill THAUMATURGY = new FairySkillNegative("thaumaturgy", 0, 0, 0, 0, -1, 0);
 	public static IFairySkill PHENOMENON = new FairySkillNegative("phenomenon", -1, 0, 0, 0, 0, 0);
 
-	public static IFairySkill LAND = new FairySkillPositive("land", 2, 0, 0, 0, 0, 0);
-	public static IFairySkill LAND2 = new FairySkillPositive("land2", 1, 0, 0, 0, 0, 0);
-
+	public static IFairySkill LAND = new FairySkillPositive("land", 1, 0, 0, 0, 0, 0);
 	public static IFairySkill MATERIAL = new FairySkillPositive("material", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill FOOD = new FairySkillPositive("food", 0, 0, 1, 0, 0, 0);
 	public static IFairySkill SENSE = new FairySkillPositive("sense", 0, 0, 0.8, 0, 0.2, 0);
@@ -346,26 +346,26 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.setColors(bodyColor, 0x7B573B, 0x9F724E, 0x593D29);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.dirt, 1, 0));
 			fairyType.addSkill(SOIL, 1);
-			fairyType.addSkill(LAND2, 0.5);
+			fairyType.addSkill(LAND, 0.5);
 			fairyType.addSkill(PLANT, 0.5);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(1), "sand", fairyType -> {
 			fairyType.setColors(bodyColor, 0xD2CB95, 0xE0D7A6, 0xB0AA72);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.sand, 1, 0));
-			fairyType.addSkill(SOIL, 2);
+			fairyType.addSkill(EARTH, 2);
 			fairyType.addSkill(LAND, 2);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(2), "gravel", fairyType -> {
 			fairyType.setColors(bodyColor, 0x7A7673, 0xAA9E98, 0x918E8E);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.gravel, 1, 0));
 			fairyType.addSkill(SOIL, 2);
-			fairyType.addSkill(LAND2, 1);
+			fairyType.addSkill(LAND, 1);
 			fairyType.addSkill(ORE, 1);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(3), "stone", fairyType -> {
 			fairyType.setColors(bodyColor, 0x808080, 0x8F8F8F, 0x686868);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.stone, 1, 0));
-			fairyType.addSkill(SOIL, 1);
+			fairyType.addSkill(EARTH, 1);
 			fairyType.addSkill(LAND, 1);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(4), "cobblestone", fairyType -> {
@@ -393,7 +393,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.netherrack, 1, 0));
 			fairyType.addSkill(SOIL, 3);
 			fairyType.addSkill(HELL, 2);
-			fairyType.addSkill(LAND2, 1);
+			fairyType.addSkill(LAND, 1);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(8), "endstone", fairyType -> {
 			fairyType.setColors(bodyColor, 0xBCBC89, 0xE9EAB5, 0xC3BD89);
@@ -401,7 +401,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.addSkill(SOIL, 2);
 			fairyType.addSkill(ADVENTURE, 2);
 			fairyType.addSkill(ENDER, 2);
-			fairyType.addSkill(LAND2, 2);
+			fairyType.addSkill(LAND, 2);
 		}));
 
 	}

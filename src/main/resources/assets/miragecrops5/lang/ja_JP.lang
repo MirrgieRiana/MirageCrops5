@@ -210,6 +210,7 @@ fairytype.enchantedbook.name=エンチャントの本
 fairytype.brick.name=レンガ
 fairytype.fire.name=火
 
+fairyskill.earth.name=大地
 
 fairyskill.soil.name=土壌
 fairyskill.mineral.name=鉱物
@@ -224,8 +225,6 @@ fairyskill.thaumaturgy.name=魔導
 fairyskill.phenomenon.name=現象
 
 fairyskill.land.name=地面
-fairyskill.land2.name=地面２
-
 fairyskill.material.name=材料
 fairyskill.food.name=食物
 fairyskill.sense.name=感覚
