@@ -17,7 +17,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 
 	public static IFairySkill EARTH = new FairySkillNegative("earth", -0.2, 0, 0, 0, 0, 0);
 
-	public static IFairySkill SOIL = new FairySkillPositive("soil", -1, 0, 0, 0, 0, 0);
+	public static IFairySkill SOIL = new FairySkillNegative("soil", -1, 0, 0, 0, 0, 0);
 	public static IFairySkill MINERAL = new FairySkillNegative("mineral", 0, -1, 0, 0, 0, 0);
 	public static IFairySkill FARM = new FairySkillNegative("farm", 0, 0, -1, 0, 0, 0);
 	public static IFairySkill FACTORY = new FairySkillNegative("factory", 0, -1, 0, 0, 0, 0);
