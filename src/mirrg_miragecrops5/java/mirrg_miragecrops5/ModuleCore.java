@@ -111,7 +111,7 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 				public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> itemStacks)
 				{
 					RegistryFairyType.registry.forEach((index, name, fairyType) -> {
-						for (int tier = 1; tier <= fairyType.getMaxTier(); tier++) {
+						for (int tier = 1; tier <= Math.max(fairyType.getMaxTier(), 5); tier++) {
 							itemStacks.add(new ItemStack(owner, 1, index * 10 + (tier - 1)));
 						}
 					});
