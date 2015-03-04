@@ -28,6 +28,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 	public static IFairySkill PHENOMENON = new FairySkillNegative("phenomenon", -1, 0, 0, 0, 0, 0);
 
 	public static IFairySkill LAND = new FairySkillPositive("land", 2, 0, 0, 0, 0, 0);
+	public static IFairySkill LAND2 = new FairySkillPositive("land2", 1, 0, 0, 0, 0, 0);
 
 	public static IFairySkill MATERIAL = new FairySkillPositive("material", 0, 1, 0, 0, 0, 0);
 	public static IFairySkill FOOD = new FairySkillPositive("food", 0, 0, 1, 0, 0, 0);
@@ -345,7 +346,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.setColors(bodyColor, 0x7B573B, 0x9F724E, 0x593D29);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.dirt, 1, 0));
 			fairyType.addSkill(SOIL, 1);
-			fairyType.addSkill(LAND, 0.5);
+			fairyType.addSkill(LAND2, 0.5);
 			fairyType.addSkill(PLANT, 0.5);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(1), "sand", fairyType -> {
@@ -358,7 +359,7 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.setColors(bodyColor, 0x7A7673, 0xAA9E98, 0x918E8E);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.gravel, 1, 0));
 			fairyType.addSkill(SOIL, 2);
-			fairyType.addSkill(LAND, 1);
+			fairyType.addSkill(LAND2, 1);
 			fairyType.addSkill(ORE, 1);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(3), "stone", fairyType -> {
@@ -392,14 +393,15 @@ public class ModuleFairyType extends ModuleMirageCropsAbstract
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.netherrack, 1, 0));
 			fairyType.addSkill(SOIL, 3);
 			fairyType.addSkill(HELL, 2);
-			fairyType.addSkill(LAND, 1);
+			fairyType.addSkill(LAND2, 1);
 		}));
 		add(new LoaderFairyType(toFairyIndex.applyAsInt(8), "endstone", fairyType -> {
 			fairyType.setColors(bodyColor, 0xBCBC89, 0xE9EAB5, 0xC3BD89);
 			fairyType.getOreMatcher().addMatcher(new ItemStack(Blocks.end_stone, 1, 0));
-			fairyType.addSkill(SOIL, 4);
+			fairyType.addSkill(SOIL, 2);
+			fairyType.addSkill(ADVENTURE, 2);
 			fairyType.addSkill(ENDER, 2);
-			fairyType.addSkill(LAND, 2);
+			fairyType.addSkill(LAND2, 2);
 		}));
 
 	}
