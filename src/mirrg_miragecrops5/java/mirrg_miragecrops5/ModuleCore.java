@@ -447,6 +447,12 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 			}, true);
 
+			setMetaItem(itemMir50, metaItemContainer, 22, "craftingGraphiteInClay", null, false);
+
+			setMetaItem(itemMir50, metaItemContainer, 23, "craftingGraphiteInClayBaked", null, false);
+
+			setMetaItem(itemMir50, metaItemContainer, 24, "craftingPencil", null, false);
+
 		});
 
 		add(new LoaderOreDictionary(() -> {
@@ -465,6 +471,28 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		}));
 
 		add(new LoaderRecipe(() -> {
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				new ItemStack(Items.writable_book),
+				"craftingPencil",
+				new ItemStack(Items.book)));
+
+			GameRegistry.addRecipe(new ShapedOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingPencil"),
+				"XXX",
+				"YYY",
+				"XXX",
+				'X', "plankWood",
+				'Y', "craftingGraphiteInClayBaked"));
+
+			GameRegistry.addSmelting(
+				HelpersOreDictionary.getOrThrow("craftingGraphiteInClay"),
+				HelpersOreDictionary.getOrThrow("craftingGraphiteInClayBaked"), 5);
+
+			GameRegistry.addRecipe(new ShapelessOreRecipe(
+				HelpersOreDictionary.getOrThrow("craftingGraphiteInClay"),
+				"dustCoal",
+				new ItemStack(Items.clay_ball)));
 
 			GameRegistry.addRecipe(new ShapedOreRecipe(
 				HelpersOreDictionary.getOrThrow("mmfFurnace"),
