@@ -39,10 +39,15 @@ public class HelpersModuleMaterial
 
 	public static IMultipleIcon createMultipleIcon(MultipleIconShape multipleIconShape, String nameMaterial)
 	{
+		return createMultipleIcon(multipleIconShape, registryMaterialProperty.getColor(nameMaterial));
+	}
+
+	public static IMultipleIcon createMultipleIcon(MultipleIconShape multipleIconShape, int color)
+	{
 		if (multipleIconShape.getChannelsUpperBound() == 1) {
-			return new MultipleIcon(multipleIconShape, registryMaterialProperty.getColor(nameMaterial), 0x896727);
+			return new MultipleIcon(multipleIconShape, color, 0x896727);
 		} else {
-			return new MultipleIcon(multipleIconShape, registryMaterialProperty.getColor(nameMaterial));
+			return new MultipleIcon(multipleIconShape, color);
 		}
 	}
 
