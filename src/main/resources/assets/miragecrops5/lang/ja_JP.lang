@@ -53,6 +53,9 @@ item.craftingBookMirageToolIndustrial.name=妖精の工具図面
 item.craftingBookMirageFairy.name=妖精の手引書
 item.craftingMonolithMirage.name=妖精のモノリス
 item.craftingMachineHullStoneTier1.name=初級石のマシン外装
+item.craftingGraphiteInClay.name=黒鉛と粘土をこねたやつ
+item.craftingGraphiteInClayBaked.name=鉛筆の芯材
+item.craftingPencil.name=鉛筆
 
 container.miragecrops5.mmfFurnace=妖力保温炉
 container.miragecrops5.mmfMacerator=妖力物理粉砕機
