@@ -140,7 +140,7 @@ public abstract class ProcessingManager
 	{
 		if (energyTank.getAmount() >= max) {
 			energyTank.decrAmount(max);
-			onEnergyTankDecred.accept(max);
+			if (onEnergyTankDecred != null) onEnergyTankDecred.accept(max);
 			return max;
 		} else {
 			// 燃料が足りない
