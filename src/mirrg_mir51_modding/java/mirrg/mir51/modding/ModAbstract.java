@@ -1,6 +1,7 @@
 package mirrg.mir51.modding;
 
 import mirrg.mir50.loader.EnumLoadEventTiming;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -61,6 +62,8 @@ public abstract class ModAbstract
 	public void add(ModuleAbstract module)
 	{
 		loaderMod.addModule(module);
+
+		MinecraftForge.EVENT_BUS.register(module);
 	}
 
 	//
