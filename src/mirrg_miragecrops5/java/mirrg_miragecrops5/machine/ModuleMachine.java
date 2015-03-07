@@ -50,6 +50,7 @@ import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFFurnace;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFMacerator;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFUrineMaker;
 import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import mirrg_miragecrops5.material.HelpersModuleMaterial;
@@ -229,6 +230,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		add(new LoaderTileEntity(TileEntityMMFCarbonizationFurnace.class, "MMFCarbonizationFurnace"));
 		add(new LoaderTileEntity(TileEntityMMFDigestionMachine.class, "MMFDigestionMachine"));
 		add(new LoaderTileEntity(TileEntityWritingDesk.class, "WritingDesk"));
+		add(new LoaderTileEntity(TileEntityMMFUrineMaker.class, "MMFUrineMaker"));
 
 		{
 			Fluid fluid = new Fluid("urine");
@@ -416,6 +418,11 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				() -> new TileEntityWritingDesk(), a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
+				}));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 7, "mmfUrineMaker",
+				() -> new TileEntityMMFUrineMaker(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xddff55);
 				}));
 
 			//
