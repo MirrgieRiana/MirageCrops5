@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 
-public class TileEntityMMFDigestionMachine extends TileEntityMMFEasy
+public class TileEntityMMFDigestionMachine extends TileEntityMMFEasySolid
 {
 
 	public final IInventoryMir51 inventoryInMaterial;

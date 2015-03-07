@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg.mir50.gui.renderer.IRenderer;
 
-public class TileEntityMMFFurnace extends TileEntityMMFEasy
+public class TileEntityMMFFurnace extends TileEntityMMFEasySolid
 {
 
 	public final IInventoryMir51 inventoryInMaterial;

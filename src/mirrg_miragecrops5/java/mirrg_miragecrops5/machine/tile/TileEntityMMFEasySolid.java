@@ -24,7 +24,7 @@ import api.mirrg.mir50.gui.renderer.EnumTextAlign;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel;
 
-public abstract class TileEntityMMFEasy extends TileEntityMMF
+public abstract class TileEntityMMFEasySolid extends TileEntityMMF
 {
 
 	public final IInventoryMir51 inventoryFairy;
@@ -37,7 +37,7 @@ public abstract class TileEntityMMFEasy extends TileEntityMMF
 
 	public final DatamodelFairyValues fairyValues;
 
-	public TileEntityMMFEasy()
+	public TileEntityMMFEasySolid()
 	{
 		inventoryOut = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOut");
 		inventoryOutProcessing = add(new InventoryMir51Base(this::markDirty, getSupplierPosition(), 4), "inventoryOutProcessing");

@@ -19,7 +19,7 @@ import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityMMFCarbonizationFurnace extends TileEntityMMFEasy
+public class TileEntityMMFCarbonizationFurnace extends TileEntityMMFEasySolid
 {
 
 	public final IInventoryMir51 inventoryInMaterial;

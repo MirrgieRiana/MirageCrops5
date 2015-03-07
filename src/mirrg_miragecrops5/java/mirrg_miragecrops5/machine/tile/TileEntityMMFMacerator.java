@@ -21,7 +21,7 @@ import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMMFMacerator extends TileEntityMMFEasy
+public class TileEntityMMFMacerator extends TileEntityMMFEasySolid
 {
 
 	public final IInventoryMir51 inventoryInMaterial;

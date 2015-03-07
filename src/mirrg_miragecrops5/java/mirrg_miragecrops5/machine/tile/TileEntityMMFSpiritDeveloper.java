@@ -18,7 +18,7 @@ import mirrg_miragecrops5.machine.container.SlotProcessing;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasy
+public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
 {
 
 	public final IInventoryMir51 inventoryInMirage;
