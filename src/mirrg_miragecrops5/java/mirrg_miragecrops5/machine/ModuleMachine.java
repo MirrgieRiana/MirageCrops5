@@ -19,6 +19,7 @@ import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
 import mirrg.mir50.block.adaptors.IAdaptorBlockNameExtra;
 import mirrg.mir50.guihandler.GuiHandler;
 import mirrg.mir50.guihandler.IGuiProvider;
+import mirrg.mir50.icon.HelpersIcon;
 import mirrg.mir50.loader.EnumLoadEventTiming;
 import mirrg.mir50.loader.Loader;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
@@ -59,13 +60,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -83,6 +88,25 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 	protected ArrayList<Tuple<String, Supplier<ItemStack>>> scheduleRegisterOreDictionary = new ArrayList<>();
 	protected ArrayList<Runnable> scheduleRegisterRecipe = new ArrayList<>();
+
+	@SubscribeEvent
+	public void handle(TextureStitchEvent.Pre event)
+	{
+		if (event.map.getTextureType() == HelpersIcon.BLOCKS) {
+			{
+				Fluid fluid = FluidRegistry.getFluid("urine");
+				fluid.setIcons(
+					event.map.registerIcon("miragecrops5:" + fluid.getName() + "_still"),
+					event.map.registerIcon("miragecrops5:" + fluid.getName() + "_flow"));
+			}
+			{
+				Fluid fluid = FluidRegistry.getFluid("spinachjuice");
+				fluid.setIcons(
+					event.map.registerIcon("miragecrops5:" + fluid.getName() + "_still"),
+					event.map.registerIcon("miragecrops5:" + fluid.getName() + "_flow"));
+			}
+		}
+	}
 
 	public ModuleMachine()
 	{
@@ -205,6 +229,15 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		add(new LoaderTileEntity(TileEntityMMFCarbonizationFurnace.class, "MMFCarbonizationFurnace"));
 		add(new LoaderTileEntity(TileEntityMMFDigestionMachine.class, "MMFDigestionMachine"));
 		add(new LoaderTileEntity(TileEntityWritingDesk.class, "WritingDesk"));
+
+		{
+			Fluid fluid = new Fluid("urine");
+			FluidRegistry.registerFluid(fluid);
+		}
+		{
+			Fluid fluid = new Fluid("spinachjuice");
+			FluidRegistry.registerFluid(fluid);
+		}
 
 		process_loaderBlock_multi(loaderBlock_machineMirageFairy, ModuleCore.loaderCreativeTab, "machineMirageFairy", ItemBlockMulti.class, null, (blockMir50, containerMetaBlock) -> {
 

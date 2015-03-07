@@ -30,6 +30,10 @@ tile.blockSpinachium.name=スピナチウムブロック
 tile.blockMiragium.name=ミラジウムブロック
 
 
+fluid.urine=尿
+fluid.spinachjuice=青汁
+
+
 item.craftingPickaxeApatite.name=燐灰石のツルハシ
 item.dustMirage.name=ミラージュダスト
 item.craftingSpinachiumMold.name=スピナチウム鋳型
