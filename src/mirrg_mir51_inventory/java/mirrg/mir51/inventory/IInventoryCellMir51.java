@@ -16,4 +16,9 @@ public interface IInventoryCellMir51 extends IInventoryCell
 
 	public void markDirty();
 
+	public default boolean isEmpty()
+	{
+		return getStackInSlot() == null;
+	}
+
 }

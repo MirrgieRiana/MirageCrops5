@@ -44,6 +44,16 @@ public interface IInventoryMir51 extends IInventory
 
 	public IInventoryCellMir51 getInventoryCell(int index);
 
+	public default IInventoryCellMir51 getLastInventoryCell()
+	{
+		return getInventoryCell(getSizeInventory() - 1);
+	}
+
+	public default IInventoryCellMir51 getFirstInventoryCell()
+	{
+		return getInventoryCell(0);
+	}
+
 	//
 
 	@Deprecated
