@@ -191,6 +191,11 @@ public class GuiMir52 extends GuiContainer
 		@Override
 		public void drawTexturedModelRectFromIcon(int x, int y, int w, int h, IIcon icon, float sx1, float sy1, float sx2, float sy2)
 		{
+			if (icon == null) {
+				new NullPointerException("icon == null").printStackTrace();
+				return;
+			}
+
 			float su1 = icon.getMinU() + (icon.getMaxU() - icon.getMinU()) * sx1;
 			float sv1 = icon.getMinV() + (icon.getMaxV() - icon.getMinV()) * sy1;
 			float su2 = icon.getMinU() + (icon.getMaxU() - icon.getMinU()) * sx2;
