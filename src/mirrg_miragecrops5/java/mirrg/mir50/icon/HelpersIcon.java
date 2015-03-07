@@ -7,6 +7,8 @@ public class HelpersIcon
 
 	public static final String TYPE_ITEMS = "textures/items";
 	public static final String TYPE_BLOCKS = "textures/blocks";
+	public static final int ITEMS = 1;
+	public static final int BLOCKS = 0;
 
 	/**
 	 * リソースが存在する場合のみURLを返す。存在しない場合はnullを返す
