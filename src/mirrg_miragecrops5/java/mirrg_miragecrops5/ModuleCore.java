@@ -442,8 +442,6 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 			setMetaItem(itemMir50, metaItemContainer, 21, "craftingStoneMirageFairyBaked", null, false);
 
 			setMetaItem(itemMir50, metaItemContainer, 5, "craftingMachineHullStoneTier1", (metaItem, a) -> {
-				a.appendIcon("minecraft:iron_ingot", 0x22cc00);
-
 				HelpersModuleMaterial.applyMultipleIcon(itemMir50, metaItem,
 					HelpersModuleMaterial.createMultipleIcon(MultipleIconShapes.MACHINE_HULL, "calcite"));
 
