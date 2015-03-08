@@ -343,6 +343,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
+						handler.accept(iconTop.x, 0xFFFFFF);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
 						handler.accept(iconFront.x, 0xFFFFFF);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
