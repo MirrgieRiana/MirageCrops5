@@ -194,20 +194,15 @@ public class TileEntityMMFUrineMaker extends TileEntityMMFEasy
 			// drain
 			if (!drainable) return;
 
-			if (tank.fluidStack == null) return;
-			if (tank.fluidStack.amount == 0) return;
-
+			if (tank.isEmpty()) return;
 			int capacity = FluidContainerRegistry.getContainerCapacity(tank.fluidStack, in);
-
 			if (capacity == 0) return;
-			if (capacity > tank.fluidStack.amount) return;
 
-			{
-				tank.fluidStack.amount -= capacity;
-				tank.markDirty();
-
+			FluidStack drained = tank.drain(capacity, false);
+			if (drained == null) return;
+			if (capacity == drained.amount) {
+				tank.drain(capacity, true);
 				ItemStack split = inhatch.decrStackSize(1);
-
 				outhatch.setInventorySlotContents(
 					FluidContainerRegistry.fillFluidContainer(new FluidStack(tank.fluidStack.getFluid(), capacity), split));
 			}
@@ -216,35 +211,16 @@ public class TileEntityMMFUrineMaker extends TileEntityMMFEasy
 			// fill
 			if (!fillable) return;
 
-			if (tank.fluidStack != null) {
-				if (tank.fluidStack.amount >= tank.getCapacity()) return;
+			FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(in);
+			if (fluidStack == null) return;
+			if (fluidStack.getFluid() == null) return;
+			if (fluidStack.amount == 0) return;
+			if (!predicateIsFluidFillable.test(fluidStack.getFluid())) return;
 
-				int capacity = FluidContainerRegistry.getContainerCapacity(tank.fluidStack, in);
-				if (tank.getCapacity() < tank.fluidStack.amount + capacity) return;
-
-				{
-					tank.fluidStack.amount += FluidContainerRegistry.getFluidForFilledItem(in).amount;
-
-					ItemStack split = inhatch.decrStackSize(1);
-
-					outhatch.setInventorySlotContents(FluidContainerRegistry.drainFluidContainer(split));
-				}
-
-			} else {
-
-				if (!predicateIsFluidFillable.test(FluidContainerRegistry.getFluidForFilledItem(in).getFluid())) return;
-
-				int capacity = FluidContainerRegistry.getContainerCapacity(in);
-				if (tank.getCapacity() < capacity) return;
-
-				{
-					tank.fluidStack = FluidContainerRegistry.getFluidForFilledItem(in).copy();
-
-					ItemStack split = inhatch.decrStackSize(1);
-
-					outhatch.setInventorySlotContents(FluidContainerRegistry.drainFluidContainer(split));
-				}
-
+			if (fluidStack.amount == tank.fill(fluidStack, false)) {
+				tank.fill(fluidStack, true);
+				ItemStack split = inhatch.decrStackSize(1);
+				outhatch.setInventorySlotContents(FluidContainerRegistry.drainFluidContainer(split));
 			}
 
 		}
@@ -302,67 +278,6 @@ public class TileEntityMMFUrineMaker extends TileEntityMMFEasy
 				}
 			}
 
-			/*
-
-				new ProcessingManager(
-					energyTankProcessing,
-					new IInventoryMir51[] {
-						inventoryInMaterialProcessing,
-					},
-					inventoryOutProcessing,
-					inventoryOut) {
-
-					@Override
-					protected void tryStartProcess(IntConsumer onStart)
-					{
-						ItemStack itemStack = getLastStack(inventoryInMaterial);
-						if (itemStack == null) return;
-
-						Optional<IMatcherRecipeFuel> optionalMatcher = APIRegistryRecipe.registryRecipeFoodValue.matcher(itemStack);
-						if (!optionalMatcher.isPresent()) return;
-						IMatcherRecipeFuel matcher = optionalMatcher.get();
-
-						int foodValue = matcher.getOutput();
-						if (foodValue <= 0) return;
-
-						List<ItemStack> outputs = new ArrayList<>();
-						outputs.add(HelpersOreDictionary.copyOrThrow("craftingFairyWastesTier1", foodValue));
-
-						{
-							// startable
-
-							// 素材を必要数取り出して進行中スロットに設置する
-							ItemStack out = matcher.consume();
-
-							inventoryInMaterial.getInventoryCell(inventoryInMaterial.getSizeInventory() - 1).decrStackSize(0);
-							inventoryInMaterialProcessing.getInventoryCell(0).setInventorySlotContents(out);
-
-							// 出力を一時バッファに設置する
-							for (int i = 0; i < Math.min(inventoryOutProcessing.getSizeInventory(), outputs.size()); i++) {
-								inventoryOutProcessing.setInventorySlotContents(i, outputs.get(i).copy());
-							}
-
-							onStart.accept((40 * foodValue) * 1000);
-						}
-					}
-
-					@Override
-					protected void processTick(DatamodelEnergy energyTankProcessing)
-					{
-						long need = energyTankProcessing.getCapacity() - energyTankProcessing.getAmount();
-
-						need = Math.min(1000, need);
-
-						int rate = 1;
-
-						long pop = popFairyFuel(0, need * rate);
-
-						energyTankProcessing.setAmount(energyTankProcessing.getAmount() + pop / rate);
-					}
-
-				}.tick();
-
-			*/
 		}
 
 	}
