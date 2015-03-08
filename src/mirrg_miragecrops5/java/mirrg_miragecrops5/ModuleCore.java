@@ -22,6 +22,7 @@ import mirrg.mir50.item.adaptors.AdaptorItemIconAutonomy;
 import mirrg.mir50.item.adaptors.AdaptorItemNameInformation;
 import mirrg.mir50.item.adaptors.AdaptorItemNameInformationCraftingToolNBT;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
+import mirrg.mir51.icon.multi.MultipleIcon;
 import mirrg.mir51.icon.multi.MultipleIconShapes;
 import mirrg.mir51.item.multi.MetaItem;
 import mirrg.mir51.loaders.LoaderCreativeTab;
@@ -44,6 +45,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -453,6 +457,18 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 
 			setMetaItem(itemMir50, metaItemContainer, 24, "craftingPencil", null, false);
 
+			setMetaItem(itemMir50, metaItemContainer, 25, "craftingBucketUrine", (metaItem, a) -> {
+				HelpersModuleMaterial.applyMultipleIcon(itemMir50, metaItem,
+					new MultipleIcon(MultipleIconShapes.BUCKET, 0xEFDD43, 0xFFFFFF));
+			}, true);
+
+			setMetaItem(itemMir50, metaItemContainer, 26, "craftingBucketSpinachjuice", (metaItem, a) -> {
+				HelpersModuleMaterial.applyMultipleIcon(itemMir50, metaItem,
+					new MultipleIcon(MultipleIconShapes.BUCKET,
+						HelpersModuleMaterial.registryMaterialProperty.getColor("spinachium"),
+						0xFFFFFF));
+			}, true);
+
 		});
 
 		add(new LoaderOreDictionary(() -> {
@@ -471,6 +487,16 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 		}));
 
 		add(new LoaderRecipe(() -> {
+
+			FluidContainerRegistry.registerFluidContainer(
+				new FluidStack(FluidRegistry.getFluid("spinachjuice"), 1000),
+				HelpersOreDictionary.getOrThrow("craftingBucketSpinachjuice"),
+				new ItemStack(Items.bucket));
+
+			FluidContainerRegistry.registerFluidContainer(
+				new FluidStack(FluidRegistry.getFluid("urine"), 1000),
+				HelpersOreDictionary.getOrThrow("craftingBucketUrine"),
+				new ItemStack(Items.bucket));
 
 			GameRegistry.addRecipe(new ShapelessOreRecipe(
 				new ItemStack(Items.writable_book),
