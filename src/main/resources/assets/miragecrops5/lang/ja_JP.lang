@@ -69,12 +69,14 @@ container.miragecrops5.mmfSpiritDeveloper=妖精霊錬成機
 container.miragecrops5.mmfCarbonizationFurnace=妖力炭化炉
 container.miragecrops5.mmfDigestionMachine=妖力生体厩肥製造機
 container.miragecrops5.writingDesk=執筆机
+container.miragecrops5.mmfUrineMaker=妖力生体尿精製機
 tile.mmfFurnace.name=妖力保温炉
 tile.mmfMacerator.name=妖力物理粉砕機
 tile.mmfSpiritDeveloper.name=妖精霊錬成機
 tile.mmfCarbonizationFurnace.name=妖力炭化炉
 tile.mmfDigestionMachine.name=妖力生体厩肥製造機
 tile.writingDesk.name=執筆机
+tile.mmfUrineMaker.name=妖力生体尿精製機
 
 item.craftingSpiritFairy.format=%sの妖精霊
 item.craftingMirageFairyTier1.format=%sの初級妖精
