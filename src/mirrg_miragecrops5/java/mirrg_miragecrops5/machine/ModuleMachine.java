@@ -269,19 +269,19 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
 					iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
 				}));
-				IntFunction<Consumer<ObjIntConsumer<IIcon>>> defaultConsumer = side -> handler -> {
-					if (side == ForgeDirection.UP.ordinal()) {
+				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
+					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
 					} else {
 						handler.accept(iconSide.x, 0xFFFFFF);
 					}
-					handler.accept(iconFrame.x, HelpersColor.multiplicate(
-						HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
-					if (side == ForgeDirection.EAST.ordinal()) {
+					if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
 						handler.accept(iconFront.x, 0xFFFFFF);
 						handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-							HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
+							HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 1.2));
 					}
+					handler.accept(iconFrame.x, HelpersColor.multiplicate(
+						HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.9));
 				};
 				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
 
@@ -293,34 +293,19 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 						if (tileEntity != null) {
 							if (tileEntity instanceof TileEntityMMFFurnace) {
 								TileEntityMMFFurnace tileEntityMMFFurnace = (TileEntityMMFFurnace) tileEntity;
-								int direction = tileEntityMMFFurnace.direction.direction;
 
-								return handler -> {
-									if (side == ForgeDirection.UP.ordinal()) {
-										handler.accept(iconTop.x, 0xFFFFFF);
-									} else {
-										handler.accept(iconSide.x, 0xFFFFFF);
-									}
-									handler.accept(iconFrame.x, HelpersColor.multiplicate(
-										HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
-									if (side == direction) {
-										handler.accept(iconFront.x, 0xFFFFFF);
-										handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-											HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.7));
-									}
-								};
-
+								return defaultConsumer.apply(tileEntityMMFFurnace.direction.direction).apply(side);
 							}
 						}
 
-						return defaultConsumer.apply(side);
+						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 					@Override
 					@SideOnly(Side.CLIENT)
 					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
 					{
-						return defaultConsumer.apply(side);
+						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 				});
@@ -346,29 +331,24 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					() -> new TileEntityMMFDigestionMachine(), a -> {});
 
 				Struct1<IIcon> iconTop = new Struct1<>(null);
+				Struct1<IIcon> iconBack = new Struct1<>(null);
 				Struct1<IIcon> iconSide = new Struct1<>(null);
-				Struct1<IIcon> iconFrame = new Struct1<>(null);
 				Struct1<IIcon> iconFront = new Struct1<>(null);
-				Struct1<IIcon> iconFrontFrame = new Struct1<>(null);
 				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
 					iconTop.x = iconRegister.registerIcon("minecraft:pumpkin_top");
-					iconSide.x = iconRegister.registerIcon("minecraft:pumpkin_side");
-					iconFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
-					iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
-					iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
+					iconBack.x = iconRegister.registerIcon("minecraft:pumpkin_side");
+					iconSide.x = iconRegister.registerIcon("miragecrops5:pumpkin_side_window");
+					iconFront.x = iconRegister.registerIcon("miragecrops5:pumpkin_front_entrance");
 				}));
-				IntFunction<Consumer<ObjIntConsumer<IIcon>>> defaultConsumer = side -> handler -> {
-					if (side == ForgeDirection.UP.ordinal()) {
+				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
+					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
+						handler.accept(iconFront.x, 0xFFFFFF);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
+						handler.accept(iconBack.x, 0xFFFFFF);
 					} else {
 						handler.accept(iconSide.x, 0xFFFFFF);
-					}
-					handler.accept(iconFrame.x, HelpersColor.multiplicate(
-						RegistryFairyType.registry.get("wood").colorB, 1.0));
-					if (side == ForgeDirection.EAST.ordinal()) {
-						handler.accept(iconFront.x, 0xFFFFFF);
-						handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-							RegistryFairyType.registry.get("wood").colorB, 1.0));
 					}
 				};
 				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
@@ -383,32 +363,18 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 								TileEntityMMFDigestionMachine tileEntityMMFFurnace = (TileEntityMMFDigestionMachine) tileEntity;
 								int direction = tileEntityMMFFurnace.direction.direction;
 
-								return handler -> {
-									if (side == ForgeDirection.UP.ordinal()) {
-										handler.accept(iconTop.x, 0xFFFFFF);
-									} else {
-										handler.accept(iconSide.x, 0xFFFFFF);
-									}
-									handler.accept(iconFrame.x, HelpersColor.multiplicate(
-										RegistryFairyType.registry.get("wood").colorB, 1.0));
-									if (side == direction) {
-										handler.accept(iconFront.x, 0xFFFFFF);
-										handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-											RegistryFairyType.registry.get("wood").colorB, 1.0));
-									}
-								};
-
+								return defaultConsumer.apply(tileEntityMMFFurnace.direction.direction).apply(side);
 							}
 						}
 
-						return defaultConsumer.apply(side);
+						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 					@Override
 					@SideOnly(Side.CLIENT)
 					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
 					{
-						return defaultConsumer.apply(side);
+						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 				});
