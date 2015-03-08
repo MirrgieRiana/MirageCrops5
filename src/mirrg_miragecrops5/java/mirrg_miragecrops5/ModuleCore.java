@@ -444,9 +444,6 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 			setMetaItem(itemMir50, metaItemContainer, 5, "craftingMachineHullStoneTier1", (metaItem, a) -> {
 				HelpersModuleMaterial.applyMultipleIcon(itemMir50, metaItem,
 					HelpersModuleMaterial.createMultipleIcon(MultipleIconShapes.MACHINE_HULL, "calcite"));
-
-				metaItem.virtualClass.override(new AdaptorItemNameInformationCraftingToolNBT(itemMir50, metaItem, 4000 - 1, "damage"));
-
 			}, true);
 
 			setMetaItem(itemMir50, metaItemContainer, 22, "craftingGraphiteInClay", null, false);
