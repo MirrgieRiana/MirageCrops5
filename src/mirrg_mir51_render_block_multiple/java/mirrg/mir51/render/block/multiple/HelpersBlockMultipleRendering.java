@@ -10,7 +10,7 @@ public class HelpersBlockMultipleRendering
 {
 
 	public static LoaderSimpleBlockRenderingHandler loader =
-		new LoaderSimpleBlockRenderingHandler(renderId -> new RenderBlockMultipleRendering(renderId));
+		new LoaderSimpleBlockRenderingHandler(RenderBlockMultipleRendering::new);
 
 	public static void make(IVirtualClass virtualClass, BlockMir50 blockMir50)
 	{
