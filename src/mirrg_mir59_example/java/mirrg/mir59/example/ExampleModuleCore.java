@@ -16,7 +16,6 @@ import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.modding.ModuleAbstract;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.RenderBlockMultipleRendering;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -171,7 +170,7 @@ public class ExampleModuleCore extends ModuleAbstract
 		//ExampleApiModuleCore.loaderBlockSample = loaderBlockSample;
 		add(loaderBlockSample2);
 
-		add(RenderBlockMultipleRendering.loader);
+		add(HelpersBlockMultipleRendering.loader);
 
 		{
 			LoaderRecipe loaderRecipe = new LoaderRecipe();

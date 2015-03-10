@@ -18,7 +18,7 @@ public class AdaptorBlockRenderMultipleRendering extends AdaptorBlockRenderOverr
 	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
-		return RenderBlockMultipleRendering.loader.get().getRenderId();
+		return HelpersBlockMultipleRendering.loader.get().getRenderId();
 	}
 
 }

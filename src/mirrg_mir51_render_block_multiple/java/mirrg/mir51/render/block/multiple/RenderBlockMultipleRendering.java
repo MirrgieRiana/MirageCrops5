@@ -25,9 +25,6 @@ import org.lwjgl.opengl.GL11;
 public class RenderBlockMultipleRendering extends RenderBlockAbstract
 {
 
-	public static LoaderSimpleBlockRenderingHandler loader =
-		new LoaderSimpleBlockRenderingHandler(renderId -> new RenderBlockMultipleRendering(renderId));
-
 	public RenderBlockMultipleRendering(int renderId)
 	{
 		super(renderId);

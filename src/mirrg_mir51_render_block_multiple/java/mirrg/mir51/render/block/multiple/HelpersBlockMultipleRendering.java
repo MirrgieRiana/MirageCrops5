@@ -9,6 +9,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class HelpersBlockMultipleRendering
 {
 
+	public static LoaderSimpleBlockRenderingHandler loader =
+		new LoaderSimpleBlockRenderingHandler(renderId -> new RenderBlockMultipleRendering(renderId));
+
 	public static void make(IVirtualClass virtualClass, BlockMir50 blockMir50)
 	{
 		virtualClass.getVirtualClass().override(new AdaptorBlockRenderMultipleRendering(blockMir50, virtualClass));
