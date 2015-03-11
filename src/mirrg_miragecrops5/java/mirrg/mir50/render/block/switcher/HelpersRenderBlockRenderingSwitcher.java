@@ -25,6 +25,15 @@ public class HelpersRenderBlockRenderingSwitcher
 		}
 	}
 
+	public static void make(BlockMir50 owner, IVirtualClass superObject,
+		boolean shouldRender3DInInventory, boolean isOpaqueCube, boolean renderAsNormalBlock)
+	{
+		superObject.getVirtualClass().register(IAdaptorBlockRenderingSwitcher.class, new AdaptorBlockRenderingSwitcher());
+		superObject.getVirtualClass().override(
+			new AdaptorBlockRenderRenderingSwitcher(
+				owner, superObject, shouldRender3DInInventory, isOpaqueCube, renderAsNormalBlock));
+	}
+
 	public static void make(BlockMir50 owner, IVirtualClass superObject)
 	{
 		superObject.getVirtualClass().register(IAdaptorBlockRenderingSwitcher.class, new AdaptorBlockRenderingSwitcher());
