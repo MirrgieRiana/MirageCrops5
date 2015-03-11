@@ -30,4 +30,18 @@ public class HelpersVirtualClass
 		return Optional.empty();
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T directCast(Object object, Class<T> clazz)
+	{
+		if (clazz.isInstance(object)) return (T) object;
+
+		if (object instanceof IVirtualClass) {
+			if (((IVirtualClass) object).getVirtualClass().instanceOf(clazz)) {
+				return ((IVirtualClass) object).getVirtualClass().cast(clazz).get();
+			}
+		}
+
+		throw new ClassCastException("!((" + object + " : " + object.getClass() + ") instanceof " + clazz.getName() + ")");
+	}
+
 }
