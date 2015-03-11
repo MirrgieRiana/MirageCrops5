@@ -344,6 +344,7 @@ public class BlockMir50 extends Block implements IVirtualClass
 	@Override
 	public boolean isOpaqueCube()
 	{
+		if (accessor_IAdaptorBlockRender == null) return true; // for Block#<init>
 		return accessor_IAdaptorBlockRender.get().isOpaqueCube();
 	}
 
