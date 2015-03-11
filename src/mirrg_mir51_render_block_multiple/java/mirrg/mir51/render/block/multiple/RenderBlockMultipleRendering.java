@@ -33,8 +33,6 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
-		if (modelId != this.getRenderId()) return;
-
 		IBlockMultipleRendering blockMultipleRendering = null;
 		if (block instanceof IBlockMultipleRendering) {
 			blockMultipleRendering = (IBlockMultipleRendering) block;
@@ -65,8 +63,6 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z,
 		Block block, int modelId, RenderBlocks renderer)
 	{
-		if (modelId != this.getRenderId()) return false;
-
 		IBlockMultipleRendering blockMultipleRendering = null;
 		if (block instanceof IBlockMultipleRendering) {
 			blockMultipleRendering = (IBlockMultipleRendering) block;
