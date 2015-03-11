@@ -19,4 +19,16 @@ public class AdaptorBlockRender extends Adaptor<BlockMir50> implements IAdaptorB
 		return 0;
 	}
 
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return true;
+	}
+
 }

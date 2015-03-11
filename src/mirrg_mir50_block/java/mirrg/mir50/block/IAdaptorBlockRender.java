@@ -9,4 +9,8 @@ public interface IAdaptorBlockRender
 	@SideOnly(Side.CLIENT)
 	public int getRenderType();
 
+	public boolean isOpaqueCube();
+
+	public boolean renderAsNormalBlock();
+
 }

@@ -341,6 +341,18 @@ public class BlockMir50 extends Block implements IVirtualClass
 		return accessor_IAdaptorBlockRender.get().getRenderType();
 	}
 
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return accessor_IAdaptorBlockRender.get().isOpaqueCube();
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return accessor_IAdaptorBlockRender.get().renderAsNormalBlock();
+	}
+
 	/////////////////////////////////////////////////////////////////////
 
 	public final IVirtualImplementationAccessor<IAdaptorBlockTileEntity> accessor_IAdaptorBlockTileEntity;

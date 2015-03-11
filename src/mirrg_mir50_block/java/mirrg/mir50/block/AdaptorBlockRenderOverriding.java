@@ -22,4 +22,16 @@ public class AdaptorBlockRenderOverriding extends AdaptorBlockRender
 		return this._super_IAdaptorBlockRender.getRenderType();
 	}
 
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return this._super_IAdaptorBlockRender.isOpaqueCube();
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return this._super_IAdaptorBlockRender.renderAsNormalBlock();
+	}
+
 }
