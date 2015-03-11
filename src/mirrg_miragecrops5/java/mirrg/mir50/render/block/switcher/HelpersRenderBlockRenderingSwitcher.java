@@ -37,7 +37,8 @@ public class HelpersRenderBlockRenderingSwitcher
 	public static void make(BlockMir50 owner, IVirtualClass superObject)
 	{
 		superObject.getVirtualClass().register(IAdaptorBlockRenderingSwitcher.class, new AdaptorBlockRenderingSwitcher());
-		superObject.getVirtualClass().override(new AdaptorBlockRenderRenderingSwitcher(owner, superObject));
+		superObject.getVirtualClass().override(
+			new AdaptorBlockRenderRenderingSwitcher(owner, superObject));
 	}
 
 	public static void init(Consumer<Loader<?>> adder)
