@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
-import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -44,6 +43,7 @@ import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingOverriding;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
+import mirrg.mir51.render.block.multiple.IConsumerMultipleRendering;
 import mirrg.mir52.gui.HelpersContainerMir52;
 import mirrg.mir52.render.block.multiple.multi.HelpersBlockMultipleRenderingMulti;
 import mirrg.p.virtualclass.IVirtualClass;
@@ -357,7 +357,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
 					iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
 				}, false));
-				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
+				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
 					} else {
@@ -375,7 +375,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 					@Override
 					@SideOnly(Side.CLIENT)
-					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 					{
 						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
 						if (tileEntity != null) {
@@ -391,7 +391,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 					@Override
 					@SideOnly(Side.CLIENT)
-					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 					{
 						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
@@ -423,7 +423,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					iconSide.x = iconRegister.registerIcon("miragecrops5:pumpkin_side_window");
 					iconFront.x = iconRegister.registerIcon("miragecrops5:pumpkin_front_entrance");
 				}, false));
-				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
+				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
@@ -440,7 +440,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 					@Override
 					@SideOnly(Side.CLIENT)
-					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 					{
 						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
 						if (tileEntity != null) {
@@ -457,7 +457,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 					@Override
 					@SideOnly(Side.CLIENT)
-					public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 					{
 						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}

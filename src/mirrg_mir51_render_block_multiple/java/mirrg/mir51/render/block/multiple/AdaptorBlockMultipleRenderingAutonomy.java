@@ -2,7 +2,6 @@ package mirrg.mir51.render.block.multiple;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.function.ObjIntConsumer;
 
 import mirrg.mir50.block.AdaptorBlockIconOverriding;
 import mirrg.mir50.block.BlockMir50;
@@ -45,7 +44,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+	public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
 		return consumer -> {
 			for (int i = 0; i < blockIcons.size(); i++) {
@@ -56,7 +55,7 @@ public class AdaptorBlockMultipleRenderingAutonomy extends AdaptorBlockIconOverr
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+	public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 	{
 		return consumer -> {
 			for (int i = 0; i < blockIcons.size(); i++) {

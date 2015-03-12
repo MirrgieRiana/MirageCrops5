@@ -1,12 +1,10 @@
 package mirrg.mir51.render.block.multiple;
 
 import java.util.function.Consumer;
-import java.util.function.ObjIntConsumer;
 
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.IAdaptorBlockIcon;
 import mirrg.p.adaptor.Adaptor;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,14 +22,14 @@ public class AdaptorBlockMultipleRendering extends Adaptor<BlockMir50> implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+	public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 	{
 		return consumer -> consumer.accept(_super_IAdaptorBlockIcon.getIcon(blockAccess, x, y, z, side), 0xffffff);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Consumer<ObjIntConsumer<IIcon>> getMultipleRendering(int metadata, int side)
+	public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 	{
 		return consumer -> consumer.accept(_super_IAdaptorBlockIcon.getIcon(side, metadata), 0xffffff);
 	}

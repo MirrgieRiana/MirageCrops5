@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
-import java.util.function.ObjIntConsumer;
 
 import mirrg.h.struct.Tuple;
 import mirrg.mir50.render.block.RenderBlockAbstract;
@@ -179,14 +178,15 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 
 	protected static void renderImpl(
 		IBlockMultipleRendering blockMultipleRendering,
-		IntFunction<Consumer<ObjIntConsumer<IIcon>>> sideToMultipleRendering,
+		IntFunction<Consumer<IConsumerMultipleRendering>> sideToMultipleRendering,
 		IntConsumer handlerRenderCube)
 	{
 		ArrayList<ArrayList<Tuple<IIcon, Integer>>> listListIconAndColor = new ArrayList<>();
 		for (int side = 0; side < 6; side++) {
 			ArrayList<Tuple<IIcon, Integer>> listIconAndColor = new ArrayList<>();
 
-			sideToMultipleRendering.apply(side).accept((icon, color) -> {
+			sideToMultipleRendering.apply(side).accept((icon, color, rotate, flip) -> {
+				//TODO
 				listIconAndColor.add(new Tuple<>(icon, color));
 			});
 
