@@ -43,7 +43,9 @@ import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingOverriding;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
+import mirrg.mir51.render.block.multiple.IBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.IConsumerMultipleRendering;
+import mirrg.mir51.render.block.multiple.RenderBlockMultipleRendering;
 import mirrg.mir52.gui.HelpersContainerMir52;
 import mirrg.mir52.render.block.multiple.multi.HelpersBlockMultipleRenderingMulti;
 import mirrg.p.virtualclass.IVirtualClass;
@@ -64,6 +66,7 @@ import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
@@ -76,6 +79,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+
+import org.lwjgl.opengl.GL11;
+
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IHandlerRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
@@ -282,34 +288,237 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			{
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 0, "mmfSpiritDeveloper",
 					() -> new TileEntityMMFSpiritDeveloper(), a -> {
-						a.appendIcon("miragecrops5:fairyblock_0");
-						a.appendIcon("miragecrops5:machineMirageFairy_1", 0xAE00FF);
-					});
+						//a.appendIcon("miragecrops5:fairyblock_0");
+						//a.appendIcon("miragecrops5:machineMirageFairy_1", 0xAE00FF);
+					//a.appendIcon("miragecrops5:004");
+					a.appendIcon("miragecrops5:005", 0x4E2914);
+				});
+
+				Struct1<IIcon> iconFeather = new Struct1<>(null);
+				Struct1<IIcon> iconCore = new Struct1<>(null);
+				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
+					iconFeather.x = iconRegister.registerIcon("miragecrops5:002");
+					iconCore.x = iconRegister.registerIcon("miragecrops5:004");
+				}, true));
+
+				Consumer<IConsumerMultipleRendering> consumer_63168278591 = consumer -> {
+					consumer.accept(iconCore.x);
+				};
+				IBlockMultipleRendering blockMultipleRendering_1541954271 = new IBlockMultipleRendering() {
+
+					@Override
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
+					{
+						return consumer_63168278591;
+					}
+
+					@Override
+					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
+					{
+						return consumer_63168278591;
+					}
+
+				};
 
 				metaBlock.virtualClass.override(new AdaptorBlockRenderingSwitcherOverriding(metaBlock) {
 
 					@Override
 					public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 					{
-						renderer.setRenderBounds(0, 0, 0, 1, 0.5f, 1);
+						//renderer.setRenderBounds(0, 0, 0, 1, 0.5f, 1);
+						//renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
+
+						//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+						GL11.glScalef(0.5f, 0.5f, 0.5f);
+						GL11.glTranslatef(0, -0.5F, 0);
+						{
+							renderer.setRenderBounds(0.125f, 0.125f, 0.125f, 0.875f, 0.875f, 0.875f);
+							RenderBlockMultipleRendering.renderInventoryBlock(blockMultipleRendering_1541954271,
+								block, metadata, renderer);
+							renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
+
+							super.renderInventoryBlock(block, metadata, modelId, renderer);
+
+							GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+							{
+								Tessellator t = Tessellator.instance;
+
+								//IIcon iicon = renderer.getBlockIconFromSideAndMetadata(block, 0, metadata);
+
+								//t.setBrightness(0xffffff);
+								//t.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+
+								t.startDrawingQuads();
+								//renderBlockCropsImpl(renderer, block, 0, 0, 0, 0);
+								renderFeather(renderer, 0, 0, 0);
+								t.draw();
+							}
+							GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+						}
+						GL11.glTranslatef(0, 0.5F, 0);
+						GL11.glScalef(1 / 0.5f, 1 / 0.5f, 1 / 0.5f);
+
+						/*
+						renderer.setRenderBounds(0, 0, 0, 1, 1, 0.5f);
 						super.renderInventoryBlock(block, metadata, modelId, renderer);
 						renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
+						*/
 					}
 
 					@Override
 					public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
 					{
-						renderer.setRenderBounds(0, 0, 0, 1, 0.5f, 1);
-						boolean res = super.renderWorldBlock(world, x, y, z, block, modelId, renderer);
+						renderer.setRenderBounds(0.125f, 0.125f, 0.125f, 0.875f, 0.875f, 0.875f);
+						RenderBlockMultipleRendering.renderWorldBlock(blockMultipleRendering_1541954271,
+							block, world, x, y, z, renderer);
 						renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 
+						//renderer.setRenderBounds(0, 0, 0, 1, 0.5f, 1);
+						boolean res = super.renderWorldBlock(world, x, y, z, block, modelId, renderer);
+						//renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
+
+						{
+							Tessellator t = Tessellator.instance;
+
+							//return p_149677_1_.getLightBrightnessForSkyBlocks(p_149677_2_, p_149677_3_, p_149677_4_,
+							//	block.getLightValue(p_149677_1_, p_149677_2_, p_149677_3_, p_149677_4_));
+
+							t.setBrightness(world.getLightBrightnessForSkyBlocks(x, y, z, block.getLightValue(world, x, y, z)));
+							t.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+
+							//renderBlockCropsImpl(renderer, block, 0, x, y, z);
+
+							renderFeather(renderer, x, y, z);
+						}
+
 						return res;
+					}
+
+					private void renderFeather(RenderBlocks renderer, double x, double y, double z)
+					{
+						IIcon iicon = iconFeather.x;
+						if (renderer.hasOverrideBlockTexture()) iicon = renderer.overrideBlockTexture;
+
+						Tessellator t = Tessellator.instance;
+
+						t.setNormal(0.0F, 1.0F, 0.0F);
+
+						double d3 = iicon.getMinU();
+						double d4 = iicon.getMinV();
+						double d5 = iicon.getMaxU();
+						double d6 = iicon.getMaxV();
+
+						double x1 = x + -0.001;
+						double x2 = x + 1.001;
+						double y1 = y + 0;
+						double y2 = y + 2;
+						double z1 = z + -1;
+						double z2 = z + 1;
+						t.addVertexWithUV(x1, y2, z1, d3, d4);
+						t.addVertexWithUV(x1, y1, z1, d3, d6);
+						t.addVertexWithUV(x1, y1, z2, d5, d6);
+						t.addVertexWithUV(x1, y2, z2, d5, d4);
+
+						t.addVertexWithUV(x1, y2, z2, d5, d4);
+						t.addVertexWithUV(x1, y1, z2, d5, d6);
+						t.addVertexWithUV(x1, y1, z1, d3, d6);
+						t.addVertexWithUV(x1, y2, z1, d3, d4);
+
+						t.addVertexWithUV(x2, y2, z2, d5, d4);
+						t.addVertexWithUV(x2, y1, z2, d5, d6);
+						t.addVertexWithUV(x2, y1, z1, d3, d6);
+						t.addVertexWithUV(x2, y2, z1, d3, d4);
+
+						t.addVertexWithUV(x2, y2, z1, d3, d4);
+						t.addVertexWithUV(x2, y1, z1, d3, d6);
+						t.addVertexWithUV(x2, y1, z2, d5, d6);
+						t.addVertexWithUV(x2, y2, z2, d5, d4);
+
+					}
+
+					public void renderBlockCropsImpl(RenderBlocks renderer, Block block, int metadata, double x, double y, double z)
+					{
+						Tessellator t = Tessellator.instance;
+
+						IIcon iicon = renderer.getBlockIconFromSideAndMetadata(block, 0, metadata);
+						if (renderer.hasOverrideBlockTexture()) iicon = renderer.overrideBlockTexture;
+
+						//renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
+
+						double d3 = iicon.getMinU();
+						double d4 = iicon.getMinV();
+						double d5 = iicon.getMaxU();
+						double d6 = iicon.getMaxV();
+						double x1 = x + 0.5 - 0.25;
+						double x2 = x + 0.5 + 0.25;
+						double z1 = z + 0.5 - 0.5;
+						double z2 = z + 0.5 + 0.5;
+
+						t.setNormal(-1.0F, 0.0F, 0.0F);
+						t.addVertexWithUV(x1, y + 1.0D, z1, d3, d4);
+						t.addVertexWithUV(x1, y + 0.0D, z1, d3, d6);
+						t.addVertexWithUV(x1, y + 0.0D, z2, d5, d6);
+						t.addVertexWithUV(x1, y + 1.0D, z2, d5, d4);
+
+						t.setNormal(1.0F, 0.0F, 0.0F);
+						t.addVertexWithUV(x1, y + 1.0D, z2, d3, d4);
+						t.addVertexWithUV(x1, y + 0.0D, z2, d3, d6);
+						t.addVertexWithUV(x1, y + 0.0D, z1, d5, d6);
+						t.addVertexWithUV(x1, y + 1.0D, z1, d5, d4);
+
+						t.setNormal(1.0F, 0.0F, 0.0F);
+						t.addVertexWithUV(x2, y + 1.0D, z2, d3, d4);
+						t.addVertexWithUV(x2, y + 0.0D, z2, d3, d6);
+						t.addVertexWithUV(x2, y + 0.0D, z1, d5, d6);
+						t.addVertexWithUV(x2, y + 1.0D, z1, d5, d4);
+
+						t.setNormal(-1.0F, 0.0F, 0.0F);
+						t.addVertexWithUV(x2, y + 1.0D, z1, d3, d4);
+						t.addVertexWithUV(x2, y + 0.0D, z1, d3, d6);
+						t.addVertexWithUV(x2, y + 0.0D, z2, d5, d6);
+						t.addVertexWithUV(x2, y + 1.0D, z2, d5, d4);
+
+						x1 = x + 0.5D - 0.5D;
+						x2 = x + 0.5D + 0.5D;
+						z1 = z + 0.5D - 0.25D;
+						z2 = z + 0.5D + 0.25D;
+
+						t.setNormal(0.0F, 0.0F, -1.0F);
+						t.addVertexWithUV(x1, y + 1.0D, z1, d3, d4);
+						t.addVertexWithUV(x1, y + 0.0D, z1, d3, d6);
+						t.addVertexWithUV(x2, y + 0.0D, z1, d5, d6);
+						t.addVertexWithUV(x2, y + 1.0D, z1, d5, d4);
+
+						t.setNormal(0.0F, 0.0F, 1.0F);
+						t.addVertexWithUV(x2, y + 1.0D, z1, d3, d4);
+						t.addVertexWithUV(x2, y + 0.0D, z1, d3, d6);
+						t.addVertexWithUV(x1, y + 0.0D, z1, d5, d6);
+						t.addVertexWithUV(x1, y + 1.0D, z1, d5, d4);
+
+						t.setNormal(0.0F, 0.0F, 1.0F);
+						t.addVertexWithUV(x2, y + 1.0D, z2, d3, d4);
+						t.addVertexWithUV(x2, y + 0.0D, z2, d3, d6);
+						t.addVertexWithUV(x1, y + 0.0D, z2, d5, d6);
+						t.addVertexWithUV(x1, y + 1.0D, z2, d5, d4);
+
+						t.setNormal(0.0F, 0.0F, -1.0F);
+						//t.setColorOpaque_F(f10, f14, f18);
+						t.addVertexWithUV(x1, y + 1.0D, z2, d3, d4);
+						t.addVertexWithUV(x1, y + 0.0D, z2, d3, d6);
+						t.addVertexWithUV(x2, y + 0.0D, z2, d5, d6);
+						t.addVertexWithUV(x2, y + 1.0D, z2, d5, d4);
+
 					}
 
 				});
 
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "writingDesk",
+				() -> new TileEntityWritingDesk(), a -> {
+					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
+					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
+				}));
 
 		});
 
@@ -465,11 +674,6 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				});
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
-			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 6, "writingDesk",
-				() -> new TileEntityWritingDesk(), a -> {
-					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
-					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
-				}));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 7, "mmfUrineMaker",
 				() -> new TileEntityMMFUrineMaker(), a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
