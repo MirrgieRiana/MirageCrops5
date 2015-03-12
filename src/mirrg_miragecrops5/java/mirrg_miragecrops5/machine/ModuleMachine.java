@@ -568,12 +568,12 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				}, false));
 				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
-						handler.accept(iconTop.x, 0xFFFFFF);
+						handler.accept(iconTop.x);
 					} else {
-						handler.accept(iconSide.x, 0xFFFFFF);
+						handler.accept(iconSide.x);
 					}
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
-						handler.accept(iconFront.x, 0xFFFFFF);
+						handler.accept(iconFront.x);
 						handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
 							HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 1.2));
 					}
@@ -634,15 +634,15 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				}, false));
 				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
-						handler.accept(iconTop.x, 0xFFFFFF);
+						handler.accept(iconTop.x);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
-						handler.accept(iconTop.x, 0xFFFFFF);
+						handler.accept(iconTop.x);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
-						handler.accept(iconFront.x, 0xFFFFFF);
+						handler.accept(iconFront.x);
 					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
-						handler.accept(iconBack.x, 0xFFFFFF);
+						handler.accept(iconBack.x);
 					} else {
-						handler.accept(iconSide.x, 0xFFFFFF);
+						handler.accept(iconSide.x);
 					}
 				};
 				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
