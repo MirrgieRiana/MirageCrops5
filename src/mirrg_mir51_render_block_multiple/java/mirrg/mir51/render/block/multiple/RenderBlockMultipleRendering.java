@@ -107,12 +107,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 				side -> blockMultipleRendering.getMultipleRendering(metadata, side),
 				(color, flip) -> {
 					renderer.flipTexture = flip;
-					renderer.uvRotateBottom = HelpersBlockMultipleRendering.rotates[0];
-					renderer.uvRotateTop = HelpersBlockMultipleRendering.rotates[1];
-					renderer.uvRotateNorth = HelpersBlockMultipleRendering.rotates[2];
-					renderer.uvRotateSouth = HelpersBlockMultipleRendering.rotates[3];
-					renderer.uvRotateWest = HelpersBlockMultipleRendering.rotates[4];
-					renderer.uvRotateEast = HelpersBlockMultipleRendering.rotates[5];
+					setFromGlobal(renderer);
 
 					renderCubeInInventory(block, metadata, renderer, color);
 
@@ -128,6 +123,17 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 			GL11.glColor4f(r, g, b, a);
 		}
 		GL11.glPopAttrib();
+	}
+
+	private static void setFromGlobal(RenderBlocks renderer)
+	{
+		renderer.uvRotateBottom = HelpersBlockMultipleRendering.rotates[0]; // YNeg
+		renderer.uvRotateTop = HelpersBlockMultipleRendering.rotates[1]; // YPos
+		// なぜかForgeDirectionと方角の定義が違う
+		renderer.uvRotateEast = HelpersBlockMultipleRendering.rotates[2]; // ZNeg
+		renderer.uvRotateWest = HelpersBlockMultipleRendering.rotates[3]; // ZPos
+		renderer.uvRotateNorth = HelpersBlockMultipleRendering.rotates[4]; // XNeg
+		renderer.uvRotateSouth = HelpersBlockMultipleRendering.rotates[5]; // XPos
 	}
 
 	public static void renderCubeInInventory(Block block, int metadata, RenderBlocks renderer, int color)
@@ -191,12 +197,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 			side -> blockMultipleRendering.getMultipleRendering(blockAccess, x, y, z, side),
 			(color, flip) -> {
 				renderer.flipTexture = flip;
-				renderer.uvRotateBottom = HelpersBlockMultipleRendering.rotates[0];
-				renderer.uvRotateTop = HelpersBlockMultipleRendering.rotates[1];
-				renderer.uvRotateNorth = HelpersBlockMultipleRendering.rotates[2];
-				renderer.uvRotateSouth = HelpersBlockMultipleRendering.rotates[3];
-				renderer.uvRotateWest = HelpersBlockMultipleRendering.rotates[4];
-				renderer.uvRotateEast = HelpersBlockMultipleRendering.rotates[5];
+				setFromGlobal(renderer);
 
 				renderer.renderStandardBlock(block, x, y, z);
 
