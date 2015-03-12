@@ -12,7 +12,7 @@ import mirrg.h.struct.Tuple;
 import mirrg.mir50.render.block.RenderBlockAbstract;
 import mirrg.numberreave.NumberReave;
 import mirrg.numberreave.Storage;
-import mirrg.p.virtualclass.IVirtualClass;
+import mirrg.p.virtualclass.HelpersVirtualClass;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -32,18 +32,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
-		IBlockMultipleRendering blockMultipleRendering = null;
-		if (block instanceof IBlockMultipleRendering) {
-			blockMultipleRendering = (IBlockMultipleRendering) block;
-		}
-		if (block instanceof IVirtualClass) {
-			if (((IVirtualClass) block).getVirtualClass().instanceOf(IBlockMultipleRendering.class)) {
-				blockMultipleRendering = ((IVirtualClass) block).getVirtualClass().cast(IBlockMultipleRendering.class).get();
-			}
-		}
-		if (blockMultipleRendering == null) {
-			return;
-		}
+		IBlockMultipleRendering blockMultipleRendering = HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class);
 
 		GL11.glPushMatrix();
 		{
@@ -62,18 +51,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z,
 		Block block, int modelId, RenderBlocks renderer)
 	{
-		IBlockMultipleRendering blockMultipleRendering = null;
-		if (block instanceof IBlockMultipleRendering) {
-			blockMultipleRendering = (IBlockMultipleRendering) block;
-		}
-		if (block instanceof IVirtualClass) {
-			if (((IVirtualClass) block).getVirtualClass().instanceOf(IBlockMultipleRendering.class)) {
-				blockMultipleRendering = ((IVirtualClass) block).getVirtualClass().cast(IBlockMultipleRendering.class).get();
-			}
-		}
-		if (blockMultipleRendering == null) {
-			return false;
-		}
+		IBlockMultipleRendering blockMultipleRendering = HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class);
 
 		{
 			//renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
