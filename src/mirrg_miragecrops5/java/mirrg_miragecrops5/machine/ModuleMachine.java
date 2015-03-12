@@ -356,7 +356,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					iconFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
 					iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
 					iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
-				}));
+				}, false));
 				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
@@ -422,7 +422,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					iconBack.x = iconRegister.registerIcon("minecraft:pumpkin_side");
 					iconSide.x = iconRegister.registerIcon("miragecrops5:pumpkin_side_window");
 					iconFront.x = iconRegister.registerIcon("miragecrops5:pumpkin_front_entrance");
-				}));
+				}, false));
 				IntFunction<IntFunction<Consumer<ObjIntConsumer<IIcon>>>> defaultConsumer = direction -> side -> handler -> {
 					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
 						handler.accept(iconTop.x, 0xFFFFFF);
