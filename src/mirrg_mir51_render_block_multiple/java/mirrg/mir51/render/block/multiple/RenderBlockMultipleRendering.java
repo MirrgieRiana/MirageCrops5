@@ -32,36 +32,33 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
 	{
-		IBlockMultipleRendering blockMultipleRendering = HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class);
-
-		GL11.glPushMatrix();
-		{
-			GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-
-			{
-				//renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-				renderCubeInInventoryMultiply(block, blockMultipleRendering, metadata, renderer);
-			}
-
-		}
-		GL11.glPopMatrix();
+		renderInventoryBlock(HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class),
+			block, metadata, renderer);
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z,
 		Block block, int modelId, RenderBlocks renderer)
 	{
-		IBlockMultipleRendering blockMultipleRendering = HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class);
-
-		{
-			//renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-			renderStandardBlockMultiply(blockAccess, x, y, z, block, blockMultipleRendering, renderer);
-		}
-
-		return true;
+		return renderWorldBlock(HelpersVirtualClass.directCast(block, IBlockMultipleRendering.class),
+			block, blockAccess, x, y, z, renderer);
 	}
 
-	public static void renderCubeInInventoryMultiply(
+	public static void renderInventoryBlock(IBlockMultipleRendering blockMultipleRendering,
+		Block block, int metadata, RenderBlocks renderer)
+	{
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		renderCubeInInventoryMultiply(block, blockMultipleRendering, metadata, renderer);
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
+
+	public static boolean renderWorldBlock(IBlockMultipleRendering blockMultipleRendering,
+		Block block, IBlockAccess blockAccess, int x, int y, int z, RenderBlocks renderer)
+	{
+		return renderStandardBlockMultiply(blockAccess, x, y, z, block, blockMultipleRendering, renderer);
+	}
+
+	private static void renderCubeInInventoryMultiply(
 		Block block, IBlockMultipleRendering blockMultipleRendering, int metadata, RenderBlocks renderer)
 	{
 		float r;
@@ -168,7 +165,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 
 	}
 
-	public static void renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
+	private static boolean renderStandardBlockMultiply(IBlockAccess blockAccess, int x, int y, int z,
 		Block block, IBlockMultipleRendering blockMultipleRendering, RenderBlocks renderer)
 	{
 		renderImpl(blockMultipleRendering,
@@ -187,9 +184,10 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 				renderer.uvRotateWest = 0;
 				renderer.uvRotateEast = 0;
 			});
+		return true;
 	}
 
-	protected static void renderImpl(
+	private static void renderImpl(
 		IBlockMultipleRendering blockMultipleRendering,
 		IntFunction<Consumer<IConsumerMultipleRendering>> sideToMultipleRendering,
 		BiConsumer<Integer, Boolean> handlerRenderCube)
