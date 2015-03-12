@@ -14,13 +14,13 @@ import org.junit.Test;
 public class NumberReave
 {
 
-	public static ArrayList<Tuple<Integer, boolean[]>> allReave(Storage storage)
+	public static <T> ArrayList<Tuple<T, boolean[]>> allReave(Storage<T> storage)
 	{
-		ArrayList<Tuple<Integer, boolean[]>> list = new ArrayList<>();
+		ArrayList<Tuple<T, boolean[]>> list = new ArrayList<>();
 
 		for (int i = 0; i < storage.getLength(); i++) {
 			while (!storage.isEmpty(i)) {
-				int value = storage.first(i);
+				T value = storage.first(i);
 
 				list.add(new Tuple<>(value, storage.reaveAll(value)));
 
@@ -30,15 +30,15 @@ public class NumberReave
 		return list;
 	}
 
-	public static ArrayList<Tuple<Integer, boolean[]>> allReaveShort(Storage storage)
+	public static <T> ArrayList<Tuple<T, boolean[]>> allReaveShort(Storage<T> storage)
 	{
-		ArrayList<Tuple<Integer, boolean[]>> list = new ArrayList<>();
+		ArrayList<Tuple<T, boolean[]>> list = new ArrayList<>();
 
 		for (int i = 0; i < storage.getLength(); i++) {
 			while (!storage.isEmpty(i)) {
-				int value = storage.first(i);
+				T value = storage.first(i);
 
-				ArrayList<Integer> schedule = new ArrayList<>();
+				ArrayList<T> schedule = new ArrayList<>();
 				tryInsertSchedule(value, schedule, storage);
 
 				for (int j = 0; j < schedule.size(); j++) {
@@ -51,7 +51,7 @@ public class NumberReave
 		return list;
 	}
 
-	private static void tryInsertSchedule(int value, ArrayList<Integer> schedule, Storage storage)
+	private static <T> void tryInsertSchedule(T value, ArrayList<T> schedule, Storage<T> storage)
 	{
 
 		for (int i = 0; i < storage.getLength(); i++) { // 全ての文字列の中で
@@ -60,7 +60,7 @@ public class NumberReave
 			if (index >= 1) { // 先頭以外の場所に現れた場合、
 
 				for (int j = 0; j < index; j++) { // それより前の全てのindexの
-					int value2 = storage.at(i, j); // 文字は
+					T value2 = storage.at(i, j); // 文字は
 					// スケジュールに割り込む可能性がある。
 
 					if (schedule.indexOf(value2) == -1) { // 既に予約されている文字でなければ、
@@ -100,10 +100,10 @@ public class NumberReave
 		return sb.toString();
 	}
 
-	private static String buildFromIntegers(Stream<Integer> integers)
+	private static String buildFromChars(Stream<Character> integers)
 	{
 		return integers
-			.map(a -> String.valueOf((char) (int) a))
+			.map(a -> String.valueOf(a))
 			.collect(Collectors.joining());
 	}
 
@@ -131,16 +131,16 @@ public class NumberReave
 	public void test()
 	{
 		{
-			Storage storage = Storage.valueOf(TABLE);
-			ArrayList<Tuple<Integer, boolean[]>> res = allReave(storage);
-			assertEquals("12112421321214", buildFromIntegers(res.stream().map(Tuple::getX)));
+			Storage<Character> storage = Storage.valueOf(TABLE);
+			ArrayList<Tuple<Character, boolean[]>> res = allReave(storage);
+			assertEquals("12112421321214", buildFromChars(res.stream().map(Tuple::getX)));
 			assertTrue(storage.isEmpty());
 		}
 
 		{
-			Storage storage = Storage.valueOf(TABLE);
-			ArrayList<Tuple<Integer, boolean[]>> res = allReaveShort(storage);
-			assertEquals("32142114", buildFromIntegers(res.stream().map(Tuple::getX)));
+			Storage<Character> storage = Storage.valueOf(TABLE);
+			ArrayList<Tuple<Character, boolean[]>> res = allReaveShort(storage);
+			assertEquals("32142114", buildFromChars(res.stream().map(Tuple::getX)));
 			assertEquals("FFFFTF", buildFromBooleans(res.get(0).getY()));
 			assertEquals("FFTFTF", buildFromBooleans(res.get(1).getY()));
 			assertEquals("TTFTTF", buildFromBooleans(res.get(2).getY()));
@@ -154,9 +154,9 @@ public class NumberReave
 
 		long start = System.currentTimeMillis();
 
-		int limit = 2000000;
+		int limit = 200000;
 		for (int t = 0; t < limit; t++) {
-			Storage storage = Storage.valueOf(createRandomStrings(10, 10, Integer.MAX_VALUE));
+			Storage<Character> storage = Storage.valueOf(createRandomStrings(10, 10, Integer.MAX_VALUE));
 
 			allReaveShort(storage);
 			assertTrue(storage.isEmpty());

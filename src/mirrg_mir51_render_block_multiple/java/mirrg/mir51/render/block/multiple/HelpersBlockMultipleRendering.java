@@ -37,6 +37,12 @@ public class HelpersBlockMultipleRendering
 	public static IIcon[] icons = new IIcon[6];
 
 	@SideOnly(Side.CLIENT)
+	public static int[] rotates = new int[6];
+
+	@SideOnly(Side.CLIENT)
 	public static int color;
+
+	@SideOnly(Side.CLIENT)
+	public static boolean flip;
 
 }

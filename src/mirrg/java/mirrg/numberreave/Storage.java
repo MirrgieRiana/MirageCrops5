@@ -1,27 +1,41 @@
 package mirrg.numberreave;
 
-import java.util.function.IntBinaryOperator;
+import java.util.function.BiPredicate;
 import java.util.function.IntUnaryOperator;
 
-public class Storage
+public class Storage<T>
 {
 
-	private IntBinaryOperator table;
+	@FunctionalInterface
+	public static interface BiIntFunction<T>
+	{
+
+		public T apply(int a, int b);
+
+	}
+
+	private BiIntFunction<T> table;
 	private IntUnaryOperator recordLength;
 	private int tableSize;
+	private BiPredicate<T, T> comparator;
 
 	private int[] positions;
 
-	public static Storage valueOf(String[] strings)
+	public static Storage<Character> valueOf(String[] strings)
 	{
-		return new Storage((a, b) -> strings[a].charAt(b), a -> strings[a].length(), strings.length);
+		return new Storage<Character>(
+			(a, b) -> strings[a].charAt(b),
+			a -> strings[a].length(),
+			strings.length,
+			(a, b) -> a.equals(b));
 	}
 
-	public Storage(IntBinaryOperator table, IntUnaryOperator recordLength, int tableSize)
+	public Storage(BiIntFunction<T> table, IntUnaryOperator recordLength, int tableSize, BiPredicate<T, T> comparator)
 	{
 		this.table = table;
 		this.recordLength = recordLength;
 		this.tableSize = tableSize;
+		this.comparator = comparator;
 
 		positions = new int[tableSize];
 	}
@@ -44,23 +58,23 @@ public class Storage
 		return true;
 	}
 
-	public int at(int index, int index2)
+	public T at(int index, int index2)
 	{
-		return table.applyAsInt(index, index2 + positions[index]);
+		return table.apply(index, index2 + positions[index]);
 	}
 
-	public int first(int index)
+	public T first(int index)
 	{
-		return table.applyAsInt(index, positions[index]);
+		return table.apply(index, positions[index]);
 	}
 
-	public boolean[] reaveAll(int value)
+	public boolean[] reaveAll(T value)
 	{
 		boolean[] mask = new boolean[tableSize];
 
 		for (int i = 0; i < getLength(); i++) {
 			if (!isEmpty(i)) {
-				if (first(i) == value) {
+				if (comparator.test(first(i), value)) {
 					reave(i);
 					mask[i] = true;
 				}
@@ -75,10 +89,10 @@ public class Storage
 		positions[index]++;
 	}
 
-	public int indexOf(int index, int value)
+	public int indexOf(int index, T value)
 	{
 		for (int i = positions[index]; i < recordLength.applyAsInt(index); i++) {
-			if (table.applyAsInt(index, i) == value) return i - positions[index];
+			if (comparator.test(table.apply(index, i), value)) return i - positions[index];
 		}
 
 		return -1;

@@ -4,8 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
 import mirrg.h.struct.Tuple;
@@ -104,8 +104,25 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		GL11.glPushAttrib(8192);
 		{
 			renderImpl(blockMultipleRendering,
-				side -> blockMultipleRendering.getMultipleRendering(metadata, side), color -> {
+				side -> blockMultipleRendering.getMultipleRendering(metadata, side),
+				(color, flip) -> {
+					renderer.flipTexture = flip;
+					renderer.uvRotateBottom = HelpersBlockMultipleRendering.rotates[0];
+					renderer.uvRotateTop = HelpersBlockMultipleRendering.rotates[1];
+					renderer.uvRotateNorth = HelpersBlockMultipleRendering.rotates[2];
+					renderer.uvRotateSouth = HelpersBlockMultipleRendering.rotates[3];
+					renderer.uvRotateWest = HelpersBlockMultipleRendering.rotates[4];
+					renderer.uvRotateEast = HelpersBlockMultipleRendering.rotates[5];
+
 					renderCubeInInventory(block, metadata, renderer, color);
+
+					renderer.flipTexture = false;
+					renderer.uvRotateBottom = 0;
+					renderer.uvRotateTop = 0;
+					renderer.uvRotateNorth = 0;
+					renderer.uvRotateSouth = 0;
+					renderer.uvRotateWest = 0;
+					renderer.uvRotateEast = 0;
 				});
 
 			GL11.glColor4f(r, g, b, a);
@@ -171,32 +188,50 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		Block block, IBlockMultipleRendering blockMultipleRendering, RenderBlocks renderer)
 	{
 		renderImpl(blockMultipleRendering,
-			side -> blockMultipleRendering.getMultipleRendering(blockAccess, x, y, z, side), color -> {
+			side -> blockMultipleRendering.getMultipleRendering(blockAccess, x, y, z, side),
+			(color, flip) -> {
+				renderer.flipTexture = flip;
+				renderer.uvRotateBottom = HelpersBlockMultipleRendering.rotates[0];
+				renderer.uvRotateTop = HelpersBlockMultipleRendering.rotates[1];
+				renderer.uvRotateNorth = HelpersBlockMultipleRendering.rotates[2];
+				renderer.uvRotateSouth = HelpersBlockMultipleRendering.rotates[3];
+				renderer.uvRotateWest = HelpersBlockMultipleRendering.rotates[4];
+				renderer.uvRotateEast = HelpersBlockMultipleRendering.rotates[5];
+
 				renderer.renderStandardBlock(block, x, y, z);
+
+				renderer.flipTexture = false;
+				renderer.uvRotateBottom = 0;
+				renderer.uvRotateTop = 0;
+				renderer.uvRotateNorth = 0;
+				renderer.uvRotateSouth = 0;
+				renderer.uvRotateWest = 0;
+				renderer.uvRotateEast = 0;
 			});
 	}
 
 	protected static void renderImpl(
 		IBlockMultipleRendering blockMultipleRendering,
 		IntFunction<Consumer<IConsumerMultipleRendering>> sideToMultipleRendering,
-		IntConsumer handlerRenderCube)
+		BiConsumer<Integer, Boolean> handlerRenderCube)
 	{
-		ArrayList<ArrayList<Tuple<IIcon, Integer>>> listListIconAndColor = new ArrayList<>();
+		ArrayList<ArrayList<Tuple<Tuple<IIcon, Integer>, Tuple<Integer, Boolean>>>> listListIconAndColor = new ArrayList<>();
 		for (int side = 0; side < 6; side++) {
-			ArrayList<Tuple<IIcon, Integer>> listIconAndColor = new ArrayList<>();
+			ArrayList<Tuple<Tuple<IIcon, Integer>, Tuple<Integer, Boolean>>> listIconAndColor = new ArrayList<>();
 
 			sideToMultipleRendering.apply(side).accept((icon, color, rotate, flip) -> {
 				//TODO
-				listIconAndColor.add(new Tuple<>(icon, color));
+				listIconAndColor.add(new Tuple<>(new Tuple<>(icon, rotate), new Tuple<>(color, flip)));
 			});
 
 			listListIconAndColor.add(listIconAndColor);
 		}
 
-		ArrayList<Tuple<Integer, boolean[]>> listColorAndMask = NumberReave.allReaveShort(new Storage(
+		ArrayList<Tuple<Tuple<Integer, Boolean>, boolean[]>> listColorAndMask = NumberReave.allReaveShort(new Storage<>(
 			(side, pass) -> listListIconAndColor.get(side).get(pass).getY(),
 			side -> listListIconAndColor.get(side).size(),
-			listListIconAndColor.size()));
+			listListIconAndColor.size(),
+			(a, b) -> a.equals(b)));
 
 		//
 
@@ -205,13 +240,15 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 		int[] currentLayer = new int[6];
 
 		for (int layer = 0; layer < listColorAndMask.size(); layer++) {
-			Tuple<Integer, boolean[]> colorAndMask = listColorAndMask.get(layer);
+			Tuple<Tuple<Integer, Boolean>, boolean[]> colorAndMask = listColorAndMask.get(layer);
 
 			for (int side = 0; side < colorAndMask.getY().length; side++) {
 				if (colorAndMask.getY()[side]) {
 					HelpersBlockMultipleRendering.visibles[side] = true;
-					HelpersBlockMultipleRendering.icons[side] = listListIconAndColor.get(side).get(currentLayer[side]).getX();
-					HelpersBlockMultipleRendering.color = colorAndMask.getX();
+					HelpersBlockMultipleRendering.icons[side] = listListIconAndColor.get(side).get(currentLayer[side]).getX().getX();
+					HelpersBlockMultipleRendering.rotates[side] = listListIconAndColor.get(side).get(currentLayer[side]).getX().getY();
+					HelpersBlockMultipleRendering.color = colorAndMask.getX().getX();
+					HelpersBlockMultipleRendering.flip = colorAndMask.getX().getY();
 
 					currentLayer[side]++;
 				} else {
@@ -219,7 +256,7 @@ public class RenderBlockMultipleRendering extends RenderBlockAbstract
 				}
 			}
 
-			handlerRenderCube.accept(colorAndMask.getX());
+			handlerRenderCube.accept(colorAndMask.getX().getX(), colorAndMask.getX().getY());
 		}
 
 		HelpersBlockMultipleRendering.enabled = false;
