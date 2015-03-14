@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntConsumer;
 
+import mirrg.mir50.datamodels.DatamodelDirection;
 import mirrg.mir50.datamodels.DatamodelEnergy;
 import mirrg.mir50.oredictionary.HelpersOreDictionary;
 import mirrg.mir51.inventory.IInventoryMir51;
@@ -15,7 +16,10 @@ import mirrg_miragecrops5.fairytype.FairyType;
 import mirrg_miragecrops5.fairytype.HelpersFairyType;
 import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.container.SlotProcessing;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
@@ -25,6 +29,8 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
 	public final IInventoryMir51 inventoryInMirageProcessing;
 	public final IInventoryMir51 inventoryInMaterial;
 	public final IInventoryMir51 inventoryInMaterialProcessing;
+
+	public final DatamodelDirection direction;
 
 	public TileEntityMMFSpiritDeveloper()
 	{
@@ -37,6 +43,8 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
 		inventoryChain.add(inventoryInMirageProcessing);
 		inventoryChain.add(inventoryInMaterial);
 		inventoryChain.add(inventoryInMaterialProcessing);
+
+		direction = add(new DatamodelDirection(this::markDirty, ForgeDirection.EAST.ordinal()), "direction");
 	}
 
 	@Override
@@ -187,4 +195,19 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
 		}
 
 	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
+	{
+		if (itemStack.hasDisplayName()) setCustomInventoryName(itemStack.getDisplayName());
+
+		int l = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+		if (l == 0) direction.direction = 2;
+		else if (l == 1) direction.direction = 5;
+		else if (l == 2) direction.direction = 3;
+		else if (l == 3) direction.direction = 4;
+
+	}
+
 }
