@@ -266,7 +266,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 			{
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 0, "mmfSpiritDeveloper",
-					() -> new TileEntityMMFSpiritDeveloper(), a -> {
+					TileEntityMMFSpiritDeveloper::new, a -> {
 						a.appendIcon("miragecrops5:004");
 					});
 
@@ -275,7 +275,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "writingDesk",
-				() -> new TileEntityWritingDesk(), a -> {
+				TileEntityWritingDesk::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
 				}));
@@ -306,38 +306,38 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 			//
 
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 0, "machineMirageFairy",
-				() -> new TileEntityMachineMirageFairy(), a -> {
+				TileEntityMachineMirageFairy::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_3");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
 				}));
 			{
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 1, "mmfFurnace",
-					() -> new TileEntityMMFFurnace(), a -> {});
+					TileEntityMMFFurnace::new, a -> {});
 
 				MakerMetaBlockMMFFurnace.makeRenderer(blockMir50, metaBlock);
 
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 2, "mmfMacerator",
-				() -> new TileEntityMMFMacerator(), a -> {
+				TileEntityMMFMacerator::new, a -> {
 					a.appendIcon("miragecrops5:fairyblock_0");
 				}));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 4, "mmfCarbonizationFurnace",
-				() -> new TileEntityMMFCarbonizationFurnace(), a -> {
+				TileEntityMMFCarbonizationFurnace::new, a -> {
 					a.appendIcon("miragecrops5:004");
 					a.appendIcon("miragecrops5:005", 0x4E2914);
 					//0x008900);
 			}));
 			{
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
-					() -> new TileEntityMMFDigestionMachine(), a -> {});
+					TileEntityMMFDigestionMachine::new, a -> {});
 
 				MakerMetaBlockMMFDigestionMachine.makeRenderer(blockMir50, metaBlock);
 
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 7, "mmfUrineMaker",
-				() -> new TileEntityMMFUrineMaker(), a -> {
+				TileEntityMMFUrineMaker::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xddff55);
 				}));
