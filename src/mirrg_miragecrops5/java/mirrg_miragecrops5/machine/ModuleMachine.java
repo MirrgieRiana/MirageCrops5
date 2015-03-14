@@ -3,15 +3,11 @@ package mirrg_miragecrops5.machine;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.IntFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import mirrg.h.struct.Struct1;
 import mirrg.h.struct.Tuple;
-import mirrg.he.math.HelpersColor;
 import mirrg.mir50.block.BlockMir50;
-import mirrg.mir50.block.adaptors.AdaptorBlockIconRegister;
 import mirrg.mir50.block.adaptors.AdaptorBlockNameAutonomy;
 import mirrg.mir50.block.adaptors.AdaptorBlockNameExtra;
 import mirrg.mir50.block.adaptors.AdaptorBlockTileEntityAutonomy;
@@ -40,9 +36,7 @@ import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
 import mirrg.mir51.loaders.LoaderTileEntity;
 import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingAutonomy;
-import mirrg.mir51.render.block.multiple.AdaptorBlockMultipleRenderingOverriding;
 import mirrg.mir51.render.block.multiple.HelpersBlockMultipleRendering;
-import mirrg.mir51.render.block.multiple.IConsumerMultipleRendering;
 import mirrg.mir52.gui.HelpersContainerMir52;
 import mirrg.mir52.render.block.multiple.multi.HelpersBlockMultipleRenderingMulti;
 import mirrg.p.virtualclass.IVirtualClass;
@@ -60,16 +54,12 @@ import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFUrineMaker;
 import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
-import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -79,8 +69,6 @@ import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRecipeFuel;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IRegistryRecipeFuel;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModuleMachine extends ModuleMirageCropsAbstract
 {
@@ -326,58 +314,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 1, "mmfFurnace",
 					() -> new TileEntityMMFFurnace(), a -> {});
 
-				Struct1<IIcon> iconTop = new Struct1<>(null);
-				Struct1<IIcon> iconSide = new Struct1<>(null);
-				Struct1<IIcon> iconFrame = new Struct1<>(null);
-				Struct1<IIcon> iconFront = new Struct1<>(null);
-				Struct1<IIcon> iconFrontFrame = new Struct1<>(null);
-				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
-					iconTop.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_0_1");
-					iconSide.x = iconRegister.registerIcon("miragecrops5:blockCalcite");
-					iconFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
-					iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
-					iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
-				}, false));
-				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
-					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
-						handler.accept(iconTop.x);
-					} else {
-						handler.accept(iconSide.x);
-					}
-					if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
-						handler.accept(iconFront.x);
-						handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-							HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 1.2));
-					}
-					handler.accept(iconFrame.x, HelpersColor.multiplicate(
-						HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.9));
-				};
-				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
+				MakerMetaBlockMMFFurnace.makeRenderer(blockMir50, metaBlock);
 
-					@Override
-					@SideOnly(Side.CLIENT)
-					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
-					{
-						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
-						if (tileEntity != null) {
-							if (tileEntity instanceof TileEntityMMFFurnace) {
-								TileEntityMMFFurnace tileEntityMMFFurnace = (TileEntityMMFFurnace) tileEntity;
-
-								return defaultConsumer.apply(tileEntityMMFFurnace.direction.direction).apply(side);
-							}
-						}
-
-						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
-					}
-
-					@Override
-					@SideOnly(Side.CLIENT)
-					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
-					{
-						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
-					}
-
-				});
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 2, "mmfMacerator",
@@ -394,56 +332,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				MetaBlock metaBlock = createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
 					() -> new TileEntityMMFDigestionMachine(), a -> {});
 
-				Struct1<IIcon> iconTop = new Struct1<>(null);
-				Struct1<IIcon> iconBack = new Struct1<>(null);
-				Struct1<IIcon> iconSide = new Struct1<>(null);
-				Struct1<IIcon> iconFront = new Struct1<>(null);
-				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
-					iconTop.x = iconRegister.registerIcon("minecraft:pumpkin_top");
-					iconBack.x = iconRegister.registerIcon("minecraft:pumpkin_side");
-					iconSide.x = iconRegister.registerIcon("miragecrops5:pumpkin_side_window");
-					iconFront.x = iconRegister.registerIcon("miragecrops5:pumpkin_front_entrance");
-				}, false));
-				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> defaultConsumer = direction -> side -> handler -> {
-					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
-						handler.accept(iconTop.x);
-					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
-						handler.accept(iconTop.x);
-					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
-						handler.accept(iconFront.x);
-					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
-						handler.accept(iconBack.x);
-					} else {
-						handler.accept(iconSide.x);
-					}
-				};
-				metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingOverriding(blockMir50, metaBlock) {
+				MakerMetaBlockMMFDigestionMachine.makeRenderer(blockMir50, metaBlock);
 
-					@Override
-					@SideOnly(Side.CLIENT)
-					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
-					{
-						TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
-						if (tileEntity != null) {
-							if (tileEntity instanceof TileEntityMMFDigestionMachine) {
-								TileEntityMMFDigestionMachine tileEntityMMFFurnace = (TileEntityMMFDigestionMachine) tileEntity;
-								int direction = tileEntityMMFFurnace.direction.direction;
-
-								return defaultConsumer.apply(tileEntityMMFFurnace.direction.direction).apply(side);
-							}
-						}
-
-						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
-					}
-
-					@Override
-					@SideOnly(Side.CLIENT)
-					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
-					{
-						return defaultConsumer.apply(ForgeDirection.EAST.ordinal()).apply(side);
-					}
-
-				});
 				addMetaBlock(containerMetaBlock, metaBlock);
 			}
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 7, "mmfUrineMaker",
