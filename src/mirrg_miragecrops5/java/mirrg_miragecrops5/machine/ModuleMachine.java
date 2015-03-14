@@ -126,6 +126,28 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		}
 	}
 
+	public static interface IConsumerVertexWithUV
+	{
+
+		public void addVertexWithUV(int x, int y, int z, int rotate, double xi, double yi, double zi, double u, double v);
+
+	}
+
+	public static final IConsumerVertexWithUV[] CONSUMER_VERTEX_WITH_UVS = {
+		(x, y, z, rotate, xi, yi, zi, u, v) -> {
+			Tessellator.instance.addVertexWithUV(x + 0.5 - (xi - 0.5), y + yi, z + 0.5 - (zi - 0.5), u, v);
+		},
+		(x, y, z, rotate, xi, yi, zi, u, v) -> {
+			Tessellator.instance.addVertexWithUV(x + 0.5 + (xi - 0.5), y + yi, z + 0.5 + (zi - 0.5), u, v);
+		},
+		(x, y, z, rotate, xi, yi, zi, u, v) -> {
+			Tessellator.instance.addVertexWithUV(x + 0.5 - (zi - 0.5), y + yi, z + 0.5 + (xi - 0.5), u, v);
+		},
+		(x, y, z, rotate, xi, yi, zi, u, v) -> {
+			Tessellator.instance.addVertexWithUV(x + 0.5 + (zi - 0.5), y + yi, z + 0.5 - (xi - 0.5), u, v);
+		},
+	};
+
 	public ModuleMachine()
 	{
 
@@ -291,31 +313,65 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 						//a.appendIcon("miragecrops5:fairyblock_0");
 						//a.appendIcon("miragecrops5:machineMirageFairy_1", 0xAE00FF);
 					//a.appendIcon("miragecrops5:004");
-					a.appendIcon("miragecrops5:005", 0x4E2914);
+					a.appendIcon("miragecrops5:004");
 				});
 
 				Struct1<IIcon> iconFeather = new Struct1<>(null);
-				Struct1<IIcon> iconCore = new Struct1<>(null);
+				Struct1<IIcon> iconFront = new Struct1<>(null);
+				Struct1<IIcon> iconSide = new Struct1<>(null);
+				Struct1<IIcon> iconBack = new Struct1<>(null);
 				metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
 					iconFeather.x = iconRegister.registerIcon("miragecrops5:002");
-					iconCore.x = iconRegister.registerIcon("miragecrops5:004");
+					iconFront.x = iconRegister.registerIcon("miragecrops5:005");
+					iconSide.x = iconRegister.registerIcon("miragecrops5:006");
+					iconBack.x = iconRegister.registerIcon("miragecrops5:007");
 				}, true));
 
-				Consumer<IConsumerMultipleRendering> consumer_63168278591 = consumer -> {
-					consumer.accept(iconCore.x);
+				IntFunction<IntFunction<Consumer<IConsumerMultipleRendering>>> consumer_casing = direction -> side -> handler -> {
+					if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
+						int[] table = {
+							2, 1, 3, 0,
+						};
+						handler.accept(iconSide.x, 0xFFFFFF, table[direction - 2], false);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
+						int[] table = {
+							1, 2, 3, 0,
+						};
+						handler.accept(iconSide.x, 0xFFFFFF, table[direction - 2], false);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
+						handler.accept(iconFront.x);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
+						handler.accept(iconBack.x);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.RIGHT) {
+						handler.accept(iconSide.x);
+					} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.LEFT) {
+						handler.accept(iconSide.x, 0xFFFFFF, 3, false);
+					}
 				};
-				IBlockMultipleRendering blockMultipleRendering_1541954271 = new IBlockMultipleRendering() {
+				IBlockMultipleRendering blockMultipleRendering_casing = new IBlockMultipleRendering() {
 
 					@Override
 					public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 					{
-						return consumer_63168278591;
+						{
+							TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
+							if (tileEntity != null) {
+								if (tileEntity instanceof TileEntityMMFSpiritDeveloper) {
+									TileEntityMMFSpiritDeveloper tileEntityMMFFurnace = (TileEntityMMFSpiritDeveloper) tileEntity;
+									int direction = tileEntityMMFFurnace.direction.direction;
+
+									return consumer_casing.apply(direction).apply(side);
+								}
+							}
+						}
+
+						return consumer_casing.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 					@Override
 					public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 					{
-						return consumer_63168278591;
+						return consumer_casing.apply(ForgeDirection.EAST.ordinal()).apply(side);
 					}
 
 				};
@@ -329,15 +385,17 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 						//renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 
 						//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-						GL11.glScalef(0.5f, 0.5f, 0.5f);
-						GL11.glTranslatef(0, -0.5F, 0);
+						float scale = 0.6f;
+
+						GL11.glScalef(scale, scale, scale);
+						GL11.glTranslatef(0.5f, -0.4F, 0);
 						{
 							renderer.setRenderBounds(0.125f, 0.125f, 0.125f, 0.875f, 0.875f, 0.875f);
-							RenderBlockMultipleRendering.renderInventoryBlock(blockMultipleRendering_1541954271,
-								block, metadata, renderer);
+							super.renderInventoryBlock(block, metadata, modelId, renderer);
 							renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 
-							super.renderInventoryBlock(block, metadata, modelId, renderer);
+							RenderBlockMultipleRendering.renderInventoryBlock(blockMultipleRendering_casing,
+								block, metadata, renderer);
 
 							GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 							{
@@ -350,13 +408,13 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 								t.startDrawingQuads();
 								//renderBlockCropsImpl(renderer, block, 0, 0, 0, 0);
-								renderFeather(renderer, 0, 0, 0);
+								renderFeather(renderer, ForgeDirection.EAST.ordinal() - 2, 0, 0, 0);
 								t.draw();
 							}
 							GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 						}
-						GL11.glTranslatef(0, 0.5F, 0);
-						GL11.glScalef(1 / 0.5f, 1 / 0.5f, 1 / 0.5f);
+						GL11.glTranslatef(-0.5f, 0.5F, 0);
+						GL11.glScalef(1 / scale, 1 / scale, 1 / scale);
 
 						/*
 						renderer.setRenderBounds(0, 0, 0, 1, 1, 0.5f);
@@ -368,13 +426,26 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					@Override
 					public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
 					{
+						int rotate = 0;
+						{
+							TileEntity tileEntity = world.getTileEntity(x, y, z);
+							if (tileEntity != null) {
+								if (tileEntity instanceof TileEntityMMFSpiritDeveloper) {
+									TileEntityMMFSpiritDeveloper tileEntityMMFFurnace = (TileEntityMMFSpiritDeveloper) tileEntity;
+									int direction = tileEntityMMFFurnace.direction.direction;
+
+									rotate = tileEntityMMFFurnace.direction.direction - 2;
+								}
+							}
+						}
+
 						renderer.setRenderBounds(0.125f, 0.125f, 0.125f, 0.875f, 0.875f, 0.875f);
-						RenderBlockMultipleRendering.renderWorldBlock(blockMultipleRendering_1541954271,
-							block, world, x, y, z, renderer);
+						boolean res = super.renderWorldBlock(world, x, y, z, block, modelId, renderer);
 						renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 
 						//renderer.setRenderBounds(0, 0, 0, 1, 0.5f, 1);
-						boolean res = super.renderWorldBlock(world, x, y, z, block, modelId, renderer);
+						RenderBlockMultipleRendering.renderWorldBlock(blockMultipleRendering_casing,
+							block, world, x, y, z, renderer);
 						//renderer.setRenderBounds(0, 0, 0, 1, 1, 1);
 
 						{
@@ -388,14 +459,16 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 							//renderBlockCropsImpl(renderer, block, 0, x, y, z);
 
-							renderFeather(renderer, x, y, z);
+							renderFeather(renderer, rotate, x, y, z);
 						}
 
 						return res;
 					}
 
-					private void renderFeather(RenderBlocks renderer, double x, double y, double z)
+					private void renderFeather(RenderBlocks renderer, int rotate, int x, int y, int z)
 					{
+						if (rotate > 4) return;
+
 						IIcon iicon = iconFeather.x;
 						if (renderer.hasOverrideBlockTexture()) iicon = renderer.overrideBlockTexture;
 
@@ -408,31 +481,32 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 						double d5 = iicon.getMaxU();
 						double d6 = iicon.getMaxV();
 
-						double x1 = x + -0.001;
-						double x2 = x + 1.001;
-						double y1 = y + 0;
-						double y2 = y + 2;
-						double z1 = z + -1;
-						double z2 = z + 1;
-						t.addVertexWithUV(x1, y2, z1, d3, d4);
-						t.addVertexWithUV(x1, y1, z1, d3, d6);
-						t.addVertexWithUV(x1, y1, z2, d5, d6);
-						t.addVertexWithUV(x1, y2, z2, d5, d4);
+						double x1 = -0.001;
+						double x2 = 1.001;
+						double y1 = 0;
+						double y2 = 2;
+						double z1 = -1;
+						double z2 = 1;
 
-						t.addVertexWithUV(x1, y2, z2, d5, d4);
-						t.addVertexWithUV(x1, y1, z2, d5, d6);
-						t.addVertexWithUV(x1, y1, z1, d3, d6);
-						t.addVertexWithUV(x1, y2, z1, d3, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y2, z1, d3, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y1, z1, d3, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y1, z2, d5, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y2, z2, d5, d4);
 
-						t.addVertexWithUV(x2, y2, z2, d5, d4);
-						t.addVertexWithUV(x2, y1, z2, d5, d6);
-						t.addVertexWithUV(x2, y1, z1, d3, d6);
-						t.addVertexWithUV(x2, y2, z1, d3, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y2, z2, d5, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y1, z2, d5, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y1, z1, d3, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x1, y2, z1, d3, d4);
 
-						t.addVertexWithUV(x2, y2, z1, d3, d4);
-						t.addVertexWithUV(x2, y1, z1, d3, d6);
-						t.addVertexWithUV(x2, y1, z2, d5, d6);
-						t.addVertexWithUV(x2, y2, z2, d5, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y2, z2, d5, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y1, z2, d5, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y1, z1, d3, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y2, z1, d3, d4);
+
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y2, z1, d3, d4);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y1, z1, d3, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y1, z2, d5, d6);
+						CONSUMER_VERTEX_WITH_UVS[rotate].addVertexWithUV(x, y, z, rotate, x2, y2, z2, d5, d4);
 
 					}
 
