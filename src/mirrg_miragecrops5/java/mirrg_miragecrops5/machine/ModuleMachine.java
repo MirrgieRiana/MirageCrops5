@@ -2,6 +2,7 @@ package mirrg_miragecrops5.machine;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -264,21 +265,15 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 			//
 
-			{
-				MetaBlock metaBlock = createMetaBlock(blockMir50, 0, "mmfSpiritDeveloper",
-					TileEntityMMFSpiritDeveloper::new, a -> {
-						a.appendIcon("miragecrops5:004");
-					});
-
-				MakerMetaBlockMMFSpiritDeveloper.makeRenderer(blockMir50, metaBlock);
-
-				addMetaBlock(containerMetaBlock, metaBlock);
-			}
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 0, "mmfSpiritDeveloper",
+				TileEntityMMFSpiritDeveloper::new, a -> {
+					a.appendIcon("miragecrops5:004");
+				}, MakerMetaBlockMMFSpiritDeveloper::makeRenderer));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "writingDesk",
 				TileEntityWritingDesk::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0x8E45F0);
-				}));
+				}, null));
 
 		});
 
@@ -309,38 +304,25 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 				TileEntityMachineMirageFairy::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_3");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xE8C831);
-				}));
-			{
-				MetaBlock metaBlock = createMetaBlock(blockMir50, 1, "mmfFurnace",
-					TileEntityMMFFurnace::new, a -> {});
-
-				MakerMetaBlockMMFFurnace.makeRenderer(blockMir50, metaBlock);
-
-				addMetaBlock(containerMetaBlock, metaBlock);
-			}
+				}, null));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 1, "mmfFurnace",
+				TileEntityMMFFurnace::new, a -> {}, MakerMetaBlockMMFFurnace::makeRenderer));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 2, "mmfMacerator",
 				TileEntityMMFMacerator::new, a -> {
 					a.appendIcon("miragecrops5:fairyblock_0");
-				}));
+				}, null));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 4, "mmfCarbonizationFurnace",
 				TileEntityMMFCarbonizationFurnace::new, a -> {
 					a.appendIcon("miragecrops5:004");
 					a.appendIcon("miragecrops5:005", 0x4E2914);
-					//0x008900);
-			}));
-			{
-				MetaBlock metaBlock = createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
-					TileEntityMMFDigestionMachine::new, a -> {});
-
-				MakerMetaBlockMMFDigestionMachine.makeRenderer(blockMir50, metaBlock);
-
-				addMetaBlock(containerMetaBlock, metaBlock);
-			}
+				}, null));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 5, "mmfDigestionMachine",
+				TileEntityMMFDigestionMachine::new, a -> {}, MakerMetaBlockMMFDigestionMachine::makeRenderer));
 			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 7, "mmfUrineMaker",
 				TileEntityMMFUrineMaker::new, a -> {
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xddff55);
-				}));
+				}, null));
 
 		});
 
@@ -366,7 +348,8 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		int metaId,
 		String unlocalizedName,
 		Supplier<TileEntity> supplierTileEntity,
-		Consumer<AdaptorBlockMultipleRenderingAutonomy> consumerA)
+		Consumer<AdaptorBlockMultipleRenderingAutonomy> consumerA,
+		BiConsumer<BlockMir50, MetaBlock> makerRenderer)
 	{
 		MetaBlock metaBlock = new MetaBlock(blockMir50, metaId);
 
@@ -380,6 +363,7 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		metaBlock.virtualClass.override(new AdaptorBlockRenderingSwitcherFromHandler(metaBlock, HelpersBlockMultipleRendering.loader));
 
 		consumerA.accept(HelpersBlockMultipleRendering.makeAutonomy(metaBlock, blockMir50));
+		if (makerRenderer != null) makerRenderer.accept(blockMir50, metaBlock);
 
 		makeMetaBlockHasTileEntity(metaBlock, blockMir50, supplierTileEntity);
 
