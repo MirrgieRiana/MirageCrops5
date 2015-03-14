@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg.mir50.gui.renderer.IRenderer;
 
-public class TileEntityMMFFurnace extends TileEntityMMFEasySolid
+public class TileEntityMMFFurnace extends TileEntityMMFEasySolid implements ITileEntityHasDirection
 {
 
 	public final IInventoryMir51 inventoryInMaterial;
@@ -33,6 +33,12 @@ public class TileEntityMMFFurnace extends TileEntityMMFEasySolid
 	public final DatamodelEnergy energyTankFuel;
 
 	public final DatamodelDirection direction;
+
+	@Override
+	public int getDirection()
+	{
+		return direction.direction;
+	}
 
 	public TileEntityMMFFurnace()
 	{

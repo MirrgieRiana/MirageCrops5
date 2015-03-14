@@ -29,7 +29,7 @@ import api.mirrg.mir50.gui.renderer.IRenderer;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 
-public class TileEntityMMFUrineMaker extends TileEntityMMFEasy
+public class TileEntityMMFUrineMaker extends TileEntityMMFEasy implements ITileEntityHasDirection
 {
 
 	public final IInventoryMir51 inventoryInFood;
@@ -47,6 +47,12 @@ public class TileEntityMMFUrineMaker extends TileEntityMMFEasy
 	public final DatamodelEnergy energyFood;
 
 	public final DatamodelDirection direction;
+
+	@Override
+	public int getDirection()
+	{
+		return direction.direction;
+	}
 
 	public TileEntityMMFUrineMaker()
 	{

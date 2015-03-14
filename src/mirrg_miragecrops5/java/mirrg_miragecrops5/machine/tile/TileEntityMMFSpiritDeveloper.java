@@ -22,7 +22,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
+public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid implements ITileEntityHasDirection
 {
 
 	public final IInventoryMir51 inventoryInMirage;
@@ -31,6 +31,12 @@ public class TileEntityMMFSpiritDeveloper extends TileEntityMMFEasySolid
 	public final IInventoryMir51 inventoryInMaterialProcessing;
 
 	public final DatamodelDirection direction;
+
+	@Override
+	public int getDirection()
+	{
+		return direction.direction;
+	}
 
 	public TileEntityMMFSpiritDeveloper()
 	{

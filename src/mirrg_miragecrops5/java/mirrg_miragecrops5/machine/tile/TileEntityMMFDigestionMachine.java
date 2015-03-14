@@ -23,13 +23,19 @@ import net.minecraftforge.common.util.ForgeDirection;
 import api.mirrg_miragecrops5.recipes.APIRegistryRecipe;
 import api.mirrg_miragecrops5.recipes.InterfacesRecipeFuel.IMatcherRecipeFuel;
 
-public class TileEntityMMFDigestionMachine extends TileEntityMMFEasySolid
+public class TileEntityMMFDigestionMachine extends TileEntityMMFEasySolid implements ITileEntityHasDirection
 {
 
 	public final IInventoryMir51 inventoryInMaterial;
 	public final IInventoryMir51 inventoryInMaterialProcessing;
 
 	public final DatamodelDirection direction;
+
+	@Override
+	public int getDirection()
+	{
+		return direction.direction;
+	}
 
 	public TileEntityMMFDigestionMachine()
 	{
