@@ -17,14 +17,12 @@ public class MakerMetaBlockMMFFurnace extends MakerMetaBlock
 		Struct1<IIcon> iconTop = new Struct1<>(null);
 		Struct1<IIcon> iconSide = new Struct1<>(null);
 		Struct1<IIcon> iconFrame = new Struct1<>(null);
-		Struct1<IIcon> iconFront = new Struct1<>(null);
-		Struct1<IIcon> iconFrontFrame = new Struct1<>(null);
+		Struct1<IIcon> iconOverlayFront = new Struct1<>(null);
 		metaBlock.virtualClass.override(new AdaptorBlockIconRegister(blockMir50, metaBlock, iconRegister -> {
 			iconTop.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_0_1");
 			iconSide.x = iconRegister.registerIcon("miragecrops5:blockCalcite");
 			iconFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_1");
-			iconFront.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_3_furnace");
-			iconFrontFrame.x = iconRegister.registerIcon("miragecrops5:machineMirageFairy_4_furnace");
+			iconOverlayFront.x = iconRegister.registerIcon("miragecrops5:overlay_front_furnace");
 		}, false));
 
 		metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingFromConsumer(blockMir50, metaBlock,
@@ -35,9 +33,7 @@ public class MakerMetaBlockMMFFurnace extends MakerMetaBlock
 					handler.accept(iconSide.x);
 				}
 				if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
-					handler.accept(iconFront.x);
-					handler.accept(iconFrontFrame.x, HelpersColor.multiplicate(
-						HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 1.2));
+					handler.accept(iconOverlayFront.x);
 				}
 				handler.accept(iconFrame.x, HelpersColor.multiplicate(
 					HelpersModuleMaterial.registryMaterialProperty.getColor("iron"), 0.9));
