@@ -4,6 +4,7 @@ import mirrg.h.struct.Struct1;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.adaptors.AdaptorBlockIconRegister;
 import mirrg.mir51.block.multi.MetaBlock;
+import mirrg_miragecrops5.machine.HelpersDirection.EnumDirection;
 import net.minecraft.util.IIcon;
 
 public class MakerMetaBlockMMFDigestionMachine extends MakerMetaBlock
@@ -24,14 +25,16 @@ public class MakerMetaBlockMMFDigestionMachine extends MakerMetaBlock
 		}, false));
 
 		metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingFromConsumer(blockMir50, metaBlock,
-			(direction, side) -> handler -> {
-				if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
+			event -> handler -> {
+				EnumDirection machineSide = HelpersDirection.subtract(event.getSide(), event.getDirection());
+
+				if (machineSide == HelpersDirection.UP) {
 					handler.accept(iconTop.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
+				} else if (machineSide == HelpersDirection.DOWN) {
 					handler.accept(iconTop.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
+				} else if (machineSide == HelpersDirection.FRONT) {
 					handler.accept(iconFront.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
+				} else if (machineSide == HelpersDirection.BACK) {
 					handler.accept(iconBack.x);
 				} else {
 					handler.accept(iconSide.x);

@@ -5,6 +5,7 @@ import mirrg.he.math.HelpersColor;
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir50.block.adaptors.AdaptorBlockIconRegister;
 import mirrg.mir51.block.multi.MetaBlock;
+import mirrg_miragecrops5.machine.HelpersDirection.EnumDirection;
 import mirrg_miragecrops5.material.HelpersModuleMaterial;
 import net.minecraft.util.IIcon;
 
@@ -26,13 +27,15 @@ public class MakerMetaBlockMMFFurnace extends MakerMetaBlock
 		}, false));
 
 		metaBlock.virtualClass.override(new AdaptorBlockMultipleRenderingFromConsumer(blockMir50, metaBlock,
-			(direction, side) -> handler -> {
-				if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
+			event -> handler -> {
+				EnumDirection machineSide = HelpersDirection.subtract(event.getSide(), event.getDirection());
+
+				if (machineSide == HelpersDirection.UP) {
 					handler.accept(iconTop.x);
 				} else {
 					handler.accept(iconSide.x);
 				}
-				if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
+				if (machineSide == HelpersDirection.FRONT) {
 					handler.accept(iconOverlayFront.x);
 				}
 				handler.accept(iconFrame.x, HelpersColor.multiplicate(

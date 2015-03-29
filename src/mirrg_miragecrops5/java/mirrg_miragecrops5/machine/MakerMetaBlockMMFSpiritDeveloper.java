@@ -7,6 +7,7 @@ import mirrg.mir50.render.block.switcher.AdaptorBlockRenderingSwitcherOverriding
 import mirrg.mir51.block.multi.MetaBlock;
 import mirrg.mir51.render.block.multiple.IBlockMultipleRendering;
 import mirrg.mir51.render.block.multiple.RenderBlockMultipleRendering;
+import mirrg_miragecrops5.machine.HelpersDirection.EnumDirection;
 import mirrg_miragecrops5.machine.tile.ITileEntityHasDirection;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -36,24 +37,26 @@ public class MakerMetaBlockMMFSpiritDeveloper extends MakerMetaBlock
 		}, true));
 
 		IBlockMultipleRendering blockMultipleRendering_casing =
-			new BlockMultipleRenderingFromConsumer((direction, side) -> handler -> {
-				if (HelpersDirection.subtract(side, direction) == HelpersDirection.UP) {
+			new BlockMultipleRenderingFromConsumer(event -> handler -> {
+				EnumDirection machineSide = HelpersDirection.subtract(event.getSide(), event.getDirection());
+
+				if (machineSide == HelpersDirection.UP) {
 					int[] table = {
 						2, 1, 3, 0,
 					};
-					handler.accept(iconSide.x, 0xFFFFFF, table[direction - 2], false);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.DOWN) {
+					handler.accept(iconSide.x, 0xFFFFFF, table[event.getDirection() - 2], false);
+				} else if (machineSide == HelpersDirection.DOWN) {
 					int[] table = {
 						1, 2, 3, 0,
 					};
-					handler.accept(iconSide.x, 0xFFFFFF, table[direction - 2], false);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.FRONT) {
+					handler.accept(iconSide.x, 0xFFFFFF, table[event.getDirection() - 2], false);
+				} else if (machineSide == HelpersDirection.FRONT) {
 					handler.accept(iconFront.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.BACK) {
+				} else if (machineSide == HelpersDirection.BACK) {
 					handler.accept(iconBack.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.RIGHT) {
+				} else if (machineSide == HelpersDirection.RIGHT) {
 					handler.accept(iconSide.x);
-				} else if (HelpersDirection.subtract(side, direction) == HelpersDirection.LEFT) {
+				} else if (machineSide == HelpersDirection.LEFT) {
 					handler.accept(iconSide.x, 0xFFFFFF, 3, false);
 				}
 			});

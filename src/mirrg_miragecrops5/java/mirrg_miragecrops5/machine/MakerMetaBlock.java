@@ -1,6 +1,7 @@
 package mirrg_miragecrops5.machine;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import mirrg.mir50.block.BlockMir50;
 import mirrg.mir51.block.multi.MetaBlock;
@@ -31,12 +32,9 @@ public class MakerMetaBlock
 	protected static class BlockMultipleRenderingFromConsumer implements IBlockMultipleRendering
 	{
 
-		/**
-		 * direction, side
-		 */
-		public BiIntFunction<Consumer<IConsumerMultipleRendering>> consumer;
+		public Function<IEventMultipleRendering, Consumer<IConsumerMultipleRendering>> consumer;
 
-		public BlockMultipleRenderingFromConsumer(BiIntFunction<Consumer<IConsumerMultipleRendering>> consumer)
+		public BlockMultipleRenderingFromConsumer(Function<IEventMultipleRendering, Consumer<IConsumerMultipleRendering>> consumer)
 		{
 			this.consumer = consumer;
 		}
@@ -44,29 +42,157 @@ public class MakerMetaBlock
 		@Override
 		public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 		{
-			TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
-			if (tileEntity instanceof ITileEntityHasDirection) {
-				return consumer.apply(((ITileEntityHasDirection) tileEntity).getDirection(), side);
+			int direction = ForgeDirection.EAST.ordinal();
+			{
+				TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
+				if (tileEntity instanceof ITileEntityHasDirection) {
+					direction = ((ITileEntityHasDirection) tileEntity).getDirection();
+				}
 			}
 
-			return consumer.apply(ForgeDirection.EAST.ordinal(), side);
+			int final_direction = direction;
+			return consumer.apply(new IEventMultipleRendering() {
+
+				@Override
+				public int getDirection()
+				{
+					return final_direction;
+				}
+
+				@Override
+				public int getSide()
+				{
+					return side;
+				}
+
+				@Override
+				public boolean isOnWorld()
+				{
+					return true;
+				}
+
+				@Override
+				public IBlockAccess getBlockAccess()
+				{
+					return blockAccess;
+				}
+
+				@Override
+				public int getX()
+				{
+					return x;
+				}
+
+				@Override
+				public int getY()
+				{
+					return y;
+				}
+
+				@Override
+				public int getZ()
+				{
+					return z;
+				}
+
+				@Override
+				public int getMetadata()
+				{
+					return blockAccess.getBlockMetadata(x, y, z);
+				}
+
+			});
 		}
 
 		@Override
 		public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 		{
-			return consumer.apply(ForgeDirection.EAST.ordinal(), side);
+			return consumer.apply(new IEventMultipleRendering() {
+
+				@Override
+				public int getDirection()
+				{
+					return ForgeDirection.EAST.ordinal();
+				}
+
+				@Override
+				public int getSide()
+				{
+					return side;
+				}
+
+				@Override
+				public boolean isOnWorld()
+				{
+					return false;
+				}
+
+				@Override
+				public IBlockAccess getBlockAccess()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getX()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getY()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getZ()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getMetadata()
+				{
+					return metadata;
+				}
+
+			});
 		}
+
+	}
+
+	public static interface IEventMultipleRendering
+	{
+
+		/**
+		 * Block's direction
+		 */
+		public int getDirection();
+
+		/**
+		 * Side of block to render
+		 */
+		public int getSide();
+
+		public boolean isOnWorld();
+
+		public IBlockAccess getBlockAccess();
+
+		public int getX();
+
+		public int getY();
+
+		public int getZ();
+
+		public int getMetadata();
 
 	}
 
 	protected static class AdaptorBlockMultipleRenderingFromConsumer extends AdaptorBlockMultipleRenderingOverriding
 	{
 
-		/**
-		 * direction, side
-		 */
-		public BiIntFunction<Consumer<IConsumerMultipleRendering>> consumer;
+		public Function<IEventMultipleRendering, Consumer<IConsumerMultipleRendering>> consumer;
 
 		public AdaptorBlockMultipleRenderingFromConsumer(BlockMir50 owner, IVirtualClass superObject)
 		{
@@ -74,7 +200,7 @@ public class MakerMetaBlock
 		}
 
 		public AdaptorBlockMultipleRenderingFromConsumer(BlockMir50 owner, MetaBlock superObject,
-			BiIntFunction<Consumer<IConsumerMultipleRendering>> consumer)
+			Function<IEventMultipleRendering, Consumer<IConsumerMultipleRendering>> consumer)
 		{
 			this(owner, superObject);
 			this.consumer = consumer;
@@ -84,19 +210,123 @@ public class MakerMetaBlock
 		@SideOnly(Side.CLIENT)
 		public Consumer<IConsumerMultipleRendering> getMultipleRendering(IBlockAccess blockAccess, int x, int y, int z, int side)
 		{
-			TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
-			if (tileEntity instanceof ITileEntityHasDirection) {
-				return consumer.apply(((ITileEntityHasDirection) tileEntity).getDirection(), side);
+			int direction = ForgeDirection.EAST.ordinal();
+			{
+				TileEntity tileEntity = blockAccess.getTileEntity(x, y, z);
+				if (tileEntity instanceof ITileEntityHasDirection) {
+					direction = ((ITileEntityHasDirection) tileEntity).getDirection();
+				}
 			}
 
-			return consumer.apply(ForgeDirection.EAST.ordinal(), side);
+			int final_direction = direction;
+			return consumer.apply(new IEventMultipleRendering() {
+
+				@Override
+				public int getDirection()
+				{
+					return final_direction;
+				}
+
+				@Override
+				public int getSide()
+				{
+					return side;
+				}
+
+				@Override
+				public boolean isOnWorld()
+				{
+					return true;
+				}
+
+				@Override
+				public IBlockAccess getBlockAccess()
+				{
+					return blockAccess;
+				}
+
+				@Override
+				public int getX()
+				{
+					return x;
+				}
+
+				@Override
+				public int getY()
+				{
+					return y;
+				}
+
+				@Override
+				public int getZ()
+				{
+					return z;
+				}
+
+				@Override
+				public int getMetadata()
+				{
+					return blockAccess.getBlockMetadata(x, y, z);
+				}
+
+			});
 		}
 
 		@Override
 		@SideOnly(Side.CLIENT)
 		public Consumer<IConsumerMultipleRendering> getMultipleRendering(int metadata, int side)
 		{
-			return consumer.apply(ForgeDirection.EAST.ordinal(), side);
+			return consumer.apply(new IEventMultipleRendering() {
+
+				@Override
+				public int getDirection()
+				{
+					return ForgeDirection.EAST.ordinal();
+				}
+
+				@Override
+				public int getSide()
+				{
+					return side;
+				}
+
+				@Override
+				public boolean isOnWorld()
+				{
+					return false;
+				}
+
+				@Override
+				public IBlockAccess getBlockAccess()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getX()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getY()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getZ()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public int getMetadata()
+				{
+					return metadata;
+				}
+
+			});
 		}
 
 	}
