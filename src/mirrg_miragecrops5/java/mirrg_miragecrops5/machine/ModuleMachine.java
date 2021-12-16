@@ -32,6 +32,7 @@ import mirrg.mir51.block.multi.ItemBlockMulti;
 import mirrg.mir51.block.multi.MetaBlock;
 import mirrg.mir51.loaders.LoaderBlock;
 import mirrg.mir51.loaders.LoaderGuiHandler;
+import mirrg.mir51.loaders.LoaderItem;
 import mirrg.mir51.loaders.LoaderOreDictionary;
 import mirrg.mir51.loaders.LoaderRecipe;
 import mirrg.mir51.loaders.LoaderSimpleNetworkWrapper;
@@ -48,15 +49,21 @@ import mirrg_miragecrops5.fairytype.RegistryFairyType;
 import mirrg_miragecrops5.machine.recipe.fuel.RegistryRecipeFuel;
 import mirrg_miragecrops5.machine.recipe.writingdesk.RegistryRecipeWritingDesk;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFCarbonizationFurnace;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFCarpenter;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFDigestionMachine;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFDressMaker;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFFurnace;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFMacerator;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFMason;
+import mirrg_miragecrops5.machine.tile.TileEntityMMFMetamorphosisCrafter;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFSpiritDeveloper;
 import mirrg_miragecrops5.machine.tile.TileEntityMMFUrineMaker;
 import mirrg_miragecrops5.machine.tile.TileEntityMachineMirageFairy;
 import mirrg_miragecrops5.machine.tile.TileEntityWritingDesk;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -78,6 +85,11 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 
 	public static LoaderBlock loaderBlock_machineMirageFairy = new LoaderBlock();
 	public static LoaderBlock loaderBlock_instrumentMirageFairy = new LoaderBlock();
+
+	public static LoaderItem loaderItem_helmetFairy = new LoaderItem();
+	public static LoaderItem loaderItem_chestplateFairy = new LoaderItem();
+	public static LoaderItem loaderItem_leggingsFairy = new LoaderItem();
+	public static LoaderItem loaderItem_bootsFairy = new LoaderItem();
 
 	public static LoaderSimpleNetworkWrapper loaderSimpleNetworkWrapper = new LoaderSimpleNetworkWrapper();
 	public static int loaderSimpleNetworkWrapper_counter = 0;
@@ -228,6 +240,10 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 		add(new LoaderTileEntity(TileEntityMMFDigestionMachine.class, "MMFDigestionMachine"));
 		add(new LoaderTileEntity(TileEntityWritingDesk.class, "WritingDesk"));
 		add(new LoaderTileEntity(TileEntityMMFUrineMaker.class, "MMFUrineMaker"));
+		add(new LoaderTileEntity(TileEntityMMFDressMaker.class, "MMFDressMaker"));
+		add(new LoaderTileEntity(TileEntityMMFCarpenter.class, "MMFCarpenter"));
+		add(new LoaderTileEntity(TileEntityMMFMason.class, "MMFMason"));
+		add(new LoaderTileEntity(TileEntityMMFMetamorphosisCrafter.class, "MMFMetamorphosisCrafter"));
 
 		{
 			Fluid fluid = new Fluid("urine");
@@ -323,8 +339,65 @@ public class ModuleMachine extends ModuleMirageCropsAbstract
 					a.appendIcon("miragecrops5:machineMirageFairy_0_0");
 					a.appendIcon("miragecrops5:machineMirageFairy_1", 0xddff55);
 				}, null));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 8, "mmfDressMaker",
+				TileEntityMMFDressMaker::new, a -> {}, MakerMetaBlockMMFEasyLog.createMakerRenderer(
+					"miragecrops5:log_oak_entrance",
+					"miragecrops5:log_oak_side_dressMaker",
+					"miragecrops5:log_oak_front")));
+
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 9, "mmfCarpenter",
+				TileEntityMMFCarpenter::new, a -> {}, MakerMetaBlockMMFEasyLog.createMakerRenderer(
+					"miragecrops5:log_oak_entrance",
+					"miragecrops5:log_oak_side_carpenter",
+					"miragecrops5:log_oak_front_carpenter")));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 10, "mmfMason",
+				TileEntityMMFMason::new, a -> {}, MakerMetaBlockMMFEasyLog.createMakerRenderer(
+					"miragecrops5:log_oak_entrance",
+					"miragecrops5:log_oak_side_mason",
+					"miragecrops5:log_oak_front_mason")));
+			addMetaBlock(containerMetaBlock, createMetaBlock(blockMir50, 11, "mmfMetamorphosisCrafter",
+				TileEntityMMFMetamorphosisCrafter::new, a -> {}, MakerMetaBlockMMFEasyLog.createMakerRenderer(
+					"miragecrops5:log_oak_entrance",
+					"miragecrops5:log_oak_side_metamorphosisCrafter",
+					"miragecrops5:log_oak_front_metamorphosisCrafter")));
 
 		});
+
+		loaderItem_helmetFairy.init(() -> {
+			Item item = new ItemArmorFairy(ItemArmor.ArmorMaterial.CLOTH, 0, 0);
+			item.setCreativeTab(ModuleCore.loaderCreativeTab.get());
+			item.setUnlocalizedName("helmetFairy");
+			item.setTextureName("miragecrops5:helmetFairy");
+			return item;
+		}, "helmetFairy", ModMirageCrops.MODID);
+		add(loaderItem_helmetFairy);
+
+		loaderItem_chestplateFairy.init(() -> {
+			Item item = new ItemArmorFairy(ItemArmor.ArmorMaterial.CLOTH, 0, 1);
+			item.setCreativeTab(ModuleCore.loaderCreativeTab.get());
+			item.setUnlocalizedName("chestplateFairy");
+			item.setTextureName("miragecrops5:chestplateFairy");
+			return item;
+		}, "chestplateFairy", ModMirageCrops.MODID);
+		add(loaderItem_chestplateFairy);
+
+		loaderItem_leggingsFairy.init(() -> {
+			Item item = new ItemArmorFairy(ItemArmor.ArmorMaterial.CLOTH, 0, 2);
+			item.setCreativeTab(ModuleCore.loaderCreativeTab.get());
+			item.setUnlocalizedName("leggingsFairy");
+			item.setTextureName("miragecrops5:leggingsFairy");
+			return item;
+		}, "leggingsFairy", ModMirageCrops.MODID);
+		add(loaderItem_leggingsFairy);
+
+		loaderItem_bootsFairy.init(() -> {
+			Item item = new ItemArmorFairy(ItemArmor.ArmorMaterial.CLOTH, 0, 3);
+			item.setCreativeTab(ModuleCore.loaderCreativeTab.get());
+			item.setUnlocalizedName("bootsFairy");
+			item.setTextureName("miragecrops5:bootsFairy");
+			return item;
+		}, "bootsFairy", ModMirageCrops.MODID);
+		add(loaderItem_bootsFairy);
 
 		add(new LoaderOreDictionary(() -> {
 			for (Tuple<String, Supplier<ItemStack>> entry : scheduleRegisterOreDictionary) {

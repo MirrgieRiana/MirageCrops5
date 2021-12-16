@@ -464,6 +464,10 @@ public class ModuleCore extends ModuleMirageCropsAbstract
 						0xFFFFFF));
 			}, true);
 
+			setMetaItem(itemMir50, metaItemContainer, 27, "craftingClothFairy", (metaItem, a) -> {
+				a.appendIcon("miragecrops5:craftingClothFairy", 0x4CD32A);
+			}, true);
+
 		});
 
 		add(new LoaderOreDictionary(() -> {
